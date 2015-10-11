@@ -1,7 +1,5 @@
 angular.module('starter.controllers', [])
 
-
-
 .controller('homeCtrl', function ($scope) {
 
     $scope.title = "App L'Alveare ";
