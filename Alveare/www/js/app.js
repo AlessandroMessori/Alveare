@@ -72,7 +72,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     .state('tab.forum', {
         url: '/forum',
         views: {
-            'tab-forum': {
+            'tabs-forum': {
                 templateUrl: 'templates/tabs-forum.html',
                 controller: 'forumCtrl'
             }

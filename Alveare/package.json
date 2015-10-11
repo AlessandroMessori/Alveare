@@ -1,7 +1,7 @@
 {
-  "name": "alveare",
+  "name": "test4",
   "version": "1.0.0",
-  "description": "Alveare: An Ionic project",
+  "description": "test4: An Ionic project",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^1.3.3",
@@ -15,11 +15,21 @@
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
-    "cordova-plugin-whitelist",
-    "cordova-plugin-console",
     "cordova-plugin-device",
+    "cordova-plugin-console",
+    "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
-    "ionic-plugin-keyboard"
+    "com.ionic.keyboard",
+    {
+      "locator": "https://github.com/benjie/phonegap-parse-plugin",
+      "id": "org.apache.cordova.core.parseplugin",
+      "variables": {
+        "APP_ID": "PARSE_APP_ID",
+        "CLIENT_KEY": "PARSE_CLIENT_KEY"
+      }
+    }
   ],
-  "cordovaPlatforms": []
+  "cordovaPlatforms": [
+    "ios"
+  ]
 }
