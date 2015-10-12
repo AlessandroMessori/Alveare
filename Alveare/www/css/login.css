@@ -1,5 +1,9 @@
-.item{
+body{
 
+  text-align: center;
+}
+
+.item{
 margin-top: 5%;
 }
 
@@ -8,15 +12,18 @@ margin-top: 5%;
 }
 
 #inputrow{
-
-   margin-top: 10%;
+   margin-top: 2%;
 }
 
 #btnrow{
   margin-top: 5%;
 }
 
-.title{
+
+.responsive{
+
+  width: 50%;
+  height: auto;
   text-align: center;
   margin-top: 25%;
 }
