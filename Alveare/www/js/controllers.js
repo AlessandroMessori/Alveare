@@ -3,7 +3,7 @@ angular.module('starter.controllers', [])
 .controller('homeCtrl', function ($scope) {
 
     $scope.title = "App L'Alveare ";
-    $scope.message = "l'app e' ancora in fase di sviluppo ma se ti va puoi fare un giro nelle varie sezioni per avere un'idea delle funzionalita' dell'app completa";
+    $scope.message = "L'app e' ancora in fase di sviluppo ma se ti va puoi fare un giro nelle varie sezioni per avere un'idea delle funzionalita' dell'app completa";
 })
 
 .controller('giornalinoCtrl', function($scope, Chats) {
