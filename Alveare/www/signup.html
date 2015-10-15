@@ -23,7 +23,7 @@
 <body ng-app="login">
 
 <ion-header-bar  class="bar bar-header bar-energized" >
-  <h1 class="title">Login</h1>
+  <h1 class="title">Sign-Up</h1>
 </ion-header-bar>
 
 <img src="img/icon.jpg" class="responsive"></img>
@@ -31,6 +31,10 @@
 <div class="row"  id="inputrow">
  <div class="col-50 col-offset-25">
 
+
+   <label class="item item-input" >
+     <input type="email" id="mailtxt" placeholder="Email">
+   </label>
     <label class="item item-input" >
       <input type="text" id="usertxt" placeholder="Username">
     </label>
@@ -43,15 +47,16 @@
 
  <div class="row" id="btnrow">
   <div class="col" >
-    <button id="loginbtn" class="button button-energized">Login</button>
+    <button id="signupbtn" class="button button-energized">Sign-Up</button>
   </div>
  </div>
 
-<a href="signup.html">Crea Account</a>
 
- <script>$("#loginbtn").click(function () {
-   Login($("#usertxt").val(),$("#passtxt").val());
+
+ <script>$("#signupbtn").click(function () {
+   Signup($("#usertxt").val(),$("#passtxt").val(),$("#mailtxt").val());
  });</script>
+
 
 </body>
 </html>
