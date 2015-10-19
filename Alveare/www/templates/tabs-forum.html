@@ -1,11 +1,29 @@
 ﻿<ion-view view-title="Forum">
     <ion-content>
+      <!--  <div class="card">
+         <div class="item item-text-wrap">
+          {{message}}
+          </div>
+        </div> -->
 
-        <div class="card">
-            <div class="item item-text-wrap">
-                {{message}}
-            </div>
-        </div>
+      <div class="list card" ng-repeat="Message in Messages">
+        <div class="item item-divider">
+           <h2>{{Message.name}}</h2p>
+         </div>
+
+         <div class="item item-body">
+
+         <p>
+         {{Message.text}}
+         </p>
+
+         </div>
+
+         <div class="item item-divier">
+           <h5>{{Message.date}}</h5>
+         </div>
+      </div>
+
 
     </ion-content>
 </ion-view>

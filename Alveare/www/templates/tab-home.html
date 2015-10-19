@@ -1,4 +1,4 @@
-<ion-view view-title="L'Alveare">
+<ion-view view-title="L'Alveare" >
     <ion-content class="padding">
 
             <header style="padding-bottom:10%">
@@ -7,12 +7,16 @@
                 </div>
             </header>
 
+            <br>
+            <label class="item item-input" >
+              <textarea placeholder="messaggio" id="messagetxt"></textarea>
+            </label>
 
-        <div class="card">
-            <div class="item item-text-wrap">
-                {{message}}
+            <div class="row" id="btnrow" style="text-align:center">
+             <div class="col col-33 col-offset-33">
+               <button id="sendbtn"  class="button  button-energized">Invia</button>
+             </div>
             </div>
-        </div>
 
     </ion-content>
 </ion-view>

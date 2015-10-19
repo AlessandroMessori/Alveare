@@ -18,5 +18,6 @@ angular.module('starter.controllers', [])
 
 .controller('forumCtrl', function($scope) {
     $scope.message = "Questo e' un luogo dove si puo' parlare e discutere di argomenti riguardanti la scuola";
+    $scope.Messages =  getMessages();
 
 });
