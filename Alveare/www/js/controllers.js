@@ -4,6 +4,7 @@ angular.module('starter.controllers', [])
 
     $scope.title = "App L'Alveare ";
     $scope.message = "L'app e' ancora in fase di sviluppo ma se ti va puoi fare un giro nelle varie sezioni per avere un'idea delle funzionalita' dell'app completa";
+    $scope.test =  function(){sendpost($("#messagetxt").val());};
 })
 
 .controller('giornalinoCtrl', function($scope, Chats) {
@@ -17,7 +18,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('forumCtrl', function($scope) {
-    $scope.message = "Questo e' un luogo dove si puo' parlare e discutere di argomenti riguardanti la scuola";
-    $scope.Messages =  getMessages();
-
+    $scope.description = "Questo e' un luogo dove si puo' parlare e discutere di argomenti riguardanti la scuola";
+    $scope.Posts =  getPosts();
+    $scope.refresh = function(){document.location.reload();}
 });
