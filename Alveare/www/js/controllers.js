@@ -21,4 +21,10 @@ angular.module('starter.controllers', [])
     $scope.description = "Questo e' un luogo dove si puo' parlare e discutere di argomenti riguardanti la scuola";
     $scope.Posts =  getPosts();
     $scope.refresh = function(){document.location.reload();}
+
+    $scope.doRefresh = function() {
+  $scope.Posts.unshift({name: 'Incoming todo ' + Date.now()})
+  $scope.$broadcast('scroll.refreshComplete');
+  $scope.$apply()
+};
 });
