@@ -33,14 +33,14 @@ var getPosts = function(){
 
          for(var i=0;i<results.length;i++){
 
+           var date = results[i].createdAt.getDay()+"-"+results[i].createdAt.getMonth() +"  "+results[i].createdAt.getHours()+":"+results[i].createdAt.getMinutes();
+
            posts[results.length-1-i] = {
                 name : results[i].get("Writer"),
                 text : results[i].get('text'),
-                date : results[i].createdAt
+                date : date
            };
          }
-        console.log(posts);
-        console.log(results);
     },
     error: function(error) {
       alert("Error: " + error.code + " " + error.message);

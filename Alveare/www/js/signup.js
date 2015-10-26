@@ -6,7 +6,7 @@ var user = new Parse.User();
 user.set("username", name);
 user.set("password", pass);
 user.set("email", mail);
-
+user.set("isadmin",false);
 
   user.signUp(null, {
     success: function(user) {
@@ -27,7 +27,7 @@ var Login = function(name,pass){
   document.location.href = "index.html";
   },
   error: function(user, error) {
-    alert("Password o Username non validi");
+      alert("Error: " + error.code + " " + error.message);
   }
 });
 }
