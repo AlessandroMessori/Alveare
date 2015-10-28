@@ -20,7 +20,7 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('giornalinoCtrl', function($scope, Chats) {
+.controller('giornalinoCtrl', function($scope) {
     $scope.message = "In questa sezione verranno pubblicati periodicamente contenuti del giornalino scolastico";
 })
 

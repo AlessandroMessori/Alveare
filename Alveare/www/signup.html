@@ -13,14 +13,14 @@
     -->
 
     <script src="http://code.ionicframework.com/1.0.0-rc.5/js/ionic.bundle.min.js"></script>
-    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
 
     <script src="cordova.js"></script>
     <script src="parse-1.6.5.min.js"></script>
+    <script src="js/login-app.js"></script>
     <script src="js/signup.js"></script>
 
 </head>
-<body ng-app="login">
+<body ng-app="signup" ng-controller="signupCtrl">
 
 <ion-header-bar  class="bar bar-header bar-energized" >
   <h1 class="title">Sign-Up</h1>
@@ -33,13 +33,13 @@
 
 
    <label class="item item-input" >
-     <input type="email" id="mailtxt" placeholder="Email">
+     <input type="email" ng-model ="mail" placeholder="Email">
    </label>
     <label class="item item-input" >
-      <input type="text" id="usertxt" placeholder="Username">
+      <input type="text"ng-model="username" placeholder="Username">
     </label>
     <label class="item item-input">
-      <input type="password" id="passtxt" placeholder="Password" >
+      <input type="password" ng-model="password" placeholder="Password" >
     </label>
 
  </div>
@@ -47,14 +47,11 @@
 
  <div class="row" id="btnrow">
   <div class="col" >
-    <button id="signupbtn" class="button button-energized">Sign-Up</button>
+    <button id="signupbtn" class="button button-energized" ng-click="UserSignup()">Sign-Up</button>
   </div>
  </div>
 
 
-    <script>$("#signupbtn").click(function(){
-       Signup($("#usertxt").val(),$("#passtxt").val(),$("#mailtxt").val());
-    });</script>
 
 </body>
 </html>
