@@ -23,6 +23,12 @@ $scope.goBack = function () {
         $ionicTabsDelegate.select(selected - 1);
     }
 }
+
+$scope.goBackAdmin = function(){
+     if (Parse.User.current().get("isadmin")){
+        $scope.goBack();
+     }
+}
 })
 
 .controller('homeCtrl', function ($scope) {
