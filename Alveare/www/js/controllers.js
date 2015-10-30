@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('TabsCtrl', function ($scope) {
+.controller('TabsCtrl', function ($scope,$ionicTabsDelegate) {
 
     $scope.checkadmin =  function(){
       if (Parse.User.current().get("isadmin")) {
@@ -9,6 +9,20 @@ angular.module('starter.controllers', [])
            return "ng-hide";
         }
     };
+
+    $scope.goForward = function () {
+    var selected = $ionicTabsDelegate.selectedIndex();
+    if (selected != -1) {
+        $ionicTabsDelegate.select(selected + 1);
+    }
+}
+
+$scope.goBack = function () {
+    var selected = $ionicTabsDelegate.selectedIndex();
+    if (selected != -1 && selected != 0) {
+        $ionicTabsDelegate.select(selected - 1);
+    }
+}
 })
 
 .controller('homeCtrl', function ($scope) {
