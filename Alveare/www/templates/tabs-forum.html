@@ -5,8 +5,12 @@
           {{message}}
           </div>
         </div> -->
-        <ion-refresher pulling-text="Aggiorna" on-refresh="doRefresh()">
+
+
+        <ion-refresher  on-refresh="doRefresh()">
             </ion-refresher>
+
+
       <div class="list card" ng-repeat="Post in Posts">
         <div class="item item-divider">
            <h2>{{Post.name}}</h2p>

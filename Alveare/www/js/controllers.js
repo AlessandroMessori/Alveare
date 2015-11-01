@@ -17,18 +17,18 @@ angular.module('starter.controllers', [])
     }
 }
 
-$scope.goBack = function () {
+  $scope.goBack = function () {
     var selected = $ionicTabsDelegate.selectedIndex();
     if (selected != -1 && selected != 0) {
         $ionicTabsDelegate.select(selected - 1);
     }
-}
+  }
 
-$scope.goBackAdmin = function(){
+  $scope.goBackAdmin = function(){
      if (Parse.User.current().get("isadmin")){
         $scope.goBack();
      }
-}
+ }
 })
 
 .controller('homeCtrl', function ($scope) {
@@ -48,6 +48,35 @@ $scope.goBackAdmin = function(){
 .controller('orientamentoCtrl', function($scope) {
     $scope.message = " In questa sezione potrai leggere le esperienze di studenti universitari in modo da avere un'idea di cosa ti aspetta";
 
+    $scope.Articles  = [{
+            "colorName":"red",
+            "hexValue":"#f00"
+        },
+        {
+            "colorName":"green",
+            "hexValue":"#0f0"
+        },
+        {
+            "colorName":"blue",
+            "hexValue":"#00f"
+        },
+        {
+            "colorName":"cyan",
+            "hexValue":"#0ff"
+        },
+        {
+            "colorName":"magenta",
+            "hexValue":"#f0f"
+        },
+        {
+            "colorName":"yellow",
+            "hexValue":"#ff0"
+        },
+        {
+            "colorName":"black",
+            "hexValue":"#000"
+        }
+    ];
 })
 
 .controller('forumCtrl', function($scope) {

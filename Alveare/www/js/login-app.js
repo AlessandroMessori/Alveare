@@ -1,21 +1,31 @@
-var loginapp = angular.module('login',[]);
+var loginapp = angular.module('login',['ionic']);
 
-loginapp.controller('loginCtrl', ['$scope', function($scope) {
+loginapp.controller('loginCtrl', function($scope, $ionicLoading) {
 
-   $scope.UserLogin = function(){Login($scope.username,  $scope.password)};
-   $scope.show = function() {
-    $ionicLoading.show({
-      template: 'Loading...'
-    });
+
+   $scope.UserLogin = function(){
+     $ionicLoading.show({
+       template: 'Accesso in Corso...'
+     });
+     Login($scope.username,  $scope.password,$ionicLoading);
+
   };
+
   $scope.hide = function(){
     $ionicLoading.hide();
   };
-}]);
 
-var signupapp = angular.module('signup',[]);
 
-signupapp.controller('signupCtrl', ['$scope', function($scope) {
+});
 
-   $scope.UserSignup = function(){Signup($scope.username,  $scope.password, $scope.mail)};
-}]);
+var signupapp = angular.module('signup',['ionic']);
+
+signupapp.controller('signupCtrl', function($scope,$ionicLoading) {
+
+   $scope.UserSignup = function(){
+     $ionicLoading.show({
+       template: 'Registrazione in corso...'
+     });
+     Signup($scope.username,$scope.password,$scope.mail,$ionicLoading);
+   };
+});
