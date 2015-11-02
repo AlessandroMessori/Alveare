@@ -1,14 +1,17 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ionic'])
 
-.controller('TabsCtrl', function ($scope,$ionicTabsDelegate) {
+.controller('TabsCtrl', function ($scope,$ionicTabsDelegate,$ionicLoading) {
 
     $scope.checkadmin =  function(){
-      if (Parse.User.current().get("isadmin")) {
+
+      if (Parse.User.current()) {
+          if(Parse.User.current().get("isadmin")){
          return "ng-show";
         } else {
            return "ng-hide";
         }
-    };
+      }
+    }
 
     $scope.goForward = function () {
     var selected = $ionicTabsDelegate.selectedIndex();
@@ -29,6 +32,13 @@ angular.module('starter.controllers', [])
         $scope.goBack();
      }
  }
+
+ $scope.Disconnect = function(){
+   $ionicLoading.show({
+       template: 'Disconnessione in corso...'
+     });
+     Logout($ionicLoading);
+ }
 })
 
 .controller('homeCtrl', function ($scope) {
@@ -37,6 +47,7 @@ angular.module('starter.controllers', [])
     $scope.message = "L'app e' ancora in fase di sviluppo ma se ti va puoi fare un giro nelle varie sezioni per avere un'idea delle funzionalita' dell'app completa";
     $scope.test =  function(){
     sendpost($("#messagetxt").val());
+      $("#messagetxt").val("");
     };
 })
 
@@ -48,35 +59,7 @@ angular.module('starter.controllers', [])
 .controller('orientamentoCtrl', function($scope) {
     $scope.message = " In questa sezione potrai leggere le esperienze di studenti universitari in modo da avere un'idea di cosa ti aspetta";
 
-    $scope.Articles  = [{
-            "colorName":"red",
-            "hexValue":"#f00"
-        },
-        {
-            "colorName":"green",
-            "hexValue":"#0f0"
-        },
-        {
-            "colorName":"blue",
-            "hexValue":"#00f"
-        },
-        {
-            "colorName":"cyan",
-            "hexValue":"#0ff"
-        },
-        {
-            "colorName":"magenta",
-            "hexValue":"#f0f"
-        },
-        {
-            "colorName":"yellow",
-            "hexValue":"#ff0"
-        },
-        {
-            "colorName":"black",
-            "hexValue":"#000"
-        }
-    ];
+    $scope.Articles  = [{}];
 })
 
 .controller('forumCtrl', function($scope) {
@@ -89,3 +72,6 @@ angular.module('starter.controllers', [])
       $scope.$apply()
 };
 });
+
+
+

@@ -36,3 +36,10 @@ var Login = function(name,pass,loadingtemplate){
 
 });
 }
+
+var Logout = function(loadingtemplate){
+
+  Parse.User.logOut();
+  document.location.href = "login.html";
+  loadingtemplate.hide();
+}

@@ -1,37 +1,35 @@
-<!--
-Create tabs with an icon and label, using the tabs-stable style.
-Each tab's child <ion-nav-view> directive will have its own
-navigation history that also transitions its views in and out.
--->
 <ion-tabs class="tabs-icon-top tabs-stable">
 
-  <!-- Dashboard Tab -->
-  <ion-tab title="Home"  id="hometab" icon-off="ion-ios-home-outline" icon-on="ion-ios-home" href="#/tab/home" class="{{checkadmin()}}">
+  <!-- Admin Zone Tab -->
+  <ion-tab title="Amministratori"  id="hometab" icon-off="ion-ios-home-outline" icon-on="ion-ios-home" href="#/tab/home" class="{{checkadmin()}}">
     <ion-nav-view name="tab-home"></ion-nav-view>
   </ion-tab>
 
-  <!-- Chats Tab -->
+  <!-- Giornalino Tab -->
   <ion-tab title="Giornalino" icon-off="ion-ios-paper-outline" icon-on="ion-ios-paper" href="#/tab/giornalino">
     <ion-nav-view name="tab-giornalino"></ion-nav-view>
   </ion-tab>
 
-  <!-- Account Tab -->
+  <!-- Orientamento Tab -->
   <ion-tab title="Orientamento" icon-off="ion-ios-navigate-outline" icon-on="ion-ios-navigate" href="#/tab/orientamento">
     <ion-nav-view name="tab-orientamento"></ion-nav-view>
   </ion-tab>
 
+ <!-- Forum Tab -->
   <ion-tab title="Forum" icon-off="ion-android-chat" icon-on="ion-android-chat" href="#/tab/forum">
     <ion-nav-view name="tabs-forum"></ion-nav-view>
   </ion-tab>
 
 
-
-
-
 </ion-tabs>
 
-<script>
- $("#hometab").hide();
+<ion-nav-bar class="bar bar-header bar-energized">
+  <ion-nav-buttons side="right">
+    <button class="button" ng-click="Disconnect()">
+      <p>Log-out</p>
+    </button>
+  </ion-nav-buttons>
+</ion-nav-bar>
 
 
-</<script>
+

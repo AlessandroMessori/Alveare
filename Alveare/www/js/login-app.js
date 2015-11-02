@@ -11,11 +11,6 @@ loginapp.controller('loginCtrl', function($scope, $ionicLoading) {
 
   };
 
-  $scope.hide = function(){
-    $ionicLoading.hide();
-  };
-
-
 });
 
 var signupapp = angular.module('signup',['ionic']);
