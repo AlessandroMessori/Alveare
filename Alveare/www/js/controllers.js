@@ -1,6 +1,8 @@
+
+/* global getPosts */
 angular.module('starter.controllers', ['ionic'])
 
-.controller('TabsCtrl', function ($scope,$ionicTabsDelegate,$ionicLoading) {
+.controller('TabsCtrl', function ($scope,$ionicTabsDelegate,$ionicLoading,$window) {
 
     $scope.checkadmin =  function(){
 
@@ -12,7 +14,7 @@ angular.module('starter.controllers', ['ionic'])
         }
       }
     }
-
+    
     $scope.goForward = function () {
     var selected = $ionicTabsDelegate.selectedIndex();
     if (selected != -1) {
@@ -38,7 +40,10 @@ angular.module('starter.controllers', ['ionic'])
        template: 'Disconnessione in corso...'
      });
      Logout($ionicLoading);
+     $window.localStorage.setItem("RememberMe","false");
  }
+ 
+
 })
 
 .controller('homeCtrl', function ($scope) {
@@ -72,6 +77,5 @@ angular.module('starter.controllers', ['ionic'])
       $scope.$apply()
 };
 });
-
 
 

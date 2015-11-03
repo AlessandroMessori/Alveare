@@ -1,6 +1,6 @@
 var loginapp = angular.module('login',['ionic']);
 
-loginapp.controller('loginCtrl', function($scope, $ionicLoading) {
+loginapp.controller('loginCtrl', function($scope, $ionicLoading,$window) {
 
 
    $scope.UserLogin = function(){
@@ -8,8 +8,25 @@ loginapp.controller('loginCtrl', function($scope, $ionicLoading) {
        template: 'Accesso in Corso...'
      });
      Login($scope.username,  $scope.password,$ionicLoading);
-
+     $scope.SetRememberMe();
   };
+  
+   $scope.SetRememberMe = function(){
+   
+    if($scope.RememberMe){
+      
+        $window.localStorage.setItem("RememberMe","true");
+    }
+    
+   }
+    $scope.CheckRememberMe = function(){
+       
+ 
+      if($window.localStorage.getItem("RememberMe") == "true"){
+        
+        document.location.href = "index.html";
+      }
+    }
 
 });
 
