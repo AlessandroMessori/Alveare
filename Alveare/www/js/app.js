@@ -79,7 +79,18 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 controller: 'forumCtrl'
             }
         }
+    })
+    
+    .state('tab.link', {
+        url: '/link',
+        views: {
+            'tabs-link': {
+                templateUrl: 'templates/tab-link.html',
+                controller: 'linkCtrl'
+            }
+        }
     });
+
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/forum');

@@ -57,7 +57,7 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 .controller('giornalinoCtrl', function($scope) {
-    $scope.message = "In questa sezione verranno pubblicati periodicamente contenuti del giornalino scolastico";
+    $scope.message = "In questa sezione verranno pubblicati periodicamente articoli di attualità";
 })
 
 
@@ -76,6 +76,27 @@ angular.module('starter.controllers', ['ionic'])
       $scope.$broadcast('scroll.refreshComplete');
       $scope.$apply()
 };
-});
+})
 
+
+.controller('linkCtrl', function($scope) {
+    $scope.message = " In questa sezione potrai leggere le esperienze di studenti universitari in modo da avere un'idea di cosa ti aspetta";
+    
+    $scope.Links = [
+      {
+        "name" : "Registro Elettronico",
+         "url" : "https://spallanzani-re-sito.registroelettronico.com/login/?next=/select-student/"
+         
+      },
+      {
+        "name" : "Quaderno Elettronico",
+        "url" : "http://2.229.79.199/quaderno/index.php"
+      },
+      {
+        "name" : "Sito Web Della Scuola",
+        "url" : "http://www.liceoariostospallanzani-re.gov.it/"
+      },
+    ];
+    
+})
 

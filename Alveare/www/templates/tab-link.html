@@ -1,0 +1,13 @@
+<ion-view view-title="Link ">
+    <ion-content  on-swipe-right="goBack()" on-swipe-left="goForward()">
+       
+
+
+     <ul class="list" style="text-align:center" > 
+       <li class="item" ng-repeat="Link in Links" >
+               <a href= {{Link.url}}>{{Link.name}}</a> 
+        </li>
+      </ul>
+
+    </ion-content>
+</ion-view>
