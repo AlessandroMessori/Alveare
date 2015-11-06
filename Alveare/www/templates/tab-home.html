@@ -1,17 +1,32 @@
 <ion-view view-title="L'Alveare" >
     <ion-content class="padding"  on-swipe-right="goBack()" on-swipe-left="goForward()">
-
-            <header style="padding-bottom:10%">
-                <div class="bar bar-header bar-calm">
-                    <h1 class="title">{{title}}</h1>
-                </div>
-            </header>
-
-            <br>
+               
+            <div class="row" style="text-align:center">
+             <div class="col " >
+              <h1 class="title" style="color:blue">{{title}}</h1>
+             </div>
+            </div>   
+              
+           
             <label class="item item-input" >
-              <textarea placeholder="Messaggio" id="messagetxt" ng-model="messtxt"></textarea>
+              <textarea placeholder="Manda un avviso agli studenti" id="messagetxt" ng-model="messtxt"></textarea>
             </label>
+             
+          <!--  <div class="list">
 
+             <label class="item item-input item-select">
+               <div class="input-label">
+                Destinazione
+               </div>
+               <select style="text-allign:left">
+                <option>Attualità</option>
+                <option selected>Avvisi</option>
+                <option>Orientamento - Università</option>
+                <option>Orientamento - Medie</option>
+               </select>
+              </label>
+             </div>    -->          
+             
             <div class="row" id="btnrow" style="text-align:center">
              <div class="col col-33 col-offset-33" >
                <button id="sendbtn" class="button  button-energized" ng-click="test()">Invia</button>

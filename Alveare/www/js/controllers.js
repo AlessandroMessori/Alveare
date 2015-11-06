@@ -42,7 +42,7 @@ angular.module('starter.controllers', ['ionic'])
      Logout($ionicLoading);
      $window.localStorage.setItem("RememberMe","false");
  }
- 
+
 
 })
 
@@ -70,33 +70,43 @@ angular.module('starter.controllers', ['ionic'])
 .controller('forumCtrl', function($scope) {
     $scope.description = "Questo e' un luogo dove si puo' parlare e discutere di argomenti riguardanti la scuola";
     $scope.Posts =  getPosts();
+     
 
+     
     $scope.doRefresh = function() {
+      $scope.Adv = false;
       $scope.Posts = getPosts();
       $scope.$broadcast('scroll.refreshComplete');
       $scope.$apply()
+      $scope.Adv = true;
+      
 };
 })
 
 
-.controller('linkCtrl', function($scope) {
+.controller('linkCtrl', function($scope,$window) {
     $scope.message = " In questa sezione potrai leggere le esperienze di studenti universitari in modo da avere un'idea di cosa ti aspetta";
+         
+    $scope.OpenLink =  function (url){
+    cordova.InAppBrowser.open(url, '_blank', 'location=yes');
+
+    }
     
     $scope.Links = [
       {
         "name" : "Registro Elettronico",
-         "url" : "https://spallanzani-re-sito.registroelettronico.com/login/?next=/select-student/"
+        "url" : "https://spallanzani-re-sito.registroelettronico.com/login/?next=/select-student/"
          
       },
       {
         "name" : "Quaderno Elettronico",
-        "url" : "http://2.229.79.199/quaderno/index.php"
+        "url" : "http://2.229.79.199/quaderno/index.php",
       },
       {
         "name" : "Sito Web Della Scuola",
-        "url" : "http://www.liceoariostospallanzani-re.gov.it/"
+        "url" : "http://www.liceoariostospallanzani-re.gov.it/",
       },
     ];
     
-})
-
+    
+});
