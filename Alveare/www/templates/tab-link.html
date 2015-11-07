@@ -1,15 +1,18 @@
 <ion-view view-title="Link ">
     <ion-content class="hasHeader" on-swipe-right="goBack()" on-swipe-left="goForward()">
       
+        <div class="row" style="text-align:center" >
+             <div class="col "  >
+                 <div class="bar bar-header bar-calm">
+                   <h1 class="title">Link Utili</h1>
+                 </div>
+            </div>
+          </div> 
 
-      <br>
-
-     <ul class="list" > 
-           <div class="item item-icon-left" ng-repeat="Link in Links">
-            <a  ng-click="OpenLink(Link.url)" href="login.html" >
-              <i class="icon ion-email "></i>
+     <ul class="list"style="margin-top:10%" > 
+           <div class="item item-icon-left"  ng-repeat="Link in Links"  ng-click="OpenLink(Link.url)">
+              <i ng-class="Link.icon "></i>
                  {{Link.name}}
-            </a>
             </div>
       </ul>
 

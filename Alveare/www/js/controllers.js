@@ -2,7 +2,13 @@
 /* global getPosts */
 angular.module('starter.controllers', ['ionic'])
 
-.controller('TabsCtrl', function ($scope,$ionicTabsDelegate,$ionicLoading,$window) {
+
+
+.controller('TabsCtrl', function ($scope,$ionicTabsDelegate,$ionicLoading,$window,$ionicPlatform) {
+
+       $ionicPlatform.ready(function() {
+    ionic.Platform.fullScreen();
+  });
 
     $scope.checkadmin =  function(){
 
@@ -88,23 +94,25 @@ angular.module('starter.controllers', ['ionic'])
     $scope.message = " In questa sezione potrai leggere le esperienze di studenti universitari in modo da avere un'idea di cosa ti aspetta";
          
     $scope.OpenLink =  function (url){
-    cordova.InAppBrowser.open(url, '_blank', 'location=yes');
-
+    
+       cordova.InAppBrowser.open(url, '_system','location=yes'); 
     }
     
     $scope.Links = [
       {
         "name" : "Registro Elettronico",
-        "url" : "https://spallanzani-re-sito.registroelettronico.com/login/?next=/select-student/"
-         
+        "url" : "https://spallanzani-re-sito.registroelettronico.com/login/?next=/select-student/",
+        "icon" : "icon ion-ios-book-outline" 
       },
       {
         "name" : "Quaderno Elettronico",
         "url" : "http://2.229.79.199/quaderno/index.php",
+        "icon" : "icon ion-ios-book"
       },
       {
         "name" : "Sito Web Della Scuola",
         "url" : "http://www.liceoariostospallanzani-re.gov.it/",
+        "icon" :"icon ion-ios-world"
       },
     ];
     
