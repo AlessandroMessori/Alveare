@@ -20,7 +20,7 @@ angular.module('starter.controllers', ['ionic'])
         }
       }
     }
-    
+
     $scope.goForward = function () {
     var selected = $ionicTabsDelegate.selectedIndex();
     if (selected != -1) {
@@ -76,33 +76,33 @@ angular.module('starter.controllers', ['ionic'])
 .controller('forumCtrl', function($scope) {
     $scope.description = "Questo e' un luogo dove si puo' parlare e discutere di argomenti riguardanti la scuola";
     $scope.Posts =  getPosts();
-     
 
-     
+
+
     $scope.doRefresh = function() {
       $scope.Adv = false;
       $scope.Posts = getPosts();
       $scope.$broadcast('scroll.refreshComplete');
       $scope.$apply()
       $scope.Adv = true;
-      
+
 };
 })
 
 
 .controller('linkCtrl', function($scope,$window) {
     $scope.message = " In questa sezione potrai leggere le esperienze di studenti universitari in modo da avere un'idea di cosa ti aspetta";
-         
+
     $scope.OpenLink =  function (url){
-    
-       cordova.InAppBrowser.open(url, '_system','location=yes'); 
+
+       cordova.InAppBrowser.open(url, '_system','location=yes');
     }
-    
+
     $scope.Links = [
       {
         "name" : "Registro Elettronico",
         "url" : "https://spallanzani-re-sito.registroelettronico.com/login/?next=/select-student/",
-        "icon" : "icon ion-ios-book-outline" 
+        "icon" : "icon ion-ios-book-outline"
       },
       {
         "name" : "Quaderno Elettronico",
@@ -115,6 +115,6 @@ angular.module('starter.controllers', ['ionic'])
         "icon" :"icon ion-ios-world"
       },
     ];
-    
-    
+
+
 });

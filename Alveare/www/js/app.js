@@ -80,7 +80,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
             }
         }
     })
-    
+
     .state('tab.link', {
         url: '/link',
         views: {

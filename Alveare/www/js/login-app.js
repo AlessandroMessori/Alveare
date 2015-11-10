@@ -10,21 +10,29 @@ loginapp.controller('loginCtrl', function($scope, $ionicLoading,$window) {
      Login($scope.username,  $scope.password,$ionicLoading);
      $scope.SetRememberMe();
   };
-  
+
    $scope.SetRememberMe = function(){
-   
+
     if($scope.RememberMe){
-      
+
         $window.localStorage.setItem("RememberMe","true");
     }
-    
+
    }
     $scope.CheckRememberMe = function(){
-       
- 
+
+
       if($window.localStorage.getItem("RememberMe") == "true"){
-        
+
         document.location.href = "index.html";
+      }
+    }
+
+    $scope.changePassView = function (){
+      if ($scope.ShowPass)
+        $scope.Password = 'text';
+      else {
+        $scope.Password = 'password';
       }
     }
 
@@ -32,7 +40,7 @@ loginapp.controller('loginCtrl', function($scope, $ionicLoading,$window) {
 
 var signupapp = angular.module('signup',['ionic']);
 
-signupapp.controller('signupCtrl', function($scope,$ionicLoading) {
+signupapp.controller('signupCtrl', function($scope,$ionicLoading,$location) {
 
    $scope.UserSignup = function(){
      $ionicLoading.show({
@@ -40,4 +48,8 @@ signupapp.controller('signupCtrl', function($scope,$ionicLoading) {
      });
      Signup($scope.username,$scope.password,$scope.mail,$ionicLoading);
    };
+
+   $scope.go = function () {
+     document.location.href = 'login.html'
+  };
 });
