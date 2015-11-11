@@ -29,10 +29,11 @@ loginapp.controller('loginCtrl', function($scope, $ionicLoading,$window) {
     }
 
     $scope.changePassView = function (){
+
       if ($scope.ShowPass)
-        $scope.Password = 'text';
+        $("#passtxt").attr("type","text");
       else {
-        $scope.Password = 'password';
+        $("#passtxt").attr("type","password")
       }
     }
 
