@@ -66,7 +66,6 @@ angular.module('starter.controllers', ['ionic'])
     $scope.message = "In questa sezione verranno pubblicati periodicamente articoli di attualità";
 })
 
-
 .controller('orientamentoCtrl', function($scope) {
     $scope.message = " In questa sezione potrai leggere le esperienze di studenti universitari in modo da avere un'idea di cosa ti aspetta";
 

@@ -89,7 +89,17 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 controller: 'linkCtrl'
             }
         }
+    })
+    
+    .state('tab.add_article', {
+        url: '/add_article',
+        views: {
+            'tab-add_article': {
+                templateUrl: 'templates/tab-add_article.html',
+            }
+        }
     });
+
 
 
   // if none of the above states are matched, use this as the fallback
