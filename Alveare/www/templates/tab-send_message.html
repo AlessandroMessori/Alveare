@@ -1,0 +1,28 @@
+<ion-view view-title="L'Alveare" >
+    <ion-content class="padding">
+               
+        
+            <div class="row" style="text-align:center" style="margin-top:10%">
+             <div class="col "  >
+                 <div class="bar bar-header bar-calm">
+                   <h1 class="title">{{title}}</h1>
+                 </div>
+             </div>
+            </div>   
+ 
+           
+            <label class="item item-input" style="margin-top:11%">
+              <textarea placeholder="Manda un avviso agli studenti" id="messagetxt" ng-model="messtxt"></textarea>
+            </label>
+        
+             
+            <div class="row" id="btnrow" style="text-align:center">
+             <div class="col col-33 col-offset-33" >
+              <button id="sendbtn" class="button  button-energized" ng-click="test()">Invia</button>
+             </div>
+            </div>
+
+
+
+    </ion-content>
+</ion-view>

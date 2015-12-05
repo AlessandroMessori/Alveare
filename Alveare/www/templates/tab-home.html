@@ -1,42 +1,22 @@
-<ion-view view-title="L'Alveare" >
-    <ion-content class="padding"  on-swipe-right="goBack()" on-swipe-left="goForward()">
-               
-        
-            <div class="row" style="text-align:center" style="margin-top:10%">
-             <div class="col "  >
-                 <div class="bar bar-header bar-calm">
-                   <h1 class="title">{{title}}</h1>
-                 </div>
-             </div>
-            </div>   
- 
-           
-            <label class="item item-input" style="margin-top:11%">
-              <textarea placeholder="Manda un avviso agli studenti" id="messagetxt" ng-model="messtxt"></textarea>
-            </label>
-             
-          <!--  <div class="list">
+<ion-view view-title="L'Alveare">
+    <ion-content class="padding" on-swipe-right="goBack()" on-swipe-left="goForward()">
 
-             <label class="item item-input item-select">
-               <div class="input-label">
-                Destinazione
-               </div>
-               <select style="text-allign:left">
-                <option>Attualità</option>
-                <option selected>Avvisi</option>
-                <option>Orientamento - Università</option>
-                <option>Orientamento - Medie</option>
-               </select>
-              </label>
-             </div>    -->          
-             
-            <div class="row" id="btnrow" style="text-align:center">
-             <div class="col col-33 col-offset-33" >
-              <button id="sendbtn" class="button  button-energized" ng-click="test()">Invia</button>
-             </div>
+
+        <div class="row" style="text-align:center">
+            <div class="col ">
+                <div class="bar bar-header bar-calm">
+                    <h1 class="title">Sezione Amministratori</h1>
+                </div>
             </div>
+        </div>
 
-
+        <ul class="list" style="margin-top:15%;text-align:center">
+            <div class="item" style="margin-top:5%" ng-repeat="link in Links">
+                <a ng-click="link.direct()">
+                  {{link.name}}
+              </a>
+            </div>
+        </ul>
 
     </ion-content>
 </ion-view>

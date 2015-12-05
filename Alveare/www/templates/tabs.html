@@ -1,8 +1,8 @@
 <ion-tabs class="tabs-striped  tabs-background-energized tabs-color-light">
 
   <!-- Admin Zone Tab -->
-  <ion-tab title="Amministratori"  id="hometab" icon-off="ion-ios-home-outline" icon-on="ion-ios-home" href="#/tab/add_article" class="{{checkadmin()}}">
-    <ion-nav-view name="tab-add_article"></ion-nav-view>
+  <ion-tab title="Amministratori" icon-off="ion-ios-home-outline" icon-on="ion-ios-home" href="#/tab/home" class="{{checkadmin()}}">
+    <ion-nav-view name="tab-home"></ion-nav-view>
   </ion-tab>
 
   <!-- Giornalino Tab -->
@@ -15,7 +15,7 @@
     <ion-nav-view name="tab-orientamento"></ion-nav-view>
   </ion-tab>
 
- <!-- Forum Tab -->
+  <!-- Forum Tab -->
   <ion-tab title="Avvisi" icon-off="ion-ios-bell-outline" icon-on="ion-ios-bell" href="#/tab/forum">
     <ion-nav-view name="tabs-forum"></ion-nav-view>
   </ion-tab>
@@ -23,6 +23,16 @@
   <ion-tab title="Link" icon-off="ion-link" icon-on="ion-link" href="#/tab/link">
     <ion-nav-view name="tabs-link"></ion-nav-view>
   </ion-tab>
+
+  <ion-tab title="Invia Avviso" href="#/tab/send_message" class="ng-hide">
+    <ion-nav-view name="tab-send_message"></ion-nav-view>
+  </ion-tab>
+
+  <ion-tab title="Invia Articolo" href="#/tab/add_article" class="ng-hide">
+    <ion-nav-view name="tab-add_article"></ion-nav-view>
+  </ion-tab>
+
+
 
 </ion-tabs>
 

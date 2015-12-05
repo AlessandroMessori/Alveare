@@ -1,8 +1,4 @@
-
-/* global getPosts */
 angular.module('starter.controllers', ['ionic'])
-
-
 
 .controller('TabsCtrl', function ($scope,$ionicTabsDelegate,$ionicLoading,$window,$ionicPlatform) {
 
@@ -52,14 +48,34 @@ angular.module('starter.controllers', ['ionic'])
 
 })
 
-.controller('homeCtrl', function ($scope) {
+.controller('homeCtrl', function ($scope,$state) {
 
     $scope.title = "Sezione Amministratori ";
-    $scope.message = "L'app e' ancora in fase di sviluppo ma se ti va puoi fare un giro nelle varie sezioni per avere un'idea delle funzionalita' dell'app completa";
-    $scope.test =  function(){
-    sendpost($("#messagetxt").val());
-      $("#messagetxt").val("");
-    };
+     
+    $scope.Links = [
+      {
+        "name" : "Scrivi Avviso",
+        "url" : "tab.send_message",
+        "direct" : function(){
+          $state.go(this.url);
+        },
+      },
+      {
+        "name" : "Scrivi Articolo d'attualità",
+        "url" : "tab.add_article",
+        "direct" : function(){
+          $state.go(this.url);
+        },
+      }, 
+      {
+        "name" : "Scrivi Articolo di orientamento",
+        "url" : "tab.add_article",
+        "direct" : function(){
+           $state.go(this.url);
+        },
+      },
+    ];
+
 })
 
 .controller('giornalinoCtrl', function($scope) {
@@ -116,4 +132,24 @@ angular.module('starter.controllers', ['ionic'])
     ];
 
 
-});
+})
+
+.controller('add_articleCtrl', function($scope) {
+     $scope.test =  function(){
+
+    };
+
+})
+
+.controller('send_messageCtrl', function($scope) {
+     $scope.test =  function(){
+    sendpost($("#messagetxt").val());
+      $("#messagetxt").val("");
+    };
+
+})
+
+.config(['$ionicConfigProvider',function($ionicConfigProvider){
+  $ionicConfigProvider.tabs.position('bottom');
+  
+}]);

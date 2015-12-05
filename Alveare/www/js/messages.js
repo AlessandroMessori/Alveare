@@ -40,7 +40,9 @@ var getPosts = function(){
          }
     },
     error: function(error) {
-      alert("Error: " + error.code + " " + error.message);
+      //document.createElement("p").innerHTML="tira e rilascia per aggiornare";
+      console.log("Niente Connessione");
+      return;
     }
   });
 
