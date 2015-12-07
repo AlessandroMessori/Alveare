@@ -54,7 +54,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 url: '/giornalino',
                 views: {
                     'tab-giornalino': {
-                        templateUrl: 'templates/tab-giornalino.html',
+                        templateUrl: 'templates/tab-article.html',
                         controller: 'giornalinoCtrl'
                     }
                 }
