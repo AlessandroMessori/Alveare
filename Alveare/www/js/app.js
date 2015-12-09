@@ -57,6 +57,9 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                         templateUrl: 'templates/tab-article.html',
                         controller: 'giornalinoCtrl'
                     }
+                },
+                params: {
+                    post: null
                 }
             })
 
@@ -101,7 +104,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                     }
                 }
             })
-            
+
             .state('tab.send_message', {
                 url: '/send_message',
                 views: {

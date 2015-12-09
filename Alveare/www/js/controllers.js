@@ -78,21 +78,51 @@ angular.module('starter.controllers', ['ionic'])
 
 })
 
-.controller('giornalinoCtrl', function($scope) {
-    $scope.message = "In questa sezione verranno pubblicati periodicamente articoli di attualità";
+.controller('giornalinoCtrl', function($scope,$stateParams,$state,$window) {
+    
+
+    $scope.$on('$ionicView.enter',function(e){
+     
+     $scope.title = $window.localStorage.getItem("title");
+     $scope.text = $window.localStorage.getItem("text");
+     $scope.img = $window.localStorage.getItem("img");
+    });
+    
+     
+     $scope.data = function(){
+       console.log($stateParams.post);
+     };
+    
 })
 
-.controller('orientamentoCtrl', function($scope) {
+.controller('orientamentoCtrl', function($scope,$state,$window) {
     $scope.message = " In questa sezione potrai leggere le esperienze di studenti universitari in modo da avere un'idea di cosa ti aspetta";
+    
+    $scope.$on('$ionicView.enter',function(){
+      $scope.doRefresh();
+    });
+    
+    $scope.Articles  = getArticles($state,$window);
+    
+    $scope.doRefresh = function () {
+      $scope.Adv = false;
+      $scope.Articles = getArticles($state,$window);
+      $scope.$broadcast('scroll.refreshComplete');
+      $scope.$apply()
+      $scope.Adv = true;
 
-    $scope.Articles  = getArticles();
+    };
+
 })
 
 .controller('forumCtrl', function($scope) {
     $scope.description = "Questo e' un luogo dove si puo' parlare e discutere di argomenti riguardanti la scuola";
     $scope.Posts =  getPosts();
 
-
+     $scope.$on('$ionicView.enter',function(){
+      $scope.doRefresh();
+     });
+    
 
     $scope.doRefresh = function() {
       $scope.Adv = false;

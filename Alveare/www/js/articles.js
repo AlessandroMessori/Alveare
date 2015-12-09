@@ -23,14 +23,14 @@ var sendArticle = function (title, author, text, img) {
       alert('Articolo pubblicato con successo');
     },
     error: function (Article, error) {
-
+       
       alert('Failed to create new object, with error code: ' + error.message);
     }
   });
 
 }
 
-var getArticles = function () {
+var getArticles = function (state,win) {
 
   var Article = new Parse.Object("Article");
   var posts = [];
@@ -46,8 +46,17 @@ var getArticles = function () {
           title: results[i].get("title"),
           author: results[i].get("author"),
           text: results[i].get('text'),
-          img: results[i].get("img"),
-          date: date
+          img:  results[i].get("img").url(),
+          date: date,
+          link: function(){
+              
+              win.localStorage.setItem("title",this.title);
+              win.localStorage.setItem("text",this.text);
+              win.localStorage.setItem("author",this.author);
+              win.localStorage.setItem("img",this.img);
+              state.go("tab.giornalino");
+             
+          }
 
         };
       }

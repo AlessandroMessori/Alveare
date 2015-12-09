@@ -1,6 +1,9 @@
 <ion-view view-title="Orientamento" ng-init="doRefresh()">
     <ion-content on-swipe-right="goBack()" on-swipe-left="goForward()">
-    
+              
+                  <ion-refresher  on-refresh="doRefresh()">
+            </ion-refresher>
+              
         <div class="list card" ng-repeat="Article in Articles">
             
 
@@ -12,7 +15,7 @@
                 <img src={{Article.img}}></img>
             </div>
 
-            <h6 class="item item-divider">Leggi Articolo</h6>
+            <h6 class="item item-divider" ng-click="Article.link()">Leggi Articolo</h6>
         </div>
        
 
