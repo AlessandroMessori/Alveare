@@ -1,9 +1,21 @@
-<ion-view view-title="Attualità"  on-swipe-right="goBackAdmin()" on-swipe-left="goForward()">
+<ion-view view-title="Attualità" on-swipe-right="goBackAdmin()" on-swipe-left="goForward()">
     <ion-content>
-        <div class="card" >
-            <div class="item item-text-wrap">
-                {{message}}
+
+        <ion-refresher on-refresh="doRefresh()">
+        </ion-refresher>
+
+        <div class="list card" ng-repeat="Article in Articles">
+
+
+            <div class="item item-body" style="text-align:center">
+                <h2>{{Article.title}}</h2>
             </div>
-        </div> 
+
+            <div class="item item-image" style="height:20%">
+                <img src={{Article.img}}></img>
+            </div>
+
+            <h6 class="item item-divider" ng-click="Article.link()">Leggi Articolo</h6>
+        </div>
     </ion-content>
 </ion-view>

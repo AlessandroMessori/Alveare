@@ -54,7 +54,7 @@ var getArticles = function (state,win) {
               win.localStorage.setItem("text",this.text);
               win.localStorage.setItem("author",this.author);
               win.localStorage.setItem("img",this.img);
-              state.go("tab.giornalino");
+              state.go("tab.article");
              
           }
 

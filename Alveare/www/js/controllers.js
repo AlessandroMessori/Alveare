@@ -78,7 +78,7 @@ angular.module('starter.controllers', ['ionic'])
 
 })
 
-.controller('giornalinoCtrl', function($scope,$stateParams,$state,$window) {
+.controller('articleCtrl', function($scope,$stateParams,$state,$window) {
     
 
     $scope.$on('$ionicView.enter',function(e){
@@ -96,6 +96,26 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 .controller('orientamentoCtrl', function($scope,$state,$window) {
+    $scope.message = " In questa sezione potrai leggere le esperienze di studenti universitari in modo da avere un'idea di cosa ti aspetta";
+    
+    $scope.$on('$ionicView.enter',function(){
+      $scope.doRefresh();
+    });
+    
+    $scope.Articles  = getArticles($state,$window);
+    
+    $scope.doRefresh = function () {
+      $scope.Adv = false;
+      $scope.Articles = getArticles($state,$window);
+      $scope.$broadcast('scroll.refreshComplete');
+      $scope.$apply()
+      $scope.Adv = true;
+
+    };
+
+})
+
+.controller('giornalinoCtrl', function($scope,$state,$window) {
     $scope.message = " In questa sezione potrai leggere le esperienze di studenti universitari in modo da avere un'idea di cosa ti aspetta";
     
     $scope.$on('$ionicView.enter',function(){
