@@ -85,7 +85,7 @@ angular.module('starter.controllers', ['ionic'])
 .controller('orientamentoCtrl', function($scope) {
     $scope.message = " In questa sezione potrai leggere le esperienze di studenti universitari in modo da avere un'idea di cosa ti aspetta";
 
-    $scope.Articles  = [{}];
+    $scope.Articles  = getArticles();
 })
 
 .controller('forumCtrl', function($scope) {
@@ -118,6 +118,12 @@ angular.module('starter.controllers', ['ionic'])
         "name" : "Registro Elettronico",
         "url" : "https://spallanzani-re-sito.registroelettronico.com/login/?next=/select-student/",
         "icon" : "icon ion-ios-book-outline"
+        
+     
+     
+     
+     
+     
       },
       {
         "name" : "Quaderno Elettronico",
@@ -138,6 +144,27 @@ angular.module('starter.controllers', ['ionic'])
      $scope.test =  function(){
 
     };
+    
+    $scope.GetPic = function(){
+    navigator.camera.getPicture(onSuccess, onFail, { quality: 50 , 
+    destinationType: Camera.DestinationType.DATA_URL,
+    sourceType: Camera.PictureSourceType.PHOTOLIBRARY });
+   
+     function onSuccess(imageData) {
+          $scope.imgData = imageData;
+        }
+
+    function onFail(message) {
+      alert('Non sono riuscito a reperire la foto perchè ' + message);
+      }     
+      
+    }
+    
+    $scope.UploadArticle = function(){
+      sendArticle($("#titletxt").val(),"autore",$("#texttxt").val(),$scope.imgData);
+      $("#titletxt").val("");
+      $("#texttxt").val("");
+    }
 
 })
 

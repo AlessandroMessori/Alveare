@@ -27,7 +27,8 @@
         "APP_ID": "PARSE_APP_ID",
         "CLIENT_KEY": "PARSE_CLIENT_KEY"
       }
-    }
+    },
+    "cordova-plugin-camera"
   ],
   "cordovaPlatforms": [
     "ios"

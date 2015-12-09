@@ -1,18 +1,20 @@
-<ion-view view-title="Orientamento ">
-    <ion-content  on-swipe-right="goBack()" on-swipe-left="goForward()">
+<ion-view view-title="Orientamento" ng-init="doRefresh()">
+    <ion-content on-swipe-right="goBack()" on-swipe-left="goForward()">
+    
+        <div class="list card" ng-repeat="Article in Articles">
+            
 
-        <div class="card">
-            <div class="item item-text-wrap">
-                {{message}}
+            <div class="item item-body" style="text-align:center">
+                <h2>{{Article.title}}</h2>
             </div>
+
+            <div class="item item-image" style="height:20%">
+                <img src={{Article.img}}></img>
+            </div>
+
+            <h6 class="item item-divider">Leggi Articolo</h6>
         </div>
-
-
-     <!-- <ul class="list" style="text-align:center" >
-       <li class="item" ng-repeat="Article in Articles" >
-                {{Article.colorName}}
-        </li>
-      </ul>-->
+       
 
     </ion-content>
 </ion-view>

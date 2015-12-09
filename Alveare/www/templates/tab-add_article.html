@@ -11,28 +11,28 @@
         </div>
         <br>
 
-        <div class="row" style="text-align:center" style="margin-top:10%">
-            <div class="col col-33 col-offset-33">
-                <label class="item item-input">
-                    <input type="text" placeholder="Titolo Articolo" id="Titletxt" ng-model="titletxt">
+        <div class="row" style="text-align:center" style="margin-top:12%">
+            <div class="col col-50 col-offset-25">
+                <label class="item item-input" style="text-align:center">
+                    <input type="text" placeholder="Titolo Articolo" id="titletxt" ng-model="titletxt">"
                 </label>
             </div>
         </div>
 
 
         <label class="item item-input" style="margin-top:4%">
-            <textarea placeholder="Testo Articolo" id="messagetxt" ng-model="messtxt"></textarea>
+            <textarea placeholder="Testo Articolo" id="texttxt" ng-model="text"></textarea>
         </label>
 
 
 
-        <a href="#" class="button button-icon icon ion-camera">
+        <a href="#" class="button button-icon icon ion-camera" ng-click="GetPic()">
                Carica Foto
             </a>
 
         <div class="row" id="btnrow" style="text-align:center">
             <div class="col col-33 col-offset-33">
-                <button id="sendbtn" class="button  button-energized" ng-click="test()">Invia</button>
+                <button id="sendbtn" class="button  button-energized" ng-click="UploadArticle()">Invia</button>
             </div>
         </div>
 
