@@ -3,19 +3,13 @@
 
         <ion-refresher on-refresh="doRefresh()">
         </ion-refresher>
+        <div class="list" >
 
-        <div class="list card" ng-repeat="Article in Articles">
-
-
-            <div class="item item-body" style="text-align:center">
+            <a class="item item-thumbnail-left" href="#" ng-click="Article.link()" ng-repeat="Article in Articles">
+                <img src={{Article.img}}>
                 <h2>{{Article.title}}</h2>
-            </div>
-
-            <div class="item item-image" style="height:20%">
-                <img src={{Article.img}}></img>
-            </div>
-
-            <h6 class="item item-divider" ng-click="Article.link()">Leggi Articolo</h6>
+                <p>Cose Serie</p>
+            </a>
         </div>
     </ion-content>
 </ion-view>

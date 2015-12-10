@@ -6,7 +6,8 @@ var sendpost = function(text){
 
     Message.set("text", text);
     Message.set("Writer", Parse.User.current().get("username"));
-
+    Message.set("date",GetCurrentDate());
+    
     Message.save(null, {
       success: function(Message) {
         // Execute any logic that should take place after the object is saved.
@@ -30,12 +31,11 @@ var getPosts = function(){
 
          for(var i=0;i<results.length;i++){
 
-           var date = results[i].createdAt.getDay()+"-"+results[i].createdAt.getMonth() +"  "+results[i].createdAt.getHours()+":"+results[i].createdAt.getMinutes();
-
+           
            posts[results.length-1-i] = {
                 name : results[i].get("Writer"),
                 text : results[i].get('text'),
-                date : date
+                date : results[i].get('date')
            };
          }
     },

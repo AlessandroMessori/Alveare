@@ -86,13 +86,9 @@ angular.module('starter.controllers', ['ionic'])
      $scope.title = $window.localStorage.getItem("title");
      $scope.text = $window.localStorage.getItem("text");
      $scope.img = $window.localStorage.getItem("img");
+     $scope.date = $window.localStorage.getItem("date");
     });
-    
-     
-     $scope.data = function(){
-       console.log($stateParams.post);
-     };
-    
+   
 })
 
 .controller('orientamentoCtrl', function($scope,$state,$window) {
@@ -101,7 +97,7 @@ angular.module('starter.controllers', ['ionic'])
     $scope.$on('$ionicView.enter',function(){
       $scope.doRefresh();
     });
-    
+       
     $scope.Articles  = getArticles($state,$window);
     
     $scope.doRefresh = function () {
