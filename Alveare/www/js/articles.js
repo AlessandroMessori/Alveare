@@ -11,6 +11,8 @@ var sendArticle = function (title, author, text, img) {
   var img_file = new Parse.File("Copertina", { base64: img });
 
   img_file.save().then(function () {
+         var el = document.createElement("p2");
+         el.innerHTML = "Foto Caricata!";
 
   }, function (error) {
     alert("errore nel salvataggio della foto");

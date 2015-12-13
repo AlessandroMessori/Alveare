@@ -68,7 +68,7 @@ angular.module('starter.controllers', ['ionic'])
         },
       }, 
       {
-        "name" : "Scrivi Articolo di orientamento",
+        "name" : "Scrivi Articolo d'orientamento",
         "url" : "tab.add_article",
         "direct" : function(){
            $state.go(this.url);
@@ -76,19 +76,6 @@ angular.module('starter.controllers', ['ionic'])
       },
     ];
 
-})
-
-.controller('articleCtrl', function($scope,$stateParams,$state,$window) {
-    
-
-    $scope.$on('$ionicView.enter',function(e){
-     
-     $scope.title = $window.localStorage.getItem("title");
-     $scope.text = $window.localStorage.getItem("text");
-     $scope.img = $window.localStorage.getItem("img");
-     $scope.date = $window.localStorage.getItem("date");
-    });
-   
 })
 
 .controller('orientamentoCtrl', function($scope,$state,$window) {
@@ -220,6 +207,20 @@ angular.module('starter.controllers', ['ionic'])
       $("#messagetxt").val("");
     };
 
+})
+
+
+.controller('articleCtrl', function($scope,$stateParams,$state,$window) {
+    
+
+    $scope.$on('$ionicView.enter',function(e){
+     
+     $scope.title = $window.localStorage.getItem("title");
+     $scope.text = $window.localStorage.getItem("text");
+     $scope.img = $window.localStorage.getItem("img");
+     $scope.date = $window.localStorage.getItem("date");
+    });
+   
 })
 
 .config(['$ionicConfigProvider',function($ionicConfigProvider){
