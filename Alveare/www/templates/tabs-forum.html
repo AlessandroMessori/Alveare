@@ -4,9 +4,10 @@
         <ion-refresher on-refresh="doRefresh()">
         </ion-refresher>
 
-        <div class="list card" ng-repeat="Post in Posts" style="margin:0%">
-            <br>
-            <div class="item item-energized item-divider">
+        <br>
+        <div class="list card" ng-repeat="Post in Posts">
+
+            <div class="item item-divider">
                 <div class="row">
                     <p>{{Post.name}}</p>
                     <div class="col" style="text-align:right">
@@ -16,31 +17,13 @@
             </div>
 
             <div class="item item-body">
-
-                <h3>
-                    {{Post.text}}
-                </h3>
-
-                <h4>
-                    <a href="#" class="subdued">Piace a 5 persone</a>
-                </h4>
+                <h3>{{Post.text}}</h3>
             </div>
 
-
-
-
-            <div class="item tabs tabs-icon-left">
-                <a class="tab-item" href="#">
-                    <i class="icon ion-thumbsup"></i>
-                </a>
-                <a class="tab-item" href="#">
-                    <i class="icon ion-thumbsdown"></i>
-                </a>
+            <div class="item item-divider">
+                <h4> <a ng-click="Post.link()" class="subdued">Leggi i commenti</a></h4>
             </div>
-
         </div>
-
-
 
     </ion-content>
 </ion-view>

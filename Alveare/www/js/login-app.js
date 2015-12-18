@@ -2,7 +2,6 @@ var loginapp = angular.module('login', ['ionic']);
 
 loginapp.controller('loginCtrl', function ($scope, $ionicLoading, $window) {
 
-
   $scope.UserLogin = function () {
     $ionicLoading.show({
       template: 'Accesso in Corso...'

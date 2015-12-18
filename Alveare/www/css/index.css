@@ -13,3 +13,12 @@
   text-align: center;
    
 }
+
+.fixed-outside{
+  position: absolute;
+  bottom: 0%;
+  color:white;
+  width: 100%;
+  text-align:center;
+  margin-bottom: 13%;
+}

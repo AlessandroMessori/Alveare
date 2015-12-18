@@ -88,11 +88,10 @@ angular.module('starter.controllers', ['ionic'])
     $scope.Articles  = getArticles($state,$window);
     
     $scope.doRefresh = function () {
-      $scope.Adv = false;
+
       $scope.Articles = getArticles($state,$window);
       $scope.$broadcast('scroll.refreshComplete');
-      $scope.$apply()
-      $scope.Adv = true;
+      $scope.$apply();
 
     };
 
@@ -108,32 +107,26 @@ angular.module('starter.controllers', ['ionic'])
     $scope.Articles  = getArticles($state,$window);
     
     $scope.doRefresh = function () {
-      $scope.Adv = false;
+
       $scope.Articles = getArticles($state,$window);
       $scope.$broadcast('scroll.refreshComplete');
-      $scope.$apply()
-      $scope.Adv = true;
-
+      $scope.$apply();
     };
 
 })
 
-.controller('forumCtrl', function($scope) {
+.controller('forumCtrl', function($scope,$state,$window) {
     $scope.description = "Questo e' un luogo dove si puo' parlare e discutere di argomenti riguardanti la scuola";
-    $scope.Posts =  getPosts();
+    $scope.Posts =  getPosts($window,$state);
 
      $scope.$on('$ionicView.enter',function(){
       $scope.doRefresh();
      });
     
-
     $scope.doRefresh = function() {
-      $scope.Adv = false;
-      $scope.Posts = getPosts();
+      $scope.Posts = getPosts($window,$state);
       $scope.$broadcast('scroll.refreshComplete');
       $scope.$apply()
-      $scope.Adv = true;
-
 };
 })
 
@@ -151,12 +144,6 @@ angular.module('starter.controllers', ['ionic'])
         "name" : "Registro Elettronico",
         "url" : "https://spallanzani-re-sito.registroelettronico.com/login/?next=/select-student/",
         "icon" : "icon ion-ios-book-outline"
-        
-     
-     
-     
-     
-     
       },
       {
         "name" : "Quaderno Elettronico",
@@ -174,9 +161,6 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 .controller('add_articleCtrl', function($scope) {
-     $scope.test =  function(){
-
-    };
     
     $scope.GetPic = function(){
     navigator.camera.getPicture(onSuccess, onFail, { quality: 50 , 
@@ -212,15 +196,37 @@ angular.module('starter.controllers', ['ionic'])
 
 .controller('articleCtrl', function($scope,$stateParams,$state,$window) {
     
-
     $scope.$on('$ionicView.enter',function(e){
-     
+      
      $scope.title = $window.localStorage.getItem("title");
      $scope.text = $window.localStorage.getItem("text");
      $scope.img = $window.localStorage.getItem("img");
      $scope.date = $window.localStorage.getItem("date");
+    
     });
    
+})
+
+.controller('commentsCtrl', function($scope,$window) {
+   $scope.send = function(){
+      sendComment($("#commenttxt").val(),$window.localStorage.getItem("currentPost"));
+      $("#commenttxt").val("");
+      $scope.doRefresh();
+   }
+   
+   $scope.Comments = getComments($window);
+   
+    $scope.$on('$ionicView.enter',function(){
+      $scope.doRefresh();
+     });
+    
+    $scope.doRefresh = function() {
+      $scope.Comments = getComments($window);
+      $scope.$broadcast('scroll.refreshComplete');
+      $scope.$apply()
+};
+   
+   console.log($scope.Comments);
 })
 
 .config(['$ionicConfigProvider',function($ionicConfigProvider){

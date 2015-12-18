@@ -115,13 +115,24 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                     }
                 }
             })
-            
-             .state('tab.article', {
+
+            .state('tab.article', {
                 url: '/article',
                 views: {
                     'tab-article': {
                         templateUrl: 'templates/tab-article.html',
                         controller: "articleCtrl"
+
+                    }
+                }
+            })
+
+            .state('tab.comments', {
+                url: '/comments',
+                views: {
+                    'tab-comments': {
+                        templateUrl: 'templates/tab-comments.html',
+                        controller: "commentsCtrl"
 
                     }
                 }
