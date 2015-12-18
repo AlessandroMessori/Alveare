@@ -24,6 +24,7 @@ var getComments = function (win) {
   var comments = [];
   var father = localStorage.getItem("currentPost");
   var query = new Parse.Query(Comment);
+  query.equalTo("father",father);
   
   query.find({
     success: function (results) {
