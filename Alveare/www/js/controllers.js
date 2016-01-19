@@ -97,7 +97,6 @@ angular.module('starter.controllers', ['ionic'])
 };
 })
 
-
 .controller('linkCtrl', function($scope,$window) {
 
     $scope.OpenLink =  function (url){
@@ -157,7 +156,6 @@ angular.module('starter.controllers', ['ionic'])
     };
 
 })
-
 
 .controller('articleCtrl', function($scope,$stateParams,$state,$window) {
 

@@ -1,9 +1,9 @@
-var sendComment = function (liker, father) {
+var sendLike = function (liker, father) {
 
   var Likes = new Parse.Object("Likes");
 
-      Likes.set("Writer", Parse.User.current().get("username"));
-      Likes.set("father", father);
+  Likes.set("Writer", Parse.User.current().get("username"));
+  Likes.set("father", father);
 
   Likes.save(null, {
     success: function (Comment) {
