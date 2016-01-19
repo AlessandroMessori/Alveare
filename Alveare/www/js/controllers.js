@@ -2,7 +2,7 @@ angular.module('starter.controllers', ['ionic'])
 
 .controller('TabsCtrl', function ($scope,$ionicTabsDelegate,$ionicLoading,$window,$ionicPlatform) {
 
-       $ionicPlatform.ready(function() {
+  $ionicPlatform.ready(function() {
     ionic.Platform.fullScreen();
   });
 
@@ -17,26 +17,6 @@ angular.module('starter.controllers', ['ionic'])
       }
     }
 
-    $scope.goForward = function () {
-    var selected = $ionicTabsDelegate.selectedIndex();
-    if (selected != -1) {
-        $ionicTabsDelegate.select(selected + 1);
-    }
-}
-
-  $scope.goBack = function () {
-    var selected = $ionicTabsDelegate.selectedIndex();
-    if (selected != -1 && selected != 0) {
-        $ionicTabsDelegate.select(selected - 1);
-    }
-  }
-
-  $scope.goBackAdmin = function(){
-     if (Parse.User.current().get("isadmin")){
-        $scope.goBack();
-     }
- }
-
  $scope.Disconnect = function(){
    $ionicLoading.show({
        template: 'Disconnessione in corso...'
@@ -48,10 +28,10 @@ angular.module('starter.controllers', ['ionic'])
 
 })
 
-.controller('homeCtrl', function ($scope,$state) {
+.controller('homeCtrl', function ($scope,$state,$window) {
 
     $scope.title = "Sezione Amministratori ";
-     
+
     $scope.Links = [
       {
         "name" : "Scrivi Avviso",
@@ -65,13 +45,15 @@ angular.module('starter.controllers', ['ionic'])
         "url" : "tab.add_article",
         "direct" : function(){
           $state.go(this.url);
+          $window.localStorage.setItem("contentType","Article");
         },
-      }, 
+      },
       {
         "name" : "Scrivi Articolo d'orientamento",
         "url" : "tab.add_article",
         "direct" : function(){
            $state.go(this.url);
+           $window.localStorage.setItem("contentType","Orientamento");
         },
       },
     ];
@@ -79,17 +61,12 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 .controller('orientamentoCtrl', function($scope,$state,$window) {
-    $scope.message = " In questa sezione potrai leggere le esperienze di studenti universitari in modo da avere un'idea di cosa ti aspetta";
-    
-    $scope.$on('$ionicView.enter',function(){
-      $scope.doRefresh();
-    });
-       
-    $scope.Articles  = getArticles($state,$window);
-    
+
+    $scope.Articles  = getArticles($state,$window,"Orientamento");
+
     $scope.doRefresh = function () {
 
-      $scope.Articles = getArticles($state,$window);
+      $scope.Articles = getArticles($state,$window,"Orientamento");
       $scope.$broadcast('scroll.refreshComplete');
       $scope.$apply();
 
@@ -98,17 +75,12 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 .controller('giornalinoCtrl', function($scope,$state,$window) {
-    $scope.message = " In questa sezione potrai leggere le esperienze di studenti universitari in modo da avere un'idea di cosa ti aspetta";
-    
-    $scope.$on('$ionicView.enter',function(){
-      $scope.doRefresh();
-    });
-    
-    $scope.Articles  = getArticles($state,$window);
-    
+
+    $scope.Articles  = getArticles($state,$window,"Article");
+
     $scope.doRefresh = function () {
 
-      $scope.Articles = getArticles($state,$window);
+      $scope.Articles = getArticles($state,$window,"Article");
       $scope.$broadcast('scroll.refreshComplete');
       $scope.$apply();
     };
@@ -116,13 +88,8 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 .controller('forumCtrl', function($scope,$state,$window) {
-    $scope.description = "Questo e' un luogo dove si puo' parlare e discutere di argomenti riguardanti la scuola";
     $scope.Posts =  getPosts($window,$state);
 
-     $scope.$on('$ionicView.enter',function(){
-      $scope.doRefresh();
-     });
-    
     $scope.doRefresh = function() {
       $scope.Posts = getPosts($window,$state);
       $scope.$broadcast('scroll.refreshComplete');
@@ -132,10 +99,8 @@ angular.module('starter.controllers', ['ionic'])
 
 
 .controller('linkCtrl', function($scope,$window) {
-    $scope.message = " In questa sezione potrai leggere le esperienze di studenti universitari in modo da avere un'idea di cosa ti aspetta";
 
     $scope.OpenLink =  function (url){
-
        cordova.InAppBrowser.open(url, '_system','location=yes');
     }
 
@@ -160,25 +125,25 @@ angular.module('starter.controllers', ['ionic'])
 
 })
 
-.controller('add_articleCtrl', function($scope) {
-    
+.controller('add_articleCtrl', function($scope,$window) {
+
     $scope.GetPic = function(){
-    navigator.camera.getPicture(onSuccess, onFail, { quality: 50 , 
+    navigator.camera.getPicture(onSuccess, onFail, { quality: 50 ,
     destinationType: Camera.DestinationType.DATA_URL,
     sourceType: Camera.PictureSourceType.PHOTOLIBRARY });
-   
+
      function onSuccess(imageData) {
           $scope.imgData = imageData;
         }
 
     function onFail(message) {
       alert('Non sono riuscito a reperire la foto perchè ' + message);
-      }     
-      
+      }
+
     }
-    
+
     $scope.UploadArticle = function(){
-      sendArticle($("#titletxt").val(),"autore",$("#texttxt").val(),$scope.imgData);
+      sendArticle($("#titletxt").val(),"autore",$("#texttxt").val(),$scope.imgData,$window.localStorage.getItem("contentType"));
       $("#titletxt").val("");
       $("#texttxt").val("");
     }
@@ -195,16 +160,16 @@ angular.module('starter.controllers', ['ionic'])
 
 
 .controller('articleCtrl', function($scope,$stateParams,$state,$window) {
-    
+
     $scope.$on('$ionicView.enter',function(e){
-      
+
      $scope.title = $window.localStorage.getItem("title");
      $scope.text = $window.localStorage.getItem("text");
      $scope.img = $window.localStorage.getItem("img");
      $scope.date = $window.localStorage.getItem("date");
-    
+
     });
-   
+
 })
 
 .controller('commentsCtrl', function($scope,$window) {
@@ -213,23 +178,23 @@ angular.module('starter.controllers', ['ionic'])
       $("#commenttxt").val("");
       $scope.doRefresh();
    }
-   
+
+   $scope.$on('$ionicView.enter',function(){
+     $scope.doRefresh();
+   });
+
    $scope.Comments = getComments($window);
-   
-    $scope.$on('$ionicView.enter',function(){
-      $scope.doRefresh();
-     });
-    
+
+
     $scope.doRefresh = function() {
       $scope.Comments = getComments($window);
       $scope.$broadcast('scroll.refreshComplete');
-      $scope.$apply()
+      $scope.$apply();
 };
-   
-   console.log($scope.Comments);
+
 })
 
 .config(['$ionicConfigProvider',function($ionicConfigProvider){
   $ionicConfigProvider.tabs.position('bottom');
-  
+
 }]);

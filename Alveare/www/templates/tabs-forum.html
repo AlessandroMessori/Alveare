@@ -1,5 +1,5 @@
 ﻿<ion-view view-title="Avvisi" ng-init="doRefresh()">
-    <ion-content on-swipe-right="goBack()" on-swipe-left="goForward()">
+    <ion-content ng-init="doRefresh()">
 
         <ion-refresher on-refresh="doRefresh()">
         </ion-refresher>
@@ -7,21 +7,34 @@
         <br>
         <div class="list card" ng-repeat="Post in Posts">
 
-            <div class="item item-divider">
+            <div class="item">
                 <div class="row">
-                    <p>{{Post.name}}</p>
+                    <div class="col">
+                        <a class="subdued" style="color:blue">{{Post.name}}</a>
+                    </div>
                     <div class="col" style="text-align:right">
-                        <h5>{{Post.date}}</h5>
+                        <a class="subdued">{{Post.date}}</a>
                     </div>
                 </div>
             </div>
 
             <div class="item item-body">
-                <h3>{{Post.text}}</h3>
+                <p>
+                    {{Post.text}}
+                    <p>
+                        <a href="#" class="subdued">1 Like</a>
+                        <a href="#" class="subdued">5 Comments</a>
+                    </p>
+                </p>
             </div>
 
-            <div class="item item-divider">
-                <h4> <a ng-click="Post.link()" class="subdued">Leggi i commenti</a></h4>
+            <div class="item tabs tabs-secondary tabs-icon-left" style="background-color:white">
+                <a class="tab-item" href="#">
+                    <i class="icon ion-thumbsup"></i> Like
+                </a>
+                <a class="tab-item" ng-click="Post.link()" href="#">
+                    <i class="icon ion-chatbox"></i> Commenta
+                </a>
             </div>
         </div>
 

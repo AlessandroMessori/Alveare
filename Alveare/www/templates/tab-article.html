@@ -7,16 +7,16 @@
 			   <button ui-sref="tab.giornalino" class="button icon-left ion-chevron-left button-clear button-dark">Indietro</button>
 			</div>
 			<div class="col ">
-				<h5 style="text-align:right">{{date}}</h5>		
+				<h5 style="text-align:right">{{date}}</h5>
 			</div>
 		</div>
-		
+
 		<div class="row">
 			<div class="col">
 			  <h1 class="title" style="margin-left:5%" style="margin-right:5%">{{title}}</h1>
 			</div>
 		</div>
-        
+
 
 		<div class="row" style="text-align:center">
 			<div class="col ">
@@ -29,11 +29,15 @@
 			<div class="col">
 				<h4 style="margin-left:5%" style="margin-right:5%">
 				{{text}}
-					
+
 				</h4>
+
+			 <h4><a class="subdued" ui-sref="tab.comments">leggi commenti</a></h4>
 			</div>
 		</div>
 		<br>
+
+
 
 	</ion-content>
 </ion-view>

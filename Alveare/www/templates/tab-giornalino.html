@@ -1,5 +1,5 @@
-<ion-view view-title="Attualità" on-swipe-right="goBackAdmin()" on-swipe-left="goForward()">
-    <ion-content>
+<ion-view view-title="Attualità" ng-init="doRefresh()">
+    <ion-content ng-init="doRefresh()">
 
         <ion-refresher on-refresh="doRefresh()">
         </ion-refresher>

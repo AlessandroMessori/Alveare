@@ -1,6 +1,6 @@
-var sendArticle = function (title, author, text, img) {
+var sendArticle = function (title, author, text, img,type) {
 
-  var Article = new Parse.Object("Article");
+  var Article = new Parse.Object(type);
 
 
   Article.set("title", title);
@@ -33,9 +33,9 @@ var sendArticle = function (title, author, text, img) {
 
 }
 
-var getArticles = function (state, win) {
+var getArticles = function (state, win,type) {
 
-  var Article = new Parse.Object("Article");
+  var Article = new Parse.Object(type);
   var posts = [];
   var query = new Parse.Query(Article);
   query.find({
@@ -51,6 +51,7 @@ var getArticles = function (state, win) {
           text: results[i].get('text'),
           img: results[i].get("img").url(),
           date: results[i].get("date"),
+          id :results[i].id,
           link: function () {
 
             win.localStorage.setItem("title", this.title);
@@ -58,6 +59,7 @@ var getArticles = function (state, win) {
             win.localStorage.setItem("author", this.author);
             win.localStorage.setItem("img", this.img);
             win.localStorage.setItem("date", this.date);
+            win.localStorage.setItem("currentPost", this.id);
             state.go("tab.article");
 
           }
@@ -81,7 +83,7 @@ var GetCurrentDate = function () {
   var today = new Date();
   var dd = today.getDate();
   var mm = today.getMonth() + 1; //January is 0!
-  var yyyy = today.getFullYear();
+
 
   if (dd < 10) {
     dd = '0' + dd
@@ -127,16 +129,18 @@ var GetCurrentDate = function () {
 
   }
 
-  today = dd + ' ' + mm + ' ' + yyyy;
+  today = dd + ' ' + mm;
 
   return today;
 }
 
 var GetFullDate = function(){
-  
+
     var date = new Date();
     var Hour = date.getHours();
     var Minutes = date.getMinutes();
-    
+
+    if (Minutes <10) { Minutes = "0"+Minutes;}
+
     return GetCurrentDate() + " alle "+Hour+":"+Minutes;
 }
