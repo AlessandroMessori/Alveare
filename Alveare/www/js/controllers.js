@@ -62,6 +62,10 @@ angular.module('starter.controllers', ['ionic'])
 
 .controller('orientamentoCtrl', function($scope,$state,$window) {
 
+  $scope.$on('$ionicView.enter',function(){
+    if($scope.Articles != getArticles($state,$window,"Orientamento")) { $scope.doRefresh();}
+  });
+
     $scope.Articles  = getArticles($state,$window,"Orientamento");
 
     $scope.doRefresh = function () {
@@ -75,6 +79,11 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 .controller('giornalinoCtrl', function($scope,$state,$window) {
+
+  $scope.$on('$ionicView.enter',function(){
+    if($scope.Articles != getArticles($state,$window,"Article")) { $scope.doRefresh();}
+  });
+
 
     $scope.Articles  = getArticles($state,$window,"Article");
 
@@ -90,11 +99,18 @@ angular.module('starter.controllers', ['ionic'])
 .controller('forumCtrl', function($scope,$state,$window) {
     $scope.Posts =  getPosts($window,$state);
 
+    $scope.$on('$ionicView.enter',function(){
+      if($scope.Posts != getPosts($window,$state)) { $scope.doRefresh();}
+    });
+
     $scope.doRefresh = function() {
       $scope.Posts = getPosts($window,$state);
       $scope.$broadcast('scroll.refreshComplete');
       $scope.$apply()
 };
+
+
+
 })
 
 .controller('linkCtrl', function($scope,$window) {

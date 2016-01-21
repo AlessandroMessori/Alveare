@@ -52,4 +52,13 @@ signupapp.controller('signupCtrl', function ($scope, $ionicLoading, $location) {
   $scope.go = function () {
     document.location.href = 'login.html'
   };
+
+  $scope.changePassView = function () {
+
+    if ($scope.ShowPass)
+      $("#passtxt").attr("type", "text");
+    else {
+      $("#passtxt").attr("type", "password")
+    }
+  }
 });
