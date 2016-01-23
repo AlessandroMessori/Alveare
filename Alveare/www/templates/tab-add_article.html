@@ -25,10 +25,18 @@
         </label>
 
 
+        <div class="row">
+          <div class="col col-33">
+              <a href="#" class="button button-icon icon ion-camera" ng-click="GetPic()">
+                     Carica Foto
+              </a>
+           </div>
+            <div class="col col-50" style="text-align:center" ng-show="showPic">
+              <h4>Immagine di copertina</h4>
+              <img class="responsive" src="../img/logo.jpg" style="width:50%;"></img>
+            </div>
+        </div>
 
-        <a href="#" class="button button-icon icon ion-camera" ng-click="GetPic()">
-               Carica Foto
-            </a>
 
         <div class="row" id="btnrow" style="text-align:center">
             <div class="col col-33 col-offset-33">
