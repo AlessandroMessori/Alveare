@@ -24,7 +24,6 @@ var sendArticle = function (title, author, text, img,type) {
   Article.save(null, {
     success: function (Article) {
       alert('Articolo pubblicato con successo');
-      show = true;
     },
     error: function (Article, error) {
 

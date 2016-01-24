@@ -1,4 +1,4 @@
-<ion-view view-title="L'Alveare">
+<ion-view view-title="L'Alveare" ng-init="checkFoto()">
     <ion-content class="padding" >
 
 
@@ -28,12 +28,12 @@
         <div class="row">
           <div class="col col-33">
               <a href="#" class="button button-icon icon ion-camera" ng-click="GetPic()">
-                     Carica Foto
+                     Carica
               </a>
            </div>
-            <div class="col col-50" style="text-align:center" ng-show="showPic">
+            <div  id="img-preview" class="col col-50" style="text-align:center" >
               <h4>Immagine di copertina</h4>
-              <img class="responsive" src="../img/logo.jpg" style="width:50%;"></img>
+              <img class="responsive"  id="img_1" src="{{imgData}}" style="width:100%;"></img>
             </div>
         </div>
 

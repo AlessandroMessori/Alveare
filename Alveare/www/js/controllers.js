@@ -142,6 +142,8 @@ angular.module('starter.controllers', ['ionic'])
 
 .controller('add_articleCtrl', function($scope,$window) {
 
+    $('#img-preview').hide();
+
     $scope.GetPic = function(){
     navigator.camera.getPicture(onSuccess, onFail, { quality: 50 ,
     destinationType: Camera.DestinationType.DATA_URL,
@@ -149,7 +151,9 @@ angular.module('starter.controllers', ['ionic'])
 
      function onSuccess(imageData) {
           $scope.imgData = imageData;
-          $scope.showPic = true;
+          $('#img-preview').show();
+          document.getElementById('img_1').src = "data:image/png;base64,"+imageData;
+          //alert("Ciao");
         }
 
     function onFail(message) {
@@ -157,6 +161,8 @@ angular.module('starter.controllers', ['ionic'])
       }
 
     }
+
+
 
     $scope.UploadArticle = function(){
       sendArticle($("#titletxt").val(),"autore",$("#texttxt").val(),$scope.imgData,$window.localStorage.getItem("contentType"));
