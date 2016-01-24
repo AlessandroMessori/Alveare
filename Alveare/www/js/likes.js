@@ -1,4 +1,4 @@
-var sendComment = function (liker, father) {
+var sendLike = function (liker, father) {
 
   var Likes = new Parse.Object("Likes");
 
