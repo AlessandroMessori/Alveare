@@ -1,24 +1,16 @@
-var sendLike = function (liker, father) {
+var sendLike = function (father) {
 
   var Likes = new Parse.Object("Likes");
 
-      Likes.set("Writer", Parse.User.current().get("username"));
+      Likes.set("liker", Parse.User.current().get("username"));
       Likes.set("father", father);
 
   Likes.save(null, {
-    success: function (Comment) {
-
+    success: function (Likes) {
+      alert("like salvato");
     },
-    error: function (Comment, error) {
+    error: function (Likes, error) {
     }
   });
-}
-
-var checklike  = function(liker,father){
-  var Likes = new Parse.Object("Likes");
-
-  var query = new Parse.Query(Likes);
-
-  query.equalTo("father",father);
 
 }

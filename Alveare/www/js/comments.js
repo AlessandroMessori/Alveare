@@ -9,8 +9,8 @@ var sendComment = function (text, father) {
 
   Comment.save(null, {
     success: function (Comment) {
-
       alert('commento pubblicato con successo');
+      UpdateCount("Comment",father);
     },
     error: function (Comment, error) {
       alert('Failed to create new object, with error code: ' + error.Comment);
@@ -25,7 +25,7 @@ var getComments = function (win) {
   var father = localStorage.getItem("currentPost");
   var query = new Parse.Query(Comment);
   query.equalTo("father",father);
-  
+
   query.find({
     success: function (results) {
 

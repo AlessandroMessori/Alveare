@@ -13,18 +13,16 @@ loginapp.controller('loginCtrl', function ($scope, $ionicLoading, $window) {
   $scope.SetRememberMe = function () {
 
     if ($scope.RememberMe) {
-
       $window.localStorage.setItem("RememberMe", "true");
     }
 
   }
   $scope.CheckRememberMe = function () {
 
-
     if ($window.localStorage.getItem("RememberMe") == "true") {
-
       document.location.href = "index.html";
     }
+
   }
 
   $scope.changePassView = function () {

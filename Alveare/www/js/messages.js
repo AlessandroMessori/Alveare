@@ -20,35 +20,43 @@ var sendpost = function (text) {
     }
   });
 }
-
 var getPosts = function (win,state) {
 
   var Message = new Parse.Object("Post");
   var posts = [];
   var query = new Parse.Query(Message);
-  query.find({
-    success: function (results) {
+  query.find().then(
+    function(results) {
 
       for (var i = 0; i < results.length; i++) {
-
-
         posts[results.length - 1 - i] = {
           name: results[i].get("Writer"),
           text: results[i].get('text'),
           date: results[i].get('date'),
           objectId : results[i].id,
+          //commentsCount : GetCommentsCount(results[i].id),
           link: function () {
             win.localStorage.setItem("currentPost", this.objectId);
             state.go("tab.comments");
+          },
+          getLike : function (){
+             if (checklike(this.objectId)){
+               sendLike(this.objectId);
+             }
           }
         };
-      }
-    },
-    error: function (error) {
-      console.log("Niente Connessione");
-      return;
-    }
-  });
 
-  return posts;
+      }
+
+      for (var i = 0; i < results.length; i++) {
+        posts[results.length - 1 - i].commentsCount = GetCommentsCount(posts[results.length - 1 - i].objectId);
+      }
+
+
+    }
+  );
+
+
+return posts;
 }
+

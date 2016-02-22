@@ -97,19 +97,16 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 .controller('forumCtrl', function($scope,$state,$window) {
+
     $scope.Posts =  getPosts($window,$state);
 
-    $scope.$on('$ionicView.enter',function(){
-      if($scope.Posts != getPosts($window,$state)) { $scope.doRefresh();}
-    });
+
 
     $scope.doRefresh = function() {
       $scope.Posts = getPosts($window,$state);
       $scope.$broadcast('scroll.refreshComplete');
-      $scope.$apply()
-};
-
-
+      $scope.$apply();
+    };
 
 })
 
@@ -161,8 +158,6 @@ angular.module('starter.controllers', ['ionic'])
       }
 
     }
-
-
 
     $scope.UploadArticle = function(){
       sendArticle($("#titletxt").val(),"autore",$("#texttxt").val(),$scope.imgData,$window.localStorage.getItem("contentType"));

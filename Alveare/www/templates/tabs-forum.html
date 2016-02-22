@@ -1,5 +1,5 @@
-﻿<ion-view view-title="Avvisi" ng-init="doRefresh()">
-    <ion-content ng-init="doRefresh()">
+﻿<ion-view view-title="Avvisi">
+    <ion-content >
 
         <ion-refresher on-refresh="doRefresh()">
         </ion-refresher>
@@ -21,21 +21,12 @@
             <div class="item item-body">
                 <p>
                     {{Post.text}}
-                    <p>
-                        <a href="#" class="subdued">1 Like</a>
-                        <a href="#" class="subdued">5 Comments</a>
+                    <p ng-click="Post.link()">
+                        <a href="#" class="subdued">Commenta</a>
                     </p>
                 </p>
             </div>
 
-            <div class="item tabs tabs-secondary tabs-icon-left" style="background-color:white">
-                <a class="tab-item" href="#" ng-click="Like()">
-                    <i class="icon ion-thumbsup"></i> Like
-                </a>
-                <a class="tab-item" ng-click="Post.link()" href="#">
-                    <i class="icon ion-chatbox"></i> Commenta
-                </a>
-            </div>
         </div>
 
     </ion-content>
