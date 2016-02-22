@@ -28,7 +28,8 @@
         "CLIENT_KEY": "PARSE_CLIENT_KEY"
       }
     },
-    "cordova-plugin-camera"
+    "cordova-plugin-camera",
+    "org.apache.cordova.device"
   ],
   "cordovaPlatforms": [
     "ios"
