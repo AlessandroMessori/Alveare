@@ -39,18 +39,14 @@ var getPosts = function (win,state) {
             win.localStorage.setItem("currentPost", this.objectId);
             state.go("tab.comments");
           },
-          getLike : function (){
-             if (checklike(this.objectId)){
-               sendLike(this.objectId);
-             }
-          }
+          getLike : chekLike(Parse.User.current(), this.objectId);
         };
 
       }
 
-      for (var i = 0; i < results.length; i++) {
+      /*for (var i = 0; i < results.length; i++) {
         posts[results.length - 1 - i].commentsCount = GetCommentsCount(posts[results.length - 1 - i].objectId);
-      }
+      }*/
 
 
     }
@@ -59,4 +55,3 @@ var getPosts = function (win,state) {
 
 return posts;
 }
-

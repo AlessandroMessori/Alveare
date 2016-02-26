@@ -23,11 +23,15 @@ var chekLike  = function(liker,father){
     query.equalTo("father",father);
    query.equalTo("Writer", liker);
    var n_likes;
-   query.count({
-     success: function(count) {
+   var id;
+   query.find({
+     success: function(results) {
        // The count request succeeded. Show the count
-       alert("Likes:"  count);
-       n_likes = count;
+       n_likes = results.length;
+
+       if (n_likes != 0)
+       id = results[0].objectId;
+
      },
      error: function(error) {
        // The request failed
@@ -38,23 +42,19 @@ var chekLike  = function(liker,father){
      sendLike(liker, father);
    }
    else {
-     deleteLikes(liker, father);
+     deleteLikes(id);
    }
  }
 
- var getLikes = function(){
 
- }
-
- var deleteLikes = function(liker, father){
+ var deleteLikes = function(OID){
 
    var Likes = new Parse.Object("Likes");
 
-   var getOID = new Parse.Query(Likes);
 
    var query = new Parse.Query(Likes);
 
- query.get("efgh", {
+ query.get(OID, {
    success: function(myObj) {
      // The object was retrieved successfully.
      myObj.destroy({});
@@ -62,5 +62,7 @@ var chekLike  = function(liker,father){
    error: function(object, error) {
      // The object was not retrieved successfully.
      // error is a Parse.Error with an error code and description.
+     alert("Failed to destroy object");
    }
  });
+ }

@@ -101,7 +101,6 @@ angular.module('starter.controllers', ['ionic'])
     $scope.Posts =  getPosts($window,$state);
 
 
-
     $scope.doRefresh = function() {
       $scope.Posts = getPosts($window,$state);
       $scope.$broadcast('scroll.refreshComplete');
