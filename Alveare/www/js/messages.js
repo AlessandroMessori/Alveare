@@ -38,8 +38,7 @@ var getPosts = function (win,state) {
           link: function () {
             win.localStorage.setItem("currentPost", this.objectId);
             state.go("tab.comments");
-          },
-          getLike : chekLike(Parse.User.current(), this.objectId);
+          }
         };
 
       }

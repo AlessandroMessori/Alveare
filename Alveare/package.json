@@ -29,7 +29,8 @@
       }
     },
     "cordova-plugin-camera",
-    "org.apache.cordova.device"
+    "org.apache.cordova.device",
+    "cordova-plugin-statusbar"
   ],
   "cordovaPlatforms": [
     "ios"

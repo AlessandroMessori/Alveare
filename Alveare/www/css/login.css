@@ -30,5 +30,8 @@ margin-top: 5%;
   width: 35%;
   height: auto;
   text-align: center;
-  margin-top: 25%;
+  margin-top: 12%;
+}
+.bar{
+  max-height: : 10px;
 }
