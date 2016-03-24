@@ -2,10 +2,6 @@ angular.module('starter.controllers', ['ionic'])
 
 .controller('TabsCtrl', function ($scope,$ionicTabsDelegate,$ionicLoading,$window,$ionicPlatform) {
 
-  $ionicPlatform.ready(function() {
-    ionic.Platform.fullScreen();
-  });
-
     $scope.checkadmin =  function(){
 
       if (Parse.User.current()) {

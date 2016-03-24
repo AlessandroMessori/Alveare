@@ -7,6 +7,7 @@ loginapp.run(function ($ionicPlatform) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         }
 
+
     });
 });
 
@@ -55,6 +56,7 @@ signupapp.run(function ($ionicPlatform) {
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         }
+
 
     });
 });

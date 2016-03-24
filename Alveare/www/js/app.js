@@ -7,6 +7,12 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
             }
 
+          if (device.name == "ios") {
+            $ionicPlatform.ready(function() {
+              ionic.Platform.fullScreen();
+            });
+          }
+
         });
     })
 
