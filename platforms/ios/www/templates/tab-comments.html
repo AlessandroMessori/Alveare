@@ -1,0 +1,26 @@
+<ion-view view-title="Commenti">
+	<ion-content has-footer="true" has-tabs="true">
+
+		<ion-refresher on-refresh="doRefresh()">
+		</ion-refresher>
+
+		<div class="card item-text-wrap" style="margin:0%">
+			<div class="item" ng-repeat="Comment in Comments">
+				<p>
+					<a style="color:blue">{{Comment.name}}</a>
+					<a>{{Comment.text}}</a>
+				</p>
+				<h4><a class="subdued">{{Comment.date}}</a></h4>
+			</div>
+		</div>
+
+	</ion-content>
+
+
+	<div class="fixed-outside">
+		<div class="item item-input">
+			<input type="text" placeholder="Aggiungi un commento" id="commenttxt"></input>
+			<button class="button  button-calm icon ion-android-send" ng-click="send()"></button>
+		</div>
+	</div>
+</ion-view>

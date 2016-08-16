@@ -1,0 +1,15 @@
+<ion-view view-title="Orientamento">
+    <ion-content >
+
+        <ion-refresher on-refresh="doRefresh()">
+        </ion-refresher>
+        <div class="list" >
+
+            <a class="item item-thumbnail-left" href="#" ng-click="Article.link()" ng-repeat="Article in Articles">
+                <img src={{Article.img}}>
+                <h2>{{Article.title}}</h2>
+                <p>{{Article.text}}</p>
+            </a>
+        </div>
+    </ion-content>
+</ion-view>

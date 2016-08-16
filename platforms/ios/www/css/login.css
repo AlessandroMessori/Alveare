@@ -1,0 +1,37 @@
+body{
+
+  text-align: center;
+}
+
+.item{
+margin-top: 5%;
+}
+
+.row{
+  text-align: center;
+}
+
+#inputrow{
+   margin-top: 2%;
+}
+
+#btnrow{
+  margin-top: 5%;
+}
+
+#checkboxrow{
+
+  margin-top: 2%;
+  text-align: left;
+}
+
+.responsive{
+
+  width: 35%;
+  height: auto;
+  text-align: center;
+  margin-top: 12%;
+}
+.bar{
+  max-height: : 10px;
+}
