@@ -1,16 +1,9 @@
 var config = {
-    entry: './src/App.js',
+    entry: './www/Components/main.js',
     output: {
-        path: 'www/Bundle',
+        path: 'www/Bundle/',
         filename: 'scripts.js',
-        publicPath: 'www/Bundle'
-    },
-    module: {
-        loaders: [
-            {
-                test: /.js?$/
-            }
-        ]
+        publicPath: 'www/Bundle/'
     }
 };
 

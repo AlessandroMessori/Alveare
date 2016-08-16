@@ -1,5 +1,5 @@
-angular.module('appAS.controllers', ['ionic'])
-.controller('articleCtrl', function($scope,$stateParams,$state,$window,$ionicModal) {
+var mod = angular.module('appAS.controllers', ['ionic'])
+var articleCtrl = mod.controller('articleCtrl', function($scope,$stateParams,$state,$window,$ionicModal) {
 
     $scope.$on('$ionicView.enter',function(e){
 
@@ -29,6 +29,6 @@ angular.module('appAS.controllers', ['ionic'])
          $scope.modal.remove();
        });
 
+});
 
-
-})
+module.exports = articleCtrl;

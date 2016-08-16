@@ -1,5 +1,5 @@
-angular.module('appAS.controllers', ['ionic'])
-    .controller('homeCtrl', function ($scope, $state, $window) {
+var mod= angular.module('appAS.controllers', ['ionic'])
+var adminCtrl = mod.controller('adminCtrl', function ($scope, $state, $window) {
 
         $scope.title = "Sezione Amministratori ";
 
@@ -29,4 +29,6 @@ angular.module('appAS.controllers', ['ionic'])
             },
         ];
 
-    })
+    });
+
+    module.exports = adminCtrl;
