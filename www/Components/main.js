@@ -51,6 +51,15 @@ appAS.config(function ($stateProvider, $urlRouterProvider) {
             controller: 'tabsCtrl'
         })
 
+        .state('login', {
+            url: '/login',
+            views: {
+                'login': {
+                    templateUrl: 'Components/LoginPage/login.html',
+                    controller: 'loginCtrl'
+                }
+            }
+        })
 
         .state('tab.admin', {
             url: '/admin',
@@ -148,7 +157,6 @@ appAS.config(function ($stateProvider, $urlRouterProvider) {
                 }
             }
         });
-
 
 
     $urlRouterProvider.otherwise('/tab/link');

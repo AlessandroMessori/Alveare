@@ -14,14 +14,15 @@ var loginCtrl = function ($scope, $ionicLoading, $window) {
             $window.localStorage.setItem("RememberMe", "true");
         }
 
-    }
+    };
+
     $scope.CheckRememberMe = function () {
 
         if ($window.localStorage.getItem("RememberMe") == "true") {
             document.location.href = "index.html";
         }
 
-    }
+    };
 
     $scope.changePassView = function () {
 

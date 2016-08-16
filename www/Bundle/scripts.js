@@ -97,6 +97,15 @@
 	            controller: 'tabsCtrl'
 	        })
 
+	        .state('login', {
+	            url: '/login',
+	            views: {
+	                'login': {
+	                    templateUrl: 'Components/LoginPage/login.html',
+	                    controller: 'loginCtrl'
+	                }
+	            }
+	        })
 
 	        .state('tab.admin', {
 	            url: '/admin',
@@ -196,7 +205,6 @@
 	        });
 
 
-
 	    $urlRouterProvider.otherwise('/tab/link');
 
 	});
@@ -265,27 +273,30 @@
 	    $scope.Links = [
 	        {
 	            "name": "Scrivi Avviso",
+	            "icon":"icon ion-ios-bell",
 	            "url": "tab.send_message",
 	            "direct": function () {
 	                $state.go(this.url);
-	            },
+	            }
 	        },
 	        {
 	            "name": "Scrivi Articolo d'attualità",
 	            "url": "tab.add_article",
+	            "icon":"icon ion-ios-paper",
 	            "direct": function () {
 	                $state.go(this.url);
 	                $window.localStorage.setItem("contentType", "Article");
-	            },
+	            }
 	        },
 	        {
 	            "name": "Scrivi Articolo d'orientamento",
 	            "url": "tab.add_article",
+	            "icon":"icon ion-ios-navigate",
 	            "direct": function () {
 	                $state.go(this.url);
 	                $window.localStorage.setItem("contentType", "Orientamento");
-	            },
-	        },
+	            }
+	        }
 	    ];
 
 	};
@@ -393,14 +404,15 @@
 	            $window.localStorage.setItem("RememberMe", "true");
 	        }
 
-	    }
+	    };
+
 	    $scope.CheckRememberMe = function () {
 
 	        if ($window.localStorage.getItem("RememberMe") == "true") {
 	            document.location.href = "index.html";
 	        }
 
-	    }
+	    };
 
 	    $scope.changePassView = function () {
 
@@ -505,7 +517,7 @@
 /* 11 */
 /***/ function(module, exports) {
 
-	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $ionicPlatform) {
+	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state) {
 
 	    $scope.checkadmin = function () {
 
@@ -516,13 +528,14 @@
 	                return "ng-hide";
 	            }
 	        }
-	    }
+	    };
 
 	    $scope.Disconnect = function () {
 	        $ionicLoading.show({
 	            template: 'Disconnessione in corso...'
 	        });
-	        Logout($ionicLoading);
+	        //Logout($ionicLoading,$state);
+	        $state.go('tab.link');
 	        $window.localStorage.setItem("RememberMe", "false");
 	    }
 

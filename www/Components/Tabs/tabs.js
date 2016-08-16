@@ -1,4 +1,4 @@
-var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $ionicPlatform) {
+var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state) {
 
     $scope.checkadmin = function () {
 
@@ -9,13 +9,14 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $io
                 return "ng-hide";
             }
         }
-    }
+    };
 
     $scope.Disconnect = function () {
         $ionicLoading.show({
             template: 'Disconnessione in corso...'
         });
-        Logout($ionicLoading);
+        //Logout($ionicLoading,$state);
+        $state.go('tab.link');
         $window.localStorage.setItem("RememberMe", "false");
     }
 
