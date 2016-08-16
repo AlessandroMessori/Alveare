@@ -55,6 +55,8 @@
 	var readArticleCtrl = __webpack_require__(9);
 	var signupCtrl = __webpack_require__(10);
 	var tabsCtrl = __webpack_require__(11);
+	var Messages = __webpack_require__(12);
+	var Articles = __webpack_require__(13);
 
 	var appAS = angular.module('appAS', ['ionic'])
 	appAS.controller('addArticleCtrl', addArticleCtrl);
@@ -68,7 +70,8 @@
 	appAS.controller('readArticleCtrl', readArticleCtrl);
 	appAS.controller('signupCtrl', signupCtrl);
 	appAS.controller('tabsCtrl', tabsCtrl);
-
+	appAS.service('Messages', Messages);
+	appAS.service('Articles',Articles);
 
 	appAS.run(function ($ionicPlatform) {
 	    $ionicPlatform.ready(function () {
@@ -307,16 +310,16 @@
 /* 4 */
 /***/ function(module, exports) {
 
-	var articlesCtrl = function ($scope, $state, $window) {
+	var articlesCtrl = function ($scope, $state, $window,Articles) {
 
 	    $scope.$on('$ionicView.enter', function () {
-	        if ($scope.Articles != getArticles($state, $window, "Article")) { $scope.doRefresh(); }
+	        if ($scope.Articles != Articles.getArticles($state, $window, "Article")) { $scope.doRefresh(); }
 	    });
 
-	    $scope.Articles = getArticles($state, $window, "Article");
+	    $scope.Articles = Articles.getArticles($state, $window, "Article");
 
 	    $scope.doRefresh = function () {
-	        $scope.Articles = getArticles($state, $window, "Article");
+	        $scope.Articles = Articles.getArticles($state, $window, "Article");
 	        $scope.$broadcast('scroll.refreshComplete');
 	        $scope.$apply();
 	    };
@@ -431,13 +434,13 @@
 /* 8 */
 /***/ function(module, exports) {
 
-	var forumCtrl = function ($scope, $state, $window) {
+	var forumCtrl = function ($scope, $state, $window,Messages) {
 
-	    $scope.Posts = getPosts($window, $state);
+	    $scope.Posts = Messages.getPosts($window, $state);
 
 
 	    $scope.doRefresh = function () {
-	        $scope.Posts = getPosts($window, $state);
+	        $scope.Posts = Messages.getPosts($window, $state);
 	        $scope.$broadcast('scroll.refreshComplete');
 	        $scope.$apply();
 	    };
@@ -542,6 +545,223 @@
 	};
 
 	module.exports = tabsCtrl;
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	var Messages = function () {
+
+	    this.sendPost = function (text) {
+
+	        var Message = new Parse.Object("Post");
+
+	        Message.set("text", text);
+	        Message.set("Writer", Parse.User.current().get("username"));
+	        Message.set("date", GetCurrentDate());
+
+	        Message.save(null, {
+	            success: function (Message) {
+	                alert('Post pubblicato con successo');
+	            },
+	            error: function (Message, error) {
+	                alert('Failed to create new object, with error code: ' + error.message);
+	            }
+	        });
+	    };
+
+	    this.getPosts = function (win, state) {
+
+	        var Message = new Parse.Object("Post");
+	        var posts = [];
+	        var query = new Parse.Query(Message);
+	        query.find().then(
+	            function (results) {
+
+	                for (var i = 0; i < results.length; i++) {
+	                    posts[results.length - 1 - i] = {
+	                        name: results[i].get("Writer"),
+	                        text: results[i].get('text'),
+	                        date: results[i].get('date'),
+	                        objectId: results[i].id,
+	                        //commentsCount : GetCommentsCount(results[i].id),
+	                        link: function () {
+	                            win.localStorage.setItem("currentPost", this.objectId);
+	                            state.go("tab.comments");
+	                        }
+	                    };
+
+	                }
+
+	            }
+	        );
+
+	        return posts;
+	    };
+
+	};
+
+	module.exports = Messages;
+
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+	var Articles = function () {
+
+	    this.sendArticle = function (title, author, text, img, type) {
+
+	        var Article = new Parse.Object(type);
+
+	        Article.set("title", title);
+	        Article.set("author", author);
+	        Article.set("text", text);
+	        Article.set("date", GetCurrentDate());
+
+	        var img_file = new Parse.File("Copertina", {base64: img});
+
+	        img_file.save().then(function () {
+	            var el = document.createElement("p2");
+	            el.innerHTML = "Foto Caricata!";
+
+	        }, function (error) {
+	            alert("errore nel salvataggio della foto");
+
+	        });
+
+	        Article.set("img", img_file);
+
+	        Article.save(null, {
+	            success: function (Article) {
+	                alert('Articolo pubblicato con successo');
+	            },
+	            error: function (Article, error) {
+
+	                alert('Failed to create new object, with error code: ' + error.message);
+	            }
+	        });
+
+	    };
+
+	    this.getArticles = function (state, win, type) {
+
+	        var Article = new Parse.Object(type);
+	        var posts = [];
+	        var query = new Parse.Query(Article);
+	        query.find({
+	            success: function (results) {
+
+	                for (var i = 0; i < results.length; i++) {
+
+	                    var date = "Giorno: " + results[i].createdAt.getDay() + " Mese: " + results[i].createdAt.getMonth() + " Anno: " + results[i].createdAt.getYear();
+
+	                    posts[results.length - 1 - i] = {
+	                        title: results[i].get("title"),
+	                        author: results[i].get("author"),
+	                        text: results[i].get('text'),
+	                        img: results[i].get("img").url(),
+	                        date: results[i].get("date"),
+	                        id: results[i].id,
+	                        link: function () {
+
+	                            win.localStorage.setItem("title", this.title);
+	                            win.localStorage.setItem("text", this.text);
+	                            win.localStorage.setItem("author", this.author);
+	                            win.localStorage.setItem("img", this.img);
+	                            win.localStorage.setItem("date", this.date);
+	                            win.localStorage.setItem("currentPost", this.id);
+	                            state.go("tab.article");
+
+	                        }
+
+
+	                    };
+	                }
+	            },
+	            error: function (error) {
+	                //document.createElement("p").innerHTML="tira e rilascia per aggiornare";
+	                console.log("Niente Connessione");
+	                return;
+	            }
+	        });
+
+	        return posts;
+	    };
+
+	    this.GetCurrentDate = function () {
+
+	        var today = new Date();
+	        var dd = today.getDate();
+	        var mm = today.getMonth() + 1; //January is 0!
+
+
+	        if (dd < 10) {
+	            dd = '0' + dd
+	        }
+
+	        switch (mm) {
+	            case 1:
+	                mm = "Gennaio";
+	                break;
+	            case 2:
+	                mm = "Febbraio";
+	                break;
+	            case 3:
+	                mm = "Marzo";
+	                break;
+	            case 4:
+	                mm = "Aprile";
+	                break
+	            case 5:
+	                mm = "Maggio";
+	                break;
+	            case 6:
+	                mm = "Giugno";
+	                break;
+	            case 7:
+	                mm = "Luglio";
+	                break;
+	            case 8:
+	                mm = "Agosto";
+	                break;
+	            case 9:
+	                mm = "Settembre";
+	                break;
+	            case 10:
+	                mm = "Ottobre";
+	                break;
+	            case 11:
+	                mm = "Novembre";
+	                break;
+	            case 12:
+	                mm = "Dicembre";
+	                break;
+
+	        }
+
+	        today = dd + ' ' + mm;
+
+	        return today;
+	    };
+
+	    this.GetFullDate = function () {
+
+	        var date = new Date();
+	        var Hour = date.getHours();
+	        var Minutes = date.getMinutes();
+
+	        if (Minutes < 10) {
+	            Minutes = "0" + Minutes;
+	        }
+
+	        return GetCurrentDate() + " alle " + Hour + ":" + Minutes;
+	    }
+
+	};
+
+	module.exports = Articles;
 
 /***/ }
 /******/ ]);

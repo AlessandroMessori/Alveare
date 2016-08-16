@@ -9,6 +9,8 @@ var newsCtrl = require('./NewsPage/newsCtrl');
 var readArticleCtrl = require('./ReadArticlePage/readArticle');
 var signupCtrl = require('./SignupPage/signup');
 var tabsCtrl = require('./Tabs/tabs');
+var Messages = require('../Services/Messages');
+var Articles = require('../Services/Articles');
 
 var appAS = angular.module('appAS', ['ionic'])
 appAS.controller('addArticleCtrl', addArticleCtrl);
@@ -22,7 +24,8 @@ appAS.controller('newsCtrl', newsCtrl);
 appAS.controller('readArticleCtrl', readArticleCtrl);
 appAS.controller('signupCtrl', signupCtrl);
 appAS.controller('tabsCtrl', tabsCtrl);
-
+appAS.service('Messages', Messages);
+appAS.service('Articles',Articles);
 
 appAS.run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
