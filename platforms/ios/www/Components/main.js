@@ -1,4 +1,16 @@
-angular.module('starter', ['ionic', 'starter.controllers'])
+var addArticleCtrl = require('./AddArticlePage/addArticle');
+var addNewsCtrl = require('./AddNewsPage/addNews');
+var adminCtrl = require('./AdminPage/admin');
+var articlesCtrl = require('./ArticlesPage/articles');
+var commentsCtrl = require('./CommentsPage/comments');
+var linkCtrl = require('./LinkPage/link');
+var loginCtrl = require('./LoginPage/login');
+var newsCtrl = require('./NewsPage/newsCtrl');
+var readArticleCtrl = require('./ReadArticlePage/readArticle');
+var signupCtrl = require('./SignupPage/signup');
+var TabsCtrl = require('./Tabs/tabs');
+
+angular.module('appAS', ['ionic', 'appAS.controllers'])
 
     .run(function ($ionicPlatform) {
         $ionicPlatform.ready(function () {
@@ -7,11 +19,11 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
             }
 
-          if (device.name == "ios") {
-            $ionicPlatform.ready(function() {
-              ionic.Platform.fullScreen();
-            });
-          }
+            if (device.name == "ios") {
+                $ionicPlatform.ready(function () {
+                    ionic.Platform.fullScreen();
+                });
+            }
 
         });
     })
@@ -25,19 +37,17 @@ angular.module('starter', ['ionic', 'starter.controllers'])
             .state('tab', {
                 url: "/tab",
                 abstract: true,
-                templateUrl: "templates/tabs.html",
-                controller: "TabsCtrl"
-
+                templateUrl: "Components/Tabs/tabs.html",
+                controller: 'TabsCtrl'
             })
 
-        // Each tab has its own nav history stack:
 
             .state('tab.home', {
                 url: '/home',
                 views: {
                     'tab-home': {
-                        templateUrl: 'templates/tab-home.html',
-                        controller: 'homeCtrl'
+                        templateUrl: 'Components/AdminPage/tab-home.html',
+                        controller: 'adminCtrl'
                     }
                 }
             })
@@ -46,8 +56,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 url: '/giornalino',
                 views: {
                     'tab-giornalino': {
-                        templateUrl: 'templates/tab-giornalino.html',
-                        controller: 'giornalinoCtrl'
+                        templateUrl: 'Components/ArticlesPage/tab-giornalino.html',
+                        controller: 'articlesCtrl'
                     }
                 },
                 params: {
@@ -60,8 +70,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 url: '/orientamento',
                 views: {
                     'tab-orientamento': {
-                        templateUrl: 'templates/tab-orientamento.html',
-                        controller: 'orientamentoCtrl'
+                        templateUrl: 'Components/ArticlesPage/tab-giornalino.html',
+                        controller: 'articlesCtrl'
                     }
                 }
             })
@@ -70,8 +80,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 url: '/forum',
                 views: {
                     'tabs-forum': {
-                        templateUrl: 'templates/tabs-forum.html',
-                        controller: 'forumCtrl'
+                        templateUrl: 'Components/NewsPage/tabs-forum.html',
+                        controller: 'newsCtrl'
                     }
                 }
             })
@@ -80,7 +90,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 url: '/link',
                 views: {
                     'tabs-link': {
-                        templateUrl: 'templates/tab-link.html',
+                        templateUrl: 'Components/LinkPage/tab-link.html',
                         controller: 'linkCtrl'
                     }
                 }
@@ -90,8 +100,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 url: '/add_article',
                 views: {
                     'tab-add_article': {
-                        templateUrl: 'templates/tab-add_article.html',
-                        controller: "add_articleCtrl"
+                        templateUrl: 'Components/AddArticlePage/tab-addArticle.html',
+                        controller: 'addArticleCtrl'
 
                     }
                 }
@@ -101,8 +111,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 url: '/send_message',
                 views: {
                     'tab-send_message': {
-                        templateUrl: 'templates/tab-send_message.html',
-                        controller: "send_messageCtrl"
+                        templateUrl: 'Components/AddNewsPage/tab-send_message.html',
+                        controller: 'addNewsCtrl'
 
                     }
                 }
@@ -112,8 +122,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 url: '/article',
                 views: {
                     'tab-article': {
-                        templateUrl: 'templates/tab-article.html',
-                        controller: "articleCtrl"
+                        templateUrl: 'Components/ReadArticlePage/tab-article.html',
+                        controller: 'readArticleCtrl'
 
                     }
                 }
@@ -123,15 +133,14 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 url: '/comments',
                 views: {
                     'tab-comments': {
-                        templateUrl: 'templates/tab-comments.html',
-                        controller: "commentsCtrl"
-
+                        templateUrl: 'Components/CommentsPage/tab-comments.html',
+                        controller: 'commentsCtrl'
                     }
                 }
             });
 
 
 
-        $urlRouterProvider.otherwise('/tab/forum');
+        $urlRouterProvider.otherwise('/tab/link');
 
     });

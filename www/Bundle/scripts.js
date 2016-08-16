@@ -54,151 +54,159 @@
 	var newsCtrl = __webpack_require__(8);
 	var readArticleCtrl = __webpack_require__(9);
 	var signupCtrl = __webpack_require__(10);
-	var TabsCtrl = __webpack_require__(11);
+	var tabsCtrl = __webpack_require__(11);
 
-	angular.module('appAS', ['ionic', 'appAS.controllers'])
+	var appAS = angular.module('appAS', ['ionic'])
+	appAS.controller('addArticleCtrl', addArticleCtrl);
+	appAS.controller('addNewsCtrl', addNewsCtrl);
+	appAS.controller('adminCtrl', adminCtrl);
+	appAS.controller('articlesCtrl', articlesCtrl);
+	appAS.controller('commentsCtrl', commentsCtrl);
+	appAS.controller('linkCtrl', linkCtrl);
+	appAS.controller('loginCtrl', loginCtrl);
+	appAS.controller('newsCtrl', newsCtrl);
+	appAS.controller('readArticleCtrl', readArticleCtrl);
+	appAS.controller('signupCtrl', signupCtrl);
+	appAS.controller('tabsCtrl', tabsCtrl);
 
-	    .run(function ($ionicPlatform) {
-	        $ionicPlatform.ready(function () {
 
-	            if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-	                cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-	            }
+	appAS.run(function ($ionicPlatform) {
+	    $ionicPlatform.ready(function () {
 
-	          if (device.name == "ios") {
-	            $ionicPlatform.ready(function() {
-	              ionic.Platform.fullScreen();
+	        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+	            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+	        }
+
+	        if (device.name == "ios") {
+	            $ionicPlatform.ready(function () {
+	                ionic.Platform.fullScreen();
 	            });
-	          }
-
-	        });
-	    })
-
-	    .config(function ($stateProvider, $urlRouterProvider) {
-
-
-	        $stateProvider
-
-
-	            .state('tab', {
-	                url: "/tab",
-	                abstract: true,
-	                templateUrl: "Components/Tabs/tabs.html",
-	                controller: TabsCtrl
-	            })
-
-
-	            .state('tab.home', {
-	                url: '/home',
-	                views: {
-	                    'tab-home': {
-	                        templateUrl: 'Components/AdminPage/tab-home.html',
-	                        controller: adminCtrl
-	                    }
-	                }
-	            })
-
-	            .state('tab.giornalino', {
-	                url: '/giornalino',
-	                views: {
-	                    'tab-giornalino': {
-	                        templateUrl: 'Components/ArticlesPage/tab-giornalino.html',
-	                        controller: articlesCtrl
-	                    }
-	                },
-	                params: {
-	                    post: null
-	                }
-	            })
-
-
-	            .state('tab.orientamento', {
-	                url: '/orientamento',
-	                views: {
-	                    'tab-orientamento': {
-	                        templateUrl: 'Components/ArticlesPage/tab-giornalino.html',
-	                        controller: articlesCtrl
-	                    }
-	                }
-	            })
-
-	            .state('tab.forum', {
-	                url: '/forum',
-	                views: {
-	                    'tabs-forum': {
-	                        templateUrl: 'Components/NewsPage/tabs-forum.html',
-	                        controller: newsCtrl
-	                    }
-	                }
-	            })
-
-	            .state('tab.link', {
-	                url: '/link',
-	                views: {
-	                    'tabs-link': {
-	                        templateUrl: 'Components/LinkPage/tab-link.html',
-	                        controller: linkCtrl
-	                    }
-	                }
-	            })
-
-	            .state('tab.add_article', {
-	                url: '/add_article',
-	                views: {
-	                    'tab-add_article': {
-	                        templateUrl: 'Components/AddArticlePage/tab-addArticle.html',
-	                        controller: addArticleCtrl
-
-	                    }
-	                }
-	            })
-
-	            .state('tab.send_message', {
-	                url: '/send_message',
-	                views: {
-	                    'tab-send_message': {
-	                        templateUrl: 'Components/AddNewsPage/tab-send_message.html',
-	                        controller: addNewsCtrl
-
-	                    }
-	                }
-	            })
-
-	            .state('tab.article', {
-	                url: '/article',
-	                views: {
-	                    'tab-article': {
-	                        templateUrl: 'Components/ReadArticlePage/tab-article.html',
-	                        controller: readArticleCtrl
-
-	                    }
-	                }
-	            })
-
-	            .state('tab.comments', {
-	                url: '/comments',
-	                views: {
-	                    'tab-comments': {
-	                        templateUrl: 'Components/CommentsPage/tab-comments.html',
-	                        controller: commentsCtrl
-
-	                    }
-	                }
-	            });
-
-
-
-	        $urlRouterProvider.otherwise('/tab/link');
+	        }
 
 	    });
+	});
+
+	appAS.config(function ($stateProvider, $urlRouterProvider) {
+	    $stateProvider
+
+
+	        .state('tab', {
+	            url: "/tab",
+	            abstract: true,
+	            templateUrl: "Components/Tabs/tabs.html",
+	            controller: 'tabsCtrl'
+	        })
+
+
+	        .state('tab.admin', {
+	            url: '/admin',
+	            views: {
+	                'tab-admin': {
+	                    templateUrl: 'Components/AdminPage/tab-home.html',
+	                    controller: 'adminCtrl'
+	                }
+	            }
+	        })
+
+	        .state('tab.giornalino', {
+	            url: '/giornalino',
+	            views: {
+	                'tab-giornalino': {
+	                    templateUrl: 'Components/ArticlesPage/tab-giornalino.html',
+	                    controller: 'articlesCtrl'
+	                }
+	            },
+	            params: {
+	                post: null
+	            }
+	        })
+
+
+	        .state('tab.orientamento', {
+	            url: '/orientamento',
+	            views: {
+	                'tab-orientamento': {
+	                    templateUrl: 'Components/ArticlesPage/tab-giornalino.html',
+	                    controller: 'articlesCtrl'
+	                }
+	            }
+	        })
+
+	        .state('tab.forum', {
+	            url: '/forum',
+	            views: {
+	                'tabs-forum': {
+	                    templateUrl: 'Components/NewsPage/tabs-forum.html',
+	                    controller: 'newsCtrl'
+	                }
+	            }
+	        })
+
+	        .state('tab.link', {
+	            url: '/link',
+	            views: {
+	                'tabs-link': {
+	                    templateUrl: 'Components/LinkPage/tab-link.html',
+	                    controller: 'linkCtrl'
+	                }
+	            }
+	        })
+
+	        .state('tab.add_article', {
+	            url: '/add_article',
+	            views: {
+	                'tab-add_article': {
+	                    templateUrl: 'Components/AddArticlePage/tab-addArticle.html',
+	                    controller: 'addArticleCtrl'
+
+	                }
+	            }
+	        })
+
+	        .state('tab.send_message', {
+	            url: '/send_message',
+	            views: {
+	                'tab-send_message': {
+	                    templateUrl: 'Components/AddNewsPage/tab-send_message.html',
+	                    controller: 'addNewsCtrl'
+
+	                }
+	            }
+	        })
+
+	        .state('tab.article', {
+	            url: '/article',
+	            views: {
+	                'tab-article': {
+	                    templateUrl: 'Components/ReadArticlePage/tab-article.html',
+	                    controller: 'readArticleCtrl'
+
+	                }
+	            }
+	        })
+
+	        .state('tab.comments', {
+	            url: '/comments',
+	            views: {
+	                'tab-comments': {
+	                    templateUrl: 'Components/CommentsPage/tab-comments.html',
+	                    controller: 'commentsCtrl'
+	                }
+	            }
+	        });
+
+
+
+	    $urlRouterProvider.otherwise('/tab/link');
+
+	});
 
 
 /***/ },
 /* 1 */
 /***/ function(module, exports) {
 
-	var mod = angular.module('appAS.controllers', ['ionic'])
-	var addArticleCtrl = mod.controller('addArticleCtrl', function ($scope, $window) {
+	var addArticleCtrl = function ($scope, $window) {
 
 	    $('#img-preview').hide();
 
@@ -227,7 +235,7 @@
 	        $("#texttxt").val("");
 	    }
 
-	});
+	};
 
 	module.exports = addArticleCtrl;
 
@@ -237,14 +245,12 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	var mod = angular.module('appAS.controllers', ['ionic'])
-	var addNewsCtrl = mod.controller('addNewsCtrl', function ($scope) {
+	var addNewsCtrl = function ($scope) {
 	    $scope.test = function () {
 	        sendpost($("#messagetxt").val());
 	        $("#messagetxt").val("");
 	    };
-
-	})
+	};
 
 	module.exports = addNewsCtrl;
 
@@ -252,47 +258,45 @@
 /* 3 */
 /***/ function(module, exports) {
 
-	var mod= angular.module('appAS.controllers', ['ionic'])
-	var adminCtrl = mod.controller('adminCtrl', function ($scope, $state, $window) {
+	var adminCtrl = function ($scope, $state, $window) {
 
-	        $scope.title = "Sezione Amministratori ";
+	    $scope.title = "Sezione Amministratori ";
 
-	        $scope.Links = [
-	            {
-	                "name": "Scrivi Avviso",
-	                "url": "tab.send_message",
-	                "direct": function () {
-	                    $state.go(this.url);
-	                },
+	    $scope.Links = [
+	        {
+	            "name": "Scrivi Avviso",
+	            "url": "tab.send_message",
+	            "direct": function () {
+	                $state.go(this.url);
 	            },
-	            {
-	                "name": "Scrivi Articolo d'attualità",
-	                "url": "tab.add_article",
-	                "direct": function () {
-	                    $state.go(this.url);
-	                    $window.localStorage.setItem("contentType", "Article");
-	                },
+	        },
+	        {
+	            "name": "Scrivi Articolo d'attualità",
+	            "url": "tab.add_article",
+	            "direct": function () {
+	                $state.go(this.url);
+	                $window.localStorage.setItem("contentType", "Article");
 	            },
-	            {
-	                "name": "Scrivi Articolo d'orientamento",
-	                "url": "tab.add_article",
-	                "direct": function () {
-	                    $state.go(this.url);
-	                    $window.localStorage.setItem("contentType", "Orientamento");
-	                },
+	        },
+	        {
+	            "name": "Scrivi Articolo d'orientamento",
+	            "url": "tab.add_article",
+	            "direct": function () {
+	                $state.go(this.url);
+	                $window.localStorage.setItem("contentType", "Orientamento");
 	            },
-	        ];
+	        },
+	    ];
 
-	    });
+	};
 
-	    module.exports = adminCtrl;
+	module.exports = adminCtrl;
 
 /***/ },
 /* 4 */
 /***/ function(module, exports) {
 
-	var mod = angular.module('appAS.controllers', ['ionic'])
-	var articlesCtrl = mod.controller('articlesCtrl', function ($scope, $state, $window) {
+	var articlesCtrl = function ($scope, $state, $window) {
 
 	    $scope.$on('$ionicView.enter', function () {
 	        if ($scope.Articles != getArticles($state, $window, "Article")) { $scope.doRefresh(); }
@@ -306,7 +310,7 @@
 	        $scope.$apply();
 	    };
 
-	});
+	};
 
 	module.exports = articlesCtrl;
 
@@ -314,8 +318,7 @@
 /* 5 */
 /***/ function(module, exports) {
 
-	var mod = angular.module('appAS.controllers', ['ionic'])
-	var commentsCtrl = mod.controller('commentsCtrl', function ($scope, $window) {
+	var commentsCtrl = function ($scope, $window) {
 	    $scope.send = function () {
 	        sendComment($("#commenttxt").val(), $window.localStorage.getItem("currentPost"));
 	        $("#commenttxt").val("");
@@ -334,7 +337,7 @@
 	        $scope.$apply();
 	    };
 
-	})
+	};
 
 	module.exports = commentsCtrl;
 
@@ -342,8 +345,7 @@
 /* 6 */
 /***/ function(module, exports) {
 
-	var mod = angular.module('appAS.controllers', ['ionic'])
-	var linkCtrl = mod.controller('linkCtrl', function ($scope, $window) {
+	var linkCtrl = function ($scope, $window) {
 
 	    $scope.OpenLink = function (url) {
 	        cordova.InAppBrowser.open(url, '_system', 'location=yes');
@@ -367,7 +369,7 @@
 	        },
 	    ];
 
-	});
+	};
 
 	module.exports = linkCtrl;
 
@@ -375,51 +377,49 @@
 /* 7 */
 /***/ function(module, exports) {
 
-	var mod = angular.module('appAS', ['ionic'])
-	var loginCtrl = mod.controller('loginCtrl', function ($scope, $ionicLoading, $window) {
+	var loginCtrl = function ($scope, $ionicLoading, $window) {
 
-	        $scope.UserLogin = function () {
-	            $ionicLoading.show({
-	                template: 'Accesso in Corso...'
-	            });
-	            Login($scope.username, $scope.password, $ionicLoading);
-	            $scope.SetRememberMe();
-	        };
+	    $scope.UserLogin = function () {
+	        $ionicLoading.show({
+	            template: 'Accesso in Corso...'
+	        });
+	        Login($scope.username, $scope.password, $ionicLoading);
+	        $scope.SetRememberMe();
+	    };
 
-	        $scope.SetRememberMe = function () {
+	    $scope.SetRememberMe = function () {
 
-	            if ($scope.RememberMe) {
-	                $window.localStorage.setItem("RememberMe", "true");
-	            }
-
-	        }
-	        $scope.CheckRememberMe = function () {
-
-	            if ($window.localStorage.getItem("RememberMe") == "true") {
-	                document.location.href = "index.html";
-	            }
-
+	        if ($scope.RememberMe) {
+	            $window.localStorage.setItem("RememberMe", "true");
 	        }
 
-	        $scope.changePassView = function () {
+	    }
+	    $scope.CheckRememberMe = function () {
 
-	            if ($scope.ShowPass)
-	                $("#passtxt").attr("type", "text");
-	            else {
-	                $("#passtxt").attr("type", "password")
-	            }
+	        if ($window.localStorage.getItem("RememberMe") == "true") {
+	            document.location.href = "index.html";
 	        }
 
-	    });
+	    }
 
-	    module.exports = loginCtrl;
+	    $scope.changePassView = function () {
+
+	        if ($scope.ShowPass)
+	            $("#passtxt").attr("type", "text");
+	        else {
+	            $("#passtxt").attr("type", "password")
+	        }
+	    }
+
+	};
+
+	module.exports = loginCtrl;
 
 /***/ },
 /* 8 */
 /***/ function(module, exports) {
 
-	var mod = angular.module('appAS.controllers', ['ionic'])
-	var forumCtrl = mod.controller('forumCtrl', function ($scope, $state, $window) {
+	var forumCtrl = function ($scope, $state, $window) {
 
 	    $scope.Posts = getPosts($window, $state);
 
@@ -430,7 +430,7 @@
 	        $scope.$apply();
 	    };
 
-	});
+	};
 
 	module.exports = forumCtrl;
 
@@ -438,38 +438,37 @@
 /* 9 */
 /***/ function(module, exports) {
 
-	var mod = angular.module('appAS.controllers', ['ionic'])
-	var articleCtrl = mod.controller('articleCtrl', function($scope,$stateParams,$state,$window,$ionicModal) {
+	var articleCtrl = function ($scope, $stateParams, $state, $window, $ionicModal) {
 
-	    $scope.$on('$ionicView.enter',function(e){
+	  $scope.$on('$ionicView.enter', function (e) {
 
-	     $scope.title = $window.localStorage.getItem("title");
-	     $scope.text = $window.localStorage.getItem("text");
-	     $scope.img = $window.localStorage.getItem("img");
-	     $scope.date = $window.localStorage.getItem("date");
+	    $scope.title = $window.localStorage.getItem("title");
+	    $scope.text = $window.localStorage.getItem("text");
+	    $scope.img = $window.localStorage.getItem("img");
+	    $scope.date = $window.localStorage.getItem("date");
 
-	    });
+	  });
 
-	    $ionicModal.fromTemplateUrl('image-modal.html', {
-	         scope: $scope,
-	         animation: 'slide-in-up'
-	       }).then(function(modal) {
-	         $scope.modal = modal;
-	       });
+	  $ionicModal.fromTemplateUrl('image-modal.html', {
+	    scope: $scope,
+	    animation: 'slide-in-up'
+	  }).then(function (modal) {
+	    $scope.modal = modal;
+	  });
 
-	       $scope.openModal = function() {
-	         $scope.modal.show();
-	       };
+	  $scope.openModal = function () {
+	    $scope.modal.show();
+	  };
 
-	       $scope.closeModal = function() {
-	         $scope.modal.hide();
-	       };
+	  $scope.closeModal = function () {
+	    $scope.modal.hide();
+	  };
 
-	       $scope.$on('$destroy', function() {
-	         $scope.modal.remove();
-	       });
+	  $scope.$on('$destroy', function () {
+	    $scope.modal.remove();
+	  });
 
-	});
+	};
 
 	module.exports = articleCtrl;
 
@@ -477,8 +476,7 @@
 /* 10 */
 /***/ function(module, exports) {
 
-	var mod = angular.module('appAS', ['ionic'])
-	var signupCtrl = mod.controller('signupCtrl', function ($scope, $ionicLoading, $location) {
+	var signupCtrl = function ($scope, $ionicLoading, $location) {
 
 	    $scope.UserSignup = function () {
 	        $ionicLoading.show({
@@ -499,7 +497,7 @@
 	            $("#passtxt").attr("type", "password")
 	        }
 	    }
-	});
+	};
 
 	module.exports = signupCtrl;
 
@@ -507,8 +505,7 @@
 /* 11 */
 /***/ function(module, exports) {
 
-	var mod = angular.module('appAS', ['ionic'])
-	var tabsCtrl = mod.controller('tabsCtrl', function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $ionicPlatform) {
+	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $ionicPlatform) {
 
 	    $scope.checkadmin = function () {
 
@@ -529,7 +526,7 @@
 	        $window.localStorage.setItem("RememberMe", "false");
 	    }
 
-	});
+	};
 
 	module.exports = tabsCtrl;
 

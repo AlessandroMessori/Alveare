@@ -1,4 +1,5 @@
-var linkCtrl = function ($scope, $window) {
+var mod = angular.module('appAS.controllers', ['ionic'])
+var linkCtrl = mod.controller('linkCtrl', function ($scope, $window) {
 
     $scope.OpenLink = function (url) {
         cordova.InAppBrowser.open(url, '_system', 'location=yes');
@@ -22,6 +23,6 @@ var linkCtrl = function ($scope, $window) {
         },
     ];
 
-};
+});
 
 module.exports = linkCtrl;

@@ -1,4 +1,5 @@
-var addArticleCtrl = function ($scope, $window) {
+var mod = angular.module('appAS.controllers', ['ionic'])
+var addArticleCtrl = mod.controller('addArticleCtrl', function ($scope, $window) {
 
     $('#img-preview').hide();
 
@@ -27,7 +28,7 @@ var addArticleCtrl = function ($scope, $window) {
         $("#texttxt").val("");
     }
 
-};
+});
 
 module.exports = addArticleCtrl;
 

@@ -1,4 +1,5 @@
-var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $ionicPlatform) {
+var mod = angular.module('appAS', ['ionic'])
+var tabsCtrl = mod.controller('tabsCtrl', function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $ionicPlatform) {
 
     $scope.checkadmin = function () {
 
@@ -19,6 +20,6 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $io
         $window.localStorage.setItem("RememberMe", "false");
     }
 
-};
+});
 
 module.exports = tabsCtrl;

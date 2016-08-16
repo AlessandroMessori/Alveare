@@ -1,34 +1,33 @@
-var mod= angular.module('appAS.controllers', ['ionic'])
-var adminCtrl = mod.controller('adminCtrl', function ($scope, $state, $window) {
+var adminCtrl = function ($scope, $state, $window) {
 
-        $scope.title = "Sezione Amministratori ";
+    $scope.title = "Sezione Amministratori ";
 
-        $scope.Links = [
-            {
-                "name": "Scrivi Avviso",
-                "url": "tab.send_message",
-                "direct": function () {
-                    $state.go(this.url);
-                },
+    $scope.Links = [
+        {
+            "name": "Scrivi Avviso",
+            "url": "tab.send_message",
+            "direct": function () {
+                $state.go(this.url);
             },
-            {
-                "name": "Scrivi Articolo d'attualità",
-                "url": "tab.add_article",
-                "direct": function () {
-                    $state.go(this.url);
-                    $window.localStorage.setItem("contentType", "Article");
-                },
+        },
+        {
+            "name": "Scrivi Articolo d'attualità",
+            "url": "tab.add_article",
+            "direct": function () {
+                $state.go(this.url);
+                $window.localStorage.setItem("contentType", "Article");
             },
-            {
-                "name": "Scrivi Articolo d'orientamento",
-                "url": "tab.add_article",
-                "direct": function () {
-                    $state.go(this.url);
-                    $window.localStorage.setItem("contentType", "Orientamento");
-                },
+        },
+        {
+            "name": "Scrivi Articolo d'orientamento",
+            "url": "tab.add_article",
+            "direct": function () {
+                $state.go(this.url);
+                $window.localStorage.setItem("contentType", "Orientamento");
             },
-        ];
+        },
+    ];
 
-    });
+};
 
-    module.exports = adminCtrl;
+module.exports = adminCtrl;

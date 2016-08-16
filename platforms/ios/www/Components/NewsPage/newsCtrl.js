@@ -1,4 +1,5 @@
-var forumCtrl = function ($scope, $state, $window) {
+var mod = angular.module('appAS.controllers', ['ionic'])
+var forumCtrl = mod.controller('forumCtrl', function ($scope, $state, $window) {
 
     $scope.Posts = getPosts($window, $state);
 
@@ -9,6 +10,6 @@ var forumCtrl = function ($scope, $state, $window) {
         $scope.$apply();
     };
 
-};
+});
 
 module.exports = forumCtrl;

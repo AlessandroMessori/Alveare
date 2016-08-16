@@ -1,49 +1,34 @@
-var addArticleCtrl = require('./AddArticlePage/addArticle');
-var addNewsCtrl = require('./AddNewsPage/addNews');
-var adminCtrl = require('./AdminPage/admin');
-var articlesCtrl = require('./ArticlesPage/articles');
-var commentsCtrl = require('./CommentsPage/comments');
-var linkCtrl = require('./LinkPage/link');
-var loginCtrl = require('./LoginPage/login');
-var newsCtrl = require('./NewsPage/newsCtrl');
-var readArticleCtrl = require('./ReadArticlePage/readArticle');
-var signupCtrl = require('./SignupPage/signup');
-var tabsCtrl = require('./Tabs/tabs');
+var addArticleCtrl = require('../Components/AddArticlePage/addArticle');
+var addNewsCtrl = require('../Components/AddNewsPage/addNews');
+var adminCtrl = require('../Components/AdminPage/admin');
+var articlesCtrl = require('../Components/ArticlesPage/articles');
+var commentsCtrl = require('../Components/CommentsPage/comments');
+var linkCtrl = require('../Components/LinkPage/link');
+var loginCtrl = require('../Components/LoginPage/login');
+var newsCtrl = require('../Components/NewsPage/newsCtrl');
+var readArticleCtrl = require('../Components/ReadArticlePage/readArticle');
+var signupCtrl = require('../Components/SignupPage/signup');
+var tabsCtrl = require('../Components/Tabs/tabs');
 
-var appAS = angular.module('appAS', ['ionic'])
-appAS.controller('addArticleCtrl', addArticleCtrl);
-appAS.controller('addNewsCtrl', addNewsCtrl);
-appAS.controller('adminCtrl', adminCtrl);
-appAS.controller('articlesCtrl', articlesCtrl);
-appAS.controller('commentsCtrl', commentsCtrl);
-appAS.controller('linkCtrl', linkCtrl);
-appAS.controller('loginCtrl', loginCtrl);
-appAS.controller('newsCtrl', newsCtrl);
-appAS.controller('readArticleCtrl', readArticleCtrl);
-appAS.controller('signupCtrl', signupCtrl);
-appAS.controller('tabsCtrl', tabsCtrl);
+function declareControllers() {
+    angular.module('appAS',['ionic']).controller('addArticleCtrl', addArticleCtrl);
+    angular.module('appAS',['ionic']).controller('addNewsCtrl', addNewsCtrl);
+    angular.module('appAS',['ionic']).controller('adminCtrl', adminCtrl);
+    angular.module('appAS',['ionic']).controller('articlesCtrl', articlesCtrl);
+    angular.module('appAS',['ionic']).controller('commentsCtrl', commentsCtrl);
+    angular.module('appAS',['ionic']).controller('linkCtrl', linkCtrl);
+    angular.module('appAS',['ionic']).controller('loginCtrl', loginCtrl);
+    angular.module('appAS',['ionic']).controller('newsCtrl', newsCtrl);
+    angular.module('appAS',['ionic']).controller('readArticleCtrl', readArticleCtrl);
+    angular.module('appAS',['ionic']).controller('signupCtrl', signupCtrl);
+    angular.module('appAS',['ionic']).controller('tabsCtrl', tabsCtrl);
+}
 
+function handleRoutes($stateProvider, $urlRouterProvider) {
 
-appAS.run(function ($ionicPlatform) {
-    $ionicPlatform.ready(function () {
-
-        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-        }
-
-        if (device.name == "ios") {
-            $ionicPlatform.ready(function () {
-                ionic.Platform.fullScreen();
-            });
-        }
-
-    });
-});
-
-appAS.config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
-
-
+    
+    
         .state('tab', {
             url: "/tab",
             abstract: true,
@@ -51,16 +36,6 @@ appAS.config(function ($stateProvider, $urlRouterProvider) {
             controller: 'tabsCtrl'
         })
 
-
-        .state('tab.admin', {
-            url: '/admin',
-            views: {
-                'tab-admin': {
-                    templateUrl: 'Components/AdminPage/tab-home.html',
-                    controller: 'adminCtrl'
-                }
-            }
-        })
 
         .state('tab.giornalino', {
             url: '/giornalino',
@@ -153,4 +128,11 @@ appAS.config(function ($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise('/tab/link');
 
-});
+}
+
+var initService = {
+    declareControllers: declareControllers,
+    handleRoutes: handleRoutes
+};
+
+module.exports = initService;

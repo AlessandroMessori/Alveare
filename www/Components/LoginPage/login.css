@@ -1,5 +1,4 @@
 body{
-
   text-align: center;
 }
 
@@ -20,7 +19,6 @@ margin-top: 5%;
 }
 
 #checkboxrow{
-
   margin-top: 2%;
   text-align: left;
 }
@@ -32,6 +30,4 @@ margin-top: 5%;
   text-align: center;
   margin-top: 12%;
 }
-.bar{
-  max-height: : 10px;
-}
+

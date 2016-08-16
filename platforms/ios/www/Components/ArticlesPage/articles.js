@@ -1,4 +1,5 @@
-var articlesCtrl = function ($scope, $state, $window) {
+var mod = angular.module('appAS.controllers', ['ionic'])
+var articlesCtrl = mod.controller('articlesCtrl', function ($scope, $state, $window) {
 
     $scope.$on('$ionicView.enter', function () {
         if ($scope.Articles != getArticles($state, $window, "Article")) { $scope.doRefresh(); }
@@ -12,6 +13,6 @@ var articlesCtrl = function ($scope, $state, $window) {
         $scope.$apply();
     };
 
-};
+});
 
 module.exports = articlesCtrl;

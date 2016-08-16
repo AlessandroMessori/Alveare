@@ -1,4 +1,5 @@
-var commentsCtrl = function ($scope, $window) {
+var mod = angular.module('appAS.controllers', ['ionic'])
+var commentsCtrl = mod.controller('commentsCtrl', function ($scope, $window) {
     $scope.send = function () {
         sendComment($("#commenttxt").val(), $window.localStorage.getItem("currentPost"));
         $("#commenttxt").val("");
@@ -17,6 +18,6 @@ var commentsCtrl = function ($scope, $window) {
         $scope.$apply();
     };
 
-};
+})
 
 module.exports = commentsCtrl;

@@ -1,4 +1,5 @@
-var signupCtrl = function ($scope, $ionicLoading, $location) {
+var mod = angular.module('appAS', ['ionic'])
+var signupCtrl = mod.controller('signupCtrl', function ($scope, $ionicLoading, $location) {
 
     $scope.UserSignup = function () {
         $ionicLoading.show({
@@ -19,6 +20,6 @@ var signupCtrl = function ($scope, $ionicLoading, $location) {
             $("#passtxt").attr("type", "password")
         }
     }
-};
+});
 
 module.exports = signupCtrl;
