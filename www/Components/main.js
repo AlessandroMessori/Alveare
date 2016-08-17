@@ -14,7 +14,7 @@ var Messages = require('../Services/Messages');
 var Articles = require('../Services/Articles');
 var credentials = require('../../credentials');
 
-Parse.initialize(credentials.user,credentials.password);
+Parse.initialize(credentials.user, credentials.password);
 
 var appAS = angular.module('appAS', ['ionic'])
 appAS.controller('addArticleCtrl', addArticleCtrl);
@@ -29,7 +29,7 @@ appAS.controller('readArticleCtrl', readArticleCtrl);
 appAS.controller('signupCtrl', signupCtrl);
 appAS.controller('tabsCtrl', tabsCtrl);
 appAS.service('Messages', Messages);
-appAS.service('Articles',Articles);
+appAS.service('Articles', Articles);
 
 appAS.run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -50,22 +50,23 @@ appAS.run(function ($ionicPlatform) {
 appAS.config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
 
+        .state('login', {
+            url: '/login',
+            templateUrl: 'Components/LoginPage/login.html',
+            controller: 'loginCtrl'
+        })
+
+        .state('signup', {
+            url: '/signup',
+            templateUrl: 'Components/SignupPage/signup.html',
+            controller: 'signupCtrl'
+        })
 
         .state('tab', {
             url: "/tab",
             abstract: true,
             templateUrl: "Components/Tabs/tabs.html",
             controller: 'tabsCtrl'
-        })
-
-        .state('login', {
-            url: '/login',
-            views: {
-                'login': {
-                    templateUrl: 'Components/LoginPage/login.html',
-                    controller: 'loginCtrl'
-                }
-            }
         })
 
         .state('tab.admin', {
