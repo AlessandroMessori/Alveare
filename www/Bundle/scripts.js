@@ -202,7 +202,8 @@
 	            views: {
 	                'tab-comments': {
 	                    templateUrl: 'Components/CommentsPage/tab-comments.html',
-	                    controller: 'commentsCtrl'
+	                    controller: 'commentsCtrl',
+	                    css: ['Components/AdminPage/index.css']
 	                }
 	            }
 	        });
@@ -363,7 +364,7 @@
 
 	    $scope.OpenLink = function (url) {
 	        cordova.InAppBrowser.open(url, '_system', 'location=yes');
-	    }
+	    };
 
 	    $scope.Links = [
 	        {
@@ -380,7 +381,7 @@
 	            "name": "Sito Web Della Scuola",
 	            "url": "http://www.liceoariostospallanzani-re.gov.it/",
 	            "icon": "icon ion-ios-world"
-	        },
+	        }
 	    ];
 
 	};
@@ -538,7 +539,7 @@
 	            template: 'Disconnessione in corso...'
 	        });
 	        //Logout($ionicLoading,$state);
-	        $state.go('tab.link');
+	        $state.go('login');
 	        $window.localStorage.setItem("RememberMe", "false");
 	    }
 

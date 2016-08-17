@@ -156,7 +156,8 @@ appAS.config(function ($stateProvider, $urlRouterProvider) {
             views: {
                 'tab-comments': {
                     templateUrl: 'Components/CommentsPage/tab-comments.html',
-                    controller: 'commentsCtrl'
+                    controller: 'commentsCtrl',
+                    css: ['Components/AdminPage/index.css']
                 }
             }
         });

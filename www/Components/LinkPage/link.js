@@ -2,7 +2,7 @@ var linkCtrl = function ($scope, $window) {
 
     $scope.OpenLink = function (url) {
         cordova.InAppBrowser.open(url, '_system', 'location=yes');
-    }
+    };
 
     $scope.Links = [
         {
@@ -19,7 +19,7 @@ var linkCtrl = function ($scope, $window) {
             "name": "Sito Web Della Scuola",
             "url": "http://www.liceoariostospallanzani-re.gov.it/",
             "icon": "icon ion-ios-world"
-        },
+        }
     ];
 
 };

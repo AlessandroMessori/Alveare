@@ -16,9 +16,9 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
             template: 'Disconnessione in corso...'
         });
         //Logout($ionicLoading,$state);
-        $state.go('tab.link');
+        $state.go('login');
         $window.localStorage.setItem("RememberMe", "false");
-    }
+    };
 
 };
 
