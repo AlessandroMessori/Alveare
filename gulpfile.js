@@ -1,20 +1,22 @@
 'use strict';
 var gulp = require('gulp');
+var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var minify = require('gulp-minify-css');
 var concat = require('gulp-concat');
 var webpack = require("webpack-stream");
 
-gulp.task('css', function () {
+gulp.task('styles', function () {
     return gulp.src([
-        'www/**/*.css'
+        'www/**/*.scss'
     ])
+        .pipe(sass())
         .pipe(concat('styles.css'))
         .pipe(minify())
         .pipe(gulp.dest('www/Bundle/'))
 });
 
-gulp.task('js', function () {
+gulp.task('scripts', function () {
     return gulp.src([
         'www/**/*.js'
     ])
@@ -24,8 +26,8 @@ gulp.task('js', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch(['www/**/*.css'], ['css']);
-    gulp.watch(['www/**/*.js'], ['js']);
+    gulp.watch(['www/**/*.css'], ['styles']);
+    gulp.watch(['www/**/*.js'], ['scripts']);
 });
 
 gulp.task('default', ['watch']);
