@@ -1,3 +1,4 @@
+var Parse = require('parse');
 var addArticleCtrl = require('./AddArticlePage/addArticle');
 var addNewsCtrl = require('./AddNewsPage/addNews');
 var adminCtrl = require('./AdminPage/admin');
@@ -11,6 +12,9 @@ var signupCtrl = require('./SignupPage/signup');
 var tabsCtrl = require('./Tabs/tabs');
 var Messages = require('../Services/Messages');
 var Articles = require('../Services/Articles');
+var credentials = require('../../credentials');
+
+Parse.initialize(credentials.user,credentials.password);
 
 var appAS = angular.module('appAS', ['ionic'])
 appAS.controller('addArticleCtrl', addArticleCtrl);

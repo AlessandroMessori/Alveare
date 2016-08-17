@@ -1,3 +1,4 @@
+var Parse = require('parse');
 var Messages = function () {
 
     this.sendPost = function (text) {

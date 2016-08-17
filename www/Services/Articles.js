@@ -1,3 +1,4 @@
+var Parse = require('parse');
 var Articles = function () {
 
     this.sendArticle = function (title, author, text, img, type) {

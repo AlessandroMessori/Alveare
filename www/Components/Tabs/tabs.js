@@ -1,3 +1,4 @@
+var Parse = require('parse');
 var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state) {
 
     $scope.checkadmin = function () {
