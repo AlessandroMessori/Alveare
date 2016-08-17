@@ -58,7 +58,9 @@
 	var tabsCtrl = __webpack_require__(141);
 	var Messages = __webpack_require__(142);
 	var Articles = __webpack_require__(143);
-	var credentials = __webpack_require__(144);
+	var Comments = __webpack_require__(144);
+	var Auth = __webpack_require__(145);
+	var credentials = __webpack_require__(146);
 
 	Parse.initialize(credentials.user, credentials.password);
 
@@ -76,6 +78,8 @@
 	appAS.controller('tabsCtrl', tabsCtrl);
 	appAS.service('Messages', Messages);
 	appAS.service('Articles', Articles);
+	appAS.service('Comments', Comments);
+	appAS.service('Auth', Auth);
 
 	appAS.run(function ($ionicPlatform) {
 	    $ionicPlatform.ready(function () {
@@ -207,8 +211,7 @@
 	            views: {
 	                'tab-comments': {
 	                    templateUrl: 'Components/CommentsPage/tab-comments.html',
-	                    controller: 'commentsCtrl',
-	                    css: ['Components/AdminPage/index.css']
+	                    controller: 'commentsCtrl'
 	                }
 	            }
 	        });
@@ -13691,9 +13694,9 @@
 /* 135 */
 /***/ function(module, exports) {
 
-	var commentsCtrl = function ($scope, $window) {
+	var commentsCtrl = function ($scope, $window,Comments) {
 	    $scope.send = function () {
-	        sendComment($("#commenttxt").val(), $window.localStorage.getItem("currentPost"));
+	        Comments.sendComment($("#commenttxt").val(), $window.localStorage.getItem("currentPost"));
 	        $("#commenttxt").val("");
 	        $scope.doRefresh();
 	    }
@@ -13702,10 +13705,10 @@
 	        $scope.doRefresh();
 	    });
 
-	    $scope.Comments = getComments($window);
+	    $scope.Comments = Comments.getComments($window);
 
 	    $scope.doRefresh = function () {
-	        $scope.Comments = getComments($window);
+	        $scope.Comments = Comments.getComments($window);
 	        $scope.$broadcast('scroll.refreshComplete');
 	        $scope.$apply();
 	    };
@@ -13750,13 +13753,13 @@
 /* 137 */
 /***/ function(module, exports) {
 
-	var loginCtrl = function ($scope, $ionicLoading, $window) {
+	var loginCtrl = function ($scope, $ionicLoading, $window,Auth) {
 
 	    $scope.UserLogin = function () {
 	        $ionicLoading.show({
 	            template: 'Accesso in Corso...'
 	        });
-	        Login($scope.username, $scope.password, $ionicLoading);
+	        Auth.Login($scope.username, $scope.password, $ionicLoading);
 	        $scope.SetRememberMe();
 	    };
 
@@ -13778,11 +13781,11 @@
 
 	    $scope.changePassView = function () {
 
-	        if ($scope.ShowPass)
+	        /*if ($scope.ShowPass)
 	            $("#passtxt").attr("type", "text");
 	        else {
 	            $("#passtxt").attr("type", "password")
-	        }
+	        }*/
 	    }
 
 	};
@@ -13850,13 +13853,13 @@
 /* 140 */
 /***/ function(module, exports) {
 
-	var signupCtrl = function ($scope, $ionicLoading, $location) {
+	var signupCtrl = function ($scope, $ionicLoading, $location,Auth) {
 
 	    $scope.UserSignup = function () {
 	        $ionicLoading.show({
 	            template: 'Registrazione in corso...'
 	        });
-	        Signup($scope.username, $scope.password, $scope.mail, $ionicLoading);
+	        Auth.Signup($scope.username, $scope.password, $scope.mail, $ionicLoading);
 	    };
 
 	    $scope.go = function () {
@@ -13880,7 +13883,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Parse = __webpack_require__(1);
-	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state) {
+	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state,Auth) {
 
 	    $scope.checkadmin = function () {
 
@@ -13894,10 +13897,10 @@
 	    };
 
 	    $scope.Disconnect = function () {
-	        $ionicLoading.show({
+	        /*$ionicLoading.show({
 	            template: 'Disconnessione in corso...'
-	        });
-	        //Logout($ionicLoading,$state);
+	        });*/
+	        //Auth.Logout($ionicLoading,$state);
 	        $state.go('login');
 	        $window.localStorage.setItem("RememberMe", "false");
 	    };
@@ -14127,6 +14130,121 @@
 
 /***/ },
 /* 144 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Parse = __webpack_require__(1);
+	var Comments = function () {
+	    this.sendComment = function (text, father) {
+
+	        var Comment = new Parse.Object("Comment");
+
+	        Comment.set("text", text);
+	        Comment.set("Writer", Parse.User.current().get("username"));
+	        Comment.set("father", father);
+	        Comment.set("date", GetFullDate());
+
+	        Comment.save(null, {
+	            success: function (Comment) {
+	                alert('commento pubblicato con successo');
+	                UpdateCount("Comment", father);
+	            },
+	            error: function (Comment, error) {
+	                alert('Failed to create new object, with error code: ' + error.Comment);
+	            }
+	        });
+	    };
+
+	    this.getComments = function (win) {
+
+	        var Comment = new Parse.Object("Comment");
+	        var comments = [];
+	        var father = localStorage.getItem("currentPost");
+	        var query = new Parse.Query(Comment);
+	        query.equalTo("father", father);
+
+	        query.find({
+	            success: function (results) {
+
+	                for (var i = 0; i < results.length; i++) {
+
+
+	                    comments[results.length - 1 - i] = {
+	                        name: results[i].get("Writer"),
+	                        text: results[i].get('text'),
+	                        father: results[i].get('father'),
+	                        date: results[i].get('date')
+	                    };
+	                }
+	            },
+	            error: function (error) {
+	                return;
+	            }
+	        });
+
+	        return comments;
+	    }
+	};
+
+	module.exports = Comments;
+
+/***/ },
+/* 145 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Parse = __webpack_require__(1);
+	var Auth = function () {
+
+	    this.Signup = function (name, pass, mail, loadingtemplate) {
+	        var user = new Parse.User();
+
+	        user.set("username", name);
+	        user.set("password", pass);
+	        user.set("email", mail);
+	        user.set("isadmin", false);
+
+	        user.signUp(null, {
+	            success: function (user) {
+	                // Hooray! Let them use the app now.
+	                loadingtemplate.hide();
+	                alert("Creato Account Con successo");
+	                document.location.href = "login.html";
+	            },
+	            error: function (user, error) {
+	                // Show the error message somewhere and let the user try again.
+	                loadingtemplate.hide();
+	                alert("Error: " + error.code + " " + error.message);
+	            }
+	        });
+	    };
+
+	    this.Login = function (name, pass, loadingtemplate) {
+	        Parse.User.logIn(name, pass, {
+	            success: function (user) {
+	                loadingtemplate.hide();
+	                document.location.href = "index.html";
+	            },
+	            error: function (user, error) {
+	                loadingtemplate.hide();
+	                alert("Error: " + error.code + " " + error.message);
+	            }
+
+	        });
+	    };
+
+	    this.Logout = function (loadingtemplate) {
+
+	        Parse.User.logOut();
+	        document.location.href = "login.html";
+	        loadingtemplate.hide();
+	    };
+
+	};
+
+	module.exports = Auth;
+
+
+/***/ },
+/* 146 */
 /***/ function(module, exports) {
 
 	module.exports = {

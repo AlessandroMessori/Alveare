@@ -1,10 +1,10 @@
-var signupCtrl = function ($scope, $ionicLoading, $location) {
+var signupCtrl = function ($scope, $ionicLoading, $location,Auth) {
 
     $scope.UserSignup = function () {
         $ionicLoading.show({
             template: 'Registrazione in corso...'
         });
-        Signup($scope.username, $scope.password, $scope.mail, $ionicLoading);
+        Auth.Signup($scope.username, $scope.password, $scope.mail, $ionicLoading);
     };
 
     $scope.go = function () {

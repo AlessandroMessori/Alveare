@@ -1,5 +1,5 @@
 var Parse = require('parse');
-var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state) {
+var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state,Auth) {
 
     $scope.checkadmin = function () {
 
@@ -13,10 +13,10 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
     };
 
     $scope.Disconnect = function () {
-        $ionicLoading.show({
+        /*$ionicLoading.show({
             template: 'Disconnessione in corso...'
-        });
-        //Logout($ionicLoading,$state);
+        });*/
+        //Auth.Logout($ionicLoading,$state);
         $state.go('login');
         $window.localStorage.setItem("RememberMe", "false");
     };

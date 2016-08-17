@@ -12,6 +12,8 @@ var signupCtrl = require('./SignupPage/signup');
 var tabsCtrl = require('./Tabs/tabs');
 var Messages = require('../Services/Messages');
 var Articles = require('../Services/Articles');
+var Comments = require('../Services/Comments');
+var Auth = require('../Services/Auth');
 var credentials = require('../../credentials');
 
 Parse.initialize(credentials.user, credentials.password);
@@ -30,6 +32,8 @@ appAS.controller('signupCtrl', signupCtrl);
 appAS.controller('tabsCtrl', tabsCtrl);
 appAS.service('Messages', Messages);
 appAS.service('Articles', Articles);
+appAS.service('Comments', Comments);
+appAS.service('Auth', Auth);
 
 appAS.run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -161,8 +165,7 @@ appAS.config(function ($stateProvider, $urlRouterProvider) {
             views: {
                 'tab-comments': {
                     templateUrl: 'Components/CommentsPage/tab-comments.html',
-                    controller: 'commentsCtrl',
-                    css: ['Components/AdminPage/index.css']
+                    controller: 'commentsCtrl'
                 }
             }
         });

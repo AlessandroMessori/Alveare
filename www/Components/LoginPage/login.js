@@ -1,10 +1,10 @@
-var loginCtrl = function ($scope, $ionicLoading, $window) {
+var loginCtrl = function ($scope, $ionicLoading, $window,Auth) {
 
     $scope.UserLogin = function () {
         $ionicLoading.show({
             template: 'Accesso in Corso...'
         });
-        Login($scope.username, $scope.password, $ionicLoading);
+        Auth.Login($scope.username, $scope.password, $ionicLoading);
         $scope.SetRememberMe();
     };
 
@@ -26,11 +26,11 @@ var loginCtrl = function ($scope, $ionicLoading, $window) {
 
     $scope.changePassView = function () {
 
-        if ($scope.ShowPass)
+        /*if ($scope.ShowPass)
             $("#passtxt").attr("type", "text");
         else {
             $("#passtxt").attr("type", "password")
-        }
+        }*/
     }
 
 };
