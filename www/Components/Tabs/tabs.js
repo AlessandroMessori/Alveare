@@ -1,7 +1,9 @@
 var Parse = require('parse');
-var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, Auth) {
+var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, Auth) {
 
-    console.log($scope);
+    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
+        $rootScope.previousState = from.name;
+    });
 
     $scope.checkadmin = function () {
 
@@ -18,7 +20,7 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
         var state = $scope.$activeHistoryId;
         console.log(state);
         if (state == 'ion6' || state == 'ion7'
-            || state == 'ion8'|| state == 'ion9') {
+            || state == 'ion8' || state == 'ion9') {
             return "ng-show";
         } else {
             return "ng-hide";
@@ -34,6 +36,9 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
         $window.localStorage.setItem("RememberMe", "false");
     };
 
+    $scope.backBtnClick = function () {
+        $state.go($rootScope.previousState);
+    }
 };
 
 module.exports = tabsCtrl;

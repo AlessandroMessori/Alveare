@@ -13884,9 +13884,11 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Parse = __webpack_require__(1);
-	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, Auth) {
+	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, Auth) {
 
-	    console.log($scope);
+	    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
+	        $rootScope.previousState = from.name;
+	    });
 
 	    $scope.checkadmin = function () {
 
@@ -13903,7 +13905,7 @@
 	        var state = $scope.$activeHistoryId;
 	        console.log(state);
 	        if (state == 'ion6' || state == 'ion7'
-	            || state == 'ion8'|| state == 'ion9') {
+	            || state == 'ion8' || state == 'ion9') {
 	            return "ng-show";
 	        } else {
 	            return "ng-hide";
@@ -13919,6 +13921,9 @@
 	        $window.localStorage.setItem("RememberMe", "false");
 	    };
 
+	    $scope.backBtnClick = function () {
+	        $state.go($rootScope.previousState);
+	    }
 	};
 
 	module.exports = tabsCtrl;
