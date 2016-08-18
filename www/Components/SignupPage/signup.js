@@ -1,4 +1,6 @@
-var signupCtrl = function ($scope, $ionicLoading, $location,Auth) {
+var signupCtrl = function ($scope, $ionicLoading, $location, Auth) {
+
+    $scope.inputType = 'password';
 
     $scope.UserSignup = function () {
         $ionicLoading.show({
@@ -11,14 +13,13 @@ var signupCtrl = function ($scope, $ionicLoading, $location,Auth) {
         document.location.href = 'login.html'
     };
 
-    $scope.changePassView = function () {
+    $scope.hideShowPassword = function () {
+        if ($scope.inputType == 'password')
+            $scope.inputType = 'text';
+        else
+            $scope.inputType = 'password';
+    };
 
-        if ($scope.ShowPass)
-            $("#passtxt").attr("type", "text");
-        else {
-            $("#passtxt").attr("type", "password")
-        }
-    }
 };
 
 module.exports = signupCtrl;

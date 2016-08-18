@@ -13753,7 +13753,9 @@
 /* 137 */
 /***/ function(module, exports) {
 
-	var loginCtrl = function ($scope, $ionicLoading, $window,Auth) {
+	var loginCtrl = function ($scope, $ionicLoading, $window, Auth) {
+
+	    $scope.inputType = 'password';
 
 	    $scope.UserLogin = function () {
 	        $ionicLoading.show({
@@ -13782,11 +13784,18 @@
 	    $scope.changePassView = function () {
 
 	        /*if ($scope.ShowPass)
-	            $("#passtxt").attr("type", "text");
-	        else {
-	            $("#passtxt").attr("type", "password")
-	        }*/
-	    }
+	         $("#passtxt").attr("type", "text");
+	         else {
+	         $("#passtxt").attr("type", "password")
+	         }*/
+	    };
+
+	    $scope.hideShowPassword = function () {
+	        if ($scope.inputType == 'password')
+	            $scope.inputType = 'text';
+	        else
+	            $scope.inputType = 'password';
+	    };
 
 	};
 
@@ -13853,7 +13862,9 @@
 /* 140 */
 /***/ function(module, exports) {
 
-	var signupCtrl = function ($scope, $ionicLoading, $location,Auth) {
+	var signupCtrl = function ($scope, $ionicLoading, $location, Auth) {
+
+	    $scope.inputType = 'password';
 
 	    $scope.UserSignup = function () {
 	        $ionicLoading.show({
@@ -13866,14 +13877,13 @@
 	        document.location.href = 'login.html'
 	    };
 
-	    $scope.changePassView = function () {
+	    $scope.hideShowPassword = function () {
+	        if ($scope.inputType == 'password')
+	            $scope.inputType = 'text';
+	        else
+	            $scope.inputType = 'password';
+	    };
 
-	        if ($scope.ShowPass)
-	            $("#passtxt").attr("type", "text");
-	        else {
-	            $("#passtxt").attr("type", "password")
-	        }
-	    }
 	};
 
 	module.exports = signupCtrl;
