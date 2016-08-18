@@ -13781,15 +13781,6 @@
 
 	    };
 
-	    $scope.changePassView = function () {
-
-	        /*if ($scope.ShowPass)
-	         $("#passtxt").attr("type", "text");
-	         else {
-	         $("#passtxt").attr("type", "password")
-	         }*/
-	    };
-
 	    $scope.hideShowPassword = function () {
 	        if ($scope.inputType == 'password')
 	            $scope.inputType = 'text';
