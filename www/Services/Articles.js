@@ -1,5 +1,5 @@
 var Parse = require('parse');
-var Articles = function () {
+var Articles = function (DateHandler) {
 
     this.sendArticle = function (title, author, text, img, type) {
 
@@ -8,7 +8,7 @@ var Articles = function () {
         Article.set("title", title);
         Article.set("author", author);
         Article.set("text", text);
-        Article.set("date", GetCurrentDate());
+        Article.set("date", DateHandler.GetCurrentDate());
 
         var img_file = new Parse.File("Copertina", {base64: img});
 
@@ -80,74 +80,6 @@ var Articles = function () {
         return posts;
     };
 
-    this.GetCurrentDate = function () {
-
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
-
-
-        if (dd < 10) {
-            dd = '0' + dd
-        }
-
-        switch (mm) {
-            case 1:
-                mm = "Gennaio";
-                break;
-            case 2:
-                mm = "Febbraio";
-                break;
-            case 3:
-                mm = "Marzo";
-                break;
-            case 4:
-                mm = "Aprile";
-                break
-            case 5:
-                mm = "Maggio";
-                break;
-            case 6:
-                mm = "Giugno";
-                break;
-            case 7:
-                mm = "Luglio";
-                break;
-            case 8:
-                mm = "Agosto";
-                break;
-            case 9:
-                mm = "Settembre";
-                break;
-            case 10:
-                mm = "Ottobre";
-                break;
-            case 11:
-                mm = "Novembre";
-                break;
-            case 12:
-                mm = "Dicembre";
-                break;
-
-        }
-
-        today = dd + ' ' + mm;
-
-        return today;
-    };
-
-    this.GetFullDate = function () {
-
-        var date = new Date();
-        var Hour = date.getHours();
-        var Minutes = date.getMinutes();
-
-        if (Minutes < 10) {
-            Minutes = "0" + Minutes;
-        }
-
-        return GetCurrentDate() + " alle " + Hour + ":" + Minutes;
-    }
 
 };
 

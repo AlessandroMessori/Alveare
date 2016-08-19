@@ -1,9 +1,9 @@
-var commentsCtrl = function ($scope, $window,Comments) {
-    $scope.send = function () {
-        Comments.sendComment($("#commenttxt").val(), $window.localStorage.getItem("currentPost"));
-        $("#commenttxt").val("");
+var commentsCtrl = function ($scope, $window, Comments) {
+    $scope.send = function (comment) {
+        Comments.sendComment(comment, $window.localStorage.getItem("currentPost"));
+        comment = '';
         $scope.doRefresh();
-    }
+    };
 
     $scope.$on('$ionicView.enter', function () {
         $scope.doRefresh();

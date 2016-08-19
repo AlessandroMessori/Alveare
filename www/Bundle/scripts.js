@@ -61,6 +61,7 @@
 	var Articles = __webpack_require__(143);
 	var Comments = __webpack_require__(144);
 	var Auth = __webpack_require__(145);
+	var DateHandler = __webpack_require__(148);
 	var credentials = __webpack_require__(146);
 
 	Parse.initialize(credentials.user, credentials.password);
@@ -82,6 +83,8 @@
 	appAS.service('Articles', Articles);
 	appAS.service('Comments', Comments);
 	appAS.service('Auth', Auth);
+	appAS.service('DateHandler', DateHandler);
+
 
 	appAS.run(function ($ionicPlatform) {
 	    $ionicPlatform.ready(function () {
@@ -13712,12 +13715,12 @@
 /* 135 */
 /***/ function(module, exports) {
 
-	var commentsCtrl = function ($scope, $window,Comments) {
-	    $scope.send = function () {
-	        Comments.sendComment($("#commenttxt").val(), $window.localStorage.getItem("currentPost"));
-	        $("#commenttxt").val("");
+	var commentsCtrl = function ($scope, $window, Comments) {
+	    $scope.send = function (comment) {
+	        Comments.sendComment(comment, $window.localStorage.getItem("currentPost"));
+	        comment = '';
 	        $scope.doRefresh();
-	    }
+	    };
 
 	    $scope.$on('$ionicView.enter', function () {
 	        $scope.doRefresh();
@@ -14002,7 +14005,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Parse = __webpack_require__(1);
-	var Articles = function () {
+	var Articles = function (DateHandler) {
 
 	    this.sendArticle = function (title, author, text, img, type) {
 
@@ -14011,7 +14014,7 @@
 	        Article.set("title", title);
 	        Article.set("author", author);
 	        Article.set("text", text);
-	        Article.set("date", GetCurrentDate());
+	        Article.set("date", DateHandler.GetCurrentDate());
 
 	        var img_file = new Parse.File("Copertina", {base64: img});
 
@@ -14083,74 +14086,6 @@
 	        return posts;
 	    };
 
-	    this.GetCurrentDate = function () {
-
-	        var today = new Date();
-	        var dd = today.getDate();
-	        var mm = today.getMonth() + 1; //January is 0!
-
-
-	        if (dd < 10) {
-	            dd = '0' + dd
-	        }
-
-	        switch (mm) {
-	            case 1:
-	                mm = "Gennaio";
-	                break;
-	            case 2:
-	                mm = "Febbraio";
-	                break;
-	            case 3:
-	                mm = "Marzo";
-	                break;
-	            case 4:
-	                mm = "Aprile";
-	                break
-	            case 5:
-	                mm = "Maggio";
-	                break;
-	            case 6:
-	                mm = "Giugno";
-	                break;
-	            case 7:
-	                mm = "Luglio";
-	                break;
-	            case 8:
-	                mm = "Agosto";
-	                break;
-	            case 9:
-	                mm = "Settembre";
-	                break;
-	            case 10:
-	                mm = "Ottobre";
-	                break;
-	            case 11:
-	                mm = "Novembre";
-	                break;
-	            case 12:
-	                mm = "Dicembre";
-	                break;
-
-	        }
-
-	        today = dd + ' ' + mm;
-
-	        return today;
-	    };
-
-	    this.GetFullDate = function () {
-
-	        var date = new Date();
-	        var Hour = date.getHours();
-	        var Minutes = date.getMinutes();
-
-	        if (Minutes < 10) {
-	            Minutes = "0" + Minutes;
-	        }
-
-	        return GetCurrentDate() + " alle " + Hour + ":" + Minutes;
-	    }
 
 	};
 
@@ -14161,7 +14096,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Parse = __webpack_require__(1);
-	var Comments = function () {
+	var Comments = function (DateHandler) {
 	    this.sendComment = function (text, father) {
 
 	        var Comment = new Parse.Object("Comment");
@@ -14169,7 +14104,7 @@
 	        Comment.set("text", text);
 	        Comment.set("Writer", Parse.User.current().get("username"));
 	        Comment.set("father", father);
-	        Comment.set("date", GetFullDate());
+	        Comment.set("date", DateHandler.GetFullDate());
 
 	        Comment.save(null, {
 	            success: function (Comment) {
@@ -14278,6 +14213,88 @@
 	    "user": "o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ",
 	    "password": "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF"
 	};
+
+/***/ },
+/* 147 */,
+/* 148 */
+/***/ function(module, exports) {
+
+	var DateHandler = function () {
+
+	    var self = this;
+
+	    this.GetCurrentDate = function () {
+
+	        var today = new Date();
+	        var dd = today.getDate();
+	        var mm = today.getMonth() + 1; //January is 0!
+
+	        if (dd < 10) {
+	            dd = '0' + dd
+	        }
+
+	        switch (mm) {
+	            case 1:
+	                mm = "Gennaio";
+	                break;
+	            case 2:
+	                mm = "Febbraio";
+	                break;
+	            case 3:
+	                mm = "Marzo";
+	                break;
+	            case 4:
+	                mm = "Aprile";
+	                break;
+	            case 5:
+	                mm = "Maggio";
+	                break;
+	            case 6:
+	                mm = "Giugno";
+	                break;
+	            case 7:
+	                mm = "Luglio";
+	                break;
+	            case 8:
+	                mm = "Agosto";
+	                break;
+	            case 9:
+	                mm = "Settembre";
+	                break;
+	            case 10:
+	                mm = "Ottobre";
+	                break;
+	            case 11:
+	                mm = "Novembre";
+	                break;
+	            case 12:
+	                mm = "Dicembre";
+	                break;
+
+	        }
+
+	        today = dd + ' ' + mm;
+
+	        return today;
+	    };
+
+	    this.GetFullDate = function () {
+
+	        var now = new Date();
+	        console.log(now);
+	        var Hour = now.getHours();
+	        var Minutes = now.getMinutes();
+
+	        if (Minutes < 10) {
+	            Minutes = "0" + Minutes;
+	        }
+
+	        return self.GetCurrentDate() + " alle " + Hour + ":" + Minutes;
+
+	    }
+	};
+
+	module.exports = DateHandler;
 
 /***/ }
 /******/ ]);

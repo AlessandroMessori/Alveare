@@ -15,6 +15,7 @@ var Messages = require('../Services/Messages');
 var Articles = require('../Services/Articles');
 var Comments = require('../Services/Comments');
 var Auth = require('../Services/Auth');
+var DateHandler = require('../Services/DateHandler');
 var credentials = require('../../credentials');
 
 Parse.initialize(credentials.user, credentials.password);
@@ -36,6 +37,8 @@ appAS.service('Messages', Messages);
 appAS.service('Articles', Articles);
 appAS.service('Comments', Comments);
 appAS.service('Auth', Auth);
+appAS.service('DateHandler', DateHandler);
+
 
 appAS.run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {

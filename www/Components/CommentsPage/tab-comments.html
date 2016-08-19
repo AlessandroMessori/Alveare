@@ -19,8 +19,8 @@
 
 	<div class="fixed-outside">
 		<div class="item item-input">
-			<input type="text" placeholder="Aggiungi un commento" id="commenttxt"></input>
-			<button class="button  button-calm icon ion-android-send" ng-click="send()"></button>
+			<input type="text" placeholder="Aggiungi un commento" ng-model="comment"></input>
+			<button class="button  button-calm icon ion-android-send" ng-click="send(comment)"></button>
 		</div>
 	</div>
 </ion-view>
