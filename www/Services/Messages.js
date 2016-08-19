@@ -1,5 +1,5 @@
 var Parse = require('parse');
-var Messages = function () {
+var Messages = function (DateHandler) {
 
     this.sendPost = function (text) {
 
@@ -7,7 +7,7 @@ var Messages = function () {
 
         Message.set("text", text);
         Message.set("Writer", Parse.User.current().get("username"));
-        Message.set("date", GetCurrentDate());
+        Message.set("date", DateHandler.GetCurrentDate());
 
         Message.save(null, {
             success: function (Message) {

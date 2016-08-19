@@ -13587,9 +13587,10 @@
 /* 131 */
 /***/ function(module, exports) {
 
-	var addArticleCtrl = function ($scope, $window) {
+	var addArticleCtrl = function ($scope, $window,Articles) {
 
-	    $('#img-preview').hide();
+	    document.getElementById('img-preview').style.display = 'none';
+
 
 	    $scope.GetPic = function () {
 	        navigator.camera.getPicture(onSuccess, onFail, {
@@ -13600,7 +13601,7 @@
 
 	        function onSuccess(imageData) {
 	            $scope.imgData = imageData;
-	            $('#img-preview').show();
+	            document.getElementById('img-preview').style.display = 'inline';
 	            document.getElementById('img_1').src = "data:image/png;base64," + imageData;
 	        }
 
@@ -13608,12 +13609,12 @@
 	            alert('Non sono riuscito a reperire la foto perchè ' + message);
 	        }
 
-	    }
+	    };
 
-	    $scope.UploadArticle = function () {
-	        sendArticle($("#titletxt").val(), "autore", $("#texttxt").val(), $scope.imgData, $window.localStorage.getItem("contentType"));
-	        $("#titletxt").val("");
-	        $("#texttxt").val("");
+	    $scope.UploadArticle = function (title,text) {
+	        Articles.sendArticle(title, "autore",text, '', $window.localStorage.getItem("contentType"));
+	        title = '';
+	        text= '';
 	    }
 
 	};
@@ -13626,10 +13627,9 @@
 /* 132 */
 /***/ function(module, exports) {
 
-	var addNewsCtrl = function ($scope) {
-	    $scope.test = function () {
-	        sendpost($("#messagetxt").val());
-	        $("#messagetxt").val("");
+	var addNewsCtrl = function ($scope,Messages) {
+	    $scope.sendNews = function (news) {
+	        Messages.sendPost(news);
 	    };
 	};
 
@@ -13945,7 +13945,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Parse = __webpack_require__(1);
-	var Messages = function () {
+	var Messages = function (DateHandler) {
 
 	    this.sendPost = function (text) {
 
@@ -13953,7 +13953,7 @@
 
 	        Message.set("text", text);
 	        Message.set("Writer", Parse.User.current().get("username"));
-	        Message.set("date", GetCurrentDate());
+	        Message.set("date", DateHandler.GetCurrentDate());
 
 	        Message.save(null, {
 	            success: function (Message) {
