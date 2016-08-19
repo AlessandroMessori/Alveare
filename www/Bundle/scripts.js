@@ -13683,15 +13683,15 @@
 	var articlesCtrl = function ($scope, $state, $window, Articles, type) {
 
 	    $scope.$on('$ionicView.enter', function () {
-	        if ($scope.Articles != Articles.getArticles($state, $window, type)) {
+	        if ($scope.Articles != Articles.getArticles($state, $window, type, 'articlesSpinners')) {
 	            $scope.doRefresh();
 	        }
 	    });
 
-	    $scope.Articles = Articles.getArticles($state, $window, type);
+	    $scope.Articles = Articles.getArticles($state, $window, type, 'articlesSpinners');
 
 	    $scope.doRefresh = function () {
-	        $scope.Articles = Articles.getArticles($state, $window, type);
+	        $scope.Articles = Articles.getArticles($state, $window, type, 'articlesSpinners');
 	        $scope.$broadcast('scroll.refreshComplete');
 	        $scope.$apply();
 	    };
@@ -13726,10 +13726,10 @@
 	        $scope.doRefresh();
 	    });
 
-	    $scope.Comments = Comments.getComments($window);
+	    $scope.Comments = Comments.getComments($window,'commentsSpinner');
 
 	    $scope.doRefresh = function () {
-	        $scope.Comments = Comments.getComments($window);
+	        $scope.Comments = Comments.getComments($window,'commentsSpinner');
 	        $scope.$broadcast('scroll.refreshComplete');
 	        $scope.$apply();
 	    };
@@ -13811,10 +13811,10 @@
 
 	var forumCtrl = function ($scope, $state, $window,Messages) {
 
-	    $scope.Posts = Messages.getPosts($window, $state);
+	    $scope.Posts = Messages.getPosts($window, $state,'newsSpinner');
 
 	    $scope.doRefresh = function () {
-	        $scope.Posts = Messages.getPosts($window, $state);
+	        $scope.Posts = Messages.getPosts($window, $state,'newsSpinner');
 	        $scope.$broadcast('scroll.refreshComplete');
 	        $scope.$apply();
 	    };
@@ -13965,8 +13965,9 @@
 	        });
 	    };
 
-	    this.getPosts = function (win, state) {
+	    this.getPosts = function (win, state, spinner) {
 
+	        document.getElementById(spinner).style.display = 'block';
 	        var Message = new Parse.Object("Post");
 	        var posts = [];
 	        var query = new Parse.Query(Message);
@@ -13987,10 +13988,10 @@
 	                    };
 
 	                }
+	                document.getElementById(spinner).style.display = 'none';
 
 	            }
 	        );
-
 	        return posts;
 	    };
 
@@ -14041,8 +14042,9 @@
 
 	    };
 
-	    this.getArticles = function (state, win, type) {
+	    this.getArticles = function (state, win, type,spinner) {
 
+	        document.getElementById(spinner).style.display = 'block';
 	        var Article = new Parse.Object(type);
 	        var posts = [];
 	        var query = new Parse.Query(Article);
@@ -14071,10 +14073,9 @@
 	                            state.go("tab.article");
 
 	                        }
-
-
 	                    };
 	                }
+	                document.getElementById(spinner).style.display = 'none';
 	            },
 	            error: function (error) {
 	                //document.createElement("p").innerHTML="tira e rilascia per aggiornare";
@@ -14117,8 +14118,9 @@
 	        });
 	    };
 
-	    this.getComments = function (win) {
+	    this.getComments = function (win,spinner) {
 
+	        document.getElementById(spinner).style.display = 'block';
 	        var Comment = new Parse.Object("Comment");
 	        var comments = [];
 	        var father = localStorage.getItem("currentPost");
@@ -14138,6 +14140,7 @@
 	                        date: results[i].get('date')
 	                    };
 	                }
+	                document.getElementById(spinner).style.display = 'none';
 	            },
 	            error: function (error) {
 	                return;

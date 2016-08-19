@@ -35,8 +35,9 @@ var Articles = function (DateHandler) {
 
     };
 
-    this.getArticles = function (state, win, type) {
+    this.getArticles = function (state, win, type,spinner) {
 
+        document.getElementById(spinner).style.display = 'block';
         var Article = new Parse.Object(type);
         var posts = [];
         var query = new Parse.Query(Article);
@@ -65,10 +66,9 @@ var Articles = function (DateHandler) {
                             state.go("tab.article");
 
                         }
-
-
                     };
                 }
+                document.getElementById(spinner).style.display = 'none';
             },
             error: function (error) {
                 //document.createElement("p").innerHTML="tira e rilascia per aggiornare";

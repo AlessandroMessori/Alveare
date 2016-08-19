@@ -9,10 +9,10 @@ var commentsCtrl = function ($scope, $window, Comments) {
         $scope.doRefresh();
     });
 
-    $scope.Comments = Comments.getComments($window);
+    $scope.Comments = Comments.getComments($window,'commentsSpinner');
 
     $scope.doRefresh = function () {
-        $scope.Comments = Comments.getComments($window);
+        $scope.Comments = Comments.getComments($window,'commentsSpinner');
         $scope.$broadcast('scroll.refreshComplete');
         $scope.$apply();
     };

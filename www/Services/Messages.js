@@ -19,8 +19,9 @@ var Messages = function (DateHandler) {
         });
     };
 
-    this.getPosts = function (win, state) {
+    this.getPosts = function (win, state, spinner) {
 
+        document.getElementById(spinner).style.display = 'block';
         var Message = new Parse.Object("Post");
         var posts = [];
         var query = new Parse.Query(Message);
@@ -41,10 +42,10 @@ var Messages = function (DateHandler) {
                     };
 
                 }
+                document.getElementById(spinner).style.display = 'none';
 
             }
         );
-
         return posts;
     };
 
