@@ -172,6 +172,6 @@ appAS.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider)
         });
 
 
-    $urlRouterProvider.otherwise('/tab/link');
+    $urlRouterProvider.otherwise('/login');
 
 });

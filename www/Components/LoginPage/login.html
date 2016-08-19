@@ -1,5 +1,5 @@
 <ion-view view-title="Login">
-    <ion-content ng-init="CheckRememberMe()" class="loginSection">
+    <ion-content class="loginSection">
 
         <img src="Images/icon.png" class="responsive">
 
@@ -30,7 +30,7 @@
 
         <div class="row" id="btnrow">
             <div class="col">
-                <button ng-click="UserLogin()" class="button button-positive">Login</button>
+                <button ng-click="UserLogin(username,password)" class="button button-positive">Login</button>
             </div>
         </div>
 

@@ -14,7 +14,7 @@ var Auth = function () {
                 // Hooray! Let them use the app now.
                 loadingtemplate.hide();
                 alert("Creato Account Con successo");
-                document.location.href = "login.html";
+                document.location.href = "/#login";
             },
             error: function (user, error) {
                 // Show the error message somewhere and let the user try again.
@@ -28,7 +28,7 @@ var Auth = function () {
         Parse.User.logIn(name, pass, {
             success: function (user) {
                 loadingtemplate.hide();
-                document.location.href = "index.html";
+                document.location.href = "/#tab/link";
             },
             error: function (user, error) {
                 loadingtemplate.hide();
@@ -39,9 +39,8 @@ var Auth = function () {
     };
 
     this.Logout = function (loadingtemplate) {
-
         Parse.User.logOut();
-        document.location.href = "login.html";
+        document.location.href = "/#login";
         loadingtemplate.hide();
     };
 

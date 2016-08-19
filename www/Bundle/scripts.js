@@ -218,7 +218,7 @@
 	        });
 
 
-	    $urlRouterProvider.otherwise('/tab/link');
+	    $urlRouterProvider.otherwise('/login');
 
 	});
 
@@ -13771,11 +13771,11 @@
 
 	    $scope.inputType = 'password';
 
-	    $scope.UserLogin = function () {
+	    $scope.UserLogin = function (username, password) {
 	        $ionicLoading.show({
 	            template: 'Accesso in Corso...'
 	        });
-	        Auth.Login($scope.username, $scope.password, $ionicLoading);
+	        Auth.Login(username, password, $ionicLoading);
 	        $scope.SetRememberMe();
 	    };
 
@@ -13871,15 +13871,15 @@
 
 	    $scope.inputType = 'password';
 
-	    $scope.UserSignup = function () {
+	    $scope.UserSignup = function (username, password, mail) {
 	        $ionicLoading.show({
 	            template: 'Registrazione in corso...'
 	        });
-	        Auth.Signup($scope.username, $scope.password, $scope.mail, $ionicLoading);
+	        Auth.Signup(username, password, mail, $ionicLoading);
 	    };
 
 	    $scope.go = function () {
-	        document.location.href = 'login.html'
+	        document.location.href = '#/login'
 	    };
 
 	    $scope.hideShowPassword = function () {
@@ -14239,7 +14239,7 @@
 	                // Hooray! Let them use the app now.
 	                loadingtemplate.hide();
 	                alert("Creato Account Con successo");
-	                document.location.href = "login.html";
+	                document.location.href = "/#login";
 	            },
 	            error: function (user, error) {
 	                // Show the error message somewhere and let the user try again.
@@ -14253,7 +14253,7 @@
 	        Parse.User.logIn(name, pass, {
 	            success: function (user) {
 	                loadingtemplate.hide();
-	                document.location.href = "index.html";
+	                document.location.href = "/#tab/link";
 	            },
 	            error: function (user, error) {
 	                loadingtemplate.hide();
@@ -14264,9 +14264,8 @@
 	    };
 
 	    this.Logout = function (loadingtemplate) {
-
 	        Parse.User.logOut();
-	        document.location.href = "login.html";
+	        document.location.href = "/#login";
 	        loadingtemplate.hide();
 	    };
 
