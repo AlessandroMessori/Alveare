@@ -13928,7 +13928,7 @@
 	        $ionicLoading.show({
 	            template: 'Disconnessione in corso...'
 	        });
-	        //Auth.Logout($ionicLoading,$state);
+	        Auth.Logout($ionicLoading,$state);
 	        $state.go('login');
 	        $window.localStorage.setItem("RememberMe", "false");
 	    };
