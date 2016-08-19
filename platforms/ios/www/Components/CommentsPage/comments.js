@@ -1,23 +1,22 @@
-var mod = angular.module('appAS.controllers', ['ionic'])
-var commentsCtrl = mod.controller('commentsCtrl', function ($scope, $window) {
-    $scope.send = function () {
-        sendComment($("#commenttxt").val(), $window.localStorage.getItem("currentPost"));
-        $("#commenttxt").val("");
+var commentsCtrl = function ($scope, $window, Comments) {
+    $scope.send = function (comment) {
+        Comments.sendComment(comment, $window.localStorage.getItem("currentPost"));
+        comment = '';
         $scope.doRefresh();
-    }
+    };
 
     $scope.$on('$ionicView.enter', function () {
         $scope.doRefresh();
     });
 
-    $scope.Comments = getComments($window);
+    $scope.Comments = Comments.getComments($window,'commentsSpinner');
 
     $scope.doRefresh = function () {
-        $scope.Comments = getComments($window);
+        $scope.Comments = Comments.getComments($window,'commentsSpinner');
         $scope.$broadcast('scroll.refreshComplete');
         $scope.$apply();
     };
 
-})
+};
 
 module.exports = commentsCtrl;

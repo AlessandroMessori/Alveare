@@ -1,25 +1,25 @@
-var mod = angular.module('appAS', ['ionic'])
-var signupCtrl = mod.controller('signupCtrl', function ($scope, $ionicLoading, $location) {
+var signupCtrl = function ($scope, $ionicLoading, $location, Auth) {
 
-    $scope.UserSignup = function () {
+    $scope.inputType = 'password';
+
+    $scope.UserSignup = function (username, password, mail) {
         $ionicLoading.show({
             template: 'Registrazione in corso...'
         });
-        Signup($scope.username, $scope.password, $scope.mail, $ionicLoading);
+        Auth.Signup(username, password, mail, $ionicLoading);
     };
 
     $scope.go = function () {
-        document.location.href = 'login.html'
+        document.location.href = '#/login'
     };
 
-    $scope.changePassView = function () {
+    $scope.hideShowPassword = function () {
+        if ($scope.inputType == 'password')
+            $scope.inputType = 'text';
+        else
+            $scope.inputType = 'password';
+    };
 
-        if ($scope.ShowPass)
-            $("#passtxt").attr("type", "text");
-        else {
-            $("#passtxt").attr("type", "password")
-        }
-    }
-});
+};
 
 module.exports = signupCtrl;

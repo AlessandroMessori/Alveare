@@ -1,18 +1,30 @@
-var mod = angular.module('appAS.controllers', ['ionic'])
-var articlesCtrl = mod.controller('articlesCtrl', function ($scope, $state, $window) {
+var articlesCtrl = function ($scope, $state, $window, Articles, type) {
 
     $scope.$on('$ionicView.enter', function () {
-        if ($scope.Articles != getArticles($state, $window, "Article")) { $scope.doRefresh(); }
+        if ($scope.Articles != Articles.getArticles($state, $window, type, 'articlesSpinners')) {
+            $scope.doRefresh();
+        }
     });
 
-    $scope.Articles = getArticles($state, $window, "Article");
+    $scope.Articles = Articles.getArticles($state, $window, type, 'articlesSpinners');
 
     $scope.doRefresh = function () {
-        $scope.Articles = getArticles($state, $window, "Article");
+        $scope.Articles = Articles.getArticles($state, $window, type, 'articlesSpinners');
         $scope.$broadcast('scroll.refreshComplete');
         $scope.$apply();
     };
 
-});
+};
 
-module.exports = articlesCtrl;
+var attualitaCtrl = function ($scope, $state, $window, Articles) {
+    return articlesCtrl($scope, $state, $window, Articles, 'Article');
+};
+
+var orientamentoCtrl = function ($scope, $state, $window, Articles) {
+    return articlesCtrl($scope, $state, $window, Articles, 'Orientamento');
+};
+
+module.exports = {
+    attualitaCtrl: attualitaCtrl,
+    orientamentoCtrl: orientamentoCtrl
+};

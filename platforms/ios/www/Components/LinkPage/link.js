@@ -1,9 +1,8 @@
-var mod = angular.module('appAS.controllers', ['ionic'])
-var linkCtrl = mod.controller('linkCtrl', function ($scope, $window) {
+var linkCtrl = function ($scope, $window) {
 
     $scope.OpenLink = function (url) {
         cordova.InAppBrowser.open(url, '_system', 'location=yes');
-    }
+    };
 
     $scope.Links = [
         {
@@ -20,9 +19,9 @@ var linkCtrl = mod.controller('linkCtrl', function ($scope, $window) {
             "name": "Sito Web Della Scuola",
             "url": "http://www.liceoariostospallanzani-re.gov.it/",
             "icon": "icon ion-ios-world"
-        },
+        }
     ];
 
-});
+};
 
 module.exports = linkCtrl;

@@ -1,7 +1,7 @@
-var mod = angular.module('appAS.controllers', ['ionic'])
-var addArticleCtrl = mod.controller('addArticleCtrl', function ($scope, $window) {
+var addArticleCtrl = function ($scope, $window,Articles) {
 
-    $('#img-preview').hide();
+    document.getElementById('img-preview').style.display = 'none';
+
 
     $scope.GetPic = function () {
         navigator.camera.getPicture(onSuccess, onFail, {
@@ -12,7 +12,7 @@ var addArticleCtrl = mod.controller('addArticleCtrl', function ($scope, $window)
 
         function onSuccess(imageData) {
             $scope.imgData = imageData;
-            $('#img-preview').show();
+            document.getElementById('img-preview').style.display = 'inline';
             document.getElementById('img_1').src = "data:image/png;base64," + imageData;
         }
 
@@ -20,15 +20,15 @@ var addArticleCtrl = mod.controller('addArticleCtrl', function ($scope, $window)
             alert('Non sono riuscito a reperire la foto perchè ' + message);
         }
 
+    };
+
+    $scope.UploadArticle = function (title,text) {
+        Articles.sendArticle(title, "autore",text, '', $window.localStorage.getItem("contentType"));
+        title = '';
+        text= '';
     }
 
-    $scope.UploadArticle = function () {
-        sendArticle($("#titletxt").val(), "autore", $("#texttxt").val(), $scope.imgData, $window.localStorage.getItem("contentType"));
-        $("#titletxt").val("");
-        $("#texttxt").val("");
-    }
-
-});
+};
 
 module.exports = addArticleCtrl;
 

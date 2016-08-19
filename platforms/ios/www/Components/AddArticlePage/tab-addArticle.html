@@ -14,14 +14,14 @@
         <div class="row" style="text-align:center" style="margin-top:12%">
             <div class="col col-50 col-offset-25">
                 <label class="item item-input" style="text-align:center">
-                    <input type="text" placeholder="Titolo Articolo" id="titletxt" ng-model="titletxt">"
+                    <input type="text" placeholder="Titolo Articolo" ng-model="title">"
                 </label>
             </div>
         </div>
 
 
         <label class="item item-input" style="margin-top:4%">
-            <textarea placeholder="Testo Articolo" id="texttxt" ng-model="text"></textarea>
+            <textarea placeholder="Testo Articolo"  ng-model="text"></textarea>
         </label>
 
 
@@ -40,7 +40,7 @@
 
         <div class="row" id="btnrow" style="text-align:center">
             <div class="col col-33 col-offset-33">
-                <button id="sendbtn" class="button  button-positive" ng-click="UploadArticle()">Invia</button>
+                <button id="sendbtn" class="button  button-positive" ng-click="UploadArticle(title,text)">Invia</button>
             </div>
         </div>
 

@@ -1,38 +1,30 @@
-var mod = angular.module('appAS', ['ionic'])
-var loginCtrl = mod.controller('loginCtrl', function ($scope, $ionicLoading, $window) {
+var loginCtrl = function ($scope, $ionicLoading, $window, Auth) {
 
-        $scope.UserLogin = function () {
-            $ionicLoading.show({
-                template: 'Accesso in Corso...'
-            });
-            Login($scope.username, $scope.password, $ionicLoading);
-            $scope.SetRememberMe();
-        };
+    $scope.inputType = 'password';
 
-        $scope.SetRememberMe = function () {
+    $scope.UserLogin = function (username, password,RememberMe) {
+        $ionicLoading.show({
+            template: 'Accesso in Corso...'
+        });
+        Auth.Login(username, password, $ionicLoading);
+        $scope.SetRememberMe(RememberMe);
+    };
 
-            if ($scope.RememberMe) {
-                $window.localStorage.setItem("RememberMe", "true");
-            }
+    $scope.SetRememberMe = function (RememberMe) {
 
-        }
-        $scope.CheckRememberMe = function () {
-
-            if ($window.localStorage.getItem("RememberMe") == "true") {
-                document.location.href = "index.html";
-            }
-
+        if (RememberMe) {
+            $window.localStorage.setItem("RememberMe", "true");
         }
 
-        $scope.changePassView = function () {
+    };
 
-            if ($scope.ShowPass)
-                $("#passtxt").attr("type", "text");
-            else {
-                $("#passtxt").attr("type", "password")
-            }
-        }
+    $scope.hideShowPassword = function () {
+        if ($scope.inputType == 'password')
+            $scope.inputType = 'text';
+        else
+            $scope.inputType = 'password';
+    };
 
-    });
+};
 
-    module.exports = loginCtrl;
+module.exports = loginCtrl;

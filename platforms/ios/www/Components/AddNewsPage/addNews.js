@@ -1,10 +1,7 @@
-var mod = angular.module('appAS.controllers', ['ionic'])
-var addNewsCtrl = mod.controller('addNewsCtrl', function ($scope) {
-    $scope.test = function () {
-        sendpost($("#messagetxt").val());
-        $("#messagetxt").val("");
+var addNewsCtrl = function ($scope,Messages) {
+    $scope.sendNews = function (news) {
+        Messages.sendPost(news);
     };
-
-})
+};
 
 module.exports = addNewsCtrl;
