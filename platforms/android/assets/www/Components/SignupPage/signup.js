@@ -2,15 +2,15 @@ var signupCtrl = function ($scope, $ionicLoading, $location, Auth) {
 
     $scope.inputType = 'password';
 
-    $scope.UserSignup = function () {
+    $scope.UserSignup = function (username, password, mail) {
         $ionicLoading.show({
             template: 'Registrazione in corso...'
         });
-        Auth.Signup($scope.username, $scope.password, $scope.mail, $ionicLoading);
+        Auth.Signup(username, password, mail, $ionicLoading);
     };
 
     $scope.go = function () {
-        document.location.href = 'login.html'
+        document.location.href = '#/login'
     };
 
     $scope.hideShowPassword = function () {

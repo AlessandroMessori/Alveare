@@ -20,10 +20,8 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
         var state = $scope.$activeHistoryId;
         if (state == 'ion6' || state == 'ion7'
             || state == 'ion8' || state == 'ion9') {
-            console.log("ng-show");
             return "ng-show";
         } else {
-            console.log("ng-hide");
             return "ng-hide";
         }
     };

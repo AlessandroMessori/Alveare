@@ -48,7 +48,8 @@
 	var addArticleCtrl = __webpack_require__(131);
 	var addNewsCtrl = __webpack_require__(132);
 	var adminCtrl = __webpack_require__(133);
-	var articlesCtrl = __webpack_require__(134);
+	var attualitaCtrl = __webpack_require__(134).attualitaCtrl;
+	var orientamentoCtrl = __webpack_require__(134).orientamentoCtrl;
 	var commentsCtrl = __webpack_require__(135);
 	var linkCtrl = __webpack_require__(136);
 	var loginCtrl = __webpack_require__(137);
@@ -68,7 +69,8 @@
 	appAS.controller('addArticleCtrl', addArticleCtrl);
 	appAS.controller('addNewsCtrl', addNewsCtrl);
 	appAS.controller('adminCtrl', adminCtrl);
-	appAS.controller('articlesCtrl', articlesCtrl);
+	appAS.controller('attualitaCtrl', attualitaCtrl);
+	appAS.controller('orientamentoCtrl', orientamentoCtrl);
 	appAS.controller('commentsCtrl', commentsCtrl);
 	appAS.controller('linkCtrl', linkCtrl);
 	appAS.controller('loginCtrl', loginCtrl);
@@ -97,7 +99,7 @@
 	    });
 	});
 
-	appAS.config(function ($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
+	appAS.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 
 	    $ionicConfigProvider.tabs.position('bottom');
 
@@ -137,21 +139,17 @@
 	            views: {
 	                'tab-giornalino': {
 	                    templateUrl: 'Components/ArticlesPage/tab-giornalino.html',
-	                    controller: 'articlesCtrl'
+	                    controller: 'attualitaCtrl'
 	                }
-	            },
-	            params: {
-	                post: null
 	            }
 	        })
-
 
 	        .state('tab.orientamento', {
 	            url: '/orientamento',
 	            views: {
 	                'tab-orientamento': {
 	                    templateUrl: 'Components/ArticlesPage/tab-giornalino.html',
-	                    controller: 'articlesCtrl'
+	                    controller: 'orientamentoCtrl'
 	                }
 	            }
 	        })
@@ -219,8 +217,12 @@
 	            }
 	        });
 
+	    if (window.localStorage.getItem("RememberMe") == "true") {
+	        $urlRouterProvider.otherwise('/tab/link');
+	    } else {
+	        $urlRouterProvider.otherwise('/login');
+	    }
 
-	    $urlRouterProvider.otherwise('/tab/link');
 
 	});
 
@@ -13675,23 +13677,36 @@
 /* 134 */
 /***/ function(module, exports) {
 
-	var articlesCtrl = function ($scope, $state, $window,Articles) {
+	var articlesCtrl = function ($scope, $state, $window, Articles, type) {
 
 	    $scope.$on('$ionicView.enter', function () {
-	        if ($scope.Articles != Articles.getArticles($state, $window, "Article")) { $scope.doRefresh(); }
+	        if ($scope.Articles != Articles.getArticles($state, $window, type)) {
+	            $scope.doRefresh();
+	        }
 	    });
 
-	    $scope.Articles = Articles.getArticles($state, $window, "Article");
+	    $scope.Articles = Articles.getArticles($state, $window, type);
 
 	    $scope.doRefresh = function () {
-	        $scope.Articles = Articles.getArticles($state, $window, "Article");
+	        $scope.Articles = Articles.getArticles($state, $window, type);
 	        $scope.$broadcast('scroll.refreshComplete');
 	        $scope.$apply();
 	    };
 
 	};
 
-	module.exports = articlesCtrl;
+	var attualitaCtrl = function ($scope, $state, $window, Articles) {
+	    return articlesCtrl($scope, $state, $window, Articles, 'Article');
+	};
+
+	var orientamentoCtrl = function ($scope, $state, $window, Articles) {
+	    return articlesCtrl($scope, $state, $window, Articles, 'Orientamento');
+	};
+
+	module.exports = {
+	    attualitaCtrl: attualitaCtrl,
+	    orientamentoCtrl: orientamentoCtrl
+	};
 
 /***/ },
 /* 135 */
@@ -13760,26 +13775,18 @@
 
 	    $scope.inputType = 'password';
 
-	    $scope.UserLogin = function () {
+	    $scope.UserLogin = function (username, password,RememberMe) {
 	        $ionicLoading.show({
 	            template: 'Accesso in Corso...'
 	        });
-	        Auth.Login($scope.username, $scope.password, $ionicLoading);
-	        $scope.SetRememberMe();
+	        Auth.Login(username, password, $ionicLoading);
+	        $scope.SetRememberMe(RememberMe);
 	    };
 
-	    $scope.SetRememberMe = function () {
+	    $scope.SetRememberMe = function (RememberMe) {
 
-	        if ($scope.RememberMe) {
+	        if (RememberMe) {
 	            $window.localStorage.setItem("RememberMe", "true");
-	        }
-
-	    };
-
-	    $scope.CheckRememberMe = function () {
-
-	        if ($window.localStorage.getItem("RememberMe") == "true") {
-	            document.location.href = "index.html";
 	        }
 
 	    };
@@ -13860,15 +13867,15 @@
 
 	    $scope.inputType = 'password';
 
-	    $scope.UserSignup = function () {
+	    $scope.UserSignup = function (username, password, mail) {
 	        $ionicLoading.show({
 	            template: 'Registrazione in corso...'
 	        });
-	        Auth.Signup($scope.username, $scope.password, $scope.mail, $ionicLoading);
+	        Auth.Signup(username, password, mail, $ionicLoading);
 	    };
 
 	    $scope.go = function () {
-	        document.location.href = 'login.html'
+	        document.location.href = '#/login'
 	    };
 
 	    $scope.hideShowPassword = function () {
@@ -13908,10 +13915,8 @@
 	        var state = $scope.$activeHistoryId;
 	        if (state == 'ion6' || state == 'ion7'
 	            || state == 'ion8' || state == 'ion9') {
-	            console.log("ng-show");
 	            return "ng-show";
 	        } else {
-	            console.log("ng-hide");
 	            return "ng-hide";
 	        }
 	    };
@@ -14230,7 +14235,7 @@
 	                // Hooray! Let them use the app now.
 	                loadingtemplate.hide();
 	                alert("Creato Account Con successo");
-	                document.location.href = "login.html";
+	                document.location.href = "/#login";
 	            },
 	            error: function (user, error) {
 	                // Show the error message somewhere and let the user try again.
@@ -14244,7 +14249,7 @@
 	        Parse.User.logIn(name, pass, {
 	            success: function (user) {
 	                loadingtemplate.hide();
-	                document.location.href = "index.html";
+	                document.location.href = "/#tab/link";
 	            },
 	            error: function (user, error) {
 	                loadingtemplate.hide();
@@ -14255,9 +14260,8 @@
 	    };
 
 	    this.Logout = function (loadingtemplate) {
-
 	        Parse.User.logOut();
-	        document.location.href = "login.html";
+	        document.location.href = "/#login";
 	        loadingtemplate.hide();
 	    };
 

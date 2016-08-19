@@ -1,17 +1,30 @@
-var articlesCtrl = function ($scope, $state, $window,Articles) {
+var articlesCtrl = function ($scope, $state, $window, Articles, type) {
 
     $scope.$on('$ionicView.enter', function () {
-        if ($scope.Articles != Articles.getArticles($state, $window, "Article")) { $scope.doRefresh(); }
+        if ($scope.Articles != Articles.getArticles($state, $window, type)) {
+            $scope.doRefresh();
+        }
     });
 
-    $scope.Articles = Articles.getArticles($state, $window, "Article");
+    $scope.Articles = Articles.getArticles($state, $window, type);
 
     $scope.doRefresh = function () {
-        $scope.Articles = Articles.getArticles($state, $window, "Article");
+        $scope.Articles = Articles.getArticles($state, $window, type);
         $scope.$broadcast('scroll.refreshComplete');
         $scope.$apply();
     };
 
 };
 
-module.exports = articlesCtrl;
+var attualitaCtrl = function ($scope, $state, $window, Articles) {
+    return articlesCtrl($scope, $state, $window, Articles, 'Article');
+};
+
+var orientamentoCtrl = function ($scope, $state, $window, Articles) {
+    return articlesCtrl($scope, $state, $window, Articles, 'Orientamento');
+};
+
+module.exports = {
+    attualitaCtrl: attualitaCtrl,
+    orientamentoCtrl: orientamentoCtrl
+};

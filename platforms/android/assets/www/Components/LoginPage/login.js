@@ -2,26 +2,18 @@ var loginCtrl = function ($scope, $ionicLoading, $window, Auth) {
 
     $scope.inputType = 'password';
 
-    $scope.UserLogin = function () {
+    $scope.UserLogin = function (username, password,RememberMe) {
         $ionicLoading.show({
             template: 'Accesso in Corso...'
         });
-        Auth.Login($scope.username, $scope.password, $ionicLoading);
-        $scope.SetRememberMe();
+        Auth.Login(username, password, $ionicLoading);
+        $scope.SetRememberMe(RememberMe);
     };
 
-    $scope.SetRememberMe = function () {
+    $scope.SetRememberMe = function (RememberMe) {
 
-        if ($scope.RememberMe) {
+        if (RememberMe) {
             $window.localStorage.setItem("RememberMe", "true");
-        }
-
-    };
-
-    $scope.CheckRememberMe = function () {
-
-        if ($window.localStorage.getItem("RememberMe") == "true") {
-            document.location.href = "index.html";
         }
 
     };

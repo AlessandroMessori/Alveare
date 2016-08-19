@@ -171,7 +171,11 @@ appAS.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider)
             }
         });
 
+    if (window.localStorage.getItem("RememberMe") == "true") {
+        $urlRouterProvider.otherwise('/tab/link');
+    } else {
+        $urlRouterProvider.otherwise('/login');
+    }
 
-    $urlRouterProvider.otherwise('/login');
 
 });
