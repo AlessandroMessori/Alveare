@@ -7,7 +7,7 @@
   <author email="lalveare1516@gmail.com" href="https://facebook.com/lalveare1516">
       L&apos;Alveare&apos;
     </author>
-  <content src="login.html"/>
+  <content src="index.html"/>
   <access origin="*"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>

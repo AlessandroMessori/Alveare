@@ -2,8 +2,7 @@ var Parse = require('parse');
 var addArticleCtrl = require('./AddArticlePage/addArticle');
 var addNewsCtrl = require('./AddNewsPage/addNews');
 var adminCtrl = require('./AdminPage/admin');
-var attualitaCtrl = require('./ArticlesPage/articles').attualitaCtrl;
-var orientamentoCtrl = require('./ArticlesPage/articles').orientamentoCtrl;
+var articlesCtrl = require('./ArticlesPage/articles');
 var commentsCtrl = require('./CommentsPage/comments');
 var linkCtrl = require('./LinkPage/link');
 var loginCtrl = require('./LoginPage/login');
@@ -23,8 +22,7 @@ var appAS = angular.module('appAS', ['ionic'])
 appAS.controller('addArticleCtrl', addArticleCtrl);
 appAS.controller('addNewsCtrl', addNewsCtrl);
 appAS.controller('adminCtrl', adminCtrl);
-appAS.controller('attualitaCtrl', attualitaCtrl);
-appAS.controller('orientamentoCtrl', orientamentoCtrl);
+appAS.controller('articlesCtrl', articlesCtrl);
 appAS.controller('commentsCtrl', commentsCtrl);
 appAS.controller('linkCtrl', linkCtrl);
 appAS.controller('loginCtrl', loginCtrl);
@@ -53,7 +51,7 @@ appAS.run(function ($ionicPlatform) {
     });
 });
 
-appAS.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+appAS.config(function ($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
 
     $ionicConfigProvider.tabs.position('bottom');
 
@@ -93,17 +91,21 @@ appAS.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider)
             views: {
                 'tab-giornalino': {
                     templateUrl: 'Components/ArticlesPage/tab-giornalino.html',
-                    controller: 'attualitaCtrl'
+                    controller: 'articlesCtrl'
                 }
+            },
+            params: {
+                post: null
             }
         })
+
 
         .state('tab.orientamento', {
             url: '/orientamento',
             views: {
                 'tab-orientamento': {
                     templateUrl: 'Components/ArticlesPage/tab-giornalino.html',
-                    controller: 'orientamentoCtrl'
+                    controller: 'articlesCtrl'
                 }
             }
         })

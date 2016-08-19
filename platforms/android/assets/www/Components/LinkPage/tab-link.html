@@ -1,0 +1,11 @@
+<ion-view view-title="Link">
+    <ion-content>
+     <ul class="list">
+           <div class="item item-icon-left"  ng-repeat="Link in Links"  ng-click="OpenLink(Link.url)">
+              <i ng-class="Link.icon "></i>
+                 {{Link.name}}
+            </div>
+      </ul>
+
+    </ion-content>
+</ion-view>

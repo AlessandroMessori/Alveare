@@ -48,8 +48,7 @@
 	var addArticleCtrl = __webpack_require__(131);
 	var addNewsCtrl = __webpack_require__(132);
 	var adminCtrl = __webpack_require__(133);
-	var attualitaCtrl = __webpack_require__(134).attualitaCtrl;
-	var orientamentoCtrl = __webpack_require__(134).orientamentoCtrl;
+	var articlesCtrl = __webpack_require__(134);
 	var commentsCtrl = __webpack_require__(135);
 	var linkCtrl = __webpack_require__(136);
 	var loginCtrl = __webpack_require__(137);
@@ -69,8 +68,7 @@
 	appAS.controller('addArticleCtrl', addArticleCtrl);
 	appAS.controller('addNewsCtrl', addNewsCtrl);
 	appAS.controller('adminCtrl', adminCtrl);
-	appAS.controller('attualitaCtrl', attualitaCtrl);
-	appAS.controller('orientamentoCtrl', orientamentoCtrl);
+	appAS.controller('articlesCtrl', articlesCtrl);
 	appAS.controller('commentsCtrl', commentsCtrl);
 	appAS.controller('linkCtrl', linkCtrl);
 	appAS.controller('loginCtrl', loginCtrl);
@@ -99,7 +97,7 @@
 	    });
 	});
 
-	appAS.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+	appAS.config(function ($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
 
 	    $ionicConfigProvider.tabs.position('bottom');
 
@@ -139,17 +137,21 @@
 	            views: {
 	                'tab-giornalino': {
 	                    templateUrl: 'Components/ArticlesPage/tab-giornalino.html',
-	                    controller: 'attualitaCtrl'
+	                    controller: 'articlesCtrl'
 	                }
+	            },
+	            params: {
+	                post: null
 	            }
 	        })
+
 
 	        .state('tab.orientamento', {
 	            url: '/orientamento',
 	            views: {
 	                'tab-orientamento': {
 	                    templateUrl: 'Components/ArticlesPage/tab-giornalino.html',
-	                    controller: 'orientamentoCtrl'
+	                    controller: 'articlesCtrl'
 	                }
 	            }
 	        })
@@ -13673,36 +13675,23 @@
 /* 134 */
 /***/ function(module, exports) {
 
-	var articlesCtrl = function ($scope, $state, $window, Articles, type) {
+	var articlesCtrl = function ($scope, $state, $window,Articles) {
 
 	    $scope.$on('$ionicView.enter', function () {
-	        if ($scope.Articles != Articles.getArticles($state, $window, type)) {
-	            $scope.doRefresh();
-	        }
+	        if ($scope.Articles != Articles.getArticles($state, $window, "Article")) { $scope.doRefresh(); }
 	    });
 
-	    $scope.Articles = Articles.getArticles($state, $window, type);
+	    $scope.Articles = Articles.getArticles($state, $window, "Article");
 
 	    $scope.doRefresh = function () {
-	        $scope.Articles = Articles.getArticles($state, $window, type);
+	        $scope.Articles = Articles.getArticles($state, $window, "Article");
 	        $scope.$broadcast('scroll.refreshComplete');
 	        $scope.$apply();
 	    };
 
 	};
 
-	var attualitaCtrl = function ($scope, $state, $window, Articles) {
-	    return articlesCtrl($scope, $state, $window, Articles, 'Article');
-	};
-
-	var orientamentoCtrl = function ($scope, $state, $window, Articles) {
-	    return articlesCtrl($scope, $state, $window, Articles, 'Orientamento');
-	};
-
-	module.exports = {
-	    attualitaCtrl: attualitaCtrl,
-	    orientamentoCtrl: orientamentoCtrl
-	};
+	module.exports = articlesCtrl;
 
 /***/ },
 /* 135 */
@@ -13919,8 +13908,10 @@
 	        var state = $scope.$activeHistoryId;
 	        if (state == 'ion6' || state == 'ion7'
 	            || state == 'ion8' || state == 'ion9') {
+	            console.log("ng-show");
 	            return "ng-show";
 	        } else {
+	            console.log("ng-hide");
 	            return "ng-hide";
 	        }
 	    };

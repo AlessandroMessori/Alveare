@@ -1,0 +1,42 @@
+<ion-view view-title="Login">
+    <ion-content ng-init="CheckRememberMe()" class="loginSection">
+
+        <img src="Images/icon.png" class="responsive">
+
+        <div class="row" id="inputrow">
+            <div class="col-50 col-offset-25">
+
+                <label class="item item-input">
+                    <input type="text" ng-model="username" placeholder="Username">
+                </label>
+                <label class="item item-input">
+                    <input type="{{inputType}}" id="passtxt" ng-model="password" placeholder="Password">
+                </label>
+
+            </div>
+        </div>
+
+        <div class="row" id="checkboxrow">
+            <div class="col-50 col-offset-25">
+                <input type="checkbox" ng-model="ShowPass" ng-click="hideShowPassword()"> Mostra password</input>
+            </div>
+        </div>
+
+        <div class="row" id="checkboxrow">
+            <div class="col-50 col-offset-25">
+                <input type="checkbox" ng-model="RememberMe"> Remember me</input>
+            </div>
+        </div>
+
+        <div class="row" id="btnrow">
+            <div class="col">
+                <button ng-click="UserLogin()" class="button button-positive">Login</button>
+            </div>
+        </div>
+
+        <a href="/#/signup">Crea Account</a>
+
+    </ion-content>
+</ion-view>
+
+

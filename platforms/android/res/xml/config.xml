@@ -47,7 +47,7 @@
     <author email="lalveare1516@gmail.com" href="https://facebook.com/lalveare1516">
       L'Alveare'
     </author>
-    <content src="login.html" />
+    <content src="index.html" />
     <access origin="*" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
@@ -57,5 +57,4 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="orientation" value="portrait" />
-    <preference name="StatusBarOverlaysWebView" value="false" />
 </widget>

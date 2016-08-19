@@ -1,0 +1,16 @@
+<ion-view view-title="Attualità">
+    <ion-content>
+
+        <ion-refresher on-refresh="doRefresh()">
+        </ion-refresher>
+        <ion-spinner class="spinner"></ion-spinner>
+        <div class="list">
+
+            <a class="item item-thumbnail-left" href="#" ng-click="Article.link()" ng-repeat="Article in Articles track by $index">
+                <img src={{Article.img}}>
+                <h2>{{Article.title}}</h2>
+                <p>{{Article.text}}</p>
+            </a>
+        </div>
+    </ion-content>
+</ion-view>
