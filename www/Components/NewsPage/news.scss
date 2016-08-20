@@ -1,5 +1,26 @@
-.spinner{
+.spinner {
   position: absolute;
-  margin-top:60%;
+  margin-top: 60%;
   right: 50%;
 }
+
+.author {
+  color: blue !important;
+}
+
+.date {
+  text-align: right;
+}
+
+
+.dataTag{
+  font-size: 13px;
+}
+
+.actionIcon {
+  margin: 0.5%;
+  text-align: center;
+  font-size: 15px;
+  color: darkslategrey;
+}
+

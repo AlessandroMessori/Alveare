@@ -1,5 +1,5 @@
 ﻿<ion-view view-title="Avvisi">
-    <ion-content >
+    <ion-content>
 
         <ion-refresher on-refresh="doRefresh()">
         </ion-refresher>
@@ -11,21 +11,23 @@
             <div class="item">
                 <div class="row">
                     <div class="col">
-                        <a class="subdued" style="color:blue">{{Post.name}}</a>
+                        <a class="subdued author">{{Post.name}}</a>
                     </div>
-                    <div class="col" style="text-align:right">
+                    <div class="col date">
                         <a class="subdued">{{Post.date}}</a>
                     </div>
                 </div>
             </div>
 
             <div class="item item-body">
-                <p>
-                    {{Post.text}}
-                    <p ng-click="Post.link()">
-                        <a href="#" class="subdued">Commenta</a>
-                    </p>
-                </p>
+                <p class="postContent">{{Post.text}}</p>
+                <a class="subdued dataTag">15 Mi piace</a>
+                <a class="subdued dataTag">3 Commenti</a>
+            </div>
+
+            <div class="row">
+                <p class="icon ion-thumbsup actionIcon col-50"> Mi Piace</p>
+                <p class="icon ion-chatbox actionIcon col-50" ng-click="Post.link()"> Commenta</p>
             </div>
 
         </div>
