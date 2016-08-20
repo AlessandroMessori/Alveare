@@ -1,4 +1,5 @@
-var addArticleCtrl = function ($scope, $window,Articles) {
+var Parse = require('parse');
+var addArticleCtrl = function ($scope, $window, $ionicLoading, Articles, InputFields) {
 
     document.getElementById('img-preview').style.display = 'none';
 
@@ -22,10 +23,19 @@ var addArticleCtrl = function ($scope, $window,Articles) {
 
     };
 
-    $scope.UploadArticle = function (title,text) {
-        Articles.sendArticle(title, "autore",text, '', $window.localStorage.getItem("contentType"));
-        title = '';
-        text= '';
+    $scope.UploadArticle = function (title, text) {
+        if (InputFields.filledFields([title, text])) {
+
+            $ionicLoading.show({
+                template: 'Pubblicazione in Corso...'
+            });
+            Articles.sendArticle(title, Parse.User.current().get("username"), text, '', $window.localStorage.getItem("contentType"), $ionicLoading);
+            title = '';
+            text = '';
+        }
+        else {
+            alert('compila tutti i campi');
+        }
     }
 
 };

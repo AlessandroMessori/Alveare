@@ -1,6 +1,11 @@
-var addNewsCtrl = function ($scope,Messages) {
+var addNewsCtrl = function ($scope, Messages) {
     $scope.sendNews = function (news) {
-        Messages.sendPost(news);
+        if (news != undefined) {
+            Messages.sendPost(news);
+        }
+        else {
+            alert('compila il testo del messaggio');
+        }
     };
 };
 

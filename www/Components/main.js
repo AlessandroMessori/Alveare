@@ -16,11 +16,12 @@ var Articles = require('../Services/Articles');
 var Comments = require('../Services/Comments');
 var Auth = require('../Services/Auth');
 var DateHandler = require('../Services/DateHandler');
+var InputFields = require('../Services/InputFields');
 var credentials = require('../../credentials');
 
 Parse.initialize(credentials.user, credentials.password);
 
-var appAS = angular.module('appAS', ['ionic'])
+var appAS = angular.module('appAS', ['ionic']);
 appAS.controller('addArticleCtrl', addArticleCtrl);
 appAS.controller('addNewsCtrl', addNewsCtrl);
 appAS.controller('adminCtrl', adminCtrl);
@@ -38,6 +39,7 @@ appAS.service('Articles', Articles);
 appAS.service('Comments', Comments);
 appAS.service('Auth', Auth);
 appAS.service('DateHandler', DateHandler);
+appAS.service('InputFields',InputFields);
 
 
 appAS.run(function ($ionicPlatform) {

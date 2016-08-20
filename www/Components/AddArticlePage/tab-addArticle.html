@@ -1,49 +1,36 @@
 <ion-view view-title="L'Alveare" ng-init="checkFoto()">
-    <ion-content class="padding" >
+    <ion-content class="padding">
 
-
-        <div class="row" style="text-align:center" style="margin-top:10%">
-            <div class="col ">
-                <div class="bar bar-header bar-calm">
-                    <h1 class="title">Scrivi Articolo</h1>
-                </div>
-            </div>
-        </div>
-        <br>
-
-        <div class="row" style="text-align:center" style="margin-top:12%">
+        <div class="row titleRow">
             <div class="col col-50 col-offset-25">
-                <label class="item item-input" style="text-align:center">
-                    <input type="text" placeholder="Titolo Articolo" ng-model="title">"
+                <label class="item item-input">
+                    <input type="text" placeholder="Titolo Articolo" ng-model="Title">
                 </label>
             </div>
         </div>
 
-
-        <label class="item item-input" style="margin-top:4%">
-            <textarea placeholder="Testo Articolo"  ng-model="text"></textarea>
+        <label class="item item-input">
+            <textarea placeholder="Testo Articolo" ng-model="text"></textarea>
         </label>
 
-
         <div class="row">
-          <div class="col col-33">
-              <a href="#" class="button button-icon icon ion-camera" ng-click="GetPic()">
-                     Carica
-              </a>
-           </div>
-            <div  id="img-preview" class="col col-50" style="text-align:center" >
-              <h4>Immagine di copertina</h4>
-              <img class="responsive"  id="img_1" src="{{imgData}}" style="width:100%;"></img>
+            <div class="col col-33">
+                <a href="#" id="cameraBtn" class="button button-icon icon ion-camera" ng-click="GetPic()">
+                    Carica
+                </a>
+            </div>
+            <div id="img-preview" class="col col-50">
+                <h4>Immagine di copertina</h4>
+                <img class="responsive" id="img_1" src="{{imgData}}"></img>
             </div>
         </div>
 
 
-        <div class="row" id="btnrow" style="text-align:center">
+        <div class="row" id="btnrow">
             <div class="col col-33 col-offset-33">
-                <button id="sendbtn" class="button  button-positive" ng-click="UploadArticle(title,text)">Invia</button>
+                <button id="sendbtn" class="button  button-positive" ng-click="UploadArticle(Title,text)">Invia</button>
             </div>
         </div>
-
 
 
     </ion-content>

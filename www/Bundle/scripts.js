@@ -61,12 +61,13 @@
 	var Articles = __webpack_require__(143);
 	var Comments = __webpack_require__(144);
 	var Auth = __webpack_require__(145);
-	var DateHandler = __webpack_require__(148);
-	var credentials = __webpack_require__(146);
+	var DateHandler = __webpack_require__(146);
+	var InputFields = __webpack_require__(147);
+	var credentials = __webpack_require__(148);
 
 	Parse.initialize(credentials.user, credentials.password);
 
-	var appAS = angular.module('appAS', ['ionic'])
+	var appAS = angular.module('appAS', ['ionic']);
 	appAS.controller('addArticleCtrl', addArticleCtrl);
 	appAS.controller('addNewsCtrl', addNewsCtrl);
 	appAS.controller('adminCtrl', adminCtrl);
@@ -84,6 +85,7 @@
 	appAS.service('Comments', Comments);
 	appAS.service('Auth', Auth);
 	appAS.service('DateHandler', DateHandler);
+	appAS.service('InputFields',InputFields);
 
 
 	appAS.run(function ($ionicPlatform) {
@@ -13585,9 +13587,10 @@
 
 /***/ },
 /* 131 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	var addArticleCtrl = function ($scope, $window,Articles) {
+	var Parse = __webpack_require__(1);
+	var addArticleCtrl = function ($scope, $window, $ionicLoading, Articles, InputFields) {
 
 	    document.getElementById('img-preview').style.display = 'none';
 
@@ -13611,10 +13614,19 @@
 
 	    };
 
-	    $scope.UploadArticle = function (title,text) {
-	        Articles.sendArticle(title, "autore",text, '', $window.localStorage.getItem("contentType"));
-	        title = '';
-	        text= '';
+	    $scope.UploadArticle = function (title, text) {
+	        if (InputFields.filledFields([title, text])) {
+
+	            $ionicLoading.show({
+	                template: 'Pubblicazione in Corso...'
+	            });
+	            Articles.sendArticle(title, Parse.User.current().get("username"), text, '', $window.localStorage.getItem("contentType"), $ionicLoading);
+	            title = '';
+	            text = '';
+	        }
+	        else {
+	            alert('compila tutti i campi');
+	        }
 	    }
 
 	};
@@ -13627,9 +13639,14 @@
 /* 132 */
 /***/ function(module, exports) {
 
-	var addNewsCtrl = function ($scope,Messages) {
+	var addNewsCtrl = function ($scope, Messages) {
 	    $scope.sendNews = function (news) {
-	        Messages.sendPost(news);
+	        if (news != undefined) {
+	            Messages.sendPost(news);
+	        }
+	        else {
+	            alert('compila il testo del messaggio');
+	        }
 	    };
 	};
 
@@ -13717,19 +13734,24 @@
 
 	var commentsCtrl = function ($scope, $window, Comments) {
 	    $scope.send = function (comment) {
-	        Comments.sendComment(comment, $window.localStorage.getItem("currentPost"));
-	        comment = '';
-	        $scope.doRefresh();
+	        if (comment != undefined) {
+	            Comments.sendComment(comment, $window.localStorage.getItem("currentPost"));
+	            comment = '';
+	            $scope.doRefresh();
+	        }
+	        else {
+	            alert('non puoi pubblicare un commento vuoto');
+	        }
 	    };
 
 	    $scope.$on('$ionicView.enter', function () {
 	        $scope.doRefresh();
 	    });
 
-	    $scope.Comments = Comments.getComments($window,'commentsSpinner');
+	    $scope.Comments = Comments.getComments($window, 'commentsSpinner');
 
 	    $scope.doRefresh = function () {
-	        $scope.Comments = Comments.getComments($window,'commentsSpinner');
+	        $scope.Comments = Comments.getComments($window, 'commentsSpinner');
 	        $scope.$broadcast('scroll.refreshComplete');
 	        $scope.$apply();
 	    };
@@ -13763,6 +13785,11 @@
 	            "name": "Sito Web Della Scuola",
 	            "url": "http://www.liceoariostospallanzani-re.gov.it/",
 	            "icon": "icon ion-ios-world"
+	        },
+	        {
+	            "name": "Accesso Web Mail",
+	            "url": "https://mail.google.com",
+	            "icon": "icon ion-ios-email"
 	        }
 	    ];
 
@@ -13774,16 +13801,21 @@
 /* 137 */
 /***/ function(module, exports) {
 
-	var loginCtrl = function ($scope, $ionicLoading, $window, Auth) {
+	var loginCtrl = function ($scope, $ionicLoading, $window, Auth, InputFields) {
 
 	    $scope.inputType = 'password';
 
-	    $scope.UserLogin = function (username, password,RememberMe) {
-	        $ionicLoading.show({
-	            template: 'Accesso in Corso...'
-	        });
-	        Auth.Login(username, password, $ionicLoading);
-	        $scope.SetRememberMe(RememberMe);
+	    $scope.UserLogin = function (username, password, RememberMe) {
+	        if (InputFields.filledFields([username, password])) {
+	            $ionicLoading.show({
+	                template: 'Accesso in Corso...'
+	            });
+	            Auth.Login(username, password, $ionicLoading);
+	            $scope.SetRememberMe(RememberMe);
+	        }
+	        else {
+	            alert('compila tutti i campi');
+	        }
 	    };
 
 	    $scope.SetRememberMe = function (RememberMe) {
@@ -13866,15 +13898,20 @@
 /* 140 */
 /***/ function(module, exports) {
 
-	var signupCtrl = function ($scope, $ionicLoading, $location, Auth) {
+	var signupCtrl = function ($scope, $ionicLoading, $location, Auth, InputFields) {
 
 	    $scope.inputType = 'password';
 
 	    $scope.UserSignup = function (username, password, mail) {
-	        $ionicLoading.show({
-	            template: 'Registrazione in corso...'
-	        });
-	        Auth.Signup(username, password, mail, $ionicLoading);
+	        if (InputFields.filledFields([username, password, mail])) {
+	            $ionicLoading.show({
+	                template: 'Registrazione in corso...'
+	            });
+	            Auth.Signup(username, password, mail, $ionicLoading);
+	        }
+	        else {
+	            alert('compila tutti i campi');
+	        }
 	    };
 
 	    $scope.go = function () {
@@ -14008,7 +14045,7 @@
 	var Parse = __webpack_require__(1);
 	var Articles = function (DateHandler) {
 
-	    this.sendArticle = function (title, author, text, img, type) {
+	    this.sendArticle = function (title, author, text, img, type, loadingTemplate) {
 
 	        var Article = new Parse.Object(type);
 
@@ -14032,17 +14069,18 @@
 
 	        Article.save(null, {
 	            success: function (Article) {
+	                loadingTemplate.hide();
 	                alert('Articolo pubblicato con successo');
 	            },
 	            error: function (Article, error) {
-
-	                alert('Failed to create new object, with error code: ' + error.message);
+	                loadingTemplate.hide();
+	                alert('Errore nella pubblicazione dellArticolo' + error.message);
 	            }
 	        });
 
 	    };
 
-	    this.getArticles = function (state, win, type,spinner) {
+	    this.getArticles = function (state, win, type, spinner) {
 
 	        document.getElementById(spinner).style.display = 'block';
 	        var Article = new Parse.Object(type);
@@ -14212,16 +14250,6 @@
 /* 146 */
 /***/ function(module, exports) {
 
-	module.exports = {
-	    "user": "o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ",
-	    "password": "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF"
-	};
-
-/***/ },
-/* 147 */,
-/* 148 */
-/***/ function(module, exports) {
-
 	var DateHandler = function () {
 
 	    var self = this;
@@ -14298,6 +14326,35 @@
 	};
 
 	module.exports = DateHandler;
+
+/***/ },
+/* 147 */
+/***/ function(module, exports) {
+
+	var InputFields = function () {
+
+	    this.filledFields = function (fields) {
+	        var check = true;
+	        fields.map(function (item) {
+	            if (item == undefined) {
+	                check = false;
+	            }
+	        });
+	        return check;
+	    };
+
+	};
+
+	module.exports = InputFields;
+
+/***/ },
+/* 148 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	    "user": "o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ",
+	    "password": "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF"
+	};
 
 /***/ }
 /******/ ]);

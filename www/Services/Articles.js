@@ -1,7 +1,7 @@
 var Parse = require('parse');
 var Articles = function (DateHandler) {
 
-    this.sendArticle = function (title, author, text, img, type) {
+    this.sendArticle = function (title, author, text, img, type, loadingTemplate) {
 
         var Article = new Parse.Object(type);
 
@@ -25,17 +25,18 @@ var Articles = function (DateHandler) {
 
         Article.save(null, {
             success: function (Article) {
+                loadingTemplate.hide();
                 alert('Articolo pubblicato con successo');
             },
             error: function (Article, error) {
-
-                alert('Failed to create new object, with error code: ' + error.message);
+                loadingTemplate.hide();
+                alert('Errore nella pubblicazione dellArticolo' + error.message);
             }
         });
 
     };
 
-    this.getArticles = function (state, win, type,spinner) {
+    this.getArticles = function (state, win, type, spinner) {
 
         document.getElementById(spinner).style.display = 'block';
         var Article = new Parse.Object(type);
