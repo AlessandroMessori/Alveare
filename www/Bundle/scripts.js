@@ -63,8 +63,9 @@
 	var Auth = __webpack_require__(145);
 	var DateHandler = __webpack_require__(146);
 	var InputFields = __webpack_require__(147);
-	var backBtn = __webpack_require__(149);
-	var credentials = __webpack_require__(148);
+	var StringHandler = __webpack_require__(150);
+	var backBtn = __webpack_require__(148);
+	var credentials = __webpack_require__(149);
 
 	Parse.initialize(credentials.user, credentials.password);
 
@@ -86,8 +87,9 @@
 	appAS.service('Comments', Comments);
 	appAS.service('Auth', Auth);
 	appAS.service('DateHandler', DateHandler);
-	appAS.service('InputFields',InputFields);
-	appAS.directive('backBtn',backBtn);
+	appAS.service('InputFields', InputFields);
+	appAS.service('StringHandler', StringHandler);
+	appAS.directive('backBtn', backBtn);
 
 	appAS.run(function ($ionicPlatform) {
 	    $ionicPlatform.ready(function () {
@@ -14035,7 +14037,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Parse = __webpack_require__(1);
-	var Articles = function (DateHandler) {
+	var Articles = function (DateHandler,StringHandler) {
 
 	    this.sendArticle = function (title, author, text, img, type, loadingTemplate) {
 
@@ -14089,6 +14091,7 @@
 	                        title: results[i].get("title"),
 	                        author: results[i].get("author"),
 	                        text: results[i].get('text'),
+	                        coverText: StringHandler.shorten(results[i].get('text'),100),
 	                        img: results[i].get("img").url(),
 	                        date: results[i].get("date"),
 	                        id: results[i].id,
@@ -14343,15 +14346,6 @@
 /* 148 */
 /***/ function(module, exports) {
 
-	module.exports = {
-	    "user": "o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ",
-	    "password": "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF"
-	};
-
-/***/ },
-/* 149 */
-/***/ function(module, exports) {
-
 	var backBtn = function () {
 	    return {
 	        templateUrl: 'Components/BackBtn/backBtn.html'
@@ -14359,6 +14353,32 @@
 	};
 
 	module.exports = backBtn;
+
+
+/***/ },
+/* 149 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	    "user": "o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ",
+	    "password": "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF"
+	};
+
+/***/ },
+/* 150 */
+/***/ function(module, exports) {
+
+	var StringHandler = function () {
+	    this.shorten = function shorten(text, maxLength) {
+	        var ret = text;
+	        if (ret.length > maxLength) {
+	            ret = ret.substr(0,maxLength-3) + '…';
+	        }
+	        return ret;
+	    }
+	};
+
+	module.exports = StringHandler;
 
 
 /***/ }

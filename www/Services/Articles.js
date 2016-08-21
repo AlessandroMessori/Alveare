@@ -1,5 +1,5 @@
 var Parse = require('parse');
-var Articles = function (DateHandler) {
+var Articles = function (DateHandler,StringHandler) {
 
     this.sendArticle = function (title, author, text, img, type, loadingTemplate) {
 
@@ -53,6 +53,7 @@ var Articles = function (DateHandler) {
                         title: results[i].get("title"),
                         author: results[i].get("author"),
                         text: results[i].get('text'),
+                        coverText: StringHandler.shorten(results[i].get('text'),100),
                         img: results[i].get("img").url(),
                         date: results[i].get("date"),
                         id: results[i].id,

@@ -17,6 +17,7 @@ var Comments = require('../Services/Comments');
 var Auth = require('../Services/Auth');
 var DateHandler = require('../Services/DateHandler');
 var InputFields = require('../Services/InputFields');
+var StringHandler = require('../Services/StringHandler');
 var backBtn = require('./BackBtn/backBtn');
 var credentials = require('../../credentials');
 
@@ -40,8 +41,9 @@ appAS.service('Articles', Articles);
 appAS.service('Comments', Comments);
 appAS.service('Auth', Auth);
 appAS.service('DateHandler', DateHandler);
-appAS.service('InputFields',InputFields);
-appAS.directive('backBtn',backBtn);
+appAS.service('InputFields', InputFields);
+appAS.service('StringHandler', StringHandler);
+appAS.directive('backBtn', backBtn);
 
 appAS.run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
