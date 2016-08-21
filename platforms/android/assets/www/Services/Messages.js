@@ -1,5 +1,5 @@
 var Parse = require('parse');
-var Messages = function () {
+var Messages = function (DateHandler) {
 
     this.sendPost = function (text) {
 
@@ -7,7 +7,7 @@ var Messages = function () {
 
         Message.set("text", text);
         Message.set("Writer", Parse.User.current().get("username"));
-        Message.set("date", GetCurrentDate());
+        Message.set("date", DateHandler.GetCurrentDate());
 
         Message.save(null, {
             success: function (Message) {
@@ -19,8 +19,9 @@ var Messages = function () {
         });
     };
 
-    this.getPosts = function (win, state) {
+    this.getPosts = function (win, state, spinner) {
 
+        document.getElementById(spinner).style.display = 'block';
         var Message = new Parse.Object("Post");
         var posts = [];
         var query = new Parse.Query(Message);
@@ -41,10 +42,10 @@ var Messages = function () {
                     };
 
                 }
+                document.getElementById(spinner).style.display = 'none';
 
             }
         );
-
         return posts;
     };
 

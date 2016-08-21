@@ -1,5 +1,5 @@
 var Parse = require('parse');
-var Comments = function () {
+var Comments = function (DateHandler) {
     this.sendComment = function (text, father) {
 
         var Comment = new Parse.Object("Comment");
@@ -7,7 +7,7 @@ var Comments = function () {
         Comment.set("text", text);
         Comment.set("Writer", Parse.User.current().get("username"));
         Comment.set("father", father);
-        Comment.set("date", GetFullDate());
+        Comment.set("date", DateHandler.GetFullDate());
 
         Comment.save(null, {
             success: function (Comment) {
@@ -20,8 +20,9 @@ var Comments = function () {
         });
     };
 
-    this.getComments = function (win) {
+    this.getComments = function (win,spinner) {
 
+        document.getElementById(spinner).style.display = 'block';
         var Comment = new Parse.Object("Comment");
         var comments = [];
         var father = localStorage.getItem("currentPost");
@@ -41,6 +42,7 @@ var Comments = function () {
                         date: results[i].get('date')
                     };
                 }
+                document.getElementById(spinner).style.display = 'none';
             },
             error: function (error) {
                 return;

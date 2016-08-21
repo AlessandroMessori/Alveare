@@ -1,15 +1,15 @@
 var articlesCtrl = function ($scope, $state, $window, Articles, type) {
 
     $scope.$on('$ionicView.enter', function () {
-        if ($scope.Articles != Articles.getArticles($state, $window, type)) {
+        if ($scope.Articles != Articles.getArticles($state, $window, type, 'articlesSpinners')) {
             $scope.doRefresh();
         }
     });
 
-    $scope.Articles = Articles.getArticles($state, $window, type);
+    $scope.Articles = Articles.getArticles($state, $window, type, 'articlesSpinners');
 
     $scope.doRefresh = function () {
-        $scope.Articles = Articles.getArticles($state, $window, type);
+        $scope.Articles = Articles.getArticles($state, $window, type, 'articlesSpinners');
         $scope.$broadcast('scroll.refreshComplete');
         $scope.$apply();
     };

@@ -1,4 +1,29 @@
-.bar-positive .button{
+$dark: #001942;
+
+.bar-positive .button {
   border-color: transparent;
 }
+
+.tabs-striped.tabs-background-positive .tabs {
+  background-color: $dark !important;
+
+  .icon {
+    color: white !important;
+  }
+
+  .tab-item-active {
+    .icon {
+      color: #008055 !important;
+    }
+  }
+}
+
+.bar-positive {
+  background-color: $dark !important;
+}
+
+.button {
+  background-color: $dark !important;
+}
+
 

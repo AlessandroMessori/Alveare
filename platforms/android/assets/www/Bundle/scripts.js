@@ -61,11 +61,15 @@
 	var Articles = __webpack_require__(143);
 	var Comments = __webpack_require__(144);
 	var Auth = __webpack_require__(145);
-	var credentials = __webpack_require__(146);
+	var DateHandler = __webpack_require__(146);
+	var InputFields = __webpack_require__(147);
+	var StringHandler = __webpack_require__(150);
+	var backBtn = __webpack_require__(148);
+	var credentials = __webpack_require__(149);
 
 	Parse.initialize(credentials.user, credentials.password);
 
-	var appAS = angular.module('appAS', ['ionic'])
+	var appAS = angular.module('appAS', ['ionic']);
 	appAS.controller('addArticleCtrl', addArticleCtrl);
 	appAS.controller('addNewsCtrl', addNewsCtrl);
 	appAS.controller('adminCtrl', adminCtrl);
@@ -82,6 +86,10 @@
 	appAS.service('Articles', Articles);
 	appAS.service('Comments', Comments);
 	appAS.service('Auth', Auth);
+	appAS.service('DateHandler', DateHandler);
+	appAS.service('InputFields', InputFields);
+	appAS.service('StringHandler', StringHandler);
+	appAS.directive('backBtn', backBtn);
 
 	appAS.run(function ($ionicPlatform) {
 	    $ionicPlatform.ready(function () {
@@ -13582,11 +13590,13 @@
 
 /***/ },
 /* 131 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	var addArticleCtrl = function ($scope, $window) {
+	var Parse = __webpack_require__(1);
+	var addArticleCtrl = function ($scope, $window, $ionicLoading, Articles, InputFields) {
 
-	    $('#img-preview').hide();
+	    document.getElementById('img-preview').style.display = 'none';
+
 
 	    $scope.GetPic = function () {
 	        navigator.camera.getPicture(onSuccess, onFail, {
@@ -13597,7 +13607,7 @@
 
 	        function onSuccess(imageData) {
 	            $scope.imgData = imageData;
-	            $('#img-preview').show();
+	            document.getElementById('img-preview').style.display = 'inline';
 	            document.getElementById('img_1').src = "data:image/png;base64," + imageData;
 	        }
 
@@ -13605,12 +13615,21 @@
 	            alert('Non sono riuscito a reperire la foto perchè ' + message);
 	        }
 
-	    }
+	    };
 
-	    $scope.UploadArticle = function () {
-	        sendArticle($("#titletxt").val(), "autore", $("#texttxt").val(), $scope.imgData, $window.localStorage.getItem("contentType"));
-	        $("#titletxt").val("");
-	        $("#texttxt").val("");
+	    $scope.UploadArticle = function (title, text) {
+	        if (InputFields.filledFields([title, text])) {
+
+	            $ionicLoading.show({
+	                template: 'Pubblicazione in Corso...'
+	            });
+	            Articles.sendArticle(title, Parse.User.current().get("username"), text, '', $window.localStorage.getItem("contentType"), $ionicLoading);
+	            title = '';
+	            text = '';
+	        }
+	        else {
+	            alert('compila tutti i campi');
+	        }
 	    }
 
 	};
@@ -13623,10 +13642,14 @@
 /* 132 */
 /***/ function(module, exports) {
 
-	var addNewsCtrl = function ($scope) {
-	    $scope.test = function () {
-	        sendpost($("#messagetxt").val());
-	        $("#messagetxt").val("");
+	var addNewsCtrl = function ($scope, Messages) {
+	    $scope.sendNews = function (news) {
+	        if (news != undefined) {
+	            Messages.sendPost(news);
+	        }
+	        else {
+	            alert('compila il testo del messaggio');
+	        }
 	    };
 	};
 
@@ -13680,15 +13703,15 @@
 	var articlesCtrl = function ($scope, $state, $window, Articles, type) {
 
 	    $scope.$on('$ionicView.enter', function () {
-	        if ($scope.Articles != Articles.getArticles($state, $window, type)) {
+	        if ($scope.Articles != Articles.getArticles($state, $window, type, 'articlesSpinners')) {
 	            $scope.doRefresh();
 	        }
 	    });
 
-	    $scope.Articles = Articles.getArticles($state, $window, type);
+	    $scope.Articles = Articles.getArticles($state, $window, type, 'articlesSpinners');
 
 	    $scope.doRefresh = function () {
-	        $scope.Articles = Articles.getArticles($state, $window, type);
+	        $scope.Articles = Articles.getArticles($state, $window, type, 'articlesSpinners');
 	        $scope.$broadcast('scroll.refreshComplete');
 	        $scope.$apply();
 	    };
@@ -13712,21 +13735,27 @@
 /* 135 */
 /***/ function(module, exports) {
 
-	var commentsCtrl = function ($scope, $window,Comments) {
-	    $scope.send = function () {
-	        Comments.sendComment($("#commenttxt").val(), $window.localStorage.getItem("currentPost"));
-	        $("#commenttxt").val("");
-	        $scope.doRefresh();
-	    }
+	var commentsCtrl = function ($scope, $window, Comments) {
 
 	    $scope.$on('$ionicView.enter', function () {
 	        $scope.doRefresh();
 	    });
 
-	    $scope.Comments = Comments.getComments($window);
+	    $scope.send = function (comment) {
+	        if (comment != undefined) {
+	            Comments.sendComment(comment, $window.localStorage.getItem("currentPost"));
+	            comment = '';
+	            $scope.doRefresh();
+	        }
+	        else {
+	            alert('non puoi pubblicare un commento vuoto');
+	        }
+	    };
+
+	    $scope.Comments = Comments.getComments($window, 'commentsSpinner');
 
 	    $scope.doRefresh = function () {
-	        $scope.Comments = Comments.getComments($window);
+	        $scope.Comments = Comments.getComments($window, 'commentsSpinner');
 	        $scope.$broadcast('scroll.refreshComplete');
 	        $scope.$apply();
 	    };
@@ -13760,6 +13789,11 @@
 	            "name": "Sito Web Della Scuola",
 	            "url": "http://www.liceoariostospallanzani-re.gov.it/",
 	            "icon": "icon ion-ios-world"
+	        },
+	        {
+	            "name": "Accesso Web Mail",
+	            "url": "https://mail.google.com",
+	            "icon": "icon ion-ios-email"
 	        }
 	    ];
 
@@ -13771,16 +13805,21 @@
 /* 137 */
 /***/ function(module, exports) {
 
-	var loginCtrl = function ($scope, $ionicLoading, $window, Auth) {
+	var loginCtrl = function ($scope, $ionicLoading, $window, Auth, InputFields) {
 
 	    $scope.inputType = 'password';
 
-	    $scope.UserLogin = function (username, password,RememberMe) {
-	        $ionicLoading.show({
-	            template: 'Accesso in Corso...'
-	        });
-	        Auth.Login(username, password, $ionicLoading);
-	        $scope.SetRememberMe(RememberMe);
+	    $scope.UserLogin = function (username, password, RememberMe) {
+	        if (InputFields.filledFields([username, password])) {
+	            $ionicLoading.show({
+	                template: 'Accesso in Corso...'
+	            });
+	            Auth.Login(username, password, $ionicLoading);
+	            $scope.SetRememberMe(RememberMe);
+	        }
+	        else {
+	            alert('compila tutti i campi');
+	        }
 	    };
 
 	    $scope.SetRememberMe = function (RememberMe) {
@@ -13808,10 +13847,10 @@
 
 	var forumCtrl = function ($scope, $state, $window,Messages) {
 
-	    $scope.Posts = Messages.getPosts($window, $state);
+	    $scope.Posts = Messages.getPosts($window, $state,'newsSpinner');
 
 	    $scope.doRefresh = function () {
-	        $scope.Posts = Messages.getPosts($window, $state);
+	        $scope.Posts = Messages.getPosts($window, $state,'newsSpinner');
 	        $scope.$broadcast('scroll.refreshComplete');
 	        $scope.$apply();
 	    };
@@ -13863,15 +13902,20 @@
 /* 140 */
 /***/ function(module, exports) {
 
-	var signupCtrl = function ($scope, $ionicLoading, $location, Auth) {
+	var signupCtrl = function ($scope, $ionicLoading, $location, Auth, InputFields) {
 
 	    $scope.inputType = 'password';
 
 	    $scope.UserSignup = function (username, password, mail) {
-	        $ionicLoading.show({
-	            template: 'Registrazione in corso...'
-	        });
-	        Auth.Signup(username, password, mail, $ionicLoading);
+	        if (InputFields.filledFields([username, password, mail])) {
+	            $ionicLoading.show({
+	                template: 'Registrazione in corso...'
+	            });
+	            Auth.Signup(username, password, mail, $ionicLoading);
+	        }
+	        else {
+	            alert('compila tutti i campi');
+	        }
 	    };
 
 	    $scope.go = function () {
@@ -13911,28 +13955,18 @@
 	        }
 	    };
 
-	    $scope.checkBackBtn = function () {
-	        var state = $scope.$activeHistoryId;
-	        if (state == 'ion6' || state == 'ion7'
-	            || state == 'ion8' || state == 'ion9') {
-	            return "ng-show";
-	        } else {
-	            return "ng-hide";
-	        }
-	    };
-
 	    $scope.Disconnect = function () {
 	        $ionicLoading.show({
 	            template: 'Disconnessione in corso...'
 	        });
-	        //Auth.Logout($ionicLoading,$state);
+	        Auth.Logout($ionicLoading, $state);
 	        $state.go('login');
 	        $window.localStorage.setItem("RememberMe", "false");
 	    };
 
 	    $scope.backBtnClick = function () {
 	        $state.go($rootScope.previousState);
-	    }
+	    };
 	};
 
 	module.exports = tabsCtrl;
@@ -13942,7 +13976,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Parse = __webpack_require__(1);
-	var Messages = function () {
+	var Messages = function (DateHandler) {
 
 	    this.sendPost = function (text) {
 
@@ -13950,7 +13984,7 @@
 
 	        Message.set("text", text);
 	        Message.set("Writer", Parse.User.current().get("username"));
-	        Message.set("date", GetCurrentDate());
+	        Message.set("date", DateHandler.GetCurrentDate());
 
 	        Message.save(null, {
 	            success: function (Message) {
@@ -13962,8 +13996,9 @@
 	        });
 	    };
 
-	    this.getPosts = function (win, state) {
+	    this.getPosts = function (win, state, spinner) {
 
+	        document.getElementById(spinner).style.display = 'block';
 	        var Message = new Parse.Object("Post");
 	        var posts = [];
 	        var query = new Parse.Query(Message);
@@ -13984,10 +14019,10 @@
 	                    };
 
 	                }
+	                document.getElementById(spinner).style.display = 'none';
 
 	            }
 	        );
-
 	        return posts;
 	    };
 
@@ -14002,16 +14037,16 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Parse = __webpack_require__(1);
-	var Articles = function () {
+	var Articles = function (DateHandler,StringHandler) {
 
-	    this.sendArticle = function (title, author, text, img, type) {
+	    this.sendArticle = function (title, author, text, img, type, loadingTemplate) {
 
 	        var Article = new Parse.Object(type);
 
 	        Article.set("title", title);
 	        Article.set("author", author);
 	        Article.set("text", text);
-	        Article.set("date", GetCurrentDate());
+	        Article.set("date", DateHandler.GetCurrentDate());
 
 	        var img_file = new Parse.File("Copertina", {base64: img});
 
@@ -14028,18 +14063,20 @@
 
 	        Article.save(null, {
 	            success: function (Article) {
+	                loadingTemplate.hide();
 	                alert('Articolo pubblicato con successo');
 	            },
 	            error: function (Article, error) {
-
-	                alert('Failed to create new object, with error code: ' + error.message);
+	                loadingTemplate.hide();
+	                alert('Errore nella pubblicazione dellArticolo' + error.message);
 	            }
 	        });
 
 	    };
 
-	    this.getArticles = function (state, win, type) {
+	    this.getArticles = function (state, win, type, spinner) {
 
+	        document.getElementById(spinner).style.display = 'block';
 	        var Article = new Parse.Object(type);
 	        var posts = [];
 	        var query = new Parse.Query(Article);
@@ -14054,6 +14091,7 @@
 	                        title: results[i].get("title"),
 	                        author: results[i].get("author"),
 	                        text: results[i].get('text'),
+	                        coverText: StringHandler.shorten(results[i].get('text'),100),
 	                        img: results[i].get("img").url(),
 	                        date: results[i].get("date"),
 	                        id: results[i].id,
@@ -14068,10 +14106,9 @@
 	                            state.go("tab.article");
 
 	                        }
-
-
 	                    };
 	                }
+	                document.getElementById(spinner).style.display = 'none';
 	            },
 	            error: function (error) {
 	                //document.createElement("p").innerHTML="tira e rilascia per aggiornare";
@@ -14083,74 +14120,6 @@
 	        return posts;
 	    };
 
-	    this.GetCurrentDate = function () {
-
-	        var today = new Date();
-	        var dd = today.getDate();
-	        var mm = today.getMonth() + 1; //January is 0!
-
-
-	        if (dd < 10) {
-	            dd = '0' + dd
-	        }
-
-	        switch (mm) {
-	            case 1:
-	                mm = "Gennaio";
-	                break;
-	            case 2:
-	                mm = "Febbraio";
-	                break;
-	            case 3:
-	                mm = "Marzo";
-	                break;
-	            case 4:
-	                mm = "Aprile";
-	                break
-	            case 5:
-	                mm = "Maggio";
-	                break;
-	            case 6:
-	                mm = "Giugno";
-	                break;
-	            case 7:
-	                mm = "Luglio";
-	                break;
-	            case 8:
-	                mm = "Agosto";
-	                break;
-	            case 9:
-	                mm = "Settembre";
-	                break;
-	            case 10:
-	                mm = "Ottobre";
-	                break;
-	            case 11:
-	                mm = "Novembre";
-	                break;
-	            case 12:
-	                mm = "Dicembre";
-	                break;
-
-	        }
-
-	        today = dd + ' ' + mm;
-
-	        return today;
-	    };
-
-	    this.GetFullDate = function () {
-
-	        var date = new Date();
-	        var Hour = date.getHours();
-	        var Minutes = date.getMinutes();
-
-	        if (Minutes < 10) {
-	            Minutes = "0" + Minutes;
-	        }
-
-	        return GetCurrentDate() + " alle " + Hour + ":" + Minutes;
-	    }
 
 	};
 
@@ -14161,7 +14130,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Parse = __webpack_require__(1);
-	var Comments = function () {
+	var Comments = function (DateHandler) {
 	    this.sendComment = function (text, father) {
 
 	        var Comment = new Parse.Object("Comment");
@@ -14169,7 +14138,7 @@
 	        Comment.set("text", text);
 	        Comment.set("Writer", Parse.User.current().get("username"));
 	        Comment.set("father", father);
-	        Comment.set("date", GetFullDate());
+	        Comment.set("date", DateHandler.GetFullDate());
 
 	        Comment.save(null, {
 	            success: function (Comment) {
@@ -14182,8 +14151,9 @@
 	        });
 	    };
 
-	    this.getComments = function (win) {
+	    this.getComments = function (win,spinner) {
 
+	        document.getElementById(spinner).style.display = 'block';
 	        var Comment = new Parse.Object("Comment");
 	        var comments = [];
 	        var father = localStorage.getItem("currentPost");
@@ -14203,6 +14173,7 @@
 	                        date: results[i].get('date')
 	                    };
 	                }
+	                document.getElementById(spinner).style.display = 'none';
 	            },
 	            error: function (error) {
 	                return;
@@ -14274,10 +14245,141 @@
 /* 146 */
 /***/ function(module, exports) {
 
+	var DateHandler = function () {
+
+	    var self = this;
+
+	    this.GetCurrentDate = function () {
+
+	        var today = new Date();
+	        var dd = today.getDate();
+	        var mm = today.getMonth() + 1; //January is 0!
+
+	        if (dd < 10) {
+	            dd = '0' + dd
+	        }
+
+	        switch (mm) {
+	            case 1:
+	                mm = "Gennaio";
+	                break;
+	            case 2:
+	                mm = "Febbraio";
+	                break;
+	            case 3:
+	                mm = "Marzo";
+	                break;
+	            case 4:
+	                mm = "Aprile";
+	                break;
+	            case 5:
+	                mm = "Maggio";
+	                break;
+	            case 6:
+	                mm = "Giugno";
+	                break;
+	            case 7:
+	                mm = "Luglio";
+	                break;
+	            case 8:
+	                mm = "Agosto";
+	                break;
+	            case 9:
+	                mm = "Settembre";
+	                break;
+	            case 10:
+	                mm = "Ottobre";
+	                break;
+	            case 11:
+	                mm = "Novembre";
+	                break;
+	            case 12:
+	                mm = "Dicembre";
+	                break;
+
+	        }
+
+	        today = dd + ' ' + mm;
+
+	        return today;
+	    };
+
+	    this.GetFullDate = function () {
+
+	        var now = new Date();
+	        console.log(now);
+	        var Hour = now.getHours();
+	        var Minutes = now.getMinutes();
+
+	        if (Minutes < 10) {
+	            Minutes = "0" + Minutes;
+	        }
+
+	        return self.GetCurrentDate() + " alle " + Hour + ":" + Minutes;
+
+	    }
+	};
+
+	module.exports = DateHandler;
+
+/***/ },
+/* 147 */
+/***/ function(module, exports) {
+
+	var InputFields = function () {
+
+	    this.filledFields = function (fields) {
+	        var check = true;
+	        fields.map(function (item) {
+	            if (item == undefined) {
+	                check = false;
+	            }
+	        });
+	        return check;
+	    };
+
+	};
+
+	module.exports = InputFields;
+
+/***/ },
+/* 148 */
+/***/ function(module, exports) {
+
+	var backBtn = function () {
+	    return {
+	        templateUrl: 'Components/BackBtn/backBtn.html'
+	    };
+	};
+
+	module.exports = backBtn;
+
+
+/***/ },
+/* 149 */
+/***/ function(module, exports) {
+
 	module.exports = {
 	    "user": "o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ",
 	    "password": "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF"
 	};
+
+/***/ },
+/* 150 */
+/***/ function(module, exports) {
+
+	var StringHandler = function () {
+	    this.shorten = function shorten(text, maxLength) {
+	        var ret = text;
+	        if (ret.length > maxLength) {
+	            ret = ret.substr(0,maxLength-3) + '…';
+	        }
+	        return ret;
+	    }
+	};
+
+	module.exports = StringHandler;
+
 
 /***/ }
 /******/ ]);
