@@ -63,6 +63,7 @@
 	var Auth = __webpack_require__(145);
 	var DateHandler = __webpack_require__(146);
 	var InputFields = __webpack_require__(147);
+	var backBtn = __webpack_require__(149);
 	var credentials = __webpack_require__(148);
 
 	Parse.initialize(credentials.user, credentials.password);
@@ -86,7 +87,7 @@
 	appAS.service('Auth', Auth);
 	appAS.service('DateHandler', DateHandler);
 	appAS.service('InputFields',InputFields);
-
+	appAS.directive('backBtn',backBtn);
 
 	appAS.run(function ($ionicPlatform) {
 	    $ionicPlatform.ready(function () {
@@ -13733,6 +13734,11 @@
 /***/ function(module, exports) {
 
 	var commentsCtrl = function ($scope, $window, Comments) {
+
+	    $scope.$on('$ionicView.enter', function () {
+	        $scope.doRefresh();
+	    });
+
 	    $scope.send = function (comment) {
 	        if (comment != undefined) {
 	            Comments.sendComment(comment, $window.localStorage.getItem("currentPost"));
@@ -13743,10 +13749,6 @@
 	            alert('non puoi pubblicare un commento vuoto');
 	        }
 	    };
-
-	    $scope.$on('$ionicView.enter', function () {
-	        $scope.doRefresh();
-	    });
 
 	    $scope.Comments = Comments.getComments($window, 'commentsSpinner');
 
@@ -13951,28 +13953,18 @@
 	        }
 	    };
 
-	    $scope.checkBackBtn = function () {
-	        var state = $scope.$activeHistoryId;
-	        if (state == 'ion6' || state == 'ion7'
-	            || state == 'ion8' || state == 'ion9') {
-	            return "ng-show";
-	        } else {
-	            return "ng-hide";
-	        }
-	    };
-
 	    $scope.Disconnect = function () {
 	        $ionicLoading.show({
 	            template: 'Disconnessione in corso...'
 	        });
-	        Auth.Logout($ionicLoading,$state);
+	        Auth.Logout($ionicLoading, $state);
 	        $state.go('login');
 	        $window.localStorage.setItem("RememberMe", "false");
 	    };
 
 	    $scope.backBtnClick = function () {
 	        $state.go($rootScope.previousState);
-	    }
+	    };
 	};
 
 	module.exports = tabsCtrl;
@@ -14355,6 +14347,19 @@
 	    "user": "o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ",
 	    "password": "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF"
 	};
+
+/***/ },
+/* 149 */
+/***/ function(module, exports) {
+
+	var backBtn = function () {
+	    return {
+	        templateUrl: 'Components/BackBtn/backBtn.html'
+	    };
+	};
+
+	module.exports = backBtn;
+
 
 /***/ }
 /******/ ]);

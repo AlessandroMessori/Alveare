@@ -1,4 +1,9 @@
 var commentsCtrl = function ($scope, $window, Comments) {
+
+    $scope.$on('$ionicView.enter', function () {
+        $scope.doRefresh();
+    });
+
     $scope.send = function (comment) {
         if (comment != undefined) {
             Comments.sendComment(comment, $window.localStorage.getItem("currentPost"));
@@ -9,10 +14,6 @@ var commentsCtrl = function ($scope, $window, Comments) {
             alert('non puoi pubblicare un commento vuoto');
         }
     };
-
-    $scope.$on('$ionicView.enter', function () {
-        $scope.doRefresh();
-    });
 
     $scope.Comments = Comments.getComments($window, 'commentsSpinner');
 
