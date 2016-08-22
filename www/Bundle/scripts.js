@@ -180,47 +180,28 @@
 	            }
 	        })
 
-	        .state('tab.add_article', {
-	            url: '/add_article',
-	            views: {
-	                'tab-add_article': {
-	                    templateUrl: 'Components/AddArticlePage/tab-addArticle.html',
-	                    controller: 'addArticleCtrl'
-
-	                }
-	            }
+	        .state('addArticle', {
+	            url: '/addArticle',
+	            templateUrl: 'Components/AddArticlePage/addArticle.html',
+	            controller: 'addArticleCtrl'
 	        })
 
-	        .state('tab.send_message', {
-	            url: '/send_message',
-	            views: {
-	                'tab-send_message': {
-	                    templateUrl: 'Components/AddNewsPage/tab-send_message.html',
-	                    controller: 'addNewsCtrl'
-
-	                }
-	            }
+	        .state('sendMessage', {
+	            url: '/sendMessage',
+	            templateUrl: 'Components/AddNewsPage/sendMessage.html',
+	            controller: 'addNewsCtrl'
 	        })
 
-	        .state('tab.article', {
+	        .state('article', {
 	            url: '/article',
-	            views: {
-	                'tab-article': {
-	                    templateUrl: 'Components/ReadArticlePage/tab-article.html',
-	                    controller: 'readArticleCtrl'
-
-	                }
-	            }
+	            templateUrl: 'Components/ReadArticlePage/readArticle.html',
+	            controller: 'readArticleCtrl'
 	        })
 
-	        .state('tab.comments', {
+	        .state('comments', {
 	            url: '/comments',
-	            views: {
-	                'tab-comments': {
-	                    templateUrl: 'Components/CommentsPage/tab-comments.html',
-	                    controller: 'commentsCtrl'
-	                }
-	            }
+	            templateUrl: 'Components/CommentsPage/comments.html',
+	            controller: 'commentsCtrl'
 	        });
 
 	    if (window.localStorage.getItem("RememberMe") == "true") {
@@ -13665,14 +13646,14 @@
 	        {
 	            "name": "Scrivi Avviso",
 	            "icon":"icon ion-ios-bell",
-	            "url": "tab.send_message",
+	            "url": "sendMessage",
 	            "direct": function () {
 	                $state.go(this.url);
 	            }
 	        },
 	        {
 	            "name": "Scrivi Articolo d'attualità",
-	            "url": "tab.add_article",
+	            "url": "addArticle",
 	            "icon":"icon ion-ios-paper",
 	            "direct": function () {
 	                $state.go(this.url);
@@ -13681,7 +13662,7 @@
 	        },
 	        {
 	            "name": "Scrivi Articolo d'orientamento",
-	            "url": "tab.add_article",
+	            "url": "addArticle",
 	            "icon":"icon ion-ios-navigate",
 	            "direct": function () {
 	                $state.go(this.url);
@@ -14028,7 +14009,7 @@
 	                        //commentsCount : GetCommentsCount(results[i].id),
 	                        link: function () {
 	                            win.localStorage.setItem("currentPost", this.objectId);
-	                            state.go("tab.comments");
+	                            state.go("comments");
 	                        }
 	                    };
 
@@ -14117,7 +14098,7 @@
 	                            win.localStorage.setItem("img", this.img);
 	                            win.localStorage.setItem("date", this.date);
 	                            win.localStorage.setItem("currentPost", this.id);
-	                            state.go("tab.article");
+	                            state.go("article");
 
 	                        }
 	                    };

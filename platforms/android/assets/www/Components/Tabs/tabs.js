@@ -1,5 +1,10 @@
 var Parse = require('parse');
-var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, Auth) {
+var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicSideMenuDelegate, Auth) {
+
+    $scope.View = 'tab-link';
+
+    $scope.$on("$ionicView.beforeEnter", function (event, data) {
+    });
 
     $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
         $rootScope.previousState = from.name;
@@ -28,6 +33,17 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
     $scope.backBtnClick = function () {
         $state.go($rootScope.previousState);
     };
+
+    $scope.navigate = function (destination, ind) {
+        $scope.View = 'tab.' + destination;
+        document.getElementById('MainView1').style.display = 'none';
+        document.getElementById('MainView2').style.display = 'none';
+        document.getElementById('MainView3').style.display = 'none';
+        document.getElementById('MainView4').style.display = 'none';
+        document.getElementById('MainView5').style.display = 'none';
+        document.getElementById('MainView'+ind).style.display = 'block';
+        //$state.go($scope.View);
+    }
 };
 
 module.exports = tabsCtrl;

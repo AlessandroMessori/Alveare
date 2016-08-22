@@ -1,21 +1,8 @@
-$dark: #001942;
+$dark: black;
+$lightDark: #24292F;
 
 .bar-positive .button {
   border-color: transparent;
-}
-
-.tabs-striped.tabs-background-positive .tabs {
-  background-color: $dark !important;
-
-  .icon {
-    color: white !important;
-  }
-
-  .tab-item-active {
-    .icon {
-      color: #008055 !important;
-    }
-  }
 }
 
 .bar-positive {
@@ -23,7 +10,21 @@ $dark: #001942;
 }
 
 .button {
-  background-color: $dark !important;
+  background-color: $lightDark !important;
 }
 
+.navList {
+  a.item-content {
+    background-color: $lightDark;
+    color: white;
+  }
+}
 
+.menu-left, .bar {
+  background-color: $lightDark !important;
+  color: white;
+}
+
+.bar h1{
+  color:white!important;
+}

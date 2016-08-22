@@ -134,47 +134,28 @@ appAS.config(function ($stateProvider, $urlRouterProvider) {
             }
         })
 
-        .state('tab.add_article', {
-            url: '/add_article',
-            views: {
-                'tab-add_article': {
-                    templateUrl: 'Components/AddArticlePage/tab-addArticle.html',
-                    controller: 'addArticleCtrl'
-
-                }
-            }
+        .state('addArticle', {
+            url: '/addArticle',
+            templateUrl: 'Components/AddArticlePage/addArticle.html',
+            controller: 'addArticleCtrl'
         })
 
-        .state('tab.send_message', {
-            url: '/send_message',
-            views: {
-                'tab-send_message': {
-                    templateUrl: 'Components/AddNewsPage/tab-send_message.html',
-                    controller: 'addNewsCtrl'
-
-                }
-            }
+        .state('sendMessage', {
+            url: '/sendMessage',
+            templateUrl: 'Components/AddNewsPage/sendMessage.html',
+            controller: 'addNewsCtrl'
         })
 
-        .state('tab.article', {
+        .state('article', {
             url: '/article',
-            views: {
-                'tab-article': {
-                    templateUrl: 'Components/ReadArticlePage/tab-article.html',
-                    controller: 'readArticleCtrl'
-
-                }
-            }
+            templateUrl: 'Components/ReadArticlePage/readArticle.html',
+            controller: 'readArticleCtrl'
         })
 
-        .state('tab.comments', {
+        .state('comments', {
             url: '/comments',
-            views: {
-                'tab-comments': {
-                    templateUrl: 'Components/CommentsPage/tab-comments.html',
-                    controller: 'commentsCtrl'
-                }
-            }
+            templateUrl: 'Components/CommentsPage/comments.html',
+            controller: 'commentsCtrl'
         });
 
     if (window.localStorage.getItem("RememberMe") == "true") {

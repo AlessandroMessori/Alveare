@@ -63,9 +63,9 @@
 	var Auth = __webpack_require__(145);
 	var DateHandler = __webpack_require__(146);
 	var InputFields = __webpack_require__(147);
-	var StringHandler = __webpack_require__(150);
-	var backBtn = __webpack_require__(148);
-	var credentials = __webpack_require__(149);
+	var StringHandler = __webpack_require__(148);
+	var backBtn = __webpack_require__(149);
+	var credentials = __webpack_require__(150);
 
 	Parse.initialize(credentials.user, credentials.password);
 
@@ -107,9 +107,7 @@
 	    });
 	});
 
-	appAS.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-
-	    $ionicConfigProvider.tabs.position('bottom');
+	appAS.config(function ($stateProvider, $urlRouterProvider) {
 
 	    $stateProvider
 
@@ -165,7 +163,7 @@
 	        .state('tab.forum', {
 	            url: '/forum',
 	            views: {
-	                'tabs-forum': {
+	                'tab-forum': {
 	                    templateUrl: 'Components/NewsPage/tabs-forum.html',
 	                    controller: 'newsCtrl'
 	                }
@@ -175,7 +173,7 @@
 	        .state('tab.link', {
 	            url: '/link',
 	            views: {
-	                'tabs-link': {
+	                'tab-link': {
 	                    templateUrl: 'Components/LinkPage/tab-link.html',
 	                    controller: 'linkCtrl'
 	                }
@@ -13938,7 +13936,12 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Parse = __webpack_require__(1);
-	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, Auth) {
+	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicSideMenuDelegate, Auth) {
+
+	    $scope.View = 'tab-link';
+
+	    $scope.$on("$ionicView.beforeEnter", function (event, data) {
+	    });
 
 	    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
 	        $rootScope.previousState = from.name;
@@ -13967,6 +13970,17 @@
 	    $scope.backBtnClick = function () {
 	        $state.go($rootScope.previousState);
 	    };
+
+	    $scope.navigate = function (destination, ind) {
+	        $scope.View = 'tab.' + destination;
+	        document.getElementById('MainView1').style.display = 'none';
+	        document.getElementById('MainView2').style.display = 'none';
+	        document.getElementById('MainView3').style.display = 'none';
+	        document.getElementById('MainView4').style.display = 'none';
+	        document.getElementById('MainView5').style.display = 'none';
+	        document.getElementById('MainView'+ind).style.display = 'block';
+	        //$state.go($scope.View);
+	    }
 	};
 
 	module.exports = tabsCtrl;
@@ -14346,28 +14360,6 @@
 /* 148 */
 /***/ function(module, exports) {
 
-	var backBtn = function () {
-	    return {
-	        templateUrl: 'Components/BackBtn/backBtn.html'
-	    };
-	};
-
-	module.exports = backBtn;
-
-
-/***/ },
-/* 149 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	    "user": "o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ",
-	    "password": "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF"
-	};
-
-/***/ },
-/* 150 */
-/***/ function(module, exports) {
-
 	var StringHandler = function () {
 	    this.shorten = function shorten(text, maxLength) {
 	        var ret = text;
@@ -14380,6 +14372,28 @@
 
 	module.exports = StringHandler;
 
+
+/***/ },
+/* 149 */
+/***/ function(module, exports) {
+
+	var backBtn = function () {
+	    return {
+	        templateUrl: 'Components/BackBtn/backBtn.html'
+	    };
+	};
+
+	module.exports = backBtn;
+
+
+/***/ },
+/* 150 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	    "user": "o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ",
+	    "password": "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF"
+	};
 
 /***/ }
 /******/ ]);

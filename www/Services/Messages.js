@@ -37,7 +37,7 @@ var Messages = function (DateHandler) {
                         //commentsCount : GetCommentsCount(results[i].id),
                         link: function () {
                             win.localStorage.setItem("currentPost", this.objectId);
-                            state.go("tab.comments");
+                            state.go("comments");
                         }
                     };
 
