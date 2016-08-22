@@ -65,7 +65,7 @@ var Articles = function (DateHandler,StringHandler) {
                             win.localStorage.setItem("img", this.img);
                             win.localStorage.setItem("date", this.date);
                             win.localStorage.setItem("currentPost", this.id);
-                            state.go("tab.article");
+                            state.go("article");
 
                         }
                     };

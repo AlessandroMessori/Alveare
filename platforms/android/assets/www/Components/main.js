@@ -18,7 +18,7 @@ var Auth = require('../Services/Auth');
 var DateHandler = require('../Services/DateHandler');
 var InputFields = require('../Services/InputFields');
 var StringHandler = require('../Services/StringHandler');
-var backBtn = require('./BackBtn/backBtn');
+var actionBar = require('../Directives/ActionBar/actionBar');
 var credentials = require('../../credentials');
 
 Parse.initialize(credentials.user, credentials.password);
@@ -43,7 +43,7 @@ appAS.service('Auth', Auth);
 appAS.service('DateHandler', DateHandler);
 appAS.service('InputFields', InputFields);
 appAS.service('StringHandler', StringHandler);
-appAS.directive('backBtn', backBtn);
+appAS.directive('actionBar', actionBar);
 
 appAS.run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -134,47 +134,28 @@ appAS.config(function ($stateProvider, $urlRouterProvider) {
             }
         })
 
-        .state('tab.add_article', {
-            url: '/add_article',
-            views: {
-                'tab-add_article': {
-                    templateUrl: 'Components/AddArticlePage/tab-addArticle.html',
-                    controller: 'addArticleCtrl'
-
-                }
-            }
+        .state('addArticle', {
+            url: '/addArticle',
+            templateUrl: 'Components/AddArticlePage/addArticle.html',
+            controller: 'addArticleCtrl'
         })
 
-        .state('tab.send_message', {
-            url: '/send_message',
-            views: {
-                'tab-send_message': {
-                    templateUrl: 'Components/AddNewsPage/tab-send_message.html',
-                    controller: 'addNewsCtrl'
-
-                }
-            }
+        .state('sendMessage', {
+            url: '/sendMessage',
+            templateUrl: 'Components/AddNewsPage/sendMessage.html',
+            controller: 'addNewsCtrl'
         })
 
-        .state('tab.article', {
+        .state('article', {
             url: '/article',
-            views: {
-                'tab-article': {
-                    templateUrl: 'Components/ReadArticlePage/tab-article.html',
-                    controller: 'readArticleCtrl'
-
-                }
-            }
+            templateUrl: 'Components/ReadArticlePage/readArticle.html',
+            controller: 'readArticleCtrl'
         })
 
-        .state('tab.comments', {
+        .state('comments', {
             url: '/comments',
-            views: {
-                'tab-comments': {
-                    templateUrl: 'Components/CommentsPage/tab-comments.html',
-                    controller: 'commentsCtrl'
-                }
-            }
+            templateUrl: 'Components/CommentsPage/comments.html',
+            controller: 'commentsCtrl'
         });
 
     if (window.localStorage.getItem("RememberMe") == "true") {

@@ -18,7 +18,7 @@ var Auth = require('../Services/Auth');
 var DateHandler = require('../Services/DateHandler');
 var InputFields = require('../Services/InputFields');
 var StringHandler = require('../Services/StringHandler');
-var backBtn = require('./BackBtn/backBtn');
+var actionBar = require('../Directives/ActionBar/actionBar');
 var credentials = require('../../credentials');
 
 Parse.initialize(credentials.user, credentials.password);
@@ -43,7 +43,7 @@ appAS.service('Auth', Auth);
 appAS.service('DateHandler', DateHandler);
 appAS.service('InputFields', InputFields);
 appAS.service('StringHandler', StringHandler);
-appAS.directive('backBtn', backBtn);
+appAS.directive('actionBar', actionBar);
 
 appAS.run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {

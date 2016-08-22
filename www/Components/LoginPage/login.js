@@ -1,4 +1,4 @@
-var loginCtrl = function ($scope, $ionicLoading, $window, Auth, InputFields) {
+var loginCtrl = function ($scope, $ionicLoading, $window, $state, Auth, InputFields) {
 
     $scope.inputType = 'password';
 
@@ -7,7 +7,7 @@ var loginCtrl = function ($scope, $ionicLoading, $window, Auth, InputFields) {
             $ionicLoading.show({
                 template: 'Accesso in Corso...'
             });
-            Auth.Login(username, password, $ionicLoading);
+            Auth.Login(username, password, $ionicLoading, $state);
             $scope.SetRememberMe(RememberMe);
         }
         else {

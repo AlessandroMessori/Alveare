@@ -2,12 +2,14 @@ var Parse = require('parse');
 var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicSideMenuDelegate, Auth) {
 
     $scope.View = 'tab-link';
+    $scope.User = Parse.User.current().get('username');
 
     $scope.$on("$ionicView.beforeEnter", function (event, data) {
     });
 
     $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
         $rootScope.previousState = from.name;
+        $scope.User = Parse.User.current().get('username');
     });
 
     $scope.checkadmin = function () {

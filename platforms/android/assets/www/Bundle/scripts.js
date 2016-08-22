@@ -64,7 +64,7 @@
 	var DateHandler = __webpack_require__(146);
 	var InputFields = __webpack_require__(147);
 	var StringHandler = __webpack_require__(148);
-	var backBtn = __webpack_require__(149);
+	var actionBar = __webpack_require__(151);
 	var credentials = __webpack_require__(150);
 
 	Parse.initialize(credentials.user, credentials.password);
@@ -89,7 +89,7 @@
 	appAS.service('DateHandler', DateHandler);
 	appAS.service('InputFields', InputFields);
 	appAS.service('StringHandler', StringHandler);
-	appAS.directive('backBtn', backBtn);
+	appAS.directive('actionBar', actionBar);
 
 	appAS.run(function ($ionicPlatform) {
 	    $ionicPlatform.ready(function () {
@@ -180,47 +180,28 @@
 	            }
 	        })
 
-	        .state('tab.add_article', {
-	            url: '/add_article',
-	            views: {
-	                'tab-add_article': {
-	                    templateUrl: 'Components/AddArticlePage/tab-addArticle.html',
-	                    controller: 'addArticleCtrl'
-
-	                }
-	            }
+	        .state('addArticle', {
+	            url: '/addArticle',
+	            templateUrl: 'Components/AddArticlePage/addArticle.html',
+	            controller: 'addArticleCtrl'
 	        })
 
-	        .state('tab.send_message', {
-	            url: '/send_message',
-	            views: {
-	                'tab-send_message': {
-	                    templateUrl: 'Components/AddNewsPage/tab-send_message.html',
-	                    controller: 'addNewsCtrl'
-
-	                }
-	            }
+	        .state('sendMessage', {
+	            url: '/sendMessage',
+	            templateUrl: 'Components/AddNewsPage/sendMessage.html',
+	            controller: 'addNewsCtrl'
 	        })
 
-	        .state('tab.article', {
+	        .state('article', {
 	            url: '/article',
-	            views: {
-	                'tab-article': {
-	                    templateUrl: 'Components/ReadArticlePage/tab-article.html',
-	                    controller: 'readArticleCtrl'
-
-	                }
-	            }
+	            templateUrl: 'Components/ReadArticlePage/readArticle.html',
+	            controller: 'readArticleCtrl'
 	        })
 
-	        .state('tab.comments', {
+	        .state('comments', {
 	            url: '/comments',
-	            views: {
-	                'tab-comments': {
-	                    templateUrl: 'Components/CommentsPage/tab-comments.html',
-	                    controller: 'commentsCtrl'
-	                }
-	            }
+	            templateUrl: 'Components/CommentsPage/comments.html',
+	            controller: 'commentsCtrl'
 	        });
 
 	    if (window.localStorage.getItem("RememberMe") == "true") {
@@ -13665,14 +13646,14 @@
 	        {
 	            "name": "Scrivi Avviso",
 	            "icon":"icon ion-ios-bell",
-	            "url": "tab.send_message",
+	            "url": "sendMessage",
 	            "direct": function () {
 	                $state.go(this.url);
 	            }
 	        },
 	        {
 	            "name": "Scrivi Articolo d'attualità",
-	            "url": "tab.add_article",
+	            "url": "addArticle",
 	            "icon":"icon ion-ios-paper",
 	            "direct": function () {
 	                $state.go(this.url);
@@ -13681,7 +13662,7 @@
 	        },
 	        {
 	            "name": "Scrivi Articolo d'orientamento",
-	            "url": "tab.add_article",
+	            "url": "addArticle",
 	            "icon":"icon ion-ios-navigate",
 	            "direct": function () {
 	                $state.go(this.url);
@@ -13803,7 +13784,7 @@
 /* 137 */
 /***/ function(module, exports) {
 
-	var loginCtrl = function ($scope, $ionicLoading, $window, Auth, InputFields) {
+	var loginCtrl = function ($scope, $ionicLoading, $window, $state, Auth, InputFields) {
 
 	    $scope.inputType = 'password';
 
@@ -13812,7 +13793,7 @@
 	            $ionicLoading.show({
 	                template: 'Accesso in Corso...'
 	            });
-	            Auth.Login(username, password, $ionicLoading);
+	            Auth.Login(username, password, $ionicLoading, $state);
 	            $scope.SetRememberMe(RememberMe);
 	        }
 	        else {
@@ -13900,7 +13881,7 @@
 /* 140 */
 /***/ function(module, exports) {
 
-	var signupCtrl = function ($scope, $ionicLoading, $location, Auth, InputFields) {
+	var signupCtrl = function ($scope, $ionicLoading, $location, $state, Auth, InputFields) {
 
 	    $scope.inputType = 'password';
 
@@ -13909,7 +13890,7 @@
 	            $ionicLoading.show({
 	                template: 'Registrazione in corso...'
 	            });
-	            Auth.Signup(username, password, mail, $ionicLoading);
+	            Auth.Signup(username, password, mail, $ionicLoading, $state);
 	        }
 	        else {
 	            alert('compila tutti i campi');
@@ -14028,7 +14009,7 @@
 	                        //commentsCount : GetCommentsCount(results[i].id),
 	                        link: function () {
 	                            win.localStorage.setItem("currentPost", this.objectId);
-	                            state.go("tab.comments");
+	                            state.go("comments");
 	                        }
 	                    };
 
@@ -14117,7 +14098,7 @@
 	                            win.localStorage.setItem("img", this.img);
 	                            win.localStorage.setItem("date", this.date);
 	                            win.localStorage.setItem("currentPost", this.id);
-	                            state.go("tab.article");
+	                            state.go("article");
 
 	                        }
 	                    };
@@ -14207,7 +14188,7 @@
 	var Parse = __webpack_require__(1);
 	var Auth = function () {
 
-	    this.Signup = function (name, pass, mail, loadingtemplate) {
+	    this.Signup = function (name, pass, mail, loadingtemplate, state) {
 	        var user = new Parse.User();
 
 	        user.set("username", name);
@@ -14220,7 +14201,7 @@
 	                // Hooray! Let them use the app now.
 	                loadingtemplate.hide();
 	                alert("Creato Account Con successo");
-	                document.location.href = "/#login";
+	                state.go('login');
 	            },
 	            error: function (user, error) {
 	                // Show the error message somewhere and let the user try again.
@@ -14230,11 +14211,11 @@
 	        });
 	    };
 
-	    this.Login = function (name, pass, loadingtemplate) {
+	    this.Login = function (name, pass, loadingtemplate, state) {
 	        Parse.User.logIn(name, pass, {
 	            success: function (user) {
 	                loadingtemplate.hide();
-	                document.location.href = "/#tab/link";
+	                state.go("tab.link");
 	            },
 	            error: function (user, error) {
 	                loadingtemplate.hide();
@@ -14244,9 +14225,9 @@
 	        });
 	    };
 
-	    this.Logout = function (loadingtemplate) {
+	    this.Logout = function (loadingtemplate, state) {
 	        Parse.User.logOut();
-	        document.location.href = "/#login";
+	        state.go('login');
 	        loadingtemplate.hide();
 	    };
 
@@ -14374,19 +14355,7 @@
 
 
 /***/ },
-/* 149 */
-/***/ function(module, exports) {
-
-	var backBtn = function () {
-	    return {
-	        templateUrl: 'Components/BackBtn/backBtn.html'
-	    };
-	};
-
-	module.exports = backBtn;
-
-
-/***/ },
+/* 149 */,
 /* 150 */
 /***/ function(module, exports) {
 
@@ -14394,6 +14363,19 @@
 	    "user": "o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ",
 	    "password": "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF"
 	};
+
+/***/ },
+/* 151 */
+/***/ function(module, exports) {
+
+	var actionBar = function () {
+	    return {
+	        restrict: 'E',
+	        template: '<h1>Titolone Di prova</h1>'
+	    };
+	};
+
+	module.exports = actionBar;
 
 /***/ }
 /******/ ]);
