@@ -13962,7 +13962,6 @@
 	        document.getElementById('MainView4').style.display = 'none';
 	        document.getElementById('MainView5').style.display = 'none';
 	        document.getElementById('MainView'+ind).style.display = 'block';
-	        //$state.go($scope.View);
 	    }
 	};
 
