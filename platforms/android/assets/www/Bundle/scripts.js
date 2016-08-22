@@ -64,7 +64,7 @@
 	var DateHandler = __webpack_require__(146);
 	var InputFields = __webpack_require__(147);
 	var StringHandler = __webpack_require__(148);
-	var credentials = __webpack_require__(150);
+	var credentials = __webpack_require__(149);
 
 	Parse.initialize(credentials.user, credentials.password);
 
@@ -13916,14 +13916,13 @@
 
 	var Parse = __webpack_require__(1);
 	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, Auth) {
-
 	    $scope.View = 'tab-link';
 	    $scope.User = Parse.User.current().get('username');
 
 	    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
 	        $rootScope.previousState = from.name;
 	        $scope.User = Parse.User.current().get('username');
-	        $scope.toggleDrawer();
+	        $scope.closeDrawer();
 	    });
 
 	    $scope.checkadmin = function () {
@@ -13950,7 +13949,7 @@
 	        $state.go($rootScope.previousState);
 	    };
 
-	    $scope.navigate = function (destination, ind) {
+	    $scope.navigate = function (destination, ind){
 	        $scope.View = 'tab.' + destination;
 	        document.getElementById('MainView1').style.display = 'none';
 	        document.getElementById('MainView2').style.display = 'none';
@@ -14351,8 +14350,7 @@
 
 
 /***/ },
-/* 149 */,
-/* 150 */
+/* 149 */
 /***/ function(module, exports) {
 
 	module.exports = {

@@ -57,16 +57,14 @@ var Articles = function (DateHandler,StringHandler) {
                         img: results[i].get("img").url(),
                         date: results[i].get("date"),
                         id: results[i].id,
-                        link: function () {
-
+                        link: function (destination) {
                             win.localStorage.setItem("title", this.title);
                             win.localStorage.setItem("text", this.text);
                             win.localStorage.setItem("author", this.author);
                             win.localStorage.setItem("img", this.img);
                             win.localStorage.setItem("date", this.date);
                             win.localStorage.setItem("currentPost", this.id);
-                            state.go("article");
-
+                            state.go(destination);
                         }
                     };
                 }

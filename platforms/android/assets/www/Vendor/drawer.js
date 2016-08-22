@@ -16,7 +16,7 @@
             var side;
 
             // How far to drag before triggering
-            var thresholdX = 5;
+            var thresholdX = 1;
             // How far from edge before triggering
             var edgeX = 40;
 

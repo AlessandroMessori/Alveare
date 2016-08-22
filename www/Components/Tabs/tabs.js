@@ -1,13 +1,12 @@
 var Parse = require('parse');
 var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, Auth) {
-
     $scope.View = 'tab-link';
     $scope.User = Parse.User.current().get('username');
 
     $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
         $rootScope.previousState = from.name;
         $scope.User = Parse.User.current().get('username');
-        $scope.toggleDrawer();
+        $scope.closeDrawer();
     });
 
     $scope.checkadmin = function () {
@@ -34,7 +33,7 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
         $state.go($rootScope.previousState);
     };
 
-    $scope.navigate = function (destination, ind) {
+    $scope.navigate = function (destination, ind){
         $scope.View = 'tab.' + destination;
         document.getElementById('MainView1').style.display = 'none';
         document.getElementById('MainView2').style.display = 'none';
