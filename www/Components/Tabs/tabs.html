@@ -45,7 +45,7 @@
     <ion-side-menu-content>
         <ion-nav-bar class="bar bar-header bar-positive">
             <ion-nav-buttons side="left">
-                <button class="button" ng-click="toggleDrawer()">
+                <button class="button" ng-click="openDrawer()">
                     <p class="ion-navicon-round"></p>
                 </button>
             </ion-nav-buttons>
@@ -84,6 +84,9 @@
                 </ion-item>
                 <ion-item menu-close ui-sref="tab.link" ng-click="navigate('link',5)">
                     <span class="icon ion-link"> Link Utili</span>
+                </ion-item>
+                <ion-item menu-close ui-sref="/">
+                    <span class="icon ion-ios-gear"> Impostazioni</span>
                 </ion-item>
             </ion-list>
         </ion-content>

@@ -64,12 +64,11 @@
 	var DateHandler = __webpack_require__(146);
 	var InputFields = __webpack_require__(147);
 	var StringHandler = __webpack_require__(148);
-	var actionBar = __webpack_require__(151);
 	var credentials = __webpack_require__(150);
 
 	Parse.initialize(credentials.user, credentials.password);
 
-	var appAS = angular.module('appAS', ['ionic']);
+	var appAS = angular.module('appAS', ['ionic','ionic.contrib.drawer']);
 	appAS.controller('addArticleCtrl', addArticleCtrl);
 	appAS.controller('addNewsCtrl', addNewsCtrl);
 	appAS.controller('adminCtrl', adminCtrl);
@@ -89,7 +88,6 @@
 	appAS.service('DateHandler', DateHandler);
 	appAS.service('InputFields', InputFields);
 	appAS.service('StringHandler', StringHandler);
-	appAS.directive('actionBar', actionBar);
 
 	appAS.run(function ($ionicPlatform) {
 	    $ionicPlatform.ready(function () {
@@ -13917,17 +13915,15 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Parse = __webpack_require__(1);
-	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicSideMenuDelegate, Auth) {
+	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, Auth) {
 
 	    $scope.View = 'tab-link';
 	    $scope.User = Parse.User.current().get('username');
 
-	    $scope.$on("$ionicView.beforeEnter", function (event, data) {
-	    });
-
 	    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
 	        $rootScope.previousState = from.name;
 	        $scope.User = Parse.User.current().get('username');
+	        $scope.toggleDrawer();
 	    });
 
 	    $scope.checkadmin = function () {
@@ -14115,7 +14111,6 @@
 
 	        return posts;
 	    };
-
 
 	};
 
@@ -14364,19 +14359,6 @@
 	    "user": "o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ",
 	    "password": "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF"
 	};
-
-/***/ },
-/* 151 */
-/***/ function(module, exports) {
-
-	var actionBar = function () {
-	    return {
-	        restrict: 'E',
-	        template: '<h1>Titolone Di prova</h1>'
-	    };
-	};
-
-	module.exports = actionBar;
 
 /***/ }
 /******/ ]);

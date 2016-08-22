@@ -82,7 +82,6 @@ var Articles = function (DateHandler,StringHandler) {
         return posts;
     };
 
-
 };
 
 module.exports = Articles;

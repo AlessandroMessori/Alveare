@@ -1,4 +1,4 @@
-$dark: black;
+$dark: #24292F;
 $lightDark: #24292F;
 
 .bar-positive .button {
@@ -10,21 +10,28 @@ $lightDark: #24292F;
 }
 
 .button {
-  background-color: $lightDark !important;
+  background-color: $dark !important;
+}
+
+.sideMenu {
+  background-color: $dark;
+  color: white;
 }
 
 .navList {
   a.item-content {
-    background-color: $lightDark;
-    color: white;
+    @extend .sideMenu;
   }
 }
 
-.menu-left, .bar {
-  background-color: $lightDark !important;
-  color: white;
+#drawer, .bar {
+  @extend .sideMenu;
 }
 
-.bar h1{
-  color:white!important;
+#drawer{
+  width: 80%;
+}
+
+.bar h1 {
+  color: white !important;
 }

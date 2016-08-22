@@ -2,9 +2,9 @@
     <ion-content>
 
         <ul class="list">
-            <div class="item" ng-repeat="link in Links">
+            <div class="item" ng-repeat="link in Links" ng-click="link.direct()">
                 <i ng-class="link.icon "></i>
-                <a ng-click="link.direct()">
+                <a>
                     {{link.name}}
                 </a>
             </div>
