@@ -61,9 +61,7 @@ appAS.run(function ($ionicPlatform) {
     });
 });
 
-appAS.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-
-    $ionicConfigProvider.tabs.position('bottom');
+appAS.config(function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider
 
@@ -119,7 +117,7 @@ appAS.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider)
         .state('tab.forum', {
             url: '/forum',
             views: {
-                'tabs-forum': {
+                'tab-forum': {
                     templateUrl: 'Components/NewsPage/tabs-forum.html',
                     controller: 'newsCtrl'
                 }
@@ -129,7 +127,7 @@ appAS.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider)
         .state('tab.link', {
             url: '/link',
             views: {
-                'tabs-link': {
+                'tab-link': {
                     templateUrl: 'Components/LinkPage/tab-link.html',
                     controller: 'linkCtrl'
                 }
