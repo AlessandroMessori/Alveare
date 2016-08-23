@@ -1,7 +1,14 @@
 var Parse = require('parse');
-var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, Auth) {
+var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
     $scope.View = 'tab-link';
     $scope.User = Parse.User.current().get('username');
+
+    $scope.$on('$ionicView.enter', function () {
+        $ionicScrollDelegate.scrollTop();
+        if ($scope.Articles != Articles.getArticles($state, $window, type, 'articlesSpinners')) {
+            $scope.doRefresh();
+        }
+    });
 
     $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
         $rootScope.previousState = from.name;

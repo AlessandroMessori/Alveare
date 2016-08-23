@@ -1,4 +1,4 @@
-<ion-view view-title="L'Alveare">
+<ion-view view-title="Crea Avviso">
     <ion-nav-bar class="bar bar-header bar-positive" ng-controller="tabsCtrl">
         <ion-nav-buttons side="left">
             <button class="button backBtn" id="arrowBtn" ng-click="backBtnClick()">
@@ -13,12 +13,13 @@
     </ion-nav-bar>
     <ion-content class="padding">
 
-        <actionBar></actionBar>
-
         <label class="item item-input">
             <textarea placeholder="Manda un avviso agli studenti" id="messagetxt" ng-model="news"></textarea>
         </label>
 
+        <a href="#" id="cameraBtn" class="button button-icon icon ion-paperclip" ng-click="GetPic()">
+            Carica PDF
+        </a>
 
         <div class="row" id="btnrow" style="text-align:center">
             <div class="col col-33 col-offset-33">
