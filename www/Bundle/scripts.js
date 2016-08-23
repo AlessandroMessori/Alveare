@@ -13574,7 +13574,6 @@
 
 	    document.getElementById('img-preview').style.display = 'none';
 
-
 	    $scope.GetPic = function () {
 	        navigator.camera.getPicture(onSuccess, onFail, {
 	            quality: 50,
@@ -13607,6 +13606,10 @@
 	        else {
 	            alert('compila tutti i campi');
 	        }
+	    }
+
+	    $scope.update = function (imgData) {
+	        document.getElementById('img_1').src = "data:image/png;base64," + imgData;
 	    }
 
 	};
@@ -13915,9 +13918,16 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Parse = __webpack_require__(1);
-	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, Auth) {
+	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
 	    $scope.View = 'tab-link';
 	    $scope.User = Parse.User.current().get('username');
+
+	    $scope.$on('$ionicView.enter', function () {
+	        $ionicScrollDelegate.scrollTop();
+	        if ($scope.Articles != Articles.getArticles($state, $window, type, 'articlesSpinners')) {
+	            $scope.doRefresh();
+	        }
+	    });
 
 	    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
 	        $rootScope.previousState = from.name;

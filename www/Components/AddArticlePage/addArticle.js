@@ -3,7 +3,6 @@ var addArticleCtrl = function ($scope, $window, $ionicLoading, Articles, InputFi
 
     document.getElementById('img-preview').style.display = 'none';
 
-
     $scope.GetPic = function () {
         navigator.camera.getPicture(onSuccess, onFail, {
             quality: 50,
@@ -36,6 +35,10 @@ var addArticleCtrl = function ($scope, $window, $ionicLoading, Articles, InputFi
         else {
             alert('compila tutti i campi');
         }
+    }
+
+    $scope.update = function (imgData) {
+        document.getElementById('img_1').src = "data:image/png;base64," + imgData;
     }
 
 };

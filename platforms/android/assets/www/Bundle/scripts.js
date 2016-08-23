@@ -13574,7 +13574,6 @@
 
 	    document.getElementById('img-preview').style.display = 'none';
 
-
 	    $scope.GetPic = function () {
 	        navigator.camera.getPicture(onSuccess, onFail, {
 	            quality: 50,
@@ -13607,6 +13606,10 @@
 	        else {
 	            alert('compila tutti i campi');
 	        }
+	    }
+
+	    $scope.Upload = function (imgData) {
+	        document.getElementById('img_1').src = "data:image/png;base64," + imgData;
 	    }
 
 	};

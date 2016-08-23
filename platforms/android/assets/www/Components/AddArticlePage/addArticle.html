@@ -16,13 +16,13 @@
         <div class="row titleRow">
             <div class="col col-50 col-offset-25">
                 <label class="item item-input">
-                    <input type="text" placeholder="Titolo Articolo" ng-model="Title">
+                    <input type="text" placeholder="Titolo Articolo" ng-change="update(imgData)" ng-model="Title">
                 </label>
             </div>
         </div>
 
         <label class="item item-input">
-            <textarea placeholder="Testo Articolo" ng-model="text"></textarea>
+            <textarea placeholder="Testo Articolo" ng-change="update(imgData)" ng-model="text"></textarea>
         </label>
 
         <div class="row">
