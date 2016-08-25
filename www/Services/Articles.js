@@ -9,9 +9,9 @@ var Articles = function (DateHandler,StringHandler) {
         var updates = {};
         updates['/' + ArticleType + '/' + newPostKey] = newData;
         Firebase.database().ref().update(updates).then(function () {
+            loadingTemplate.hide();
             alert('Articolo Pubblicato con successo');
-        });
-        loadingTemplate.hide();
+        })
     };
 
     this.getArticles = function (scope,state,type,spinner) {

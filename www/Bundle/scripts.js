@@ -14218,8 +14218,6 @@
 	        }
 	    };
 
-	    $scope.update = function (imgData) {
-	    }
 
 	};
 
@@ -14231,11 +14229,13 @@
 /* 134 */
 /***/ function(module, exports) {
 
-	var addNewsCtrl = function ($scope, Messages,DateHandler) {
-
-
+	var addNewsCtrl = function ($scope,$ionicLoading, Messages,DateHandler) {
 
 	    $scope.sendNews = function (news) {
+
+	        $ionicLoading.show({
+	            template: 'Pubblicazione in Corso...'
+	        });
 
 	        var newData = {
 	            text:news,
@@ -14244,7 +14244,7 @@
 	        };
 
 	        if (news != undefined) {
-	            Messages.sendPost(newData);
+	            Messages.sendPost(newData,$ionicLoading);
 	        }
 	        else {
 	            alert('compila il testo del messaggio');
@@ -14594,12 +14594,13 @@
 	var Firebase = __webpack_require__(1);
 	var Messages = function (DateHandler) {
 
-	    this.sendPost = function (newData) {
+	    this.sendPost = function (newData,loadingTemplate) {
 
 	        var newPostKey = Firebase.database().ref().child('Comunicazioni').push().key;
 	        var updates = {};
 	        updates['/Comunicazioni/' + newPostKey] = newData;
 	        Firebase.database().ref().update(updates).then(function () {
+	            loadingTemplate.hide();
 	            alert('Comunicazione Pubblicata con successo');
 	        });
 	    };
@@ -14655,9 +14656,9 @@
 	        var updates = {};
 	        updates['/' + ArticleType + '/' + newPostKey] = newData;
 	        Firebase.database().ref().update(updates).then(function () {
+	            loadingTemplate.hide();
 	            alert('Articolo Pubblicato con successo');
-	        });
-	        loadingTemplate.hide();
+	        })
 	    };
 
 	    this.getArticles = function (scope,state,type,spinner) {

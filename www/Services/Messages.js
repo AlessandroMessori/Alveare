@@ -1,12 +1,13 @@
 var Firebase = require('firebase');
 var Messages = function (DateHandler) {
 
-    this.sendPost = function (newData) {
+    this.sendPost = function (newData,loadingTemplate) {
 
         var newPostKey = Firebase.database().ref().child('Comunicazioni').push().key;
         var updates = {};
         updates['/Comunicazioni/' + newPostKey] = newData;
         Firebase.database().ref().update(updates).then(function () {
+            loadingTemplate.hide();
             alert('Comunicazione Pubblicata con successo');
         });
     };

@@ -47,8 +47,6 @@ var addArticleCtrl = function ($scope, $window, $ionicLoading, Articles, InputFi
         }
     };
 
-    $scope.update = function (imgData) {
-    }
 
 };
 
