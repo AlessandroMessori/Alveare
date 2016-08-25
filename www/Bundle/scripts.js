@@ -64,11 +64,11 @@
 	var Auth = __webpack_require__(147);
 	var DateHandler = __webpack_require__(148);
 	var InputFields = __webpack_require__(149);
+	var StringHandler = __webpack_require__(150);
 	var credentials = __webpack_require__(153);
 
 	Parse.initialize("o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ", "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF");
 	Firebase.initializeApp(credentials);
-	var database = Firebase.database();
 
 	var appAS = angular.module('appAS', ['ionic', 'ionic.contrib.drawer']);
 	appAS.controller('addArticleCtrl', addArticleCtrl);
@@ -89,6 +89,7 @@
 	appAS.service('Auth', Auth);
 	appAS.service('DateHandler', DateHandler);
 	appAS.service('InputFields', InputFields);
+	appAS.service('StringHandler', StringHandler);
 
 	appAS.run(function ($ionicPlatform) {
 	    $ionicPlatform.ready(function () {
@@ -14646,7 +14647,7 @@
 	var Parse = __webpack_require__(3);
 	var Firebase = __webpack_require__(1);
 
-	var Articles = function (DateHandler, StringHandler) {
+	var Articles = function (DateHandler,StringHandler) {
 
 	    this.sendArticle = function (newData, loadingTemplate) {
 	        var ArticleType = window.localStorage.getItem('contentType');
@@ -14918,7 +14919,23 @@
 	module.exports = InputFields;
 
 /***/ },
-/* 150 */,
+/* 150 */
+/***/ function(module, exports) {
+
+	var StringHandler = function () {
+	    this.shorten = function shorten(text, maxLength) {
+	        var ret = text;
+	        if (ret.length > maxLength) {
+	            ret = ret.substr(0, maxLength3) + '…';
+	        }
+	        return ret;
+	    }
+	};
+
+	module.exports = StringHandler;
+
+
+/***/ },
 /* 151 */,
 /* 152 */,
 /* 153 */

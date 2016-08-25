@@ -1,7 +1,7 @@
 var Parse = require('parse');
 var Firebase = require('firebase');
 
-var Articles = function (DateHandler, StringHandler) {
+var Articles = function (DateHandler,StringHandler) {
 
     this.sendArticle = function (newData, loadingTemplate) {
         var ArticleType = window.localStorage.getItem('contentType');
