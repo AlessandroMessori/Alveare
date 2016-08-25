@@ -1,3 +1,4 @@
+var Firebase = require('firebase');
 var Parse = require('parse');
 var addArticleCtrl = require('./AddArticlePage/addArticle');
 var addNewsCtrl = require('./AddNewsPage/addNews');
@@ -20,9 +21,10 @@ var InputFields = require('../Services/InputFields');
 var StringHandler = require('../Services/StringHandler');
 var credentials = require('../../credentials');
 
-Parse.initialize(credentials.user, credentials.password);
+Parse.initialize("o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ", "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF");
+Firebase.initializeApp(credentials);
 
-var appAS = angular.module('appAS', ['ionic','ionic.contrib.drawer']);
+var appAS = angular.module('appAS', ['ionic', 'ionic.contrib.drawer']);
 appAS.controller('addArticleCtrl', addArticleCtrl);
 appAS.controller('addNewsCtrl', addNewsCtrl);
 appAS.controller('adminCtrl', adminCtrl);

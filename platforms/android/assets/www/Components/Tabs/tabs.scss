@@ -7,6 +7,9 @@ $lightDark: #24292F;
 
 .bar-positive {
   background-color: $dark !important;
+  .title {
+    text-align: center!important;
+  }
 }
 
 .button {
