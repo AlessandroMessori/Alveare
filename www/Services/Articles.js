@@ -32,6 +32,7 @@ var Articles = function (DateHandler, StringHandler) {
                     coverText: StringHandler.shorten(results[item].text, 100),
                     img: results[item].img,
                     date: results[item].date,
+                    id: item,
                     link: function (destination) {
                         window.localStorage.setItem("title", this.title);
                         window.localStorage.setItem("text", this.text);

@@ -18,7 +18,6 @@ var Comments = require('../Services/Comments');
 var Auth = require('../Services/Auth');
 var DateHandler = require('../Services/DateHandler');
 var InputFields = require('../Services/InputFields');
-var StringHandler = require('../Services/StringHandler');
 var credentials = require('../../credentials');
 
 Parse.initialize("o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ", "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF");
@@ -44,7 +43,6 @@ appAS.service('Comments', Comments);
 appAS.service('Auth', Auth);
 appAS.service('DateHandler', DateHandler);
 appAS.service('InputFields', InputFields);
-appAS.service('StringHandler', StringHandler);
 
 appAS.run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {

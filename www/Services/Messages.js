@@ -23,8 +23,9 @@ var Messages = function (DateHandler) {
                     author: results[item].author,
                     text: results[item].text,
                     date: results[item].date,
+                    id: item,
                     link: function () {
-                        //window.localStorage.setItem("currentPost", this.objectId);
+                        window.localStorage.setItem("currentPost", item);
                         state.go("comments");
                     }
                 };

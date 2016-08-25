@@ -64,7 +64,6 @@
 	var Auth = __webpack_require__(147);
 	var DateHandler = __webpack_require__(148);
 	var InputFields = __webpack_require__(149);
-	var StringHandler = __webpack_require__(150);
 	var credentials = __webpack_require__(153);
 
 	Parse.initialize("o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ", "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF");
@@ -90,7 +89,6 @@
 	appAS.service('Auth', Auth);
 	appAS.service('DateHandler', DateHandler);
 	appAS.service('InputFields', InputFields);
-	appAS.service('StringHandler', StringHandler);
 
 	appAS.run(function ($ionicPlatform) {
 	    $ionicPlatform.ready(function () {
@@ -14619,8 +14617,9 @@
 	                    author: results[item].author,
 	                    text: results[item].text,
 	                    date: results[item].date,
+	                    id: item,
 	                    link: function () {
-	                        //window.localStorage.setItem("currentPost", this.objectId);
+	                        window.localStorage.setItem("currentPost", item);
 	                        state.go("comments");
 	                    }
 	                };
@@ -14678,6 +14677,7 @@
 	                    coverText: StringHandler.shorten(results[item].text, 100),
 	                    img: results[item].img,
 	                    date: results[item].date,
+	                    id: item,
 	                    link: function (destination) {
 	                        window.localStorage.setItem("title", this.title);
 	                        window.localStorage.setItem("text", this.text);
@@ -14918,23 +14918,7 @@
 	module.exports = InputFields;
 
 /***/ },
-/* 150 */
-/***/ function(module, exports) {
-
-	var StringHandler = function () {
-	    this.shorten = function shorten(text, maxLength) {
-	        var ret = text;
-	        if (ret.length > maxLength) {
-	            ret = ret.substr(0,maxLength-3) + '…';
-	        }
-	        return ret;
-	    }
-	};
-
-	module.exports = StringHandler;
-
-
-/***/ },
+/* 150 */,
 /* 151 */,
 /* 152 */,
 /* 153 */
