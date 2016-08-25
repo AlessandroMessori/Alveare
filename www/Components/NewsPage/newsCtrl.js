@@ -1,9 +1,11 @@
-var forumCtrl = function ($scope, $state, $window,Messages) {
+var forumCtrl = function ($scope, $state, $window, Messages) {
 
-    $scope.Posts = Messages.getPosts($window, $state,'newsSpinner');
+    $scope.$on('$ionicView.enter', function () {
+        Messages.getPosts($scope, $state, 'newsSpinner');
+    });
 
     $scope.doRefresh = function () {
-        $scope.Posts = Messages.getPosts($window, $state,'newsSpinner');
+        Messages.getPosts($scope, $state, 'newsSpinner');
         $scope.$broadcast('scroll.refreshComplete');
         $scope.$apply();
     };

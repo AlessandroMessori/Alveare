@@ -1,83 +1,52 @@
 var Parse = require('parse');
-var Articles = function (DateHandler,StringHandler) {
+var Firebase = require('firebase');
 
-    this.sendArticle = function (title, author, text, img, type, loadingTemplate) {
+var Articles = function (DateHandler, StringHandler) {
 
-        var Article = new Parse.Object(type);
-
-        Article.set("title", title);
-        Article.set("author", author);
-        Article.set("text", text);
-        Article.set("date", DateHandler.GetCurrentDate());
-
-        var img_file = new Parse.File("Copertina", {base64: img});
-
-        img_file.save().then(function () {
-            var el = document.createElement("p2");
-            el.innerHTML = "Foto Caricata!";
-
-        }, function (error) {
-            alert("errore nel salvataggio della foto");
-
-        });
-
-        Article.set("img", img_file);
-
-        Article.save(null, {
-            success: function (Article) {
-                loadingTemplate.hide();
-                alert('Articolo pubblicato con successo');
-            },
-            error: function (Article, error) {
-                loadingTemplate.hide();
-                alert('Errore nella pubblicazione dellArticolo' + error.message);
-            }
-        });
-
+    this.sendArticle = function (newData, loadingTemplate) {
+        var ArticleType = window.localStorage.getItem('contentType');
+        var newPostKey = Firebase.database().ref().child(ArticleType).push().key;
+        var updates = {};
+        updates['/' + ArticleType + '/' + newPostKey] = newData;
+        Firebase.database().ref().update(updates);
+        loadingTemplate.hide();
     };
 
-    this.getArticles = function (state, win, type, spinner) {
+    this.getArticles = function (scope,state,type,spinner) {
 
         document.getElementById(spinner).style.display = 'block';
-        var Article = new Parse.Object(type);
-        var posts = [];
-        var query = new Parse.Query(Article);
-        query.find({
-            success: function (results) {
+        var ModelRef = Firebase.database().ref(type);
 
-                for (var i = 0; i < results.length; i++) {
+        ModelRef.on('value', function (snapshot) {
 
-                    var date = "Giorno: " + results[i].createdAt.getDay() + " Mese: " + results[i].createdAt.getMonth() + " Anno: " + results[i].createdAt.getYear();
+            var results = snapshot.val();
+            var articles = [];
 
-                    posts[results.length - 1 - i] = {
-                        title: results[i].get("title"),
-                        author: results[i].get("author"),
-                        text: results[i].get('text'),
-                        coverText: StringHandler.shorten(results[i].get('text'),100),
-                        img: results[i].get("img").url(),
-                        date: results[i].get("date"),
-                        id: results[i].id,
-                        link: function (destination) {
-                            win.localStorage.setItem("title", this.title);
-                            win.localStorage.setItem("text", this.text);
-                            win.localStorage.setItem("author", this.author);
-                            win.localStorage.setItem("img", this.img);
-                            win.localStorage.setItem("date", this.date);
-                            win.localStorage.setItem("currentPost", this.id);
-                            state.go(destination);
-                        }
-                    };
-                }
-                document.getElementById(spinner).style.display = 'none';
-            },
-            error: function (error) {
-                //document.createElement("p").innerHTML="tira e rilascia per aggiornare";
-                console.log("Niente Connessione");
-                return;
-            }
+            Object.keys(results).map(function (item, i) {
+
+                var date = "Data";
+                articles[i] = {
+                    title: results[item].title,
+                    author: results[item].author,
+                    text: results[item].text,
+                    coverText: StringHandler.shorten(results[item].text, 100),
+                    img: results[item].img,
+                    date: results[item].date,
+                    link: function (destination) {
+                        window.localStorage.setItem("title", this.title);
+                        window.localStorage.setItem("text", this.text);
+                        window.localStorage.setItem("author", this.author);
+                        window.localStorage.setItem("img", this.img);
+                        window.localStorage.setItem("date", this.date);
+                        state.go(destination);
+                    }
+                };
+            });
+            scope.Articles =  articles.reverse();
+            document.getElementById(spinner).style.display = 'none';
         });
 
-        return posts;
+
     };
 
 };

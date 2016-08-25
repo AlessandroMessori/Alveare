@@ -5,9 +5,7 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
 
     $scope.$on('$ionicView.enter', function () {
         $ionicScrollDelegate.scrollTop();
-        if ($scope.Articles != Articles.getArticles($state, $window, type, 'articlesSpinners')) {
-            $scope.doRefresh();
-        }
+        $scope.closeDrawer();
     });
 
     $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
@@ -16,7 +14,6 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
             $rootScope.previousState = 'tab.giornalino'
         }
         $scope.User = Parse.User.current().get('username');
-        $scope.closeDrawer();
     });
 
     $scope.checkadmin = function () {

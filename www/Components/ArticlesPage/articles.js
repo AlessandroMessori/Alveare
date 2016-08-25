@@ -1,15 +1,11 @@
 var articlesCtrl = function ($scope, $state, $window, Articles, type) {
 
     $scope.$on('$ionicView.enter', function () {
-        if ($scope.Articles != Articles.getArticles($state, $window, type, 'articlesSpinners')) {
-            $scope.doRefresh();
-        }
+        Articles.getArticles($scope, $state, type, "articlesSpinner");
     });
 
-    $scope.Articles = Articles.getArticles($state, $window, type, 'articlesSpinners');
-
     $scope.doRefresh = function () {
-        $scope.Articles = Articles.getArticles($state, $window, type, 'articlesSpinners');
+        Articles.getArticles($scope, $state, type, "articlesSpinner");
         $scope.$broadcast('scroll.refreshComplete');
         $scope.$apply();
     };
@@ -17,7 +13,7 @@ var articlesCtrl = function ($scope, $state, $window, Articles, type) {
 };
 
 var attualitaCtrl = function ($scope, $state, $window, Articles) {
-    return articlesCtrl($scope, $state, $window, Articles, 'Article');
+    return articlesCtrl($scope, $state, $window, Articles, 'Giornalino');
 };
 
 var orientamentoCtrl = function ($scope, $state, $window, Articles) {

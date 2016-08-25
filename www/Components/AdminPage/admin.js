@@ -17,7 +17,7 @@ var adminCtrl = function ($scope, $state, $window) {
             "icon":"icon ion-ios-paper",
             "direct": function () {
                 $state.go(this.url);
-                $window.localStorage.setItem("contentType", "Article");
+                $window.localStorage.setItem("contentType", "Giornalino");
             }
         },
         {

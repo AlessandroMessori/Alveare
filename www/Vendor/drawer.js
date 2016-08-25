@@ -49,8 +49,6 @@
 
                 dragging = true;
                 offsetX = lastX - startX;
-                console.log('Starting drag');
-                console.log('Offset:', offsetX);
             };
 
             var startTargetDrag = function(e) {
@@ -59,8 +57,6 @@
                 dragging = true;
                 isTargetDrag = true;
                 offsetX = lastX - startX;
-                console.log('Starting target drag');
-                console.log('Offset:', offsetX);
             };
 
             var doEndDrag = function(e) {
@@ -75,7 +71,6 @@
 
                 dragging = false;
 
-                console.log('End drag');
                 enableAnimation();
 
                 ionic.requestAnimationFrame(function() {
@@ -109,7 +104,6 @@
                         }
                     }
                 } else {
-                    console.log(lastX, offsetX, lastX - offsetX);
                     newX = Math.min(0, (-width + (lastX - offsetX)));
                     ionic.requestAnimationFrame(function() {
                         el.style.transform = el.style.webkitTransform = 'translate3d(' + newX + 'px, 0, 0)';
@@ -123,7 +117,6 @@
             };
 
             side = $attr.side == 'left' ? LEFT : RIGHT;
-            console.log(side);
 
             $ionicGesture.on('drag', function(e) {
                 doDrag(e);
@@ -163,11 +156,9 @@
                 link: function($scope, $element, $attr, ctrl) {
                     $element.addClass($attr.side);
                     $scope.openDrawer = function() {
-                        console.log('open');
                         ctrl.open();
                     };
                     $scope.closeDrawer = function() {
-                        console.log('close');
                         ctrl.close();
                     };
                 }
