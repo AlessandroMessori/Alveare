@@ -14301,9 +14301,7 @@
 
 	var articlesCtrl = function ($scope, $state, $window, Articles, type) {
 
-	    $scope.$on('$ionicView.enter', function () {
-	        Articles.getArticles($scope, $state, type, "articlesSpinner");
-	    });
+	    Articles.getArticles($scope, $state, type, "articlesSpinner");
 
 	    $scope.doRefresh = function () {
 	        Articles.getArticles($scope, $state, type, "articlesSpinner");
@@ -14601,7 +14599,9 @@
 	        var newPostKey = Firebase.database().ref().child('Comunicazioni').push().key;
 	        var updates = {};
 	        updates['/Comunicazioni/' + newPostKey] = newData;
-	        Firebase.database().ref().update(updates);
+	        Firebase.database().ref().update(updates).then(function () {
+	            alert('Comunicazione Pubblicata con successo');
+	        });
 	    };
 
 	    this.getPosts = function (scope, state, spinner) {
@@ -14627,9 +14627,9 @@
 	            });
 
 	            scope.Posts = posts.reverse();
+	            scope.$apply();
+	            document.getElementById(spinner).style.display = 'none';
 	        });
-
-	        document.getElementById(spinner).style.display = 'none';
 
 	    }
 
@@ -14654,7 +14654,9 @@
 	        var newPostKey = Firebase.database().ref().child(ArticleType).push().key;
 	        var updates = {};
 	        updates['/' + ArticleType + '/' + newPostKey] = newData;
-	        Firebase.database().ref().update(updates);
+	        Firebase.database().ref().update(updates).then(function () {
+	            alert('Articolo Pubblicato con successo');
+	        });
 	        loadingTemplate.hide();
 	    };
 
@@ -14669,7 +14671,6 @@
 	            var articles = [];
 
 	            Object.keys(results).map(function (item, i) {
-
 	                var date = "Data";
 	                articles[i] = {
 	                    title: results[item].title,
@@ -14689,10 +14690,11 @@
 	                    }
 	                };
 	            });
+
 	            scope.Articles =  articles.reverse();
+	            scope.$apply();
 	            document.getElementById(spinner).style.display = 'none';
 	        });
-
 
 	    };
 

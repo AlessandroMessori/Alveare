@@ -1,8 +1,6 @@
 var articlesCtrl = function ($scope, $state, $window, Articles, type) {
 
-    $scope.$on('$ionicView.enter', function () {
-        Articles.getArticles($scope, $state, type, "articlesSpinner");
-    });
+    Articles.getArticles($scope, $state, type, "articlesSpinner");
 
     $scope.doRefresh = function () {
         Articles.getArticles($scope, $state, type, "articlesSpinner");

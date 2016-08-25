@@ -8,7 +8,9 @@ var Articles = function (DateHandler,StringHandler) {
         var newPostKey = Firebase.database().ref().child(ArticleType).push().key;
         var updates = {};
         updates['/' + ArticleType + '/' + newPostKey] = newData;
-        Firebase.database().ref().update(updates);
+        Firebase.database().ref().update(updates).then(function () {
+            alert('Articolo Pubblicato con successo');
+        });
         loadingTemplate.hide();
     };
 
@@ -23,7 +25,6 @@ var Articles = function (DateHandler,StringHandler) {
             var articles = [];
 
             Object.keys(results).map(function (item, i) {
-
                 var date = "Data";
                 articles[i] = {
                     title: results[item].title,
@@ -43,10 +44,11 @@ var Articles = function (DateHandler,StringHandler) {
                     }
                 };
             });
+
             scope.Articles =  articles.reverse();
+            scope.$apply();
             document.getElementById(spinner).style.display = 'none';
         });
-
 
     };
 

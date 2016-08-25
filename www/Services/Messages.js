@@ -6,7 +6,9 @@ var Messages = function (DateHandler) {
         var newPostKey = Firebase.database().ref().child('Comunicazioni').push().key;
         var updates = {};
         updates['/Comunicazioni/' + newPostKey] = newData;
-        Firebase.database().ref().update(updates);
+        Firebase.database().ref().update(updates).then(function () {
+            alert('Comunicazione Pubblicata con successo');
+        });
     };
 
     this.getPosts = function (scope, state, spinner) {
@@ -32,9 +34,9 @@ var Messages = function (DateHandler) {
             });
 
             scope.Posts = posts.reverse();
+            scope.$apply();
+            document.getElementById(spinner).style.display = 'none';
         });
-
-        document.getElementById(spinner).style.display = 'none';
 
     }
 
