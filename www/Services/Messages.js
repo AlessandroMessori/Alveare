@@ -1,15 +1,18 @@
 var Firebase = require('firebase');
-var Messages = function (DateHandler) {
+var Messages = function (Modals) {
 
-    this.sendPost = function (newData,loadingTemplate) {
+    this.sendPost = function (newData) {
 
         var newPostKey = Firebase.database().ref().child('Comunicazioni').push().key;
         var updates = {};
         updates['/Comunicazioni/' + newPostKey] = newData;
-        Firebase.database().ref().update(updates).then(function () {
-            loadingTemplate.hide();
-            alert('Comunicazione Pubblicata con successo');
-        });
+        Firebase.database().ref().update(updates)
+            .then(function () {
+                Modals.ResultTemplate("Comunicazione Pubblicata con Successo");
+            })
+            .catch(function () {
+                Modals.ResultTemplate("Errore nella Pubblicazione della Comunicazione");
+            })
     };
 
     this.getPosts = function (scope, state, spinner) {
@@ -41,8 +44,8 @@ var Messages = function (DateHandler) {
 
     }
 
-
 };
 
 module.exports = Messages;
+
 

@@ -1,20 +1,23 @@
 var Parse = require('parse');
 var Firebase = require('firebase');
 
-var Articles = function (DateHandler,StringHandler) {
+var Articles = function (DateHandler, StringHandler,Modals) {
 
-    this.sendArticle = function (newData, loadingTemplate) {
+    this.sendArticle = function (newData) {
         var ArticleType = window.localStorage.getItem('contentType');
         var newPostKey = Firebase.database().ref().child(ArticleType).push().key;
         var updates = {};
         updates['/' + ArticleType + '/' + newPostKey] = newData;
-        Firebase.database().ref().update(updates).then(function () {
-            loadingTemplate.hide();
-            alert('Articolo Pubblicato con successo');
-        })
+        Firebase.database().ref().update(updates)
+            .then(function () {
+                Modals.ResultTemplate("Articolo Pubblicato con Successo");
+            })
+            .catch(function () {
+                Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo");
+            })
     };
 
-    this.getArticles = function (scope,state,type,spinner) {
+    this.getArticles = function (scope, state, type, spinner) {
 
         document.getElementById(spinner).style.display = 'block';
         var ModelRef = Firebase.database().ref(type);
@@ -45,7 +48,7 @@ var Articles = function (DateHandler,StringHandler) {
                 };
             });
 
-            scope.Articles =  articles.reverse();
+            scope.Articles = articles.reverse();
             scope.$apply();
             document.getElementById(spinner).style.display = 'none';
         });

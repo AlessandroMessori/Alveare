@@ -13,7 +13,7 @@ var addNewsCtrl = function ($scope,$ionicLoading, Messages,DateHandler) {
         };
 
         if (news != undefined) {
-            Messages.sendPost(newData,$ionicLoading);
+            Messages.sendPost(newData);
         }
         else {
             alert('compila il testo del messaggio');

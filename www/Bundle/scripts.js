@@ -65,7 +65,8 @@
 	var DateHandler = __webpack_require__(148);
 	var InputFields = __webpack_require__(149);
 	var StringHandler = __webpack_require__(150);
-	var credentials = __webpack_require__(153);
+	var Modals = __webpack_require__(152);
+	var credentials = __webpack_require__(151);
 
 	Parse.initialize("o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ", "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF");
 	Firebase.initializeApp(credentials);
@@ -90,6 +91,7 @@
 	appAS.service('DateHandler', DateHandler);
 	appAS.service('InputFields', InputFields);
 	appAS.service('StringHandler', StringHandler);
+	appAS.service('Modals',Modals);
 
 	appAS.run(function ($ionicPlatform) {
 	    $ionicPlatform.ready(function () {
@@ -14209,7 +14211,7 @@
 	                img: document.getElementById('img_1').src
 	            };
 
-	            Articles.sendArticle(newData, $ionicLoading);
+	            Articles.sendArticle(newData);
 	            title = '';
 	            text = '';
 	        }
@@ -14244,7 +14246,7 @@
 	        };
 
 	        if (news != undefined) {
-	            Messages.sendPost(newData,$ionicLoading);
+	            Messages.sendPost(newData);
 	        }
 	        else {
 	            alert('compila il testo del messaggio');
@@ -14592,17 +14594,20 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var Messages = function (DateHandler) {
+	var Messages = function (Modals) {
 
-	    this.sendPost = function (newData,loadingTemplate) {
+	    this.sendPost = function (newData) {
 
 	        var newPostKey = Firebase.database().ref().child('Comunicazioni').push().key;
 	        var updates = {};
 	        updates['/Comunicazioni/' + newPostKey] = newData;
-	        Firebase.database().ref().update(updates).then(function () {
-	            loadingTemplate.hide();
-	            alert('Comunicazione Pubblicata con successo');
-	        });
+	        Firebase.database().ref().update(updates)
+	            .then(function () {
+	                Modals.ResultTemplate("Comunicazione Pubblicata con Successo");
+	            })
+	            .catch(function () {
+	                Modals.ResultTemplate("Errore nella Pubblicazione della Comunicazione");
+	            })
 	    };
 
 	    this.getPosts = function (scope, state, spinner) {
@@ -14634,10 +14639,10 @@
 
 	    }
 
-
 	};
 
 	module.exports = Messages;
+
 
 
 
@@ -14648,20 +14653,23 @@
 	var Parse = __webpack_require__(3);
 	var Firebase = __webpack_require__(1);
 
-	var Articles = function (DateHandler,StringHandler) {
+	var Articles = function (DateHandler, StringHandler,Modals) {
 
-	    this.sendArticle = function (newData, loadingTemplate) {
+	    this.sendArticle = function (newData) {
 	        var ArticleType = window.localStorage.getItem('contentType');
 	        var newPostKey = Firebase.database().ref().child(ArticleType).push().key;
 	        var updates = {};
 	        updates['/' + ArticleType + '/' + newPostKey] = newData;
-	        Firebase.database().ref().update(updates).then(function () {
-	            loadingTemplate.hide();
-	            alert('Articolo Pubblicato con successo');
-	        })
+	        Firebase.database().ref().update(updates)
+	            .then(function () {
+	                Modals.ResultTemplate("Articolo Pubblicato con Successo");
+	            })
+	            .catch(function () {
+	                Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo");
+	            })
 	    };
 
-	    this.getArticles = function (scope,state,type,spinner) {
+	    this.getArticles = function (scope, state, type, spinner) {
 
 	        document.getElementById(spinner).style.display = 'block';
 	        var ModelRef = Firebase.database().ref(type);
@@ -14692,7 +14700,7 @@
 	                };
 	            });
 
-	            scope.Articles =  articles.reverse();
+	            scope.Articles = articles.reverse();
 	            scope.$apply();
 	            document.getElementById(spinner).style.display = 'none';
 	        });
@@ -14939,9 +14947,7 @@
 
 
 /***/ },
-/* 151 */,
-/* 152 */,
-/* 153 */
+/* 151 */
 /***/ function(module, exports) {
 
 	var config = {
@@ -14952,6 +14958,25 @@
 	};
 
 	module.exports = config;
+
+/***/ },
+/* 152 */
+/***/ function(module, exports) {
+
+	var Modals = function ($ionicLoading) {
+	    this.ResultTemplate = function (text) {
+	        $ionicLoading.hide();
+	        $ionicLoading.show({
+	            template: text
+	        });
+	        window.setTimeout(function () {
+	            $ionicLoading.hide();
+	        }, 2000);
+	    }
+	};
+
+	module.exports = Modals;
+
 
 /***/ }
 /******/ ]);
