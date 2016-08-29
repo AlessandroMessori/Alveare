@@ -1,8 +1,10 @@
-var addNewsCtrl = function ($scope, Messages,DateHandler) {
-
-
+var addNewsCtrl = function ($scope,$ionicLoading, Messages,DateHandler) {
 
     $scope.sendNews = function (news) {
+
+        $ionicLoading.show({
+            template: 'Pubblicazione in Corso...'
+        });
 
         var newData = {
             text:news,

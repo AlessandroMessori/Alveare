@@ -38,7 +38,7 @@ var addArticleCtrl = function ($scope, $window, $ionicLoading, Articles, InputFi
                 img: document.getElementById('img_1').src
             };
 
-            Articles.sendArticle(newData, $ionicLoading);
+            Articles.sendArticle(newData);
             title = '';
             text = '';
         }
@@ -47,8 +47,6 @@ var addArticleCtrl = function ($scope, $window, $ionicLoading, Articles, InputFi
         }
     };
 
-    $scope.update = function (imgData) {
-    }
 
 };
 

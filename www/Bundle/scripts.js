@@ -65,8 +65,8 @@
 	var DateHandler = __webpack_require__(148);
 	var InputFields = __webpack_require__(149);
 	var StringHandler = __webpack_require__(150);
-	var Modals = __webpack_require__(152);
-	var credentials = __webpack_require__(151);
+	var Modals = __webpack_require__(151);
+	var credentials = __webpack_require__(152);
 
 	Parse.initialize("o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ", "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF");
 	Firebase.initializeApp(credentials);
@@ -14330,34 +14330,34 @@
 /* 137 */
 /***/ function(module, exports) {
 
-	var commentsCtrl = function ($scope, $window, Comments) {
+	var commentsCtrl = function ($scope, $window, Comments, DateHandler) {
 
 	    $scope.$on('$ionicView.enter', function () {
-	        $scope.doRefresh();
+	        Comments.getComments($scope, 'commentsSpinner');
 	    });
 
 	    $scope.send = function (comment) {
 	        if (comment != undefined) {
-	            Comments.sendComment(comment, $window.localStorage.getItem("currentPost"));
+	            var newData = {
+	                comment: comment,
+	                author: 'autore',
+	                father: localStorage.getItem('currentPost'),
+	                date: DateHandler.GetCurrentDate()
+	            };
+	            Comments.sendComment($scope, newData,'commentList');
 	            comment = '';
-	            $scope.doRefresh();
 	        }
 	        else {
 	            alert('non puoi pubblicare un commento vuoto');
 	        }
 	    };
 
-	    $scope.Comments = Comments.getComments($window, 'commentsSpinner');
-
-	    $scope.doRefresh = function () {
-	        $scope.Comments = Comments.getComments($window, 'commentsSpinner');
-	        $scope.$broadcast('scroll.refreshComplete');
-	        $scope.$apply();
-	    };
+	    Comments.getComments($scope, 'commentsSpinner');
 
 	};
 
 	module.exports = commentsCtrl;
+
 
 /***/ },
 /* 138 */
@@ -14695,6 +14695,7 @@
 	                        window.localStorage.setItem("author", this.author);
 	                        window.localStorage.setItem("img", this.img);
 	                        window.localStorage.setItem("date", this.date);
+	                        window.localStorage.setItem("currentPost", item);
 	                        state.go(destination);
 	                    }
 	                };
@@ -14715,58 +14716,51 @@
 /* 146 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Parse = __webpack_require__(3);
-	var Comments = function (DateHandler) {
-	    this.sendComment = function (text, father) {
+	var Firebase = __webpack_require__(1);
 
-	        var Comment = new Parse.Object("Comment");
+	var Comments = function () {
 
-	        Comment.set("text", text);
-	        Comment.set("Writer", Parse.User.current().get("username"));
-	        Comment.set("father", father);
-	        Comment.set("date", DateHandler.GetFullDate());
-
-	        Comment.save(null, {
-	            success: function (Comment) {
-	                alert('commento pubblicato con successo');
-	                UpdateCount("Comment", father);
-	            },
-	            error: function (Comment, error) {
-	                alert('Failed to create new object, with error code: ' + error.Comment);
-	            }
-	        });
+	    this.sendComment = function (scope, newData, commentList) {
+	        var oldLenght = scope.Comments.length;
+	        var newPostKey = Firebase.database().ref().child('Commenti').push().key;
+	        var updates = {};
+	        document.getElementById(commentList).style.display = 'none';
+	        updates['/Commenti/' + newPostKey] = newData;
+	        Firebase.database().ref().update(updates)
+	            .then(function () {
+	                alert("Commento Pubblicato con Successo");
+	                scope.Comments.splice(oldLenght + 1, scope.Comments.length - oldLenght);
+	                document.getElementById(commentList).style.display = 'block';
+	                scope.$apply();
+	            })
 	    };
 
-	    this.getComments = function (win,spinner) {
+	    this.getComments = function (scope, spinner) {
 
 	        document.getElementById(spinner).style.display = 'block';
-	        var Comment = new Parse.Object("Comment");
 	        var comments = [];
-	        var father = localStorage.getItem("currentPost");
-	        var query = new Parse.Query(Comment);
-	        query.equalTo("father", father);
+	        var father = window.localStorage.getItem("currentPost");
+	        var ModelRef = Firebase.database().ref('Commenti');
+	        ModelRef.on('value', function (snapshot) {
+	            var results = snapshot.val();
 
-	        query.find({
-	            success: function (results) {
+	            Object.keys(results).map(function (item) {
 
-	                for (var i = 0; i < results.length; i++) {
-
-
-	                    comments[results.length - 1 - i] = {
-	                        name: results[i].get("Writer"),
-	                        text: results[i].get('text'),
-	                        father: results[i].get('father'),
-	                        date: results[i].get('date')
-	                    };
+	                if (results[item].father == father) {
+	                    comments.push({
+	                        author: results[item].author,
+	                        text: results[item].comment,
+	                        father: results[item].father,
+	                        date: results[item].date
+	                    });
 	                }
-	                document.getElementById(spinner).style.display = 'none';
-	            },
-	            error: function (error) {
-	                return;
-	            }
-	        });
 
-	        return comments;
+	            });
+	            scope.Comments = comments.reverse();
+	            scope.Comments.splice(comments.length, scope.Comments.length - comments.length)
+	            scope.$apply();
+	            document.getElementById(spinner).style.display = 'none';
+	        });
 	    }
 	};
 
@@ -14786,7 +14780,7 @@
 	        user.set("password", pass);
 	        user.set("email", mail);
 	        user.set("isadmin", false);
-
+	c
 	        user.signUp(null, {
 	            success: function (user) {
 	                // Hooray! Let them use the app now.
@@ -14950,19 +14944,6 @@
 /* 151 */
 /***/ function(module, exports) {
 
-	var config = {
-	    apiKey: "AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8",
-	    authDomain: "app-liceoariostospallanz-d12b0.firebaseapp.com",
-	    databaseURL: "https://app-liceoariostospallanz-d12b0.firebaseio.com",
-	    storageBucket: "app-liceoariostospallanz-d12b0.appspot.com"
-	};
-
-	module.exports = config;
-
-/***/ },
-/* 152 */
-/***/ function(module, exports) {
-
 	var Modals = function ($ionicLoading) {
 	    this.ResultTemplate = function (text) {
 	        $ionicLoading.hide();
@@ -14977,6 +14958,19 @@
 
 	module.exports = Modals;
 
+
+/***/ },
+/* 152 */
+/***/ function(module, exports) {
+
+	var config = {
+	    apiKey: "AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8",
+	    authDomain: "app-liceoariostospallanz-d12b0.firebaseapp.com",
+	    databaseURL: "https://app-liceoariostospallanz-d12b0.firebaseio.com",
+	    storageBucket: "app-liceoariostospallanz-d12b0.appspot.com"
+	};
+
+	module.exports = config;
 
 /***/ }
 /******/ ]);

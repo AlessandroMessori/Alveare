@@ -43,6 +43,7 @@ var Articles = function (DateHandler, StringHandler,Modals) {
                         window.localStorage.setItem("author", this.author);
                         window.localStorage.setItem("img", this.img);
                         window.localStorage.setItem("date", this.date);
+                        window.localStorage.setItem("currentPost", item);
                         state.go(destination);
                     }
                 };

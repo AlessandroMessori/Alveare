@@ -8,7 +8,7 @@ var Auth = function () {
         user.set("password", pass);
         user.set("email", mail);
         user.set("isadmin", false);
-
+c
         user.signUp(null, {
             success: function (user) {
                 // Hooray! Let them use the app now.
