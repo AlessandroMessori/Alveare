@@ -1,6 +1,4 @@
-var Parse = require('parse');
 var Firebase = require('firebase');
-
 var Articles = function (DateHandler, StringHandler,Modals) {
 
     this.sendArticle = function (newData) {

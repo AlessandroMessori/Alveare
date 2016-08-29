@@ -14171,7 +14171,6 @@
 /* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Parse = __webpack_require__(3);
 	var Firebase = __webpack_require__(1);
 	var addArticleCtrl = function ($scope, $window, $ionicLoading, Articles, InputFields, DateHandler) {
 
@@ -14197,7 +14196,7 @@
 	    };
 
 	    $scope.UploadArticle = function (title, text) {
-	        if (InputFields.filledFields([title, text])) {
+	        if (InputFields.filledFields([title, text, document.getElementById('img_1').src])) {
 
 	            $ionicLoading.show({
 	                template: 'Pubblicazione in Corso...'
@@ -14650,9 +14649,7 @@
 /* 145 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Parse = __webpack_require__(3);
 	var Firebase = __webpack_require__(1);
-
 	var Articles = function (DateHandler, StringHandler,Modals) {
 
 	    this.sendArticle = function (newData) {
@@ -14912,7 +14909,7 @@
 	    this.filledFields = function (fields) {
 	        var check = true;
 	        fields.map(function (item) {
-	            if (item == undefined) {
+	            if (item == undefined || item == '') {
 	                check = false;
 	            }
 	        });
