@@ -1,4 +1,3 @@
-var Parse = require('parse');
 var Firebase = require('firebase');
 var addArticleCtrl = function ($scope, $window, $ionicLoading, Articles, InputFields, DateHandler) {
 
@@ -24,7 +23,7 @@ var addArticleCtrl = function ($scope, $window, $ionicLoading, Articles, InputFi
     };
 
     $scope.UploadArticle = function (title, text) {
-        if (InputFields.filledFields([title, text])) {
+        if (InputFields.filledFields([title, text, document.getElementById('img_1').src])) {
 
             $ionicLoading.show({
                 template: 'Pubblicazione in Corso...'

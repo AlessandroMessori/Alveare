@@ -13,14 +13,12 @@
     </ion-nav-bar>
     <ion-content has-footer="true" has-tabs="true">
 
-        <ion-refresher on-refresh="doRefresh()">
-        </ion-refresher>
-        <div backBtn></div>
+
         <ion-spinner class="spinner" id="commentsSpinner"></ion-spinner>
-        <div class="card item-text-wrap" style="margin:0%">
+        <div class="card item-text-wrap" id="commentList" style="margin:0%">
             <div class="item" ng-repeat="Comment in Comments">
                 <p>
-                    <a style="color:blue">{{Comment.name}}</a>
+                    <a style="color:blue">{{Comment.author}}</a>
                     <a>{{Comment.text}}</a>
                 </p>
                 <h4>

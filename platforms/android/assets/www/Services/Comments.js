@@ -1,55 +1,48 @@
-var Parse = require('parse');
-var Comments = function (DateHandler) {
-    this.sendComment = function (text, father) {
+var Firebase = require('firebase');
 
-        var Comment = new Parse.Object("Comment");
+var Comments = function () {
 
-        Comment.set("text", text);
-        Comment.set("Writer", Parse.User.current().get("username"));
-        Comment.set("father", father);
-        Comment.set("date", DateHandler.GetFullDate());
-
-        Comment.save(null, {
-            success: function (Comment) {
-                alert('commento pubblicato con successo');
-                UpdateCount("Comment", father);
-            },
-            error: function (Comment, error) {
-                alert('Failed to create new object, with error code: ' + error.Comment);
-            }
-        });
+    this.sendComment = function (scope, newData, commentList) {
+        var oldLenght = scope.Comments.length;
+        var newPostKey = Firebase.database().ref().child('Commenti').push().key;
+        var updates = {};
+        document.getElementById(commentList).style.display = 'none';
+        updates['/Commenti/' + newPostKey] = newData;
+        Firebase.database().ref().update(updates)
+            .then(function () {
+                alert("Commento Pubblicato con Successo");
+                scope.Comments.splice(oldLenght + 1, scope.Comments.length - oldLenght);
+                document.getElementById(commentList).style.display = 'block';
+                scope.$apply();
+            })
     };
 
-    this.getComments = function (win,spinner) {
+    this.getComments = function (scope, spinner) {
 
         document.getElementById(spinner).style.display = 'block';
-        var Comment = new Parse.Object("Comment");
         var comments = [];
-        var father = localStorage.getItem("currentPost");
-        var query = new Parse.Query(Comment);
-        query.equalTo("father", father);
+        var father = window.localStorage.getItem("currentPost");
+        var ModelRef = Firebase.database().ref('Commenti');
+        ModelRef.on('value', function (snapshot) {
+            var results = snapshot.val();
 
-        query.find({
-            success: function (results) {
+            Object.keys(results).map(function (item) {
 
-                for (var i = 0; i < results.length; i++) {
-
-
-                    comments[results.length - 1 - i] = {
-                        name: results[i].get("Writer"),
-                        text: results[i].get('text'),
-                        father: results[i].get('father'),
-                        date: results[i].get('date')
-                    };
+                if (results[item].father == father) {
+                    comments.push({
+                        author: results[item].author,
+                        text: results[item].comment,
+                        father: results[item].father,
+                        date: results[item].date
+                    });
                 }
-                document.getElementById(spinner).style.display = 'none';
-            },
-            error: function (error) {
-                return;
-            }
-        });
 
-        return comments;
+            });
+            scope.Comments = comments.reverse();
+            scope.Comments.splice(comments.length, scope.Comments.length - comments.length)
+            scope.$apply();
+            document.getElementById(spinner).style.display = 'none';
+        });
     }
 };
 
