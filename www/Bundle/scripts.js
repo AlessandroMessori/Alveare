@@ -14304,12 +14304,6 @@
 
 	    Articles.getArticles($scope, $state, type, "articlesSpinner");
 
-	    $scope.doRefresh = function () {
-	        Articles.getArticles($scope, $state, type, "articlesSpinner");
-	        $scope.$broadcast('scroll.refreshComplete');
-	        $scope.$apply();
-	    };
-
 	};
 
 	var attualitaCtrl = function ($scope, $state, $window, Articles) {
@@ -14444,13 +14438,6 @@
 	    $scope.$on('$ionicView.enter', function () {
 	        Messages.getPosts($scope, $state, 'newsSpinner');
 	    });
-
-	    $scope.doRefresh = function () {
-	        Messages.getPosts($scope, $state, 'newsSpinner');
-	        $scope.$broadcast('scroll.refreshComplete');
-	        $scope.$apply();
-	    };
-
 	};
 
 	module.exports = forumCtrl;
@@ -14928,7 +14915,7 @@
 	    this.shorten = function shorten(text, maxLength) {
 	        var ret = text;
 	        if (ret.length > maxLength) {
-	            ret = ret.substr(0, maxLength3) + '…';
+	            ret = ret.substr(0, maxLength) + '…';
 	        }
 	        return ret;
 	    }
