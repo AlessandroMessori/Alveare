@@ -16,12 +16,25 @@
         <label class="item item-input">
             <textarea placeholder="Manda un avviso agli studenti" id="messagetxt" ng-model="news"></textarea>
         </label>
+        <br>
 
-        <a href="#" id="cameraBtn" class="button button-icon icon ion-paperclip" ng-click="GetPic()">
-            Carica PDF
-        </a>
+        <div id="upload-pdf">
+            <button>
+                <span class="icon ion-paperclip"></span>
+                <a href="javascript: void(0)">Carica PDF</a>
+            </button>
+            <input type="file" id="upload_input" name="upload" multiple
+                   onchange="angular.element(this).scope().loadFile(this)">/>
+        </div>
 
-        <div class="row" id="btnrow" style="text-align:center">
+        <ul id="pdfList">
+            <li ng-repeat="file in fileList">
+                <span>{{file}}</span>
+                <span class="icon ion-android-cancel" ng-click="removeFile(file)"></span>
+            </li>
+        </ul>
+
+        <div class="row" id="btnrow">
             <div class="col col-33 col-offset-33">
                 <button id="sendbtn" class="button  button-positive" ng-click="sendNews(news)">Invia</button>
             </div>

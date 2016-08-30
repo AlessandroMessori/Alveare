@@ -1,7 +1,13 @@
 var Firebase = require('firebase');
 var Messages = function (Modals) {
 
-    this.sendPost = function (newData) {
+    this.sendPost = function (newData, binary) {
+
+        var storageRef = Firebase.storage().ref();
+        binary.map(function (item) {
+            var childRef = storageRef.child(item.name);
+            childRef.put(item.binary);
+        });
 
         var newPostKey = Firebase.database().ref().child('Comunicazioni').push().key;
         var updates = {};
@@ -29,6 +35,7 @@ var Messages = function (Modals) {
                     author: results[item].author,
                     text: results[item].text,
                     date: results[item].date,
+                    files: results[item].files,
                     id: item,
                     link: function () {
                         window.localStorage.setItem("currentPost", item);
