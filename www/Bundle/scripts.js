@@ -14818,14 +14818,16 @@
 	                        author: results[item].author,
 	                        text: results[item].comment,
 	                        father: results[item].father,
-	                        date: results[item].date
+	                        date: results[item].date,
+	                        id: item
 	                    });
 	                } else if (results[item].father == father) {
 	                    comments.push({
 	                        author: results[item].author,
 	                        text: results[item].comment,
 	                        father: results[item].father,
-	                        date: results[item].date
+	                        date: results[item].date,
+	                        id: item
 	                    });
 	                }
 
@@ -14835,6 +14837,18 @@
 	            scope.$apply();
 	            document.getElementById(spinner).style.display = 'none';
 	        });
+	    }
+
+	    this.deleteComment = function (scope, commentId, commentList) {
+	        var oldLenght = scope.Comments.length;
+	        document.getElementById(commentList).style.display = 'none';
+	        firebase.database().ref('Commenti/' + commentId).remove()
+	            .then(function () {
+	                alert('commento eliminato con successo');
+	                scope.Comments.splice(oldLenght - 1, oldLenght*2);
+	                document.getElementById(commentList).style.display = 'block';
+	                scope.$apply();
+	            });
 	    }
 	};
 
@@ -31807,7 +31821,11 @@
 /***/ function(module, exports) {
 
 	var moderationCtrl = function ($scope, Comments) {
-	    Comments.getComments($scope, 'commentsSpinner',false);
+	    Comments.getComments($scope, 'commentsSpinner', false);
+
+	    $scope.removeComment = function (commentId) {
+	        Comments.deleteComment($scope, commentId, 'commentList');
+	    }
 	};
 
 	module.exports = moderationCtrl;

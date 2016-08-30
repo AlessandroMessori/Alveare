@@ -35,14 +35,16 @@ var Comments = function () {
                         author: results[item].author,
                         text: results[item].comment,
                         father: results[item].father,
-                        date: results[item].date
+                        date: results[item].date,
+                        id: item
                     });
                 } else if (results[item].father == father) {
                     comments.push({
                         author: results[item].author,
                         text: results[item].comment,
                         father: results[item].father,
-                        date: results[item].date
+                        date: results[item].date,
+                        id: item
                     });
                 }
 
@@ -52,6 +54,18 @@ var Comments = function () {
             scope.$apply();
             document.getElementById(spinner).style.display = 'none';
         });
+    }
+
+    this.deleteComment = function (scope, commentId, commentList) {
+        var oldLenght = scope.Comments.length;
+        document.getElementById(commentList).style.display = 'none';
+        firebase.database().ref('Commenti/' + commentId).remove()
+            .then(function () {
+                alert('commento eliminato con successo');
+                scope.Comments.splice(oldLenght - 1, oldLenght*2);
+                document.getElementById(commentList).style.display = 'block';
+                scope.$apply();
+            });
     }
 };
 
