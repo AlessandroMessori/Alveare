@@ -17,8 +17,10 @@ var Comments = function () {
             })
     };
 
-    this.getComments = function (scope, spinner) {
-
+    this.getComments = function (scope, spinner, filter) {
+        if (filter == undefined) {
+            filter = true;
+        }
         document.getElementById(spinner).style.display = 'block';
         var comments = [];
         var father = window.localStorage.getItem("currentPost");
@@ -28,7 +30,14 @@ var Comments = function () {
 
             Object.keys(results).map(function (item) {
 
-                if (results[item].father == father) {
+                if (!filter) {
+                    comments.push({
+                        author: results[item].author,
+                        text: results[item].comment,
+                        father: results[item].father,
+                        date: results[item].date
+                    });
+                } else if (results[item].father == father) {
                     comments.push({
                         author: results[item].author,
                         text: results[item].comment,

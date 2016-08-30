@@ -1,0 +1,49 @@
+<ion-view view-title="Crea Articolo" ng-init="checkFoto()">
+    <ion-nav-bar class="bar bar-header bar-positive" ng-controller="tabsCtrl">
+        <ion-nav-buttons side="left">
+            <button class="button backBtn" id="arrowBtn" ng-click="backBtnClick()">
+                <p class="ion-android-arrow-back"></p>
+            </button>
+        </ion-nav-buttons>
+        <ion-nav-buttons side="right">
+            <button class="button backBtn" ng-click="Disconnect()">
+                <p class="ion-log-out"></p>
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-content class="padding">
+
+        <div class="row titleRow">
+            <div class="col col-50 col-offset-25">
+                <label class="item item-input">
+                    <input type="text" placeholder="Titolo Articolo" ng-model="Title">
+                </label>
+            </div>
+        </div>
+
+        <label class="item item-input">
+            <textarea placeholder="Testo Articolo"  ng-model="text"></textarea>
+        </label>
+
+        <div class="row">
+            <div class="col col-33">
+                <a href="#" id="cameraBtn" class="button button-icon icon ion-camera" ng-click="GetPic()">
+                    Carica
+                </a>
+            </div>
+            <div id="img-preview" class="col col-50">
+                <h4>Immagine di copertina</h4>
+                <img class="responsive" id="img_1"></img>
+            </div>
+        </div>
+
+
+        <div class="row" id="btnrow">
+            <div class="col col-33 col-offset-33">
+                <button id="sendbtn" class="button  button-positive" ng-click="UploadArticle(Title,text)">Invia</button>
+            </div>
+        </div>
+
+
+    </ion-content>
+</ion-view>

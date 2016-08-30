@@ -1,21 +1,26 @@
-var commentsCtrl = function ($scope, $window, Comments) {
-    $scope.send = function (comment) {
-        Comments.sendComment(comment, $window.localStorage.getItem("currentPost"));
-        comment = '';
-        $scope.doRefresh();
-    };
+var commentsCtrl = function ($scope, $window, Comments, DateHandler) {
 
     $scope.$on('$ionicView.enter', function () {
-        $scope.doRefresh();
+        Comments.getComments($scope, 'commentsSpinner');
     });
 
-    $scope.Comments = Comments.getComments($window,'commentsSpinner');
-
-    $scope.doRefresh = function () {
-        $scope.Comments = Comments.getComments($window,'commentsSpinner');
-        $scope.$broadcast('scroll.refreshComplete');
-        $scope.$apply();
+    $scope.send = function (comment) {
+        if (comment != undefined) {
+            var newData = {
+                comment: comment,
+                author: 'autore',
+                father: localStorage.getItem('currentPost'),
+                date: DateHandler.GetCurrentDate()
+            };
+            Comments.sendComment($scope, newData,'commentList');
+            comment = '';
+        }
+        else {
+            alert('non puoi pubblicare un commento vuoto');
+        }
     };
+
+    Comments.getComments($scope, 'commentsSpinner');
 
 };
 

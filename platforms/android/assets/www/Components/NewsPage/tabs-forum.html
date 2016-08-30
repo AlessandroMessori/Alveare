@@ -19,9 +19,9 @@
             <div class="item item-body">
                 <p class="postContent">{{Post.text}}</p>
                 <ul class="fileList">
-                    <li>
+                    <li ng-click="openFile(file.url.ka)" ng-repeat="file in Post.files">
                         <span class="icon ion-paperclip"></span>
-                        <p>Circolare 234.pdf</p>
+                        <a>{{file.name}}</a>
                     </li>
                 </ul>
                 <a class="subdued dataTag">15 Mi piace</a>

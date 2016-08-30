@@ -1,13 +1,18 @@
-var loginCtrl = function ($scope, $ionicLoading, $window, Auth) {
+var loginCtrl = function ($scope, $ionicLoading, $window, $state, Auth, InputFields) {
 
     $scope.inputType = 'password';
 
-    $scope.UserLogin = function (username, password,RememberMe) {
-        $ionicLoading.show({
-            template: 'Accesso in Corso...'
-        });
-        Auth.Login(username, password, $ionicLoading);
-        $scope.SetRememberMe(RememberMe);
+    $scope.UserLogin = function (username, password, RememberMe) {
+        if (InputFields.filledFields([username, password])) {
+            $ionicLoading.show({
+                template: 'Accesso in Corso...'
+            });
+            Auth.Login(username, password, $ionicLoading, $state);
+            $scope.SetRememberMe(RememberMe);
+        }
+        else {
+            alert('compila tutti i campi');
+        }
     };
 
     $scope.SetRememberMe = function (RememberMe) {

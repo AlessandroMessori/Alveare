@@ -1,20 +1,20 @@
 var Parse = require('parse');
 var Auth = function () {
 
-    this.Signup = function (name, pass, mail, loadingtemplate) {
+    this.Signup = function (name, pass, mail, loadingtemplate, state) {
         var user = new Parse.User();
 
         user.set("username", name);
         user.set("password", pass);
         user.set("email", mail);
         user.set("isadmin", false);
-
+c
         user.signUp(null, {
             success: function (user) {
                 // Hooray! Let them use the app now.
                 loadingtemplate.hide();
                 alert("Creato Account Con successo");
-                document.location.href = "/#login";
+                state.go('login');
             },
             error: function (user, error) {
                 // Show the error message somewhere and let the user try again.
@@ -24,11 +24,11 @@ var Auth = function () {
         });
     };
 
-    this.Login = function (name, pass, loadingtemplate) {
+    this.Login = function (name, pass, loadingtemplate, state) {
         Parse.User.logIn(name, pass, {
             success: function (user) {
                 loadingtemplate.hide();
-                document.location.href = "/#tab/link";
+                state.go("tab.link");
             },
             error: function (user, error) {
                 loadingtemplate.hide();
@@ -38,9 +38,9 @@ var Auth = function () {
         });
     };
 
-    this.Logout = function (loadingtemplate) {
+    this.Logout = function (loadingtemplate, state) {
         Parse.User.logOut();
-        document.location.href = "/#login";
+        state.go('login');
         loadingtemplate.hide();
     };
 

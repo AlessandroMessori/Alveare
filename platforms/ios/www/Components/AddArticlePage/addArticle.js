@@ -1,7 +1,7 @@
-var addArticleCtrl = function ($scope, $window,Articles) {
+var Firebase = require('firebase');
+var addArticleCtrl = function ($scope, $window, $ionicLoading, Articles, InputFields, DateHandler) {
 
     document.getElementById('img-preview').style.display = 'none';
-
 
     $scope.GetPic = function () {
         navigator.camera.getPicture(onSuccess, onFail, {
@@ -22,11 +22,30 @@ var addArticleCtrl = function ($scope, $window,Articles) {
 
     };
 
-    $scope.UploadArticle = function (title,text) {
-        Articles.sendArticle(title, "autore",text, '', $window.localStorage.getItem("contentType"));
-        title = '';
-        text= '';
-    }
+    $scope.UploadArticle = function (title, text) {
+        if (InputFields.filledFields([title, text, document.getElementById('img_1').src])) {
+
+            $ionicLoading.show({
+                template: 'Pubblicazione in Corso...'
+            });
+
+            var newData = {
+                text: text,
+                title: title,
+                author: 'autore',
+                date: DateHandler.GetCurrentDate(),
+                img: document.getElementById('img_1').src
+            };
+
+            Articles.sendArticle(newData);
+            title = '';
+            text = '';
+        }
+        else {
+            alert('compila tutti i campi');
+        }
+    };
+
 
 };
 

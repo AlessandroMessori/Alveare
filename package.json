@@ -13,7 +13,9 @@
     "parse": "^1.9.1",
     "webpack-stream": "^3.2.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "polarcape-cordova-plugin-document-handler": "^1.0.5"
+  },
   "cordovaPlugins": [
     "cordova-plugin-device",
     "cordova-plugin-console",
@@ -30,7 +32,9 @@
     },
     "cordova-plugin-camera",
     "org.apache.cordova.device",
-    "cordova-plugin-statusbar"
+    "cordova-plugin-statusbar",
+    "cordova-plugin-file",
+    "polarcape-cordova-plugin-document-handler"
   ],
   "cordovaPlatforms": [
     "ios",

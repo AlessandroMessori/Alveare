@@ -1,55 +1,71 @@
-var Parse = require('parse');
-var Messages = function (DateHandler) {
+var Firebase = require('firebase');
+var Messages = function (Modals) {
 
-    this.sendPost = function (text) {
+    this.sendPost = function (newData, binary) {
 
-        var Message = new Parse.Object("Post");
-
-        Message.set("text", text);
-        Message.set("Writer", Parse.User.current().get("username"));
-        Message.set("date", DateHandler.GetCurrentDate());
-
-        Message.save(null, {
-            success: function (Message) {
-                alert('Post pubblicato con successo');
-            },
-            error: function (Message, error) {
-                alert('Failed to create new object, with error code: ' + error.message);
-            }
+        var storageRef = Firebase.storage().ref();
+        binary.map(function (item) {
+            var childRef = storageRef.child(item.name);
+            childRef.put(item.binary);
         });
+
+        var newPostKey = Firebase.database().ref().child('Comunicazioni').push().key;
+        var updates = {};
+        updates['/Comunicazioni/' + newPostKey] = newData;
+        Firebase.database().ref().update(updates)
+            .then(function () {
+                Modals.ResultTemplate("Comunicazione Pubblicata con Successo");
+            })
+            .catch(function () {
+                Modals.ResultTemplate("Errore nella Pubblicazione della Comunicazione");
+            })
     };
 
-    this.getPosts = function (win, state, spinner) {
+    this.getPosts = function (scope, state, spinner) {
 
+        var storage = Firebase.storage();
         document.getElementById(spinner).style.display = 'block';
-        var Message = new Parse.Object("Post");
-        var posts = [];
-        var query = new Parse.Query(Message);
-        query.find().then(
-            function (results) {
 
-                for (var i = 0; i < results.length; i++) {
-                    posts[results.length - 1 - i] = {
-                        name: results[i].get("Writer"),
-                        text: results[i].get('text'),
-                        date: results[i].get('date'),
-                        objectId: results[i].id,
-                        //commentsCount : GetCommentsCount(results[i].id),
-                        link: function () {
-                            win.localStorage.setItem("currentPost", this.objectId);
-                            state.go("tab.comments");
-                        }
-                    };
+        var ModelRef = Firebase.database().ref('Comunicazioni');
+        ModelRef.on('value', function (snapshot) {
+            var results = snapshot.val();
+            var posts = [];
 
-                }
-                document.getElementById(spinner).style.display = 'none';
+            Object.keys(results).map(function (item, i) {
 
-            }
-        );
-        return posts;
-    };
+                var files = [];
+
+                results[item].files.map(function (file) {
+                    var stRef = storage.ref();
+                    //console.log(stRef.child(file).getDownloadURL());
+                    files.push({
+                        url: stRef.child(file).getDownloadURL(),
+                        name: file
+                    });
+                });
+
+                posts[i] = {
+                    author: results[item].author,
+                    text: results[item].text,
+                    date: results[item].date,
+                    files: files,
+                    id: item,
+                    link: function () {
+                        window.localStorage.setItem("currentPost", item);
+                        state.go("comments");
+                    }
+                };
+            });
+
+            scope.Posts = posts.reverse();
+            scope.$apply();
+            document.getElementById(spinner).style.display = 'none';
+        });
+
+    }
 
 };
 
 module.exports = Messages;
+
 

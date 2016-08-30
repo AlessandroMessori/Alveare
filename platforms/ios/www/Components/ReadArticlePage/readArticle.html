@@ -1,0 +1,60 @@
+<ion-view view-title="Leggi Articolo">
+
+    <ion-nav-bar class="bar bar-header bar-positive" ng-controller="tabsCtrl">
+        <ion-nav-buttons side="left">
+            <button class="button backBtn" id="arrowBtn" ng-click="backBtnClick()">
+                <p class="ion-android-arrow-back"></p>
+            </button>
+        </ion-nav-buttons>
+        <ion-nav-buttons side="right">
+            <button class="button backBtn" ng-click="Disconnect()">
+                <p class="ion-log-out"></p>
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <ion-content>
+
+        <div class="row">
+            <div class="col ">
+                <h5 style="text-align:right">{{date}}</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h1 class="title" style="margin-left:5%" style="margin-right:5%">{{title}}</h1>
+            </div>
+        </div>
+
+
+        <div class="row" style="text-align:center">
+            <div class="col " ng-click="openModal()">
+                <img src={{img}} class="responsive"></img>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col">
+                <h4 style="margin-left:5%" style="margin-right:5%">
+                    {{text}}
+
+                </h4>
+
+                <h4><a class="subdued" ui-sref="comments">leggi commenti</a></h4>
+            </div>
+        </div>
+        <br>
+
+        <script id="image-modal.html" type="text/ng-template">
+            <div class="modal image-modal transparent" ng-click="closeModal()">
+                <ion-pane class="transparent">
+                    <img ng-src="{{img}}" class="fullscreen-image"/>
+                </ion-pane>
+            </div>
+        </script>
+
+
+    </ion-content>
+</ion-view>

@@ -23,6 +23,7 @@ var Messages = function (Modals) {
 
     this.getPosts = function (scope, state, spinner) {
 
+        var storage = Firebase.storage();
         document.getElementById(spinner).style.display = 'block';
 
         var ModelRef = Firebase.database().ref('Comunicazioni');
@@ -31,11 +32,23 @@ var Messages = function (Modals) {
             var posts = [];
 
             Object.keys(results).map(function (item, i) {
+
+                var files = [];
+
+                results[item].files.map(function (file) {
+                    var stRef = storage.ref();
+                    //console.log(stRef.child(file).getDownloadURL());
+                    files.push({
+                        url: stRef.child(file).getDownloadURL(),
+                        name: file
+                    });
+                });
+
                 posts[i] = {
                     author: results[item].author,
                     text: results[item].text,
                     date: results[item].date,
-                    files: results[item].files,
+                    files: files,
                     id: item,
                     link: function () {
                         window.localStorage.setItem("currentPost", item);

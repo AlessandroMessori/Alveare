@@ -1,16 +1,33 @@
 <ion-view view-title="Attualità">
     <ion-content>
+        <ion-spinner class="spinner" id="articlesSpinner"></ion-spinner>
 
-        <ion-refresher on-refresh="doRefresh()">
-        </ion-refresher>
-        <ion-spinner class="spinner" id="articlesSpinners"></ion-spinner>
-        <div class="list">
+        <div class="list card" ng-repeat="Article in Articles track by $index">
 
-            <a class="item item-thumbnail-left" href="#" ng-click="Article.link()" ng-repeat="Article in Articles track by $index">
+            <div class="item">
+                <h2>{{Article.author}}</h2>
+            </div>
+
+            <div class="item item-image">
                 <img src={{Article.img}}>
+            </div>
+
+            <div class="item item-body">
                 <h2>{{Article.title}}</h2>
-                <p>{{Article.text}}</p>
+                <p class="articleText">{{Article.coverText}}</p>
+            </div>
+
+            <a class="item row actionIcon">
+                <span class="col col-50" ng-click="Article.link('article')">
+                    <i class="icon ion-ios-book"></i>
+                    Leggi
+                </span>
+                <span class="col col-50"  ng-click="Article.link('comments')">
+                    <i class="icon ion-chatbox"></i>
+                    Commenta
+                </span>
             </a>
+
         </div>
     </ion-content>
 </ion-view>

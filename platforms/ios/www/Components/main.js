@@ -1,3 +1,4 @@
+var Firebase = require('firebase');
 var Parse = require('parse');
 var addArticleCtrl = require('./AddArticlePage/addArticle');
 var addNewsCtrl = require('./AddNewsPage/addNews');
@@ -16,11 +17,15 @@ var Articles = require('../Services/Articles');
 var Comments = require('../Services/Comments');
 var Auth = require('../Services/Auth');
 var DateHandler = require('../Services/DateHandler');
+var InputFields = require('../Services/InputFields');
+var StringHandler = require('../Services/StringHandler');
+var Modals = require('../Services/Modals');
 var credentials = require('../../credentials');
 
-Parse.initialize(credentials.user, credentials.password);
+Parse.initialize("o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ", "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF");
+Firebase.initializeApp(credentials);
 
-var appAS = angular.module('appAS', ['ionic'])
+var appAS = angular.module('appAS', ['ionic', 'ionic.contrib.drawer']);
 appAS.controller('addArticleCtrl', addArticleCtrl);
 appAS.controller('addNewsCtrl', addNewsCtrl);
 appAS.controller('adminCtrl', adminCtrl);
@@ -38,7 +43,9 @@ appAS.service('Articles', Articles);
 appAS.service('Comments', Comments);
 appAS.service('Auth', Auth);
 appAS.service('DateHandler', DateHandler);
-
+appAS.service('InputFields', InputFields);
+appAS.service('StringHandler', StringHandler);
+appAS.service('Modals',Modals);
 
 appAS.run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -56,9 +63,7 @@ appAS.run(function ($ionicPlatform) {
     });
 });
 
-appAS.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-
-    $ionicConfigProvider.tabs.position('bottom');
+appAS.config(function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider
 
@@ -114,7 +119,7 @@ appAS.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider)
         .state('tab.forum', {
             url: '/forum',
             views: {
-                'tabs-forum': {
+                'tab-forum': {
                     templateUrl: 'Components/NewsPage/tabs-forum.html',
                     controller: 'newsCtrl'
                 }
@@ -124,54 +129,35 @@ appAS.config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider)
         .state('tab.link', {
             url: '/link',
             views: {
-                'tabs-link': {
+                'tab-link': {
                     templateUrl: 'Components/LinkPage/tab-link.html',
                     controller: 'linkCtrl'
                 }
             }
         })
 
-        .state('tab.add_article', {
-            url: '/add_article',
-            views: {
-                'tab-add_article': {
-                    templateUrl: 'Components/AddArticlePage/tab-addArticle.html',
-                    controller: 'addArticleCtrl'
-
-                }
-            }
+        .state('addArticle', {
+            url: '/addArticle',
+            templateUrl: 'Components/AddArticlePage/addArticle.html',
+            controller: 'addArticleCtrl'
         })
 
-        .state('tab.send_message', {
-            url: '/send_message',
-            views: {
-                'tab-send_message': {
-                    templateUrl: 'Components/AddNewsPage/tab-send_message.html',
-                    controller: 'addNewsCtrl'
-
-                }
-            }
+        .state('sendMessage', {
+            url: '/sendMessage',
+            templateUrl: 'Components/AddNewsPage/sendMessage.html',
+            controller: 'addNewsCtrl'
         })
 
-        .state('tab.article', {
+        .state('article', {
             url: '/article',
-            views: {
-                'tab-article': {
-                    templateUrl: 'Components/ReadArticlePage/tab-article.html',
-                    controller: 'readArticleCtrl'
-
-                }
-            }
+            templateUrl: 'Components/ReadArticlePage/readArticle.html',
+            controller: 'readArticleCtrl'
         })
 
-        .state('tab.comments', {
+        .state('comments', {
             url: '/comments',
-            views: {
-                'tab-comments': {
-                    templateUrl: 'Components/CommentsPage/tab-comments.html',
-                    controller: 'commentsCtrl'
-                }
-            }
+            templateUrl: 'Components/CommentsPage/comments.html',
+            controller: 'commentsCtrl'
         });
 
     if (window.localStorage.getItem("RememberMe") == "true") {

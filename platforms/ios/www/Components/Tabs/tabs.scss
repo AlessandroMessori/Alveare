@@ -1,4 +1,40 @@
-.bar-positive .button{
+$dark: #24292F;
+$lightDark: #24292F;
+
+.bar-positive .button {
   border-color: transparent;
 }
 
+.bar-positive {
+  background-color: $dark !important;
+  .title {
+    text-align: center!important;
+  }
+}
+
+.button {
+  background-color: $dark !important;
+}
+
+.sideMenu {
+  background-color: $dark;
+  color: white;
+}
+
+.navList {
+  a.item-content {
+    @extend .sideMenu;
+  }
+}
+
+#drawer, .bar {
+  @extend .sideMenu;
+}
+
+#drawer{
+  width: 80%;
+}
+
+.bar h1 {
+  color: white !important;
+}

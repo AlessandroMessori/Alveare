@@ -54,6 +54,7 @@
 	var commentsCtrl = __webpack_require__(137);
 	var linkCtrl = __webpack_require__(138);
 	var loginCtrl = __webpack_require__(139);
+	var moderationCtrl = __webpack_require__(155);
 	var newsCtrl = __webpack_require__(140);
 	var readArticleCtrl = __webpack_require__(141);
 	var signupCtrl = __webpack_require__(142);
@@ -80,6 +81,7 @@
 	appAS.controller('commentsCtrl', commentsCtrl);
 	appAS.controller('linkCtrl', linkCtrl);
 	appAS.controller('loginCtrl', loginCtrl);
+	appAS.controller('moderationCtrl', moderationCtrl);
 	appAS.controller('newsCtrl', newsCtrl);
 	appAS.controller('readArticleCtrl', readArticleCtrl);
 	appAS.controller('signupCtrl', signupCtrl);
@@ -91,7 +93,7 @@
 	appAS.service('DateHandler', DateHandler);
 	appAS.service('InputFields', InputFields);
 	appAS.service('StringHandler', StringHandler);
-	appAS.service('Modals',Modals);
+	appAS.service('Modals', Modals);
 
 	appAS.run(function ($ionicPlatform) {
 	    $ionicPlatform.ready(function () {
@@ -204,7 +206,14 @@
 	            url: '/comments',
 	            templateUrl: 'Components/CommentsPage/comments.html',
 	            controller: 'commentsCtrl'
+	        })
+
+	        .state('moderation', {
+	            url: '/moderation',
+	            templateUrl: 'Components/ModerationPage/moderation.html',
+	            controller: 'moderationCtrl'
 	        });
+
 
 	    if (window.localStorage.getItem("RememberMe") == "true") {
 	        $urlRouterProvider.otherwise('/tab/link');
@@ -14321,6 +14330,14 @@
 	                $state.go(this.url);
 	                $window.localStorage.setItem("contentType", "Orientamento");
 	            }
+	        },
+	        {
+	            "name": "Modera Commenti",
+	            "url": "moderation",
+	            "icon":"icon ion-ios-trash",
+	            "direct": function () {
+	                $state.go(this.url);
+	            }
 	        }
 	    ];
 
@@ -14465,11 +14482,23 @@
 /* 140 */
 /***/ function(module, exports) {
 
-	var forumCtrl = function ($scope, $state, $window, Messages) {
+	var forumCtrl = function ($scope, $state, $window, $http, Messages) {
 
 	    $scope.$on('$ionicView.enter', function () {
 	        Messages.getPosts($scope, $state, 'newsSpinner');
 	    });
+
+	    $scope.openFile = function (file) {
+	        window.handleDocumentWithURL(
+	            function (msg) {
+	                console.log('success: ' + msg)
+	            }, // success handler
+	            function (msg) {
+	                alert('error: ' + msg)
+	            },   // error handler,
+	            file
+	        );
+	    }
 	};
 
 	module.exports = forumCtrl;
@@ -14636,6 +14665,7 @@
 
 	    this.getPosts = function (scope, state, spinner) {
 
+	        var storage = Firebase.storage();
 	        document.getElementById(spinner).style.display = 'block';
 
 	        var ModelRef = Firebase.database().ref('Comunicazioni');
@@ -14644,11 +14674,23 @@
 	            var posts = [];
 
 	            Object.keys(results).map(function (item, i) {
+
+	                var files = [];
+
+	                results[item].files.map(function (file) {
+	                    var stRef = storage.ref();
+	                    //console.log(stRef.child(file).getDownloadURL());
+	                    files.push({
+	                        url: stRef.child(file).getDownloadURL(),
+	                        name: file
+	                    });
+	                });
+
 	                posts[i] = {
 	                    author: results[item].author,
 	                    text: results[item].text,
 	                    date: results[item].date,
-	                    files: results[item].files,
+	                    files: files,
 	                    id: item,
 	                    link: function () {
 	                        window.localStorage.setItem("currentPost", item);
@@ -14758,8 +14800,10 @@
 	            })
 	    };
 
-	    this.getComments = function (scope, spinner) {
-
+	    this.getComments = function (scope, spinner, filter) {
+	        if (filter == undefined) {
+	            filter = true;
+	        }
 	        document.getElementById(spinner).style.display = 'block';
 	        var comments = [];
 	        var father = window.localStorage.getItem("currentPost");
@@ -14769,7 +14813,14 @@
 
 	            Object.keys(results).map(function (item) {
 
-	                if (results[item].father == father) {
+	                if (!filter) {
+	                    comments.push({
+	                        author: results[item].author,
+	                        text: results[item].comment,
+	                        father: results[item].father,
+	                        date: results[item].date
+	                    });
+	                } else if (results[item].father == father) {
 	                    comments.push({
 	                        author: results[item].author,
 	                        text: results[item].comment,
@@ -31749,6 +31800,17 @@
 		}
 		return module;
 	}
+
+
+/***/ },
+/* 155 */
+/***/ function(module, exports) {
+
+	var moderationCtrl = function ($scope, Comments) {
+	    Comments.getComments($scope, 'commentsSpinner',false);
+	};
+
+	module.exports = moderationCtrl;
 
 
 /***/ }
