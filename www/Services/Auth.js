@@ -1,3 +1,4 @@
+var Firebase = require('firebase');
 var Parse = require('parse');
 var Auth = function () {
 
@@ -36,6 +37,17 @@ c
             }
 
         });
+        /*Firebase.auth().signInWithEmailAndPassword(name, pass).catch(function(error) {
+            Firebase.auth().onAuthStateChanged(function(user) {
+                alert(user);
+                if (user) {
+                   loadingtemplate.hide();
+                    state.go("tab.link");
+                } else {
+                    alert("Error: " + error.code + " " + error.message);
+                }
+            });
+        });*/
     };
 
     this.Logout = function (loadingtemplate, state) {
