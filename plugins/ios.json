@@ -30,6 +30,9 @@
         },
         "ch.ti8m.documenthandler": {
             "PACKAGE_NAME": "com.lalveare.alveare"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.lalveare.alveare"
         }
     },
     "dependent_plugins": {}

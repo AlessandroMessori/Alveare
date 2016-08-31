@@ -34,7 +34,8 @@
     "org.apache.cordova.device",
     "cordova-plugin-statusbar",
     "cordova-plugin-file",
-    "polarcape-cordova-plugin-document-handler"
+    "polarcape-cordova-plugin-document-handler",
+    "org.apache.cordova.network-information"
   ],
   "cordovaPlatforms": [
     "ios",

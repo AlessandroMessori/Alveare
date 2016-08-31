@@ -219,6 +219,21 @@ module.exports = [
         "clobbers": [
             "handleDocumentWithURL"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-network-information/www/network.js",
+        "id": "cordova-plugin-network-information.network",
+        "clobbers": [
+            "navigator.connection",
+            "navigator.network.connection"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-network-information/www/Connection.js",
+        "id": "cordova-plugin-network-information.Connection",
+        "clobbers": [
+            "Connection"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -232,7 +247,8 @@ module.exports.metadata =
     "cordova-plugin-whitelist": "1.2.1",
     "cordova-plugin-inappbrowser": "1.3.1-dev",
     "cordova-plugin-file": "4.1.1",
-    "ch.ti8m.documenthandler": "0.2.2"
+    "ch.ti8m.documenthandler": "0.2.2",
+    "cordova-plugin-network-information": "1.2.1"
 };
 // BOTTOM OF METADATA
 });

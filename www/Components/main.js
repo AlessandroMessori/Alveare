@@ -49,7 +49,7 @@ appAS.service('InputFields', InputFields);
 appAS.service('StringHandler', StringHandler);
 appAS.service('Modals', Modals);
 
-appAS.run(function ($ionicPlatform) {
+appAS.run(function ($ionicPlatform, $ionicPopup) {
     $ionicPlatform.ready(function () {
 
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -60,6 +60,20 @@ appAS.run(function ($ionicPlatform) {
             $ionicPlatform.ready(function () {
                 ionic.Platform.fullScreen();
             });
+        }
+
+        if (window.Connection) {
+            if (navigator.connection.type == Connection.NONE) {
+                $ionicPopup.confirm({
+                    title: 'Connessione a Internet assente',
+                    content: 'Non è stata trovata nessuna connessione a Internet,collegati ad una rete e riprova.'
+                })
+                    .then(function (result) {
+                        if (!result) {
+                            ionic.Platform.exitApp();
+                        }
+                    });
+            }
         }
 
     });

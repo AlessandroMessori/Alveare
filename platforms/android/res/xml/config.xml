@@ -29,6 +29,9 @@
     <feature name="DocumentHandler">
         <param name="android-package" value="ch.ti8m.phonegap.plugins.DocumentHandler" />
     </feature>
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
     <splash density="port-ldpi" src="resources/android/splash/drawable-port-ldpi-screen.png" />
     <splash density="port-mdpi" src="resources/android/splash/drawable-port-mdpi-screen.png" />
     <splash density="port-hdpi" src="resources/android/splash/drawable-port-hdpi-screen.png" />

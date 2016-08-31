@@ -48,26 +48,26 @@
 	var Parse = __webpack_require__(3);
 	var addArticleCtrl = __webpack_require__(133);
 	var addNewsCtrl = __webpack_require__(134);
-	var adminCtrl = __webpack_require__(135);
-	var attualitaCtrl = __webpack_require__(136).attualitaCtrl;
-	var orientamentoCtrl = __webpack_require__(136).orientamentoCtrl;
-	var commentsCtrl = __webpack_require__(137);
-	var linkCtrl = __webpack_require__(138);
-	var loginCtrl = __webpack_require__(139);
-	var moderationCtrl = __webpack_require__(155);
-	var newsCtrl = __webpack_require__(140);
-	var readArticleCtrl = __webpack_require__(141);
-	var signupCtrl = __webpack_require__(142);
-	var tabsCtrl = __webpack_require__(143);
-	var Messages = __webpack_require__(144);
-	var Articles = __webpack_require__(145);
-	var Comments = __webpack_require__(146);
-	var Auth = __webpack_require__(147);
-	var DateHandler = __webpack_require__(148);
-	var InputFields = __webpack_require__(149);
-	var StringHandler = __webpack_require__(150);
-	var Modals = __webpack_require__(151);
-	var credentials = __webpack_require__(152);
+	var adminCtrl = __webpack_require__(137);
+	var attualitaCtrl = __webpack_require__(138).attualitaCtrl;
+	var orientamentoCtrl = __webpack_require__(138).orientamentoCtrl;
+	var commentsCtrl = __webpack_require__(139);
+	var linkCtrl = __webpack_require__(140);
+	var loginCtrl = __webpack_require__(141);
+	var moderationCtrl = __webpack_require__(142);
+	var newsCtrl = __webpack_require__(143);
+	var readArticleCtrl = __webpack_require__(144);
+	var signupCtrl = __webpack_require__(145);
+	var tabsCtrl = __webpack_require__(146);
+	var Messages = __webpack_require__(147);
+	var Articles = __webpack_require__(148);
+	var Comments = __webpack_require__(149);
+	var Auth = __webpack_require__(150);
+	var DateHandler = __webpack_require__(151);
+	var InputFields = __webpack_require__(152);
+	var StringHandler = __webpack_require__(153);
+	var Modals = __webpack_require__(154);
+	var credentials = __webpack_require__(155);
 
 	Parse.initialize("o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ", "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF");
 	Firebase.initializeApp(credentials);
@@ -95,7 +95,7 @@
 	appAS.service('StringHandler', StringHandler);
 	appAS.service('Modals', Modals);
 
-	appAS.run(function ($ionicPlatform) {
+	appAS.run(function ($ionicPlatform, $ionicPopup) {
 	    $ionicPlatform.ready(function () {
 
 	        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -106,6 +106,20 @@
 	            $ionicPlatform.ready(function () {
 	                ionic.Platform.fullScreen();
 	            });
+	        }
+
+	        if (window.Connection) {
+	            if (navigator.connection.type == Connection.NONE) {
+	                $ionicPopup.confirm({
+	                    title: 'Connessione a Internet assente',
+	                    content: 'Non è stata trovata nessuna connessione a Internet,collegati ad una rete e riprova.'
+	                })
+	                    .then(function (result) {
+	                        if (!result) {
+	                            ionic.Platform.exitApp();
+	                        }
+	                    });
+	            }
 	        }
 
 	    });
@@ -14239,7 +14253,7 @@
 /* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(153);
+	var _ = __webpack_require__(135);
 	var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler) {
 
 	    $scope.fileList = [];
@@ -14298,770 +14312,6 @@
 
 /***/ },
 /* 135 */
-/***/ function(module, exports) {
-
-	var adminCtrl = function ($scope, $state, $window) {
-
-	    $scope.title = "Sezione Amministratori ";
-
-	    $scope.Links = [
-	        {
-	            "name": "Scrivi Avviso",
-	            "icon":"icon ion-ios-bell",
-	            "url": "sendMessage",
-	            "direct": function () {
-	                $state.go(this.url);
-	            }
-	        },
-	        {
-	            "name": "Scrivi Articolo d'attualità",
-	            "url": "addArticle",
-	            "icon":"icon ion-ios-paper",
-	            "direct": function () {
-	                $state.go(this.url);
-	                $window.localStorage.setItem("contentType", "Giornalino");
-	            }
-	        },
-	        {
-	            "name": "Scrivi Articolo d'orientamento",
-	            "url": "addArticle",
-	            "icon":"icon ion-ios-navigate",
-	            "direct": function () {
-	                $state.go(this.url);
-	                $window.localStorage.setItem("contentType", "Orientamento");
-	            }
-	        },
-	        {
-	            "name": "Modera Commenti",
-	            "url": "moderation",
-	            "icon":"icon ion-ios-trash",
-	            "direct": function () {
-	                $state.go(this.url);
-	            }
-	        }
-	    ];
-
-	};
-
-	module.exports = adminCtrl;
-
-/***/ },
-/* 136 */
-/***/ function(module, exports) {
-
-	var articlesCtrl = function ($scope, $state, $window, Articles, type) {
-
-	    Articles.getArticles($scope, $state, type, "articlesSpinner");
-
-	};
-
-	var attualitaCtrl = function ($scope, $state, $window, Articles) {
-	    return articlesCtrl($scope, $state, $window, Articles, 'Giornalino');
-	};
-
-	var orientamentoCtrl = function ($scope, $state, $window, Articles) {
-	    return articlesCtrl($scope, $state, $window, Articles, 'Orientamento');
-	};
-
-	module.exports = {
-	    attualitaCtrl: attualitaCtrl,
-	    orientamentoCtrl: orientamentoCtrl
-	};
-
-/***/ },
-/* 137 */
-/***/ function(module, exports) {
-
-	var commentsCtrl = function ($scope, $window, Comments, DateHandler) {
-
-	    $scope.$on('$ionicView.enter', function () {
-	        Comments.getComments($scope, 'commentsSpinner');
-	    });
-
-	    $scope.send = function (comment) {
-	        if (comment != undefined) {
-	            var newData = {
-	                comment: comment,
-	                author: 'autore',
-	                father: localStorage.getItem('currentPost'),
-	                date: DateHandler.GetCurrentDate()
-	            };
-	            Comments.sendComment($scope, newData,'commentList');
-	            comment = '';
-	        }
-	        else {
-	            alert('non puoi pubblicare un commento vuoto');
-	        }
-	    };
-
-	    Comments.getComments($scope, 'commentsSpinner');
-
-	};
-
-	module.exports = commentsCtrl;
-
-
-/***/ },
-/* 138 */
-/***/ function(module, exports) {
-
-	var linkCtrl = function ($scope, $window) {
-
-	    $scope.OpenLink = function (url) {
-	        cordova.InAppBrowser.open(url, '_system', 'location=yes');
-	    };
-
-	    $scope.Links = [
-	        {
-	            "name": "Registro Elettronico",
-	            "url": "https://spallanzani-re-sito.registroelettronico.com/login/?next=/select-student/",
-	            "icon": "icon ion-ios-book-outline"
-	        },
-	        {
-	            "name": "Quaderno Elettronico",
-	            "url": "http://2.229.79.199/quaderno/index.php",
-	            "icon": "icon ion-ios-book"
-	        },
-	        {
-	            "name": "Sito Web Della Scuola",
-	            "url": "http://www.liceoariostospallanzani-re.gov.it/",
-	            "icon": "icon ion-ios-world"
-	        },
-	        {
-	            "name": "Accesso Web Mail",
-	            "url": "https://mail.google.com",
-	            "icon": "icon ion-ios-email"
-	        }
-	    ];
-
-	};
-
-	module.exports = linkCtrl;
-
-/***/ },
-/* 139 */
-/***/ function(module, exports) {
-
-	var loginCtrl = function ($scope, $ionicLoading, $window, $state, Auth, InputFields) {
-
-	    $scope.inputType = 'password';
-
-	    $scope.UserLogin = function (username, password, RememberMe) {
-	        if (InputFields.filledFields([username, password])) {
-	            $ionicLoading.show({
-	                template: 'Accesso in Corso...'
-	            });
-	            Auth.Login(username, password, $ionicLoading, $state);
-	            $scope.SetRememberMe(RememberMe);
-	        }
-	        else {
-	            alert('compila tutti i campi');
-	        }
-	    };
-
-	    $scope.SetRememberMe = function (RememberMe) {
-
-	        if (RememberMe) {
-	            $window.localStorage.setItem("RememberMe", "true");
-	        }
-
-	    };
-
-	    $scope.hideShowPassword = function () {
-	        if ($scope.inputType == 'password')
-	            $scope.inputType = 'text';
-	        else
-	            $scope.inputType = 'password';
-	    };
-
-	};
-
-	module.exports = loginCtrl;
-
-/***/ },
-/* 140 */
-/***/ function(module, exports) {
-
-	var forumCtrl = function ($scope, $state, $window, $http, Messages) {
-
-	    $scope.$on('$ionicView.enter', function () {
-	        Messages.getPosts($scope, $state, 'newsSpinner');
-	    });
-
-	    $scope.openFile = function (file) {
-	        window.handleDocumentWithURL(
-	            function (msg) {
-	                console.log('success: ' + msg)
-	            }, // success handler
-	            function (msg) {
-	                alert('error: ' + msg)
-	            },   // error handler,
-	            file
-	        );
-	    }
-	};
-
-	module.exports = forumCtrl;
-
-
-/***/ },
-/* 141 */
-/***/ function(module, exports) {
-
-	var articleCtrl = function ($scope, $stateParams, $state, $window, $ionicModal) {
-
-	  $scope.$on('$ionicView.enter', function (e) {
-
-	    $scope.title = $window.localStorage.getItem("title");
-	    $scope.text = $window.localStorage.getItem("text");
-	    $scope.img = $window.localStorage.getItem("img");
-	    $scope.date = $window.localStorage.getItem("date");
-
-	  });
-
-	  $ionicModal.fromTemplateUrl('image-modal.html', {
-	    scope: $scope,
-	    animation: 'slide-in-up'
-	  }).then(function (modal) {
-	    $scope.modal = modal;
-	  });
-
-	  $scope.openModal = function () {
-	    $scope.modal.show();
-	  };
-
-	  $scope.closeModal = function () {
-	    $scope.modal.hide();
-	  };
-
-	  $scope.$on('$destroy', function () {
-	    $scope.modal.remove();
-	  });
-
-	};
-
-	module.exports = articleCtrl;
-
-/***/ },
-/* 142 */
-/***/ function(module, exports) {
-
-	var signupCtrl = function ($scope, $ionicLoading, $location, $state, Auth, InputFields) {
-
-	    $scope.inputType = 'password';
-
-	    $scope.UserSignup = function (username, password, mail) {
-	        if (InputFields.filledFields([username, password, mail])) {
-	            $ionicLoading.show({
-	                template: 'Registrazione in corso...'
-	            });
-	            Auth.Signup(username, password, mail, $ionicLoading, $state);
-	        }
-	        else {
-	            alert('compila tutti i campi');
-	        }
-	    };
-
-	    $scope.go = function () {
-	        document.location.href = '#/login'
-	    };
-
-	    $scope.hideShowPassword = function () {
-	        if ($scope.inputType == 'password')
-	            $scope.inputType = 'text';
-	        else
-	            $scope.inputType = 'password';
-	    };
-
-	};
-
-	module.exports = signupCtrl;
-
-/***/ },
-/* 143 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Parse = __webpack_require__(3);
-	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
-	    $scope.View = 'tab-link';
-	    $scope.User = Parse.User.current().get('username');
-
-	    $scope.$on('$ionicView.enter', function () {
-	        $ionicScrollDelegate.scrollTop();
-	        $scope.closeDrawer();
-	    });
-
-	    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
-	        $rootScope.previousState = from.name;
-	        if ($rootScope.previousState == 'comments') {
-	            $rootScope.previousState = 'tab.giornalino'
-	        }
-	        $scope.User = Parse.User.current().get('username');
-	    });
-
-	    $scope.checkadmin = function () {
-
-	        if (Parse.User.current()) {
-	            if (Parse.User.current().get("isadmin")) {
-	                return "ng-show";
-	            } else {
-	                return "ng-hide";
-	            }
-	        }
-	    };
-
-	    $scope.Disconnect = function () {
-	        $ionicLoading.show({
-	            template: 'Disconnessione in corso...'
-	        });
-	        Auth.Logout($ionicLoading, $state);
-	        $state.go('login');
-	        $window.localStorage.setItem("RememberMe", "false");
-	    };
-
-	    $scope.backBtnClick = function () {
-	        $state.go($rootScope.previousState);
-	    };
-
-	    $scope.navigate = function (destination, ind) {
-	        $scope.View = 'tab.' + destination;
-	        document.getElementById('MainView1').style.display = 'none';
-	        document.getElementById('MainView2').style.display = 'none';
-	        document.getElementById('MainView3').style.display = 'none';
-	        document.getElementById('MainView4').style.display = 'none';
-	        document.getElementById('MainView5').style.display = 'none';
-	        document.getElementById('MainView' + ind).style.display = 'block';
-	    }
-	};
-
-	module.exports = tabsCtrl;
-
-/***/ },
-/* 144 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Firebase = __webpack_require__(1);
-	var Messages = function (Modals) {
-
-	    this.sendPost = function (newData, binary) {
-
-	        var storageRef = Firebase.storage().ref();
-	        binary.map(function (item) {
-	            var childRef = storageRef.child(item.name);
-	            childRef.put(item.binary);
-	        });
-
-	        var newPostKey = Firebase.database().ref().child('Comunicazioni').push().key;
-	        var updates = {};
-	        updates['/Comunicazioni/' + newPostKey] = newData;
-	        Firebase.database().ref().update(updates)
-	            .then(function () {
-	                Modals.ResultTemplate("Comunicazione Pubblicata con Successo");
-	            })
-	            .catch(function () {
-	                Modals.ResultTemplate("Errore nella Pubblicazione della Comunicazione");
-	            })
-	    };
-
-	    this.getPosts = function (scope, state, spinner) {
-
-	        var storage = Firebase.storage();
-	        document.getElementById(spinner).style.display = 'block';
-
-	        var ModelRef = Firebase.database().ref('Comunicazioni');
-	        ModelRef.on('value', function (snapshot) {
-	            var results = snapshot.val();
-	            var posts = [];
-
-	            Object.keys(results).map(function (item, i) {
-
-	                var files = [];
-
-	                results[item].files.map(function (file) {
-	                    var stRef = storage.ref();
-	                    //console.log(stRef.child(file).getDownloadURL());
-	                    files.push({
-	                        url: stRef.child(file).getDownloadURL(),
-	                        name: file
-	                    });
-	                });
-
-	                posts[i] = {
-	                    author: results[item].author,
-	                    text: results[item].text,
-	                    date: results[item].date,
-	                    files: files,
-	                    id: item,
-	                    link: function () {
-	                        window.localStorage.setItem("currentPost", item);
-	                        state.go("comments");
-	                    }
-	                };
-	            });
-
-	            scope.Posts = posts.reverse();
-	            scope.$apply();
-	            document.getElementById(spinner).style.display = 'none';
-	        });
-
-	    }
-
-	};
-
-	module.exports = Messages;
-
-
-
-
-/***/ },
-/* 145 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Firebase = __webpack_require__(1);
-	var Articles = function (DateHandler, StringHandler,Modals) {
-
-	    this.sendArticle = function (newData) {
-	        var ArticleType = window.localStorage.getItem('contentType');
-	        var newPostKey = Firebase.database().ref().child(ArticleType).push().key;
-	        var updates = {};
-	        updates['/' + ArticleType + '/' + newPostKey] = newData;
-	        Firebase.database().ref().update(updates)
-	            .then(function () {
-	                Modals.ResultTemplate("Articolo Pubblicato con Successo");
-	            })
-	            .catch(function () {
-	                Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo");
-	            })
-	    };
-
-	    this.getArticles = function (scope, state, type, spinner) {
-
-	        document.getElementById(spinner).style.display = 'block';
-	        var ModelRef = Firebase.database().ref(type);
-
-	        ModelRef.on('value', function (snapshot) {
-
-	            var results = snapshot.val();
-	            var articles = [];
-
-	            Object.keys(results).map(function (item, i) {
-	                var date = "Data";
-	                articles[i] = {
-	                    title: results[item].title,
-	                    author: results[item].author,
-	                    text: results[item].text,
-	                    coverText: StringHandler.shorten(results[item].text, 100),
-	                    img: results[item].img,
-	                    date: results[item].date,
-	                    id: item,
-	                    link: function (destination) {
-	                        window.localStorage.setItem("title", this.title);
-	                        window.localStorage.setItem("text", this.text);
-	                        window.localStorage.setItem("author", this.author);
-	                        window.localStorage.setItem("img", this.img);
-	                        window.localStorage.setItem("date", this.date);
-	                        window.localStorage.setItem("currentPost", item);
-	                        state.go(destination);
-	                    }
-	                };
-	            });
-
-	            scope.Articles = articles.reverse();
-	            scope.$apply();
-	            document.getElementById(spinner).style.display = 'none';
-	        });
-
-	    };
-
-	};
-
-	module.exports = Articles;
-
-/***/ },
-/* 146 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Firebase = __webpack_require__(1);
-
-	var Comments = function () {
-
-	    this.sendComment = function (scope, newData, commentList) {
-	        var oldLenght = scope.Comments.length;
-	        var newPostKey = Firebase.database().ref().child('Commenti').push().key;
-	        var updates = {};
-	        document.getElementById(commentList).style.display = 'none';
-	        updates['/Commenti/' + newPostKey] = newData;
-	        Firebase.database().ref().update(updates)
-	            .then(function () {
-	                alert("Commento Pubblicato con Successo");
-	                scope.Comments.splice(oldLenght + 1, scope.Comments.length - oldLenght);
-	                document.getElementById(commentList).style.display = 'block';
-	                scope.$apply();
-	            })
-	    };
-
-	    this.getComments = function (scope, spinner, filter) {
-	        if (filter == undefined) {
-	            filter = true;
-	        }
-	        document.getElementById(spinner).style.display = 'block';
-	        var comments = [];
-	        var father = window.localStorage.getItem("currentPost");
-	        var ModelRef = Firebase.database().ref('Commenti');
-	        ModelRef.on('value', function (snapshot) {
-	            var results = snapshot.val();
-
-	            Object.keys(results).map(function (item) {
-
-	                if (!filter) {
-	                    comments.push({
-	                        author: results[item].author,
-	                        text: results[item].comment,
-	                        father: results[item].father,
-	                        date: results[item].date,
-	                        id: item
-	                    });
-	                } else if (results[item].father == father) {
-	                    comments.push({
-	                        author: results[item].author,
-	                        text: results[item].comment,
-	                        father: results[item].father,
-	                        date: results[item].date,
-	                        id: item
-	                    });
-	                }
-
-	            });
-	            scope.Comments = comments.reverse();
-	            scope.Comments.splice(comments.length, scope.Comments.length - comments.length)
-	            scope.$apply();
-	            document.getElementById(spinner).style.display = 'none';
-	        });
-	    }
-
-	    this.deleteComment = function (scope, commentId, commentList) {
-	        var oldLenght = scope.Comments.length;
-	        document.getElementById(commentList).style.display = 'none';
-	        firebase.database().ref('Commenti/' + commentId).remove()
-	            .then(function () {
-	                alert('commento eliminato con successo');
-	                scope.Comments.splice(oldLenght - 1, oldLenght*2);
-	                document.getElementById(commentList).style.display = 'block';
-	                scope.$apply();
-	            });
-	    }
-	};
-
-	module.exports = Comments;
-
-/***/ },
-/* 147 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Parse = __webpack_require__(3);
-	var Auth = function () {
-
-	    this.Signup = function (name, pass, mail, loadingtemplate, state) {
-	        var user = new Parse.User();
-
-	        user.set("username", name);
-	        user.set("password", pass);
-	        user.set("email", mail);
-	        user.set("isadmin", false);
-	c
-	        user.signUp(null, {
-	            success: function (user) {
-	                // Hooray! Let them use the app now.
-	                loadingtemplate.hide();
-	                alert("Creato Account Con successo");
-	                state.go('login');
-	            },
-	            error: function (user, error) {
-	                // Show the error message somewhere and let the user try again.
-	                loadingtemplate.hide();
-	                alert("Error: " + error.code + " " + error.message);
-	            }
-	        });
-	    };
-
-	    this.Login = function (name, pass, loadingtemplate, state) {
-	        Parse.User.logIn(name, pass, {
-	            success: function (user) {
-	                loadingtemplate.hide();
-	                state.go("tab.link");
-	            },
-	            error: function (user, error) {
-	                loadingtemplate.hide();
-	                alert("Error: " + error.code + " " + error.message);
-	            }
-
-	        });
-	    };
-
-	    this.Logout = function (loadingtemplate, state) {
-	        Parse.User.logOut();
-	        state.go('login');
-	        loadingtemplate.hide();
-	    };
-
-	};
-
-	module.exports = Auth;
-
-
-/***/ },
-/* 148 */
-/***/ function(module, exports) {
-
-	var DateHandler = function () {
-
-	    var self = this;
-
-	    this.GetCurrentDate = function () {
-
-	        var today = new Date();
-	        var dd = today.getDate();
-	        var mm = today.getMonth() + 1; //January is 0!
-
-	        if (dd < 10) {
-	            dd = '0' + dd
-	        }
-
-	        switch (mm) {
-	            case 1:
-	                mm = "Gennaio";
-	                break;
-	            case 2:
-	                mm = "Febbraio";
-	                break;
-	            case 3:
-	                mm = "Marzo";
-	                break;
-	            case 4:
-	                mm = "Aprile";
-	                break;
-	            case 5:
-	                mm = "Maggio";
-	                break;
-	            case 6:
-	                mm = "Giugno";
-	                break;
-	            case 7:
-	                mm = "Luglio";
-	                break;
-	            case 8:
-	                mm = "Agosto";
-	                break;
-	            case 9:
-	                mm = "Settembre";
-	                break;
-	            case 10:
-	                mm = "Ottobre";
-	                break;
-	            case 11:
-	                mm = "Novembre";
-	                break;
-	            case 12:
-	                mm = "Dicembre";
-	                break;
-
-	        }
-
-	        today = dd + ' ' + mm;
-
-	        return today;
-	    };
-
-	    this.GetFullDate = function () {
-
-	        var now = new Date();
-	        console.log(now);
-	        var Hour = now.getHours();
-	        var Minutes = now.getMinutes();
-
-	        if (Minutes < 10) {
-	            Minutes = "0" + Minutes;
-	        }
-
-	        return self.GetCurrentDate() + " alle " + Hour + ":" + Minutes;
-
-	    }
-	};
-
-	module.exports = DateHandler;
-
-
-/***/ },
-/* 149 */
-/***/ function(module, exports) {
-
-	var InputFields = function () {
-
-	    this.filledFields = function (fields) {
-	        var check = true;
-	        fields.map(function (item) {
-	            if (item == undefined || item == '') {
-	                check = false;
-	            }
-	        });
-	        return check;
-	    };
-
-	};
-
-	module.exports = InputFields;
-
-/***/ },
-/* 150 */
-/***/ function(module, exports) {
-
-	var StringHandler = function () {
-	    this.shorten = function shorten(text, maxLength) {
-	        var ret = text;
-	        if (ret.length > maxLength) {
-	            ret = ret.substr(0, maxLength) + '…';
-	        }
-	        return ret;
-	    }
-	};
-
-	module.exports = StringHandler;
-
-
-/***/ },
-/* 151 */
-/***/ function(module, exports) {
-
-	var Modals = function ($ionicLoading) {
-	    this.ResultTemplate = function (text) {
-	        $ionicLoading.hide();
-	        $ionicLoading.show({
-	            template: text
-	        });
-	        window.setTimeout(function () {
-	            $ionicLoading.hide();
-	        }, 2000);
-	    }
-	};
-
-	module.exports = Modals;
-
-
-/***/ },
-/* 152 */
-/***/ function(module, exports) {
-
-	var config = {
-	    apiKey: "AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8",
-	    authDomain: "app-liceoariostospallanz-d12b0.firebaseapp.com",
-	    databaseURL: "https://app-liceoariostospallanz-d12b0.firebaseio.com",
-	    storageBucket: "app-liceoariostospallanz-d12b0.appspot.com"
-	};
-
-	module.exports = config;
-
-/***/ },
-/* 153 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -31798,10 +31048,10 @@
 	  }
 	}.call(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(154)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(136)(module)))
 
 /***/ },
-/* 154 */
+/* 136 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -31817,7 +31067,189 @@
 
 
 /***/ },
-/* 155 */
+/* 137 */
+/***/ function(module, exports) {
+
+	var adminCtrl = function ($scope, $state, $window) {
+
+	    $scope.title = "Sezione Amministratori ";
+
+	    $scope.Links = [
+	        {
+	            "name": "Scrivi Avviso",
+	            "icon":"icon ion-ios-bell",
+	            "url": "sendMessage",
+	            "direct": function () {
+	                $state.go(this.url);
+	            }
+	        },
+	        {
+	            "name": "Scrivi Articolo d'attualità",
+	            "url": "addArticle",
+	            "icon":"icon ion-ios-paper",
+	            "direct": function () {
+	                $state.go(this.url);
+	                $window.localStorage.setItem("contentType", "Giornalino");
+	            }
+	        },
+	        {
+	            "name": "Scrivi Articolo d'orientamento",
+	            "url": "addArticle",
+	            "icon":"icon ion-ios-navigate",
+	            "direct": function () {
+	                $state.go(this.url);
+	                $window.localStorage.setItem("contentType", "Orientamento");
+	            }
+	        },
+	        {
+	            "name": "Modera Commenti",
+	            "url": "moderation",
+	            "icon":"icon ion-ios-trash",
+	            "direct": function () {
+	                $state.go(this.url);
+	            }
+	        }
+	    ];
+
+	};
+
+	module.exports = adminCtrl;
+
+/***/ },
+/* 138 */
+/***/ function(module, exports) {
+
+	var articlesCtrl = function ($scope, $state, $window, Articles, type) {
+
+	    Articles.getArticles($scope, $state, type, "articlesSpinner");
+
+	};
+
+	var attualitaCtrl = function ($scope, $state, $window, Articles) {
+	    return articlesCtrl($scope, $state, $window, Articles, 'Giornalino');
+	};
+
+	var orientamentoCtrl = function ($scope, $state, $window, Articles) {
+	    return articlesCtrl($scope, $state, $window, Articles, 'Orientamento');
+	};
+
+	module.exports = {
+	    attualitaCtrl: attualitaCtrl,
+	    orientamentoCtrl: orientamentoCtrl
+	};
+
+/***/ },
+/* 139 */
+/***/ function(module, exports) {
+
+	var commentsCtrl = function ($scope, $window, Comments, DateHandler) {
+
+	    $scope.$on('$ionicView.enter', function () {
+	        Comments.getComments($scope, 'commentsSpinner');
+	    });
+
+	    $scope.send = function (comment) {
+	        if (comment != undefined) {
+	            var newData = {
+	                comment: comment,
+	                author: 'autore',
+	                father: localStorage.getItem('currentPost'),
+	                date: DateHandler.GetCurrentDate()
+	            };
+	            Comments.sendComment($scope, newData,'commentList');
+	            comment = '';
+	        }
+	        else {
+	            alert('non puoi pubblicare un commento vuoto');
+	        }
+	    };
+
+	    Comments.getComments($scope, 'commentsSpinner');
+
+	};
+
+	module.exports = commentsCtrl;
+
+
+/***/ },
+/* 140 */
+/***/ function(module, exports) {
+
+	var linkCtrl = function ($scope, $window) {
+
+	    $scope.OpenLink = function (url) {
+	        cordova.InAppBrowser.open(url, '_system', 'location=yes');
+	    };
+
+	    $scope.Links = [
+	        {
+	            "name": "Registro Elettronico",
+	            "url": "https://spallanzani-re-sito.registroelettronico.com/login/?next=/select-student/",
+	            "icon": "icon ion-ios-book-outline"
+	        },
+	        {
+	            "name": "Quaderno Elettronico",
+	            "url": "http://2.229.79.199/quaderno/index.php",
+	            "icon": "icon ion-ios-book"
+	        },
+	        {
+	            "name": "Sito Web Della Scuola",
+	            "url": "http://www.liceoariostospallanzani-re.gov.it/",
+	            "icon": "icon ion-ios-world"
+	        },
+	        {
+	            "name": "Accesso Web Mail",
+	            "url": "https://mail.google.com",
+	            "icon": "icon ion-ios-email"
+	        }
+	    ];
+
+	};
+
+	module.exports = linkCtrl;
+
+/***/ },
+/* 141 */
+/***/ function(module, exports) {
+
+	var loginCtrl = function ($scope, $ionicLoading, $window, $state, Auth, InputFields) {
+
+	    $scope.inputType = 'password';
+
+	    $scope.UserLogin = function (username, password, RememberMe) {
+	        if (InputFields.filledFields([username, password])) {
+	            $ionicLoading.show({
+	                template: 'Accesso in Corso...'
+	            });
+	            Auth.Login(username, password, $ionicLoading, $state);
+	            $scope.SetRememberMe(RememberMe);
+	        }
+	        else {
+	            alert('compila tutti i campi');
+	        }
+	    };
+
+	    $scope.SetRememberMe = function (RememberMe) {
+
+	        if (RememberMe) {
+	            $window.localStorage.setItem("RememberMe", "true");
+	        }
+
+	    };
+
+	    $scope.hideShowPassword = function () {
+	        if ($scope.inputType == 'password')
+	            $scope.inputType = 'text';
+	        else
+	            $scope.inputType = 'password';
+	    };
+
+	};
+
+	module.exports = loginCtrl;
+
+/***/ },
+/* 142 */
 /***/ function(module, exports) {
 
 	var moderationCtrl = function ($scope, $ionicPopup, Comments) {
@@ -31843,6 +31275,588 @@
 
 	module.exports = moderationCtrl;
 
+
+/***/ },
+/* 143 */
+/***/ function(module, exports) {
+
+	var forumCtrl = function ($scope, $state, $window, $http, Messages) {
+
+	    $scope.$on('$ionicView.enter', function () {
+	        Messages.getPosts($scope, $state, 'newsSpinner');
+	    });
+
+	    $scope.openFile = function (file) {
+	        window.handleDocumentWithURL(
+	            function (msg) {
+	                console.log('success: ' + msg)
+	            }, // success handler
+	            function (msg) {
+	                alert('error: ' + msg)
+	            },   // error handler,
+	            file
+	        );
+	    }
+	};
+
+	module.exports = forumCtrl;
+
+
+/***/ },
+/* 144 */
+/***/ function(module, exports) {
+
+	var articleCtrl = function ($scope, $stateParams, $state, $window, $ionicModal) {
+
+	  $scope.$on('$ionicView.enter', function (e) {
+
+	    $scope.title = $window.localStorage.getItem("title");
+	    $scope.text = $window.localStorage.getItem("text");
+	    $scope.img = $window.localStorage.getItem("img");
+	    $scope.date = $window.localStorage.getItem("date");
+
+	  });
+
+	  $ionicModal.fromTemplateUrl('image-modal.html', {
+	    scope: $scope,
+	    animation: 'slide-in-up'
+	  }).then(function (modal) {
+	    $scope.modal = modal;
+	  });
+
+	  $scope.openModal = function () {
+	    $scope.modal.show();
+	  };
+
+	  $scope.closeModal = function () {
+	    $scope.modal.hide();
+	  };
+
+	  $scope.$on('$destroy', function () {
+	    $scope.modal.remove();
+	  });
+
+	};
+
+	module.exports = articleCtrl;
+
+/***/ },
+/* 145 */
+/***/ function(module, exports) {
+
+	var signupCtrl = function ($scope, $ionicLoading, $location, $state, Auth, InputFields) {
+
+	    $scope.inputType = 'password';
+
+	    $scope.UserSignup = function (username, password, mail) {
+	        if (InputFields.filledFields([username, password, mail])) {
+	            $ionicLoading.show({
+	                template: 'Registrazione in corso...'
+	            });
+	            Auth.Signup(username, password, mail, $ionicLoading, $state);
+	        }
+	        else {
+	            alert('compila tutti i campi');
+	        }
+	    };
+
+	    $scope.go = function () {
+	        document.location.href = '#/login'
+	    };
+
+	    $scope.hideShowPassword = function () {
+	        if ($scope.inputType == 'password')
+	            $scope.inputType = 'text';
+	        else
+	            $scope.inputType = 'password';
+	    };
+
+	};
+
+	module.exports = signupCtrl;
+
+/***/ },
+/* 146 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Parse = __webpack_require__(3);
+	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
+	    $scope.View = 'tab-link';
+	    $scope.User = Parse.User.current().get('username');
+
+	    $scope.$on('$ionicView.enter', function () {
+	        $ionicScrollDelegate.scrollTop();
+	        $scope.closeDrawer();
+	    });
+
+	    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
+	        $rootScope.previousState = from.name;
+	        if ($rootScope.previousState == 'comments') {
+	            $rootScope.previousState = 'tab.giornalino'
+	        }
+	        $scope.User = Parse.User.current().get('username');
+	    });
+
+	    $scope.checkadmin = function () {
+
+	        if (Parse.User.current()) {
+	            if (Parse.User.current().get("isadmin")) {
+	                return "ng-show";
+	            } else {
+	                return "ng-hide";
+	            }
+	        }
+	    };
+
+	    $scope.Disconnect = function () {
+	        $ionicLoading.show({
+	            template: 'Disconnessione in corso...'
+	        });
+	        Auth.Logout($ionicLoading, $state);
+	        $state.go('login');
+	        $window.localStorage.setItem("RememberMe", "false");
+	    };
+
+	    $scope.backBtnClick = function () {
+	        $state.go($rootScope.previousState);
+	    };
+
+	    $scope.navigate = function (destination, ind) {
+	        $scope.View = 'tab.' + destination;
+	        document.getElementById('MainView1').style.display = 'none';
+	        document.getElementById('MainView2').style.display = 'none';
+	        document.getElementById('MainView3').style.display = 'none';
+	        document.getElementById('MainView4').style.display = 'none';
+	        document.getElementById('MainView5').style.display = 'none';
+	        document.getElementById('MainView' + ind).style.display = 'block';
+	    }
+	};
+
+	module.exports = tabsCtrl;
+
+/***/ },
+/* 147 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Firebase = __webpack_require__(1);
+	var Messages = function (Modals) {
+
+	    this.sendPost = function (newData, binary) {
+
+	        var storageRef = Firebase.storage().ref();
+	        binary.map(function (item) {
+	            var childRef = storageRef.child(item.name);
+	            childRef.put(item.binary);
+	        });
+
+	        var newPostKey = Firebase.database().ref().child('Comunicazioni').push().key;
+	        var updates = {};
+	        updates['/Comunicazioni/' + newPostKey] = newData;
+	        Firebase.database().ref().update(updates)
+	            .then(function () {
+	                Modals.ResultTemplate("Comunicazione Pubblicata con Successo");
+	            })
+	            .catch(function () {
+	                Modals.ResultTemplate("Errore nella Pubblicazione della Comunicazione");
+	            })
+	    };
+
+	    this.getPosts = function (scope, state, spinner) {
+
+	        var storage = Firebase.storage();
+	        document.getElementById(spinner).style.display = 'block';
+
+	        var ModelRef = Firebase.database().ref('Comunicazioni');
+	        ModelRef.on('value', function (snapshot) {
+	            var results = snapshot.val();
+	            var posts = [];
+
+	            Object.keys(results).map(function (item, i) {
+
+	                var files = [];
+
+	                results[item].files.map(function (file) {
+	                    var stRef = storage.ref();
+	                    //console.log(stRef.child(file).getDownloadURL());
+	                    files.push({
+	                        url: stRef.child(file).getDownloadURL(),
+	                        name: file
+	                    });
+	                });
+
+	                posts[i] = {
+	                    author: results[item].author,
+	                    text: results[item].text,
+	                    date: results[item].date,
+	                    files: files,
+	                    id: item,
+	                    link: function () {
+	                        window.localStorage.setItem("currentPost", item);
+	                        state.go("comments");
+	                    }
+	                };
+	            });
+
+	            scope.Posts = posts.reverse();
+	            scope.$apply();
+	            document.getElementById(spinner).style.display = 'none';
+	        });
+
+	    }
+
+	};
+
+	module.exports = Messages;
+
+
+
+
+/***/ },
+/* 148 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Firebase = __webpack_require__(1);
+	var Articles = function (DateHandler, StringHandler,Modals) {
+
+	    this.sendArticle = function (newData) {
+	        var ArticleType = window.localStorage.getItem('contentType');
+	        var newPostKey = Firebase.database().ref().child(ArticleType).push().key;
+	        var updates = {};
+	        updates['/' + ArticleType + '/' + newPostKey] = newData;
+	        Firebase.database().ref().update(updates)
+	            .then(function () {
+	                Modals.ResultTemplate("Articolo Pubblicato con Successo");
+	            })
+	            .catch(function () {
+	                Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo");
+	            })
+	    };
+
+	    this.getArticles = function (scope, state, type, spinner) {
+
+	        document.getElementById(spinner).style.display = 'block';
+	        var ModelRef = Firebase.database().ref(type);
+
+	        ModelRef.on('value', function (snapshot) {
+
+	            var results = snapshot.val();
+	            var articles = [];
+
+	            Object.keys(results).map(function (item, i) {
+	                var date = "Data";
+	                articles[i] = {
+	                    title: results[item].title,
+	                    author: results[item].author,
+	                    text: results[item].text,
+	                    coverText: StringHandler.shorten(results[item].text, 100),
+	                    img: results[item].img,
+	                    date: results[item].date,
+	                    id: item,
+	                    link: function (destination) {
+	                        window.localStorage.setItem("title", this.title);
+	                        window.localStorage.setItem("text", this.text);
+	                        window.localStorage.setItem("author", this.author);
+	                        window.localStorage.setItem("img", this.img);
+	                        window.localStorage.setItem("date", this.date);
+	                        window.localStorage.setItem("currentPost", item);
+	                        state.go(destination);
+	                    }
+	                };
+	            });
+
+	            scope.Articles = articles.reverse();
+	            scope.$apply();
+	            document.getElementById(spinner).style.display = 'none';
+	        });
+
+	    };
+
+	};
+
+	module.exports = Articles;
+
+/***/ },
+/* 149 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Firebase = __webpack_require__(1);
+
+	var Comments = function () {
+
+	    this.sendComment = function (scope, newData, commentList) {
+	        var oldLenght = scope.Comments.length;
+	        var newPostKey = Firebase.database().ref().child('Commenti').push().key;
+	        var updates = {};
+	        document.getElementById(commentList).style.display = 'none';
+	        updates['/Commenti/' + newPostKey] = newData;
+	        Firebase.database().ref().update(updates)
+	            .then(function () {
+	                alert("Commento Pubblicato con Successo");
+	                scope.Comments.splice(oldLenght + 1, scope.Comments.length - oldLenght);
+	                document.getElementById(commentList).style.display = 'block';
+	                scope.$apply();
+	            })
+	    };
+
+	    this.getComments = function (scope, spinner, filter) {
+	        if (filter == undefined) {
+	            filter = true;
+	        }
+	        document.getElementById(spinner).style.display = 'block';
+	        var comments = [];
+	        var father = window.localStorage.getItem("currentPost");
+	        var ModelRef = Firebase.database().ref('Commenti');
+	        ModelRef.on('value', function (snapshot) {
+	            var results = snapshot.val();
+
+	            Object.keys(results).map(function (item) {
+
+	                if (!filter) {
+	                    comments.push({
+	                        author: results[item].author,
+	                        text: results[item].comment,
+	                        father: results[item].father,
+	                        date: results[item].date,
+	                        id: item
+	                    });
+	                } else if (results[item].father == father) {
+	                    comments.push({
+	                        author: results[item].author,
+	                        text: results[item].comment,
+	                        father: results[item].father,
+	                        date: results[item].date,
+	                        id: item
+	                    });
+	                }
+
+	            });
+	            scope.Comments = comments.reverse();
+	            scope.Comments.splice(comments.length, scope.Comments.length - comments.length)
+	            scope.$apply();
+	            document.getElementById(spinner).style.display = 'none';
+	        });
+	    }
+
+	    this.deleteComment = function (scope, commentId, commentList) {
+	        var oldLenght = scope.Comments.length;
+	        document.getElementById(commentList).style.display = 'none';
+	        firebase.database().ref('Commenti/' + commentId).remove()
+	            .then(function () {
+	                alert('commento eliminato con successo');
+	                scope.Comments.splice(oldLenght - 1, oldLenght*2);
+	                document.getElementById(commentList).style.display = 'block';
+	                scope.$apply();
+	            });
+	    }
+	};
+
+	module.exports = Comments;
+
+/***/ },
+/* 150 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Parse = __webpack_require__(3);
+	var Auth = function () {
+
+	    this.Signup = function (name, pass, mail, loadingtemplate, state) {
+	        var user = new Parse.User();
+
+	        user.set("username", name);
+	        user.set("password", pass);
+	        user.set("email", mail);
+	        user.set("isadmin", false);
+	c
+	        user.signUp(null, {
+	            success: function (user) {
+	                // Hooray! Let them use the app now.
+	                loadingtemplate.hide();
+	                alert("Creato Account Con successo");
+	                state.go('login');
+	            },
+	            error: function (user, error) {
+	                // Show the error message somewhere and let the user try again.
+	                loadingtemplate.hide();
+	                alert("Error: " + error.code + " " + error.message);
+	            }
+	        });
+	    };
+
+	    this.Login = function (name, pass, loadingtemplate, state) {
+	        Parse.User.logIn(name, pass, {
+	            success: function (user) {
+	                loadingtemplate.hide();
+	                state.go("tab.link");
+	            },
+	            error: function (user, error) {
+	                loadingtemplate.hide();
+	                alert("Error: " + error.code + " " + error.message);
+	            }
+
+	        });
+	    };
+
+	    this.Logout = function (loadingtemplate, state) {
+	        Parse.User.logOut();
+	        state.go('login');
+	        loadingtemplate.hide();
+	    };
+
+	};
+
+	module.exports = Auth;
+
+
+/***/ },
+/* 151 */
+/***/ function(module, exports) {
+
+	var DateHandler = function () {
+
+	    var self = this;
+
+	    this.GetCurrentDate = function () {
+
+	        var today = new Date();
+	        var dd = today.getDate();
+	        var mm = today.getMonth() + 1; //January is 0!
+
+	        if (dd < 10) {
+	            dd = '0' + dd
+	        }
+
+	        switch (mm) {
+	            case 1:
+	                mm = "Gennaio";
+	                break;
+	            case 2:
+	                mm = "Febbraio";
+	                break;
+	            case 3:
+	                mm = "Marzo";
+	                break;
+	            case 4:
+	                mm = "Aprile";
+	                break;
+	            case 5:
+	                mm = "Maggio";
+	                break;
+	            case 6:
+	                mm = "Giugno";
+	                break;
+	            case 7:
+	                mm = "Luglio";
+	                break;
+	            case 8:
+	                mm = "Agosto";
+	                break;
+	            case 9:
+	                mm = "Settembre";
+	                break;
+	            case 10:
+	                mm = "Ottobre";
+	                break;
+	            case 11:
+	                mm = "Novembre";
+	                break;
+	            case 12:
+	                mm = "Dicembre";
+	                break;
+
+	        }
+
+	        today = dd + ' ' + mm;
+
+	        return today;
+	    };
+
+	    this.GetFullDate = function () {
+
+	        var now = new Date();
+	        console.log(now);
+	        var Hour = now.getHours();
+	        var Minutes = now.getMinutes();
+
+	        if (Minutes < 10) {
+	            Minutes = "0" + Minutes;
+	        }
+
+	        return self.GetCurrentDate() + " alle " + Hour + ":" + Minutes;
+
+	    }
+	};
+
+	module.exports = DateHandler;
+
+
+/***/ },
+/* 152 */
+/***/ function(module, exports) {
+
+	var InputFields = function () {
+
+	    this.filledFields = function (fields) {
+	        var check = true;
+	        fields.map(function (item) {
+	            if (item == undefined || item == '') {
+	                check = false;
+	            }
+	        });
+	        return check;
+	    };
+
+	};
+
+	module.exports = InputFields;
+
+/***/ },
+/* 153 */
+/***/ function(module, exports) {
+
+	var StringHandler = function () {
+	    this.shorten = function shorten(text, maxLength) {
+	        var ret = text;
+	        if (ret.length > maxLength) {
+	            ret = ret.substr(0, maxLength) + '…';
+	        }
+	        return ret;
+	    }
+	};
+
+	module.exports = StringHandler;
+
+
+/***/ },
+/* 154 */
+/***/ function(module, exports) {
+
+	var Modals = function ($ionicLoading) {
+	    this.ResultTemplate = function (text) {
+	        $ionicLoading.hide();
+	        $ionicLoading.show({
+	            template: text
+	        });
+	        window.setTimeout(function () {
+	            $ionicLoading.hide();
+	        }, 2000);
+	    }
+	};
+
+	module.exports = Modals;
+
+
+/***/ },
+/* 155 */
+/***/ function(module, exports) {
+
+	var config = {
+	    apiKey: "AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8",
+	    authDomain: "app-liceoariostospallanz-d12b0.firebaseapp.com",
+	    databaseURL: "https://app-liceoariostospallanz-d12b0.firebaseio.com",
+	    storageBucket: "app-liceoariostospallanz-d12b0.appspot.com"
+	};
+
+	module.exports = config;
 
 /***/ }
 /******/ ]);

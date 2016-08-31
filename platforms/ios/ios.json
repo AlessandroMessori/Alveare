@@ -47,6 +47,10 @@
                         {
                             "xml": "<feature name=\"DocumentHandler\"><param name=\"ios-package\" value=\"DocumentHandler\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"NetworkStatus\"><param name=\"ios-package\" value=\"CDVConnection\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -86,6 +90,9 @@
             "PACKAGE_NAME": "com.lalveare.alveare"
         },
         "ch.ti8m.documenthandler": {
+            "PACKAGE_NAME": "com.lalveare.alveare"
+        },
+        "cordova-plugin-network-information": {
             "PACKAGE_NAME": "com.lalveare.alveare"
         }
     },
@@ -343,6 +350,23 @@
             "pluginId": "ch.ti8m.documenthandler",
             "clobbers": [
                 "handleDocumentWithURL"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-network-information/www/network.js",
+            "id": "cordova-plugin-network-information.network",
+            "pluginId": "cordova-plugin-network-information",
+            "clobbers": [
+                "navigator.connection",
+                "navigator.network.connection"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-network-information/www/Connection.js",
+            "id": "cordova-plugin-network-information.Connection",
+            "pluginId": "cordova-plugin-network-information",
+            "clobbers": [
+                "Connection"
             ]
         }
     ]

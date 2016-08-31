@@ -28,6 +28,14 @@ var adminCtrl = function ($scope, $state, $window) {
                 $state.go(this.url);
                 $window.localStorage.setItem("contentType", "Orientamento");
             }
+        },
+        {
+            "name": "Modera Commenti",
+            "url": "moderation",
+            "icon":"icon ion-ios-trash",
+            "direct": function () {
+                $state.go(this.url);
+            }
         }
     ];
 
