@@ -54,6 +54,7 @@
 	var commentsCtrl = __webpack_require__(137);
 	var linkCtrl = __webpack_require__(138);
 	var loginCtrl = __webpack_require__(139);
+	var moderationCtrl = __webpack_require__(155);
 	var newsCtrl = __webpack_require__(140);
 	var readArticleCtrl = __webpack_require__(141);
 	var signupCtrl = __webpack_require__(142);
@@ -80,6 +81,7 @@
 	appAS.controller('commentsCtrl', commentsCtrl);
 	appAS.controller('linkCtrl', linkCtrl);
 	appAS.controller('loginCtrl', loginCtrl);
+	appAS.controller('moderationCtrl', moderationCtrl);
 	appAS.controller('newsCtrl', newsCtrl);
 	appAS.controller('readArticleCtrl', readArticleCtrl);
 	appAS.controller('signupCtrl', signupCtrl);
@@ -91,7 +93,7 @@
 	appAS.service('DateHandler', DateHandler);
 	appAS.service('InputFields', InputFields);
 	appAS.service('StringHandler', StringHandler);
-	appAS.service('Modals',Modals);
+	appAS.service('Modals', Modals);
 
 	appAS.run(function ($ionicPlatform) {
 	    $ionicPlatform.ready(function () {
@@ -204,7 +206,14 @@
 	            url: '/comments',
 	            templateUrl: 'Components/CommentsPage/comments.html',
 	            controller: 'commentsCtrl'
+	        })
+
+	        .state('moderation', {
+	            url: '/moderation',
+	            templateUrl: 'Components/ModerationPage/moderation.html',
+	            controller: 'moderationCtrl'
 	        });
+
 
 	    if (window.localStorage.getItem("RememberMe") == "true") {
 	        $urlRouterProvider.otherwise('/tab/link');
@@ -14321,6 +14330,14 @@
 	                $state.go(this.url);
 	                $window.localStorage.setItem("contentType", "Orientamento");
 	            }
+	        },
+	        {
+	            "name": "Modera Commenti",
+	            "url": "moderation",
+	            "icon":"icon ion-ios-trash",
+	            "direct": function () {
+	                $state.go(this.url);
+	            }
 	        }
 	    ];
 
@@ -14479,7 +14496,7 @@
 	            function (msg) {
 	                alert('error: ' + msg)
 	            },   // error handler,
-	            file.toLowerCase()
+	            file
 	        );
 	    }
 	};
@@ -14783,8 +14800,10 @@
 	            })
 	    };
 
-	    this.getComments = function (scope, spinner) {
-
+	    this.getComments = function (scope, spinner, filter) {
+	        if (filter == undefined) {
+	            filter = true;
+	        }
 	        document.getElementById(spinner).style.display = 'block';
 	        var comments = [];
 	        var father = window.localStorage.getItem("currentPost");
@@ -14794,12 +14813,21 @@
 
 	            Object.keys(results).map(function (item) {
 
-	                if (results[item].father == father) {
+	                if (!filter) {
 	                    comments.push({
 	                        author: results[item].author,
 	                        text: results[item].comment,
 	                        father: results[item].father,
-	                        date: results[item].date
+	                        date: results[item].date,
+	                        id: item
+	                    });
+	                } else if (results[item].father == father) {
+	                    comments.push({
+	                        author: results[item].author,
+	                        text: results[item].comment,
+	                        father: results[item].father,
+	                        date: results[item].date,
+	                        id: item
 	                    });
 	                }
 
@@ -14809,6 +14837,18 @@
 	            scope.$apply();
 	            document.getElementById(spinner).style.display = 'none';
 	        });
+	    }
+
+	    this.deleteComment = function (scope, commentId, commentList) {
+	        var oldLenght = scope.Comments.length;
+	        document.getElementById(commentList).style.display = 'none';
+	        firebase.database().ref('Commenti/' + commentId).remove()
+	            .then(function () {
+	                alert('commento eliminato con successo');
+	                scope.Comments.splice(oldLenght - 1, oldLenght*2);
+	                document.getElementById(commentList).style.display = 'block';
+	                scope.$apply();
+	            });
 	    }
 	};
 
@@ -31774,6 +31814,34 @@
 		}
 		return module;
 	}
+
+
+/***/ },
+/* 155 */
+/***/ function(module, exports) {
+
+	var moderationCtrl = function ($scope, $ionicPopup, Comments) {
+	    Comments.getComments($scope, 'commentsSpinner', false);
+
+	    $scope.removeComment = function (commentId) {
+	        Comments.deleteComment($scope, commentId, 'commentList');
+	    };
+
+	    $scope.showConfirm = function (commentId) {
+	        var confirmPopup = $ionicPopup.confirm({
+	            title: 'Conferma Eliminazione',
+	            template: 'Vuoi davvero eliminare questo commento?'
+	        });
+
+	        confirmPopup.then(function (res) {
+	            if (res) {
+	                $scope.removeComment(commentId);
+	            }
+	        });
+	    };
+	};
+
+	module.exports = moderationCtrl;
 
 
 /***/ }

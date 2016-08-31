@@ -12,7 +12,7 @@ var forumCtrl = function ($scope, $state, $window, $http, Messages) {
             function (msg) {
                 alert('error: ' + msg)
             },   // error handler,
-            file.toLowerCase()
+            file
         );
     }
 };
