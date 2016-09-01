@@ -52,6 +52,13 @@ var Auth = function () {
         });
     };
 
+    this.getAdmins = function (scope) {
+        var ModelRef = Firebase.database().ref('Amministratori');
+        ModelRef.on('value', function (snapshot) {
+            var results = snapshot.val();
+            scope.Admins = results;
+        });
+    }
 };
 
 module.exports = Auth;

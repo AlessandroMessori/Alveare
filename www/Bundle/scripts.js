@@ -18044,8 +18044,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
+	var _ = __webpack_require__(135);
 	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
 	    $scope.View = 'tab-link';
+	    Auth.getAdmins($scope);
 
 	    $scope.$on('$ionicView.enter', function () {
 	        $ionicScrollDelegate.scrollTop();
@@ -18062,7 +18064,7 @@
 
 	    $scope.checkadmin = function () {
 
-	        if ($scope.User == 'Alessandro') {
+	        if (_.includes($scope.Admins, $scope.User)) {
 	            return "ng-show";
 	        } else {
 	            return "ng-hide";
@@ -18299,7 +18301,7 @@
 	            scope.$apply();
 	            document.getElementById(spinner).style.display = 'none';
 	        });
-	    }
+	    };
 
 	    this.deleteComment = function (scope, commentId, commentList) {
 	        var oldLenght = scope.Comments.length;
@@ -18375,6 +18377,13 @@
 	        });
 	    };
 
+	    this.getAdmins = function (scope) {
+	        var ModelRef = Firebase.database().ref('Amministratori');
+	        ModelRef.on('value', function (snapshot) {
+	            var results = snapshot.val();
+	            scope.Admins = results;
+	        });
+	    }
 	};
 
 	module.exports = Auth;

@@ -1,6 +1,8 @@
 var Firebase = require('firebase');
+var _ = require('lodash');
 var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
     $scope.View = 'tab-link';
+    Auth.getAdmins($scope);
 
     $scope.$on('$ionicView.enter', function () {
         $ionicScrollDelegate.scrollTop();
@@ -17,7 +19,7 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
 
     $scope.checkadmin = function () {
 
-        if ($scope.User == 'Alessandro') {
+        if (_.includes($scope.Admins, $scope.User)) {
             return "ng-show";
         } else {
             return "ng-hide";
