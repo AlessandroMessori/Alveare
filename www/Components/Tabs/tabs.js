@@ -1,13 +1,11 @@
 var Firebase = require('firebase');
 var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
     $scope.View = 'tab-link';
-    //$scope.Current = Firebase.auth().currentUser;
-    //$scope.User = $scope.Current.displayName;
 
     $scope.$on('$ionicView.enter', function () {
         $ionicScrollDelegate.scrollTop();
         $scope.closeDrawer();
-        //$scope.User = $scope.Current.displayName;
+        $scope.User = Firebase.auth().currentUser.displayName;
     });
 
     $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
@@ -19,12 +17,10 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
 
     $scope.checkadmin = function () {
 
-        if ($scope.Current != null) {
-            if ($scope.User == 'Alessandro') {
-                return "ng-show";
-            } else {
-                return "ng-hide";
-            }
+        if ($scope.User == 'Alessandro') {
+            return "ng-show";
+        } else {
+            return "ng-hide";
         }
     };
 
