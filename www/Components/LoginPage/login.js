@@ -1,5 +1,7 @@
-var loginCtrl = function ($scope, $ionicLoading, $window, $state, Auth, InputFields) {
+var Firebase = require('firebase');
+var loginCtrl = function ($scope, $ionicLoading, $window, $state, $ionicHistory, Auth, InputFields) {
 
+    Firebase.auth().signOut();
     $scope.inputType = 'password';
 
     $scope.UserLogin = function (username, password, RememberMe) {
@@ -7,7 +9,7 @@ var loginCtrl = function ($scope, $ionicLoading, $window, $state, Auth, InputFie
             $ionicLoading.show({
                 template: 'Accesso in Corso...'
             });
-            Auth.Login(username, password, $ionicLoading, $state);
+            Auth.Login(username, password, $ionicLoading, $state, $ionicHistory);
             $scope.SetRememberMe(RememberMe);
         }
         else {

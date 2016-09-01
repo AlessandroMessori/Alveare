@@ -1,11 +1,13 @@
-var Parse = require('parse');
+var Firebase = require('firebase');
 var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
     $scope.View = 'tab-link';
-    $scope.User = Parse.User.current().get('username');
+    //$scope.Current = Firebase.auth().currentUser;
+    //$scope.User = $scope.Current.displayName;
 
     $scope.$on('$ionicView.enter', function () {
         $ionicScrollDelegate.scrollTop();
         $scope.closeDrawer();
+        //$scope.User = $scope.Current.displayName;
     });
 
     $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
@@ -13,13 +15,12 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
         if ($rootScope.previousState == 'comments') {
             $rootScope.previousState = 'tab.giornalino'
         }
-        $scope.User = Parse.User.current().get('username');
     });
 
     $scope.checkadmin = function () {
 
-        if (Parse.User.current()) {
-            if (Parse.User.current().get("isadmin")) {
+        if ($scope.Current != null) {
+            if ($scope.User == 'Alessandro') {
                 return "ng-show";
             } else {
                 return "ng-hide";

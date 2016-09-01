@@ -1,59 +1,55 @@
 var Firebase = require('firebase');
-var Parse = require('parse');
 var Auth = function () {
 
-    this.Signup = function (name, pass, mail, loadingtemplate, state) {
-        var user = new Parse.User();
+    this.Signup = function (name, pass, mail, loadingtemplate, state, history) {
 
-        user.set("username", name);
-        user.set("password", pass);
-        user.set("email", mail);
-        user.set("isadmin", false);
-c
-        user.signUp(null, {
-            success: function (user) {
-                // Hooray! Let them use the app now.
-                loadingtemplate.hide();
-                alert("Creato Account Con successo");
-                state.go('login');
-            },
-            error: function (user, error) {
-                // Show the error message somewhere and let the user try again.
-                loadingtemplate.hide();
-                alert("Error: " + error.code + " " + error.message);
-            }
+        Firebase.auth().createUserWithEmailAndPassword(mail, pass).catch(function (error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            loadingtemplate.hide();
+            alert(errorMessage);
         });
+
+        Firebase.auth().onAuthStateChanged(function (user) {
+
+            if (user != null && history.currentStateName() == 'signup') {
+                user.updateProfile({displayName: name});
+                loadingtemplate.hide();
+                Firebase.auth().signOut();
+                alert('profilo creato con successo');
+                state.go('login');
+            }
+
+        });
+
     };
 
-    this.Login = function (name, pass, loadingtemplate, state) {
-        Parse.User.logIn(name, pass, {
-            success: function (user) {
+    this.Login = function (email, pass, loadingtemplate, state, history) {
+
+        Firebase.auth().signInWithEmailAndPassword(email, pass).catch(function (error) {
+            //var errorCode = error.code;
+            alert(error.message);
+            loadingtemplate.hide();
+        });
+
+        Firebase.auth().onAuthStateChanged(function (user) {
+
+            if (user != null && history.currentStateName() == 'login') {
                 loadingtemplate.hide();
                 state.go("tab.link");
-            },
-            error: function (user, error) {
-                loadingtemplate.hide();
-                alert("Error: " + error.code + " " + error.message);
             }
 
         });
-        /*Firebase.auth().signInWithEmailAndPassword(name, pass).catch(function(error) {
-            Firebase.auth().onAuthStateChanged(function(user) {
-                alert(user);
-                if (user) {
-                   loadingtemplate.hide();
-                    state.go("tab.link");
-                } else {
-                    alert("Error: " + error.code + " " + error.message);
-                }
-            });
-        });*/
     };
 
     this.Logout = function (loadingtemplate, state) {
-        Parse.User.logOut();
-        state.go('login');
-        loadingtemplate.hide();
+        Firebase.auth().signOut().then(function () {
+            state.go('login');
+            loadingtemplate.hide();
+        }, function (error) {
+            loadingtemplate.hide();
+            alert('impossibile disconnetersi dal profilo');
+        });
     };
 
 };
