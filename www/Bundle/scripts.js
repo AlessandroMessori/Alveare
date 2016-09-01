@@ -17875,12 +17875,12 @@
 	    Firebase.auth().signOut();
 	    $scope.inputType = 'password';
 
-	    $scope.UserLogin = function (username, password, RememberMe) {
-	        if (InputFields.filledFields([username, password])) {
+	    $scope.UserLogin = function (mail, password, RememberMe) {
+	        if (InputFields.filledFields([mail, password])) {
 	            $ionicLoading.show({
 	                template: 'Accesso in Corso...'
 	            });
-	            Auth.Login(username, password, $ionicLoading, $state, $ionicHistory);
+	            Auth.Login(mail, password, $ionicLoading, $state, $ionicHistory);
 	            $scope.SetRememberMe(RememberMe);
 	        }
 	        else {

@@ -7,7 +7,7 @@
             <div class="col-50 col-offset-25">
 
                 <label class="item item-input">
-                    <input type="text" ng-model="username" placeholder="Username">
+                    <input type="email" ng-model="mail" placeholder="Email">
                 </label>
                 <label class="item item-input">
                     <input type="{{inputType}}" id="passtxt" ng-model="password" placeholder="Password">
@@ -30,7 +30,7 @@
 
         <div class="row" id="btnrow">
             <div class="col">
-                <button ng-click="UserLogin(username,password,RememberMe)" class="button button-positive">Login</button>
+                <button ng-click="UserLogin(mail,password,RememberMe)" class="button button-positive">Login</button>
             </div>
         </div>
 
