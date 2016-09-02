@@ -16,7 +16,7 @@ var Auth = function () {
                 user.updateProfile({displayName: name});
                 loadingtemplate.hide();
                 Firebase.auth().signOut();
-                alert('profilo creato con successo');
+                alert('Profilo creato correttamente');
                 state.go('login');
             }
 
@@ -48,7 +48,7 @@ var Auth = function () {
             loadingtemplate.hide();
         }, function (error) {
             loadingtemplate.hide();
-            alert('impossibile disconnetersi dal profilo');
+            alert('Impossibile disconnetersi dal profilo');
         });
     };
 
