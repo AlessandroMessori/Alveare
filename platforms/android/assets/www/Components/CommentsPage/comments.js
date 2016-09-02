@@ -1,3 +1,4 @@
+var Firebase = require('firebase');
 var commentsCtrl = function ($scope, $window, Comments, DateHandler) {
 
     $scope.$on('$ionicView.enter', function () {
@@ -8,11 +9,11 @@ var commentsCtrl = function ($scope, $window, Comments, DateHandler) {
         if (comment != undefined) {
             var newData = {
                 comment: comment,
-                author: 'autore',
+                author: Firebase.auth().currentUser.displayName,
                 father: localStorage.getItem('currentPost'),
                 date: DateHandler.GetCurrentDate()
             };
-            Comments.sendComment($scope, newData,'commentList');
+            Comments.sendComment($scope, newData, 'commentList');
             comment = '';
         }
         else {

@@ -1,5 +1,4 @@
 var Firebase = require('firebase');
-
 var Comments = function () {
 
     this.sendComment = function (scope, newData, commentList) {
@@ -54,7 +53,7 @@ var Comments = function () {
             scope.$apply();
             document.getElementById(spinner).style.display = 'none';
         });
-    }
+    };
 
     this.deleteComment = function (scope, commentId, commentList) {
         var oldLenght = scope.Comments.length;

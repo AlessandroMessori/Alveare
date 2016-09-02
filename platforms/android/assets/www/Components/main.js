@@ -1,5 +1,4 @@
 var Firebase = require('firebase');
-var Parse = require('parse');
 var addArticleCtrl = require('./AddArticlePage/addArticle');
 var addNewsCtrl = require('./AddNewsPage/addNews');
 var adminCtrl = require('./AdminPage/admin');
@@ -23,7 +22,6 @@ var StringHandler = require('../Services/StringHandler');
 var Modals = require('../Services/Modals');
 var credentials = require('../../credentials');
 
-Parse.initialize("o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ", "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF");
 Firebase.initializeApp(credentials);
 
 var appAS = angular.module('appAS', ['ionic', 'ionic.contrib.drawer']);

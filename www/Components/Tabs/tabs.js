@@ -8,6 +8,7 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
         $ionicScrollDelegate.scrollTop();
         $scope.closeDrawer();
         $scope.User = Firebase.auth().currentUser.displayName;
+        $scope.UserMail = Firebase.auth().currentUser.email;
     });
 
     $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
@@ -19,7 +20,7 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
 
     $scope.checkadmin = function () {
 
-        if (_.includes($scope.Admins, $scope.User)) {
+        if (_.includes($scope.Admins, $scope.UserMail)) {
             return "ng-show";
         } else {
             return "ng-hide";

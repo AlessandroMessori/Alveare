@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var Firebase = require('firebase');
 var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler) {
 
     $scope.fileList = [];
@@ -7,7 +8,7 @@ var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler) {
     $scope.sendNews = function (news) {
         var newData = {
             text: news,
-            author: 'autore',
+            author: Firebase.auth().currentUser.displayName,
             date: DateHandler.GetCurrentDate(),
             files: $scope.fileList
         };

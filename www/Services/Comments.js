@@ -1,5 +1,4 @@
 var Firebase = require('firebase');
-
 var Comments = function () {
 
     this.sendComment = function (scope, newData, commentList) {

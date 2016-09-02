@@ -3,11 +3,14 @@ var Messages = function (Modals) {
 
     this.sendPost = function (newData, binary) {
 
-        var storageRef = Firebase.storage().ref();
-        binary.map(function (item) {
-            var childRef = storageRef.child(item.name);
-            childRef.put(item.binary);
-        });
+        if (binary.length > 0) {
+
+            var storageRef = Firebase.storage().ref();
+            binary.map(function (item) {
+                var childRef = storageRef.child(item.name);
+                childRef.put(item.binary);
+            });
+        }
 
         var newPostKey = Firebase.database().ref().child('Comunicazioni').push().key;
         var updates = {};
@@ -31,18 +34,21 @@ var Messages = function (Modals) {
             var results = snapshot.val();
             var posts = [];
 
+
             Object.keys(results).map(function (item, i) {
 
                 var files = [];
 
-                results[item].files.map(function (file) {
-                    var stRef = storage.ref();
-                    //console.log(stRef.child(file).getDownloadURL());
-                    files.push({
-                        url: stRef.child(file).getDownloadURL(),
-                        name: file
+                if (results[item].files != undefined) {
+
+                    results[item].files.map(function (file) {
+                        var stRef = storage.ref();
+                        files.push({
+                            url: stRef.child(file).getDownloadURL(),
+                            name: file
+                        });
                     });
-                });
+                }
 
                 posts[i] = {
                     author: results[item].author,

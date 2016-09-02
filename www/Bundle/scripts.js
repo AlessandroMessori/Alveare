@@ -40,34 +40,33 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 0:
+/******/ ([
+/* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var addArticleCtrl = __webpack_require__(133);
-	var addNewsCtrl = __webpack_require__(134);
-	var adminCtrl = __webpack_require__(137);
-	var attualitaCtrl = __webpack_require__(138).attualitaCtrl;
-	var orientamentoCtrl = __webpack_require__(138).orientamentoCtrl;
-	var commentsCtrl = __webpack_require__(139);
-	var linkCtrl = __webpack_require__(140);
-	var loginCtrl = __webpack_require__(141);
-	var moderationCtrl = __webpack_require__(142);
-	var newsCtrl = __webpack_require__(143);
-	var readArticleCtrl = __webpack_require__(144);
-	var signupCtrl = __webpack_require__(145);
-	var tabsCtrl = __webpack_require__(146);
-	var Messages = __webpack_require__(147);
-	var Articles = __webpack_require__(148);
-	var Comments = __webpack_require__(149);
-	var Auth = __webpack_require__(150);
-	var DateHandler = __webpack_require__(151);
-	var InputFields = __webpack_require__(152);
-	var StringHandler = __webpack_require__(153);
-	var Modals = __webpack_require__(154);
-	var credentials = __webpack_require__(155);
+	var addArticleCtrl = __webpack_require__(3);
+	var addNewsCtrl = __webpack_require__(4);
+	var adminCtrl = __webpack_require__(7);
+	var attualitaCtrl = __webpack_require__(8).attualitaCtrl;
+	var orientamentoCtrl = __webpack_require__(8).orientamentoCtrl;
+	var commentsCtrl = __webpack_require__(9);
+	var linkCtrl = __webpack_require__(10);
+	var loginCtrl = __webpack_require__(11);
+	var moderationCtrl = __webpack_require__(12);
+	var newsCtrl = __webpack_require__(13);
+	var readArticleCtrl = __webpack_require__(14);
+	var signupCtrl = __webpack_require__(15);
+	var tabsCtrl = __webpack_require__(16);
+	var Messages = __webpack_require__(17);
+	var Articles = __webpack_require__(18);
+	var Comments = __webpack_require__(19);
+	var Auth = __webpack_require__(20);
+	var DateHandler = __webpack_require__(21);
+	var InputFields = __webpack_require__(22);
+	var StringHandler = __webpack_require__(23);
+	var Modals = __webpack_require__(24);
+	var credentials = __webpack_require__(25);
 
 	Firebase.initializeApp(credentials);
 
@@ -239,8 +238,7 @@
 
 
 /***/ },
-
-/***/ 1:
+/* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -255,8 +253,7 @@
 
 
 /***/ },
-
-/***/ 2:
+/* 2 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/*! @license Firebase v3.3.0
@@ -839,8 +836,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-
-/***/ 133:
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -877,7 +873,7 @@
 	            var newData = {
 	                text: text,
 	                title: title,
-	                author: 'autore',
+	                author: Firebase.auth().currentUser.displayName,
 	                date: DateHandler.GetCurrentDate(),
 	                img: document.getElementById('img_1').src
 	            };
@@ -899,11 +895,11 @@
 
 
 /***/ },
-
-/***/ 134:
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(135);
+	var _ = __webpack_require__(5);
+	var Firebase = __webpack_require__(1);
 	var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler) {
 
 	    $scope.fileList = [];
@@ -912,7 +908,7 @@
 	    $scope.sendNews = function (news) {
 	        var newData = {
 	            text: news,
-	            author: 'autore',
+	            author: Firebase.auth().currentUser.displayName,
 	            date: DateHandler.GetCurrentDate(),
 	            files: $scope.fileList
 	        };
@@ -961,8 +957,7 @@
 	module.exports = addNewsCtrl;
 
 /***/ },
-
-/***/ 135:
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -17699,11 +17694,10 @@
 	  }
 	}.call(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(136)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(6)(module)))
 
 /***/ },
-
-/***/ 136:
+/* 6 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -17719,8 +17713,7 @@
 
 
 /***/ },
-
-/***/ 137:
+/* 7 */
 /***/ function(module, exports) {
 
 	var adminCtrl = function ($scope, $state, $window) {
@@ -17769,8 +17762,7 @@
 	module.exports = adminCtrl;
 
 /***/ },
-
-/***/ 138:
+/* 8 */
 /***/ function(module, exports) {
 
 	var articlesCtrl = function ($scope, $state, $window, Articles, type) {
@@ -17793,10 +17785,10 @@
 	};
 
 /***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
 
-/***/ 139:
-/***/ function(module, exports) {
-
+	var Firebase = __webpack_require__(1);
 	var commentsCtrl = function ($scope, $window, Comments, DateHandler) {
 
 	    $scope.$on('$ionicView.enter', function () {
@@ -17807,11 +17799,11 @@
 	        if (comment != undefined) {
 	            var newData = {
 	                comment: comment,
-	                author: 'autore',
+	                author: Firebase.auth().currentUser.displayName,
 	                father: localStorage.getItem('currentPost'),
 	                date: DateHandler.GetCurrentDate()
 	            };
-	            Comments.sendComment($scope, newData,'commentList');
+	            Comments.sendComment($scope, newData, 'commentList');
 	            comment = '';
 	        }
 	        else {
@@ -17827,8 +17819,7 @@
 
 
 /***/ },
-
-/***/ 140:
+/* 10 */
 /***/ function(module, exports) {
 
 	var linkCtrl = function ($scope, $window) {
@@ -17865,8 +17856,7 @@
 	module.exports = linkCtrl;
 
 /***/ },
-
-/***/ 141:
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -17908,8 +17898,7 @@
 	module.exports = loginCtrl;
 
 /***/ },
-
-/***/ 142:
+/* 12 */
 /***/ function(module, exports) {
 
 	var moderationCtrl = function ($scope, $ionicPopup, Comments) {
@@ -17937,8 +17926,7 @@
 
 
 /***/ },
-
-/***/ 143:
+/* 13 */
 /***/ function(module, exports) {
 
 	var forumCtrl = function ($scope, $state, $window, $http, Messages) {
@@ -17964,8 +17952,7 @@
 
 
 /***/ },
-
-/***/ 144:
+/* 14 */
 /***/ function(module, exports) {
 
 	var articleCtrl = function ($scope, $stateParams, $state, $window, $ionicModal) {
@@ -18003,8 +17990,7 @@
 	module.exports = articleCtrl;
 
 /***/ },
-
-/***/ 145:
+/* 15 */
 /***/ function(module, exports) {
 
 	var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields) {
@@ -18039,12 +18025,11 @@
 	module.exports = signupCtrl;
 
 /***/ },
-
-/***/ 146:
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var _ = __webpack_require__(135);
+	var _ = __webpack_require__(5);
 	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
 	    $scope.View = 'tab-link';
 	    Auth.getAdmins($scope);
@@ -18053,6 +18038,7 @@
 	        $ionicScrollDelegate.scrollTop();
 	        $scope.closeDrawer();
 	        $scope.User = Firebase.auth().currentUser.displayName;
+	        $scope.UserMail = Firebase.auth().currentUser.email;
 	    });
 
 	    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
@@ -18064,7 +18050,7 @@
 
 	    $scope.checkadmin = function () {
 
-	        if (_.includes($scope.Admins, $scope.User)) {
+	        if (_.includes($scope.Admins, $scope.UserMail)) {
 	            return "ng-show";
 	        } else {
 	            return "ng-hide";
@@ -18098,8 +18084,7 @@
 	module.exports = tabsCtrl;
 
 /***/ },
-
-/***/ 147:
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -18107,11 +18092,14 @@
 
 	    this.sendPost = function (newData, binary) {
 
-	        var storageRef = Firebase.storage().ref();
-	        binary.map(function (item) {
-	            var childRef = storageRef.child(item.name);
-	            childRef.put(item.binary);
-	        });
+	        if (binary.length > 0) {
+
+	            var storageRef = Firebase.storage().ref();
+	            binary.map(function (item) {
+	                var childRef = storageRef.child(item.name);
+	                childRef.put(item.binary);
+	            });
+	        }
 
 	        var newPostKey = Firebase.database().ref().child('Comunicazioni').push().key;
 	        var updates = {};
@@ -18135,18 +18123,21 @@
 	            var results = snapshot.val();
 	            var posts = [];
 
+
 	            Object.keys(results).map(function (item, i) {
 
 	                var files = [];
 
-	                results[item].files.map(function (file) {
-	                    var stRef = storage.ref();
-	                    //console.log(stRef.child(file).getDownloadURL());
-	                    files.push({
-	                        url: stRef.child(file).getDownloadURL(),
-	                        name: file
+	                if (results[item].files != undefined) {
+
+	                    results[item].files.map(function (file) {
+	                        var stRef = storage.ref();
+	                        files.push({
+	                            url: stRef.child(file).getDownloadURL(),
+	                            name: file
+	                        });
 	                    });
-	                });
+	                }
 
 	                posts[i] = {
 	                    author: results[item].author,
@@ -18176,8 +18167,7 @@
 
 
 /***/ },
-
-/***/ 148:
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -18241,12 +18231,10 @@
 	module.exports = Articles;
 
 /***/ },
-
-/***/ 149:
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-
 	var Comments = function () {
 
 	    this.sendComment = function (scope, newData, commentList) {
@@ -18319,8 +18307,7 @@
 	module.exports = Comments;
 
 /***/ },
-
-/***/ 150:
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -18390,8 +18377,7 @@
 
 
 /***/ },
-
-/***/ 151:
+/* 21 */
 /***/ function(module, exports) {
 
 	var DateHandler = function () {
@@ -18473,8 +18459,7 @@
 
 
 /***/ },
-
-/***/ 152:
+/* 22 */
 /***/ function(module, exports) {
 
 	var InputFields = function () {
@@ -18494,8 +18479,7 @@
 	module.exports = InputFields;
 
 /***/ },
-
-/***/ 153:
+/* 23 */
 /***/ function(module, exports) {
 
 	var StringHandler = function () {
@@ -18512,8 +18496,7 @@
 
 
 /***/ },
-
-/***/ 154:
+/* 24 */
 /***/ function(module, exports) {
 
 	var Modals = function ($ionicLoading) {
@@ -18532,8 +18515,7 @@
 
 
 /***/ },
-
-/***/ 155:
+/* 25 */
 /***/ function(module, exports) {
 
 	var config = {
@@ -18546,5 +18528,4 @@
 	module.exports = config;
 
 /***/ }
-
-/******/ });
+/******/ ]);

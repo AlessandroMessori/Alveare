@@ -32,7 +32,7 @@ var addArticleCtrl = function ($scope, $window, $ionicLoading, Articles, InputFi
             var newData = {
                 text: text,
                 title: title,
-                author: 'autore',
+                author: Firebase.auth().currentUser.displayName,
                 date: DateHandler.GetCurrentDate(),
                 img: document.getElementById('img_1').src
             };
