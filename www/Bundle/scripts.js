@@ -18088,7 +18088,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var Messages = function (Modals) {
+	var Messages = function (Modals, Comments) {
 
 	    this.sendPost = function (newData, binary) {
 
@@ -18145,15 +18145,16 @@
 	                    date: results[item].date,
 	                    files: files,
 	                    id: item,
+	                    commentCount: 0,
 	                    link: function () {
 	                        window.localStorage.setItem("currentPost", item);
 	                        state.go("comments");
 	                    }
 	                };
+
+	                Comments.getCommentCount(item, scope, posts, i);
 	            });
 
-	            scope.Posts = posts.reverse();
-	            scope.$apply();
 	            document.getElementById(spinner).style.display = 'none';
 	        });
 
@@ -18235,6 +18236,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
+
 	var Comments = function () {
 
 	    this.sendComment = function (scope, newData, commentList) {
@@ -18291,13 +18293,31 @@
 	        });
 	    };
 
+	    this.getCommentCount = function (father, scope, posts, index) {
+	        var ModelRef = Firebase.database().ref('Commenti');
+	        ModelRef.on('value', function (snapshot) {
+	            var results = snapshot.val();
+	            var count = 0;
+
+	            Object.keys(results).map(function (item) {
+	                if (results[item].father == father) {
+	                    count++;
+	                }
+	            });
+	            posts[index].commentCount = count;
+	            console.log(posts);
+	            scope.Posts = posts.reverse();
+	            scope.$apply();
+	        });
+	    };
+
 	    this.deleteComment = function (scope, commentId, commentList) {
 	        var oldLenght = scope.Comments.length;
 	        document.getElementById(commentList).style.display = 'none';
 	        firebase.database().ref('Commenti/' + commentId).remove()
 	            .then(function () {
 	                alert('commento eliminato con successo');
-	                scope.Comments.splice(oldLenght - 1, oldLenght*2);
+	                scope.Comments.splice(oldLenght - 1, oldLenght * 2);
 	                document.getElementById(commentList).style.display = 'block';
 	                scope.$apply();
 	            });

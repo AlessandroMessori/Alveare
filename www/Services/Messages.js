@@ -1,5 +1,5 @@
 var Firebase = require('firebase');
-var Messages = function (Modals) {
+var Messages = function (Modals, Comments) {
 
     this.sendPost = function (newData, binary) {
 
@@ -56,15 +56,16 @@ var Messages = function (Modals) {
                     date: results[item].date,
                     files: files,
                     id: item,
+                    commentCount: 0,
                     link: function () {
                         window.localStorage.setItem("currentPost", item);
                         state.go("comments");
                     }
                 };
+
+                Comments.getCommentCount(item, scope, posts, i);
             });
 
-            scope.Posts = posts.reverse();
-            scope.$apply();
             document.getElementById(spinner).style.display = 'none';
         });
 

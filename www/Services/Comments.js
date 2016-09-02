@@ -1,4 +1,5 @@
 var Firebase = require('firebase');
+
 var Comments = function () {
 
     this.sendComment = function (scope, newData, commentList) {
@@ -55,13 +56,31 @@ var Comments = function () {
         });
     };
 
+    this.getCommentCount = function (father, scope, posts, index) {
+        var ModelRef = Firebase.database().ref('Commenti');
+        ModelRef.on('value', function (snapshot) {
+            var results = snapshot.val();
+            var count = 0;
+
+            Object.keys(results).map(function (item) {
+                if (results[item].father == father) {
+                    count++;
+                }
+            });
+            posts[index].commentCount = count;
+            console.log(posts);
+            scope.Posts = posts.reverse();
+            scope.$apply();
+        });
+    };
+
     this.deleteComment = function (scope, commentId, commentList) {
         var oldLenght = scope.Comments.length;
         document.getElementById(commentList).style.display = 'none';
         firebase.database().ref('Commenti/' + commentId).remove()
             .then(function () {
                 alert('commento eliminato con successo');
-                scope.Comments.splice(oldLenght - 1, oldLenght*2);
+                scope.Comments.splice(oldLenght - 1, oldLenght * 2);
                 document.getElementById(commentList).style.display = 'block';
                 scope.$apply();
             });
