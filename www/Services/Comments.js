@@ -1,6 +1,5 @@
 var Firebase = require('firebase');
-
-var Comments = function () {
+var Comments = function (Likes) {
 
     this.sendComment = function (scope, newData, commentList) {
         var oldLenght = scope.Comments.length;
@@ -28,27 +27,30 @@ var Comments = function () {
         ModelRef.on('value', function (snapshot) {
             var results = snapshot.val();
 
-            Object.keys(results).map(function (item) {
+            if (results != null) {
 
-                if (!filter) {
-                    comments.push({
-                        author: results[item].author,
-                        text: results[item].comment,
-                        father: results[item].father,
-                        date: results[item].date,
-                        id: item
-                    });
-                } else if (results[item].father == father) {
-                    comments.push({
-                        author: results[item].author,
-                        text: results[item].comment,
-                        father: results[item].father,
-                        date: results[item].date,
-                        id: item
-                    });
-                }
+                Object.keys(results).map(function (item) {
 
-            });
+                    if (!filter) {
+                        comments.push({
+                            author: results[item].author,
+                            text: results[item].comment,
+                            father: results[item].father,
+                            date: results[item].date,
+                            id: item
+                        });
+                    } else if (results[item].father == father) {
+                        comments.push({
+                            author: results[item].author,
+                            text: results[item].comment,
+                            father: results[item].father,
+                            date: results[item].date,
+                            id: item
+                        });
+                    }
+
+                });
+            }
             scope.Comments = comments.reverse();
             scope.Comments.splice(comments.length, scope.Comments.length - comments.length)
             scope.$apply();
@@ -62,16 +64,18 @@ var Comments = function () {
             var results = snapshot.val();
             var count = 0;
 
-            Object.keys(results).map(function (item) {
-                if (results[item].father == father) {
-                    count++;
-                }
-            });
+            if (results != null) {
+
+                Object.keys(results).map(function (item) {
+                    if (results[item].father == father) {
+                        count++;
+                    }
+                });
+            }
             posts[index].commentCount = count;
-            console.log(posts);
-            scope.Posts = posts.reverse();
-            scope.$apply();
+            Likes.getLikeCount(father, scope, posts, index);
         });
+
     };
 
     this.deleteComment = function (scope, commentId, commentList) {

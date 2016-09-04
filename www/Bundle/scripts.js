@@ -61,12 +61,13 @@
 	var Messages = __webpack_require__(17);
 	var Articles = __webpack_require__(18);
 	var Comments = __webpack_require__(19);
-	var Auth = __webpack_require__(20);
-	var DateHandler = __webpack_require__(21);
-	var InputFields = __webpack_require__(22);
-	var StringHandler = __webpack_require__(23);
-	var Modals = __webpack_require__(24);
-	var credentials = __webpack_require__(25);
+	var Likes = __webpack_require__(20);
+	var Auth = __webpack_require__(21);
+	var DateHandler = __webpack_require__(22);
+	var InputFields = __webpack_require__(23);
+	var StringHandler = __webpack_require__(24);
+	var Modals = __webpack_require__(25);
+	var credentials = __webpack_require__(26);
 
 	Firebase.initializeApp(credentials);
 
@@ -87,6 +88,7 @@
 	appAS.service('Messages', Messages);
 	appAS.service('Articles', Articles);
 	appAS.service('Comments', Comments);
+	appAS.service('Likes', Likes);
 	appAS.service('Auth', Auth);
 	appAS.service('DateHandler', DateHandler);
 	appAS.service('InputFields', InputFields);
@@ -18088,7 +18090,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var Messages = function (Modals, Comments) {
+	var Messages = function (Modals, Comments, Likes) {
 
 	    this.sendPost = function (newData, binary) {
 
@@ -18123,37 +18125,42 @@
 	            var results = snapshot.val();
 	            var posts = [];
 
+	            if (results != null) {
+	                Object.keys(results).map(function (item, i) {
 
-	            Object.keys(results).map(function (item, i) {
+	                    var files = [];
 
-	                var files = [];
+	                    if (results[item].files != undefined) {
 
-	                if (results[item].files != undefined) {
-
-	                    results[item].files.map(function (file) {
-	                        var stRef = storage.ref();
-	                        files.push({
-	                            url: stRef.child(file).getDownloadURL(),
-	                            name: file
+	                        results[item].files.map(function (file) {
+	                            var stRef = storage.ref();
+	                            files.push({
+	                                url: stRef.child(file).getDownloadURL(),
+	                                name: file
+	                            });
 	                        });
-	                    });
-	                }
-
-	                posts[i] = {
-	                    author: results[item].author,
-	                    text: results[item].text,
-	                    date: results[item].date,
-	                    files: files,
-	                    id: item,
-	                    commentCount: 0,
-	                    link: function () {
-	                        window.localStorage.setItem("currentPost", item);
-	                        state.go("comments");
 	                    }
-	                };
 
-	                Comments.getCommentCount(item, scope, posts, i);
-	            });
+	                    posts[i] = {
+	                        author: results[item].author,
+	                        text: results[item].text,
+	                        date: results[item].date,
+	                        files: files,
+	                        id: item,
+	                        likeCount: 0,
+	                        commentCount: 0,
+	                        link: function () {
+	                            window.localStorage.setItem("currentPost", item);
+	                            state.go("comments");
+	                        },
+	                        like: function () {
+	                            Likes.checkLike(Firebase.auth().currentUser.displayName, item);
+	                        }
+	                    };
+
+	                    Comments.getCommentCount(item, scope, posts, i);
+	                });
+	            }
 
 	            document.getElementById(spinner).style.display = 'none';
 	        });
@@ -18172,7 +18179,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var Articles = function (DateHandler, StringHandler,Modals) {
+	var Articles = function (DateHandler, StringHandler, Modals) {
 
 	    this.sendArticle = function (newData) {
 	        var ArticleType = window.localStorage.getItem('contentType');
@@ -18198,27 +18205,30 @@
 	            var results = snapshot.val();
 	            var articles = [];
 
-	            Object.keys(results).map(function (item, i) {
-	                var date = "Data";
-	                articles[i] = {
-	                    title: results[item].title,
-	                    author: results[item].author,
-	                    text: results[item].text,
-	                    coverText: StringHandler.shorten(results[item].text, 100),
-	                    img: results[item].img,
-	                    date: results[item].date,
-	                    id: item,
-	                    link: function (destination) {
-	                        window.localStorage.setItem("title", this.title);
-	                        window.localStorage.setItem("text", this.text);
-	                        window.localStorage.setItem("author", this.author);
-	                        window.localStorage.setItem("img", this.img);
-	                        window.localStorage.setItem("date", this.date);
-	                        window.localStorage.setItem("currentPost", item);
-	                        state.go(destination);
-	                    }
-	                };
-	            });
+	            if (results != null) {
+
+	                Object.keys(results).map(function (item, i) {
+	                    var date = "Data";
+	                    articles[i] = {
+	                        title: results[item].title,
+	                        author: results[item].author,
+	                        text: results[item].text,
+	                        coverText: StringHandler.shorten(results[item].text, 100),
+	                        img: results[item].img,
+	                        date: results[item].date,
+	                        id: item,
+	                        link: function (destination) {
+	                            window.localStorage.setItem("title", this.title);
+	                            window.localStorage.setItem("text", this.text);
+	                            window.localStorage.setItem("author", this.author);
+	                            window.localStorage.setItem("img", this.img);
+	                            window.localStorage.setItem("date", this.date);
+	                            window.localStorage.setItem("currentPost", item);
+	                            state.go(destination);
+	                        }
+	                    };
+	                });
+	            }
 
 	            scope.Articles = articles.reverse();
 	            scope.$apply();
@@ -18236,8 +18246,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-
-	var Comments = function () {
+	var Comments = function (Likes) {
 
 	    this.sendComment = function (scope, newData, commentList) {
 	        var oldLenght = scope.Comments.length;
@@ -18265,27 +18274,30 @@
 	        ModelRef.on('value', function (snapshot) {
 	            var results = snapshot.val();
 
-	            Object.keys(results).map(function (item) {
+	            if (results != null) {
 
-	                if (!filter) {
-	                    comments.push({
-	                        author: results[item].author,
-	                        text: results[item].comment,
-	                        father: results[item].father,
-	                        date: results[item].date,
-	                        id: item
-	                    });
-	                } else if (results[item].father == father) {
-	                    comments.push({
-	                        author: results[item].author,
-	                        text: results[item].comment,
-	                        father: results[item].father,
-	                        date: results[item].date,
-	                        id: item
-	                    });
-	                }
+	                Object.keys(results).map(function (item) {
 
-	            });
+	                    if (!filter) {
+	                        comments.push({
+	                            author: results[item].author,
+	                            text: results[item].comment,
+	                            father: results[item].father,
+	                            date: results[item].date,
+	                            id: item
+	                        });
+	                    } else if (results[item].father == father) {
+	                        comments.push({
+	                            author: results[item].author,
+	                            text: results[item].comment,
+	                            father: results[item].father,
+	                            date: results[item].date,
+	                            id: item
+	                        });
+	                    }
+
+	                });
+	            }
 	            scope.Comments = comments.reverse();
 	            scope.Comments.splice(comments.length, scope.Comments.length - comments.length)
 	            scope.$apply();
@@ -18299,16 +18311,18 @@
 	            var results = snapshot.val();
 	            var count = 0;
 
-	            Object.keys(results).map(function (item) {
-	                if (results[item].father == father) {
-	                    count++;
-	                }
-	            });
+	            if (results != null) {
+
+	                Object.keys(results).map(function (item) {
+	                    if (results[item].father == father) {
+	                        count++;
+	                    }
+	                });
+	            }
 	            posts[index].commentCount = count;
-	            console.log(posts);
-	            scope.Posts = posts.reverse();
-	            scope.$apply();
+	            Likes.getLikeCount(father, scope, posts, index);
 	        });
+
 	    };
 
 	    this.deleteComment = function (scope, commentId, commentList) {
@@ -18328,6 +18342,85 @@
 
 /***/ },
 /* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Firebase = __webpack_require__(1);
+	var Likes = function () {
+
+	    this.checkLike = function (user, post) {
+	        var self = this;
+	        var ModelRef = Firebase.database().ref('Likes');
+	        ModelRef.once('value', function (snapshot) {
+	            var results = snapshot.val();
+	            var likeId;
+	            var check = true;
+
+	            if (results != null) {
+	                Object.keys(results).map(function (item) {
+	                    if (results[item].user == user && results[item].post == post) {
+	                        check = false;
+	                        likeId = item;
+	                    }
+	                });
+	            }
+
+	            if (check) {
+	                self.sendLike({user: user, post: post}, post);
+	            } else {
+	                self.removeLike(likeId, post)
+	            }
+
+	        });
+
+	    };
+
+	    this.sendLike = function (newData, likebtn) {
+	        var newPostKey = Firebase.database().ref().child('Likes').push().key;
+	        var updates = {};
+	        document.getElementById(likebtn).style.color = 'blue';
+	        updates['/Likes/' + newPostKey] = newData;
+	        Firebase.database().ref().update(updates)
+	            .then(function () {
+	                console.log('like creato');
+	            })
+	    };
+
+	    this.removeLike = function (target, likebtn) {
+	        document.getElementById(likebtn).style.color = 'grey';
+	        firebase.database().ref('Likes/' + target).remove()
+	            .then(function () {
+	                console.log('like eliminato');
+	            });
+	    };
+
+	    this.getLikeCount = function (father, scope, posts, index) {
+	        var ModelRef = Firebase.database().ref('Likes');
+	        ModelRef.on('value', function (snapshot) {
+	            var results = snapshot.val();
+	            var cnt = 0;
+	            var users = [];
+
+	            if (results != null) {
+	                Object.keys(results).map(function (item) {
+	                    if (results[item].post == father) {
+	                        cnt++;
+	                        users.push(results[item].user);
+	                    }
+	                });
+	            }
+	            posts[index].likeCount = cnt;
+	            posts[index].likerList = users.reverse();
+	            scope.Posts = posts;
+	            scope.$apply();
+	        });
+	    };
+
+	};
+	module.exports = Likes;
+
+
+/***/ },
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -18397,7 +18490,7 @@
 
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports) {
 
 	var DateHandler = function () {
@@ -18479,7 +18572,7 @@
 
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports) {
 
 	var InputFields = function () {
@@ -18499,7 +18592,7 @@
 	module.exports = InputFields;
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports) {
 
 	var StringHandler = function () {
@@ -18516,7 +18609,7 @@
 
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports) {
 
 	var Modals = function ($ionicLoading) {
@@ -18535,7 +18628,7 @@
 
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports) {
 
 	var config = {
