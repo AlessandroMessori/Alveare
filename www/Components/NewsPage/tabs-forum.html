@@ -24,17 +24,13 @@
                         <a>{{file.name}}</a>
                     </li>
                 </ul>
-                <ul class="fileList">
-                    <li ng-repeat="user in Post.likerList">
-                        <a>{{user}}</a>
-                    </li></ul>
-                <a class="subdued dataTag">{{Post.likeCount}} Mi piace</a>
-                <a class="subdued dataTag">{{Post.commentCount}} Commenti</a>
+                <a class="subdued dataTag" ng-click="Post.link('likes')">{{Post.likeCount}} Mi piace</a>
+                <a class="subdued dataTag" ng-click="Post.link('comments')">{{Post.commentCount}} Commenti</a>
             </div>
 
             <div class="row">
                 <p class="icon ion-thumbsup actionIcon col-50" style={{'color:'+Post.color}} id={{Post.id}} ng-click="Post.like()"> Mi Piace</p>
-                <p class="icon ion-chatbox actionIcon col-50" ng-click="Post.link()"> Commenta</p>
+                <p class="icon ion-chatbox actionIcon col-50" ng-click="Post.link('comments')"> Commenta</p>
             </div>
 
         </div>

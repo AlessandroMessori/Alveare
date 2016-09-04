@@ -1,0 +1,25 @@
+<ion-view view-title="Likes">
+    <ion-nav-bar class="bar bar-header bar-positive" ng-controller="tabsCtrl">
+        <ion-nav-buttons side="left">
+            <button class="button backBtn" id="arrowBtn" ng-click="backBtnClick()">
+                <p class="ion-android-arrow-back"></p>
+            </button>
+        </ion-nav-buttons>
+        <ion-nav-buttons side="right">
+            <button class="button backBtn" ng-click="Disconnect()">
+                <p class="ion-log-out"></p>
+            </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <ion-content>
+
+        <ion-spinner class="spinner" id="likesSpinner"></ion-spinner>
+        <div class="card item-text-wrap" style="margin:0%">
+            <div class="item" ng-repeat="Liker in Likers">
+                <p>{{Liker}}</p>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

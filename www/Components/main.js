@@ -5,6 +5,7 @@ var adminCtrl = require('./AdminPage/admin');
 var attualitaCtrl = require('./ArticlesPage/articles').attualitaCtrl;
 var orientamentoCtrl = require('./ArticlesPage/articles').orientamentoCtrl;
 var commentsCtrl = require('./CommentsPage/comments');
+var likesCtrl = require('./LikesPage/likes');
 var linkCtrl = require('./LinkPage/link');
 var loginCtrl = require('./LoginPage/login');
 var moderationCtrl = require('./ModerationPage/moderation');
@@ -32,6 +33,7 @@ appAS.controller('adminCtrl', adminCtrl);
 appAS.controller('attualitaCtrl', attualitaCtrl);
 appAS.controller('orientamentoCtrl', orientamentoCtrl);
 appAS.controller('commentsCtrl', commentsCtrl);
+appAS.controller('likesCtrl', likesCtrl);
 appAS.controller('linkCtrl', linkCtrl);
 appAS.controller('loginCtrl', loginCtrl);
 appAS.controller('moderationCtrl', moderationCtrl);
@@ -174,6 +176,12 @@ appAS.config(function ($stateProvider, $urlRouterProvider) {
             url: '/comments',
             templateUrl: 'Components/CommentsPage/comments.html',
             controller: 'commentsCtrl'
+        })
+
+        .state('likes', {
+            url: '/likes',
+            templateUrl: 'Components/LikesPage/likes.html',
+            controller: 'likesCtrl'
         })
 
         .state('moderation', {

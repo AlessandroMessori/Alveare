@@ -74,5 +74,23 @@ var Likes = function () {
         });
     };
 
+    this.getLikers = function (father,scope,spinner) {
+        document.getElementById(spinner).style.display = 'block';
+        var ModelRef = Firebase.database().ref('Likes');
+        ModelRef.on('value', function (snapshot) {
+            var results = snapshot.val();
+            var users = [];
+
+            if (results != null) {
+                Object.keys(results).map(function (item) {
+                    if (results[item].post == father) {
+                        users.push(results[item].user);
+                    }
+                });
+                scope.Likers = users;
+            }
+            document.getElementById(spinner).style.display = 'none';
+        });
+    }
 };
 module.exports = Likes;

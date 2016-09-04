@@ -51,6 +51,7 @@
 	var attualitaCtrl = __webpack_require__(8).attualitaCtrl;
 	var orientamentoCtrl = __webpack_require__(8).orientamentoCtrl;
 	var commentsCtrl = __webpack_require__(9);
+	var likesCtrl = __webpack_require__(27);
 	var linkCtrl = __webpack_require__(10);
 	var loginCtrl = __webpack_require__(11);
 	var moderationCtrl = __webpack_require__(12);
@@ -78,6 +79,7 @@
 	appAS.controller('attualitaCtrl', attualitaCtrl);
 	appAS.controller('orientamentoCtrl', orientamentoCtrl);
 	appAS.controller('commentsCtrl', commentsCtrl);
+	appAS.controller('likesCtrl', likesCtrl);
 	appAS.controller('linkCtrl', linkCtrl);
 	appAS.controller('loginCtrl', loginCtrl);
 	appAS.controller('moderationCtrl', moderationCtrl);
@@ -220,6 +222,12 @@
 	            url: '/comments',
 	            templateUrl: 'Components/CommentsPage/comments.html',
 	            controller: 'commentsCtrl'
+	        })
+
+	        .state('likes', {
+	            url: '/likes',
+	            templateUrl: 'Components/LikesPage/likes.html',
+	            controller: 'likesCtrl'
 	        })
 
 	        .state('moderation', {
@@ -18149,9 +18157,9 @@
 	                        id: item,
 	                        likeCount: 0,
 	                        commentCount: 0,
-	                        link: function () {
+	                        link: function (dest) {
 	                            window.localStorage.setItem("currentPost", item);
-	                            state.go("comments");
+	                            state.go(dest);
 	                        },
 	                        like: function () {
 	                            Likes.checkLike(Firebase.auth().currentUser.displayName, item);
@@ -18420,6 +18428,24 @@
 	        });
 	    };
 
+	    this.getLikers = function (father,scope,spinner) {
+	        document.getElementById(spinner).style.display = 'block';
+	        var ModelRef = Firebase.database().ref('Likes');
+	        ModelRef.on('value', function (snapshot) {
+	            var results = snapshot.val();
+	            var users = [];
+
+	            if (results != null) {
+	                Object.keys(results).map(function (item) {
+	                    if (results[item].post == father) {
+	                        users.push(results[item].user);
+	                    }
+	                });
+	                scope.Likers = users;
+	            }
+	            document.getElementById(spinner).style.display = 'none';
+	        });
+	    }
 	};
 	module.exports = Likes;
 
@@ -18644,6 +18670,23 @@
 	};
 
 	module.exports = config;
+
+/***/ },
+/* 27 */
+/***/ function(module, exports) {
+
+	var likesCtrl = function ($scope, Likes) {
+
+	    $scope.$on('$ionicView.enter', function () {
+	        Likes.getLikers(window.localStorage.getItem('currentPost'), $scope, 'likesSpinner');
+	    });
+
+	    Likes.getLikers(window.localStorage.getItem('currentPost'), $scope, 'likesSpinner');
+
+	};
+
+	module.exports = likesCtrl;
+
 
 /***/ }
 /******/ ]);

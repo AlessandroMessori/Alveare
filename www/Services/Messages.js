@@ -58,9 +58,9 @@ var Messages = function (Modals, Comments, Likes) {
                         id: item,
                         likeCount: 0,
                         commentCount: 0,
-                        link: function () {
+                        link: function (dest) {
                             window.localStorage.setItem("currentPost", item);
-                            state.go("comments");
+                            state.go(dest);
                         },
                         like: function () {
                             Likes.checkLike(Firebase.auth().currentUser.displayName, item);
