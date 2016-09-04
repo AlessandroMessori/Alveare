@@ -18386,7 +18386,7 @@
 	    };
 
 	    this.removeLike = function (target, likebtn) {
-	        document.getElementById(likebtn).style.color = 'grey';
+	        document.getElementById(likebtn).style.color = 'black';
 	        firebase.database().ref('Likes/' + target).remove()
 	            .then(function () {
 	                console.log('like eliminato');
@@ -18398,6 +18398,7 @@
 	        ModelRef.on('value', function (snapshot) {
 	            var results = snapshot.val();
 	            var cnt = 0;
+	            var color = 'black';
 	            var users = [];
 
 	            if (results != null) {
@@ -18405,9 +18406,13 @@
 	                    if (results[item].post == father) {
 	                        cnt++;
 	                        users.push(results[item].user);
+	                        if (Firebase.auth().currentUser.displayName == results[item].user) {
+	                            color = 'blue';
+	                        }
 	                    }
 	                });
 	            }
+	            posts[index].color = color;
 	            posts[index].likeCount = cnt;
 	            posts[index].likerList = users.reverse();
 	            scope.Posts = posts;
