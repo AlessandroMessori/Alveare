@@ -1,13 +1,16 @@
 var Firebase = require('firebase');
-var Messages = function (Modals) {
+var Messages = function (Modals, Comments, Likes) {
 
     this.sendPost = function (newData, binary) {
 
-        var storageRef = Firebase.storage().ref();
-        binary.map(function (item) {
-            var childRef = storageRef.child(item.name);
-            childRef.put(item.binary);
-        });
+        if (binary.length > 0) {
+
+            var storageRef = Firebase.storage().ref();
+            binary.map(function (item) {
+                var childRef = storageRef.child(item.name);
+                childRef.put(item.binary);
+            });
+        }
 
         var newPostKey = Firebase.database().ref().child('Comunicazioni').push().key;
         var updates = {};
@@ -31,34 +34,43 @@ var Messages = function (Modals) {
             var results = snapshot.val();
             var posts = [];
 
-            Object.keys(results).map(function (item, i) {
+            if (results != null) {
+                Object.keys(results).map(function (item, i) {
 
-                var files = [];
+                    var files = [];
 
-                results[item].files.map(function (file) {
-                    var stRef = storage.ref();
-                    //console.log(stRef.child(file).getDownloadURL());
-                    files.push({
-                        url: stRef.child(file).getDownloadURL(),
-                        name: file
-                    });
-                });
+                    if (results[item].files != undefined) {
 
-                posts[i] = {
-                    author: results[item].author,
-                    text: results[item].text,
-                    date: results[item].date,
-                    files: files,
-                    id: item,
-                    link: function () {
-                        window.localStorage.setItem("currentPost", item);
-                        state.go("comments");
+                        results[item].files.map(function (file) {
+                            var stRef = storage.ref();
+                            files.push({
+                                url: stRef.child(file).getDownloadURL(),
+                                name: file
+                            });
+                        });
                     }
-                };
-            });
 
-            scope.Posts = posts.reverse();
-            scope.$apply();
+                    posts[i] = {
+                        author: results[item].author,
+                        text: results[item].text,
+                        date: results[item].date,
+                        files: files,
+                        id: item,
+                        likeCount: 0,
+                        commentCount: 0,
+                        link: function (dest) {
+                            window.localStorage.setItem("currentPost", item);
+                            state.go(dest);
+                        },
+                        like: function () {
+                            Likes.checkLike(Firebase.auth().currentUser.displayName, item);
+                        }
+                    };
+
+                    Comments.getCommentCount(item, scope, posts, i);
+                });
+            }
+
             document.getElementById(spinner).style.display = 'none';
         });
 

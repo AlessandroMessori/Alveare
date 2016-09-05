@@ -1,4 +1,4 @@
-var signupCtrl = function ($scope, $ionicLoading, $location, $state, Auth, InputFields) {
+var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields) {
 
     $scope.inputType = 'password';
 
@@ -7,7 +7,7 @@ var signupCtrl = function ($scope, $ionicLoading, $location, $state, Auth, Input
             $ionicLoading.show({
                 template: 'Registrazione in corso...'
             });
-            Auth.Signup(username, password, mail, $ionicLoading, $state);
+            Auth.Signup(username, password, mail, $ionicLoading, $state, $ionicHistory);
         }
         else {
             alert('compila tutti i campi');

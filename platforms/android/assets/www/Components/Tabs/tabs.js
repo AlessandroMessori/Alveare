@@ -9,6 +9,7 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
         $scope.closeDrawer();
         $scope.User = Firebase.auth().currentUser.displayName;
         $scope.UserMail = Firebase.auth().currentUser.email;
+        Auth.getAdmins($scope);
     });
 
     $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {

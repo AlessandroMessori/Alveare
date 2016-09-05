@@ -1,11 +1,14 @@
-var Parse = require('parse');
+var Firebase = require('firebase');
+var _ = require('lodash');
 var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
     $scope.View = 'tab-link';
-    $scope.User = Parse.User.current().get('username');
+    Auth.getAdmins($scope);
 
     $scope.$on('$ionicView.enter', function () {
         $ionicScrollDelegate.scrollTop();
         $scope.closeDrawer();
+        $scope.User = Firebase.auth().currentUser.displayName;
+        $scope.UserMail = Firebase.auth().currentUser.email;
     });
 
     $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
@@ -13,17 +16,14 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
         if ($rootScope.previousState == 'comments') {
             $rootScope.previousState = 'tab.giornalino'
         }
-        $scope.User = Parse.User.current().get('username');
     });
 
     $scope.checkadmin = function () {
 
-        if (Parse.User.current()) {
-            if (Parse.User.current().get("isadmin")) {
-                return "ng-show";
-            } else {
-                return "ng-hide";
-            }
+        if (_.includes($scope.Admins, $scope.UserMail)) {
+            return "ng-show";
+        } else {
+            return "ng-hide";
         }
     };
 

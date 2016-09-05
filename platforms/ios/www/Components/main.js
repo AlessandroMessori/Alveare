@@ -1,11 +1,11 @@
 var Firebase = require('firebase');
-var Parse = require('parse');
 var addArticleCtrl = require('./AddArticlePage/addArticle');
 var addNewsCtrl = require('./AddNewsPage/addNews');
 var adminCtrl = require('./AdminPage/admin');
 var attualitaCtrl = require('./ArticlesPage/articles').attualitaCtrl;
 var orientamentoCtrl = require('./ArticlesPage/articles').orientamentoCtrl;
 var commentsCtrl = require('./CommentsPage/comments');
+var likesCtrl = require('./LikesPage/likes');
 var linkCtrl = require('./LinkPage/link');
 var loginCtrl = require('./LoginPage/login');
 var moderationCtrl = require('./ModerationPage/moderation');
@@ -16,6 +16,7 @@ var tabsCtrl = require('./Tabs/tabs');
 var Messages = require('../Services/Messages');
 var Articles = require('../Services/Articles');
 var Comments = require('../Services/Comments');
+var Likes = require('../Services/Likes');
 var Auth = require('../Services/Auth');
 var DateHandler = require('../Services/DateHandler');
 var InputFields = require('../Services/InputFields');
@@ -23,7 +24,6 @@ var StringHandler = require('../Services/StringHandler');
 var Modals = require('../Services/Modals');
 var credentials = require('../../credentials');
 
-Parse.initialize("o0CJuvQWQY15h5QdIcv9cNexSI3v4QspAsTpkZVZ", "CwF1Y2TKwtlMdaDtrKsEh5yKSnzsjFL0GjZTYzkF");
 Firebase.initializeApp(credentials);
 
 var appAS = angular.module('appAS', ['ionic', 'ionic.contrib.drawer']);
@@ -33,6 +33,7 @@ appAS.controller('adminCtrl', adminCtrl);
 appAS.controller('attualitaCtrl', attualitaCtrl);
 appAS.controller('orientamentoCtrl', orientamentoCtrl);
 appAS.controller('commentsCtrl', commentsCtrl);
+appAS.controller('likesCtrl', likesCtrl);
 appAS.controller('linkCtrl', linkCtrl);
 appAS.controller('loginCtrl', loginCtrl);
 appAS.controller('moderationCtrl', moderationCtrl);
@@ -43,6 +44,7 @@ appAS.controller('tabsCtrl', tabsCtrl);
 appAS.service('Messages', Messages);
 appAS.service('Articles', Articles);
 appAS.service('Comments', Comments);
+appAS.service('Likes', Likes);
 appAS.service('Auth', Auth);
 appAS.service('DateHandler', DateHandler);
 appAS.service('InputFields', InputFields);
@@ -174,6 +176,12 @@ appAS.config(function ($stateProvider, $urlRouterProvider) {
             url: '/comments',
             templateUrl: 'Components/CommentsPage/comments.html',
             controller: 'commentsCtrl'
+        })
+
+        .state('likes', {
+            url: '/likes',
+            templateUrl: 'Components/LikesPage/likes.html',
+            controller: 'likesCtrl'
         })
 
         .state('moderation', {
