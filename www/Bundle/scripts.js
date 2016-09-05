@@ -51,24 +51,24 @@
 	var attualitaCtrl = __webpack_require__(8).attualitaCtrl;
 	var orientamentoCtrl = __webpack_require__(8).orientamentoCtrl;
 	var commentsCtrl = __webpack_require__(9);
-	var likesCtrl = __webpack_require__(27);
-	var linkCtrl = __webpack_require__(10);
-	var loginCtrl = __webpack_require__(11);
-	var moderationCtrl = __webpack_require__(12);
-	var newsCtrl = __webpack_require__(13);
-	var readArticleCtrl = __webpack_require__(14);
-	var signupCtrl = __webpack_require__(15);
-	var tabsCtrl = __webpack_require__(16);
-	var Messages = __webpack_require__(17);
-	var Articles = __webpack_require__(18);
-	var Comments = __webpack_require__(19);
-	var Likes = __webpack_require__(20);
-	var Auth = __webpack_require__(21);
-	var DateHandler = __webpack_require__(22);
-	var InputFields = __webpack_require__(23);
-	var StringHandler = __webpack_require__(24);
-	var Modals = __webpack_require__(25);
-	var credentials = __webpack_require__(26);
+	var likesCtrl = __webpack_require__(10);
+	var linkCtrl = __webpack_require__(11);
+	var loginCtrl = __webpack_require__(12);
+	var moderationCtrl = __webpack_require__(13);
+	var newsCtrl = __webpack_require__(14);
+	var readArticleCtrl = __webpack_require__(15);
+	var signupCtrl = __webpack_require__(16);
+	var tabsCtrl = __webpack_require__(17);
+	var Messages = __webpack_require__(18);
+	var Articles = __webpack_require__(19);
+	var Comments = __webpack_require__(20);
+	var Likes = __webpack_require__(21);
+	var Auth = __webpack_require__(22);
+	var DateHandler = __webpack_require__(23);
+	var InputFields = __webpack_require__(24);
+	var StringHandler = __webpack_require__(25);
+	var Modals = __webpack_require__(26);
+	var credentials = __webpack_require__(27);
 
 	Firebase.initializeApp(credentials);
 
@@ -17799,10 +17799,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var commentsCtrl = function ($scope, $window, Comments, DateHandler) {
+	var commentsCtrl = function ($scope, $state, Comments, DateHandler) {
 
 	    $scope.$on('$ionicView.enter', function () {
-	        Comments.getComments($scope, 'commentsSpinner');
+	        Comments.getComments($scope, $state, 'commentsSpinner');
 	    });
 
 	    $scope.send = function (comment) {
@@ -17821,7 +17821,7 @@
 	        }
 	    };
 
-	    Comments.getComments($scope, 'commentsSpinner');
+	    Comments.getComments($scope, $state, 'commentsSpinner');
 
 	};
 
@@ -17830,6 +17830,23 @@
 
 /***/ },
 /* 10 */
+/***/ function(module, exports) {
+
+	var likesCtrl = function ($scope, Likes) {
+
+	    $scope.$on('$ionicView.enter', function () {
+	        Likes.getLikers(window.localStorage.getItem('currentPost'), $scope, 'likesSpinner');
+	    });
+
+	    Likes.getLikers(window.localStorage.getItem('currentPost'), $scope, 'likesSpinner');
+
+	};
+
+	module.exports = likesCtrl;
+
+
+/***/ },
+/* 11 */
 /***/ function(module, exports) {
 
 	var linkCtrl = function ($scope, $window) {
@@ -17866,7 +17883,7 @@
 	module.exports = linkCtrl;
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -17908,7 +17925,7 @@
 	module.exports = loginCtrl;
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	var moderationCtrl = function ($scope, $ionicPopup, Comments) {
@@ -17936,7 +17953,7 @@
 
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	var forumCtrl = function ($scope, $state, $window, $http, Messages) {
@@ -17962,7 +17979,7 @@
 
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	var articleCtrl = function ($scope, $stateParams, $state, $window, $ionicModal) {
@@ -18000,7 +18017,7 @@
 	module.exports = articleCtrl;
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields) {
@@ -18035,7 +18052,7 @@
 	module.exports = signupCtrl;
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -18049,12 +18066,13 @@
 	        $scope.closeDrawer();
 	        $scope.User = Firebase.auth().currentUser.displayName;
 	        $scope.UserMail = Firebase.auth().currentUser.email;
+	        Auth.getAdmins($scope);
 	    });
 
 	    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
 	        $rootScope.previousState = from.name;
 	        if ($rootScope.previousState == 'comments') {
-	            $rootScope.previousState = 'tab.giornalino'
+	            $rootScope.previousState = 'tab.forum'
 	        }
 	    });
 
@@ -18094,7 +18112,7 @@
 	module.exports = tabsCtrl;
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -18183,7 +18201,7 @@
 
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -18250,13 +18268,14 @@
 	module.exports = Articles;
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
 	var Comments = function (Likes) {
 
 	    this.sendComment = function (scope, newData, commentList) {
+	        var self = this;
 	        var oldLenght = scope.Comments.length;
 	        var newPostKey = Firebase.database().ref().child('Commenti').push().key;
 	        var updates = {};
@@ -18265,13 +18284,12 @@
 	        Firebase.database().ref().update(updates)
 	            .then(function () {
 	                alert("Commento Pubblicato con Successo");
-	                scope.Comments.splice(oldLenght + 1, scope.Comments.length - oldLenght);
 	                document.getElementById(commentList).style.display = 'block';
 	                scope.$apply();
 	            })
 	    };
 
-	    this.getComments = function (scope, spinner, filter) {
+	    this.getComments = function (scope,state, spinner, filter) {
 	        if (filter == undefined) {
 	            filter = true;
 	        }
@@ -18285,7 +18303,6 @@
 	            if (results != null) {
 
 	                Object.keys(results).map(function (item) {
-
 	                    if (!filter) {
 	                        comments.push({
 	                            author: results[item].author,
@@ -18294,21 +18311,30 @@
 	                            date: results[item].date,
 	                            id: item
 	                        });
+
+	                        Likes.getLikeCount(item, scope, comments, j, 'Comments');
 	                    } else if (results[item].father == father) {
 	                        comments.push({
 	                            author: results[item].author,
 	                            text: results[item].comment,
 	                            father: results[item].father,
 	                            date: results[item].date,
-	                            id: item
+	                            id: item,
+	                            like: function () {
+	                                Likes.checkLike(Firebase.auth().currentUser.displayName, item);
+	                            },
+	                            link: function () {
+	                                window.localStorage.setItem("currentPost", item);
+	                                state.go('likes');
+	                            }
 	                        });
+
+	                        Likes.getLikeCount(item, scope, comments, comments.length-1, 'Comments');
 	                    }
+
 
 	                });
 	            }
-	            scope.Comments = comments.reverse();
-	            scope.Comments.splice(comments.length, scope.Comments.length - comments.length)
-	            scope.$apply();
 	            document.getElementById(spinner).style.display = 'none';
 	        });
 	    };
@@ -18328,7 +18354,7 @@
 	                });
 	            }
 	            posts[index].commentCount = count;
-	            Likes.getLikeCount(father, scope, posts, index);
+	            Likes.getLikeCount(father, scope, posts, index, 'Posts');
 	        });
 
 	    };
@@ -18349,10 +18375,12 @@
 	module.exports = Comments;
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
+	var _ = __webpack_require__(5);
+
 	var Likes = function () {
 
 	    this.checkLike = function (user, post) {
@@ -18401,7 +18429,7 @@
 	            });
 	    };
 
-	    this.getLikeCount = function (father, scope, posts, index) {
+	    this.getLikeCount = function (father, scope, posts, index,target) {
 	        var ModelRef = Firebase.database().ref('Likes');
 	        ModelRef.on('value', function (snapshot) {
 	            var results = snapshot.val();
@@ -18423,7 +18451,10 @@
 	            posts[index].color = color;
 	            posts[index].likeCount = cnt;
 	            posts[index].likerList = users.reverse();
-	            scope.Posts = posts;
+	            scope[target] = posts;
+	            if (target == 'Comments'){
+	                scope[target] = _.uniqBy(posts,'text');
+	            }
 	            scope.$apply();
 	        });
 	    };
@@ -18451,7 +18482,7 @@
 
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -18521,7 +18552,7 @@
 
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports) {
 
 	var DateHandler = function () {
@@ -18603,7 +18634,7 @@
 
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports) {
 
 	var InputFields = function () {
@@ -18623,7 +18654,7 @@
 	module.exports = InputFields;
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports) {
 
 	var StringHandler = function () {
@@ -18640,7 +18671,7 @@
 
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports) {
 
 	var Modals = function ($ionicLoading) {
@@ -18659,7 +18690,7 @@
 
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports) {
 
 	var config = {
@@ -18670,23 +18701,6 @@
 	};
 
 	module.exports = config;
-
-/***/ },
-/* 27 */
-/***/ function(module, exports) {
-
-	var likesCtrl = function ($scope, Likes) {
-
-	    $scope.$on('$ionicView.enter', function () {
-	        Likes.getLikers(window.localStorage.getItem('currentPost'), $scope, 'likesSpinner');
-	    });
-
-	    Likes.getLikers(window.localStorage.getItem('currentPost'), $scope, 'likesSpinner');
-
-	};
-
-	module.exports = likesCtrl;
-
 
 /***/ }
 /******/ ]);

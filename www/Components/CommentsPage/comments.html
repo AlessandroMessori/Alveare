@@ -16,15 +16,16 @@
 
         <ion-spinner class="spinner" id="commentsSpinner"></ion-spinner>
         <div class="card item-text-wrap" id="commentList" style="margin:0%">
-            <div class="item" ng-repeat="Comment in Comments">
+            <div class="item" ng-repeat="Comment in Comments | orderBy:'-'">
                 <p>
                     <a style="color:blue">{{Comment.author}}</a>
                     <a>{{Comment.text}}</a>
                 </p>
                 <h4>
                     <a class="subdued">{{Comment.date}}</a>
-                    <a class="subdued">mi piace</a>
-                    <a class="subdued">5 <span class="icon ion-thumbsup"></span></a>
+                    <a class="subdued" style={{'color:'+Comment.color}} id={{Comment.id}} ng-click="Comment.like()">mi
+                        piace</a>
+                    <a class="subdued" ng-click="Comment.link()">{{Comment.likeCount}} <span class="icon ion-thumbsup"></span></a>
                 </h4>
             </div>
         </div>

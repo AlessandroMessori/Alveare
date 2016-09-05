@@ -1,4 +1,6 @@
 var Firebase = require('firebase');
+var _ = require('lodash');
+
 var Likes = function () {
 
     this.checkLike = function (user, post) {
@@ -47,7 +49,7 @@ var Likes = function () {
             });
     };
 
-    this.getLikeCount = function (father, scope, posts, index) {
+    this.getLikeCount = function (father, scope, posts, index,target) {
         var ModelRef = Firebase.database().ref('Likes');
         ModelRef.on('value', function (snapshot) {
             var results = snapshot.val();
@@ -69,7 +71,10 @@ var Likes = function () {
             posts[index].color = color;
             posts[index].likeCount = cnt;
             posts[index].likerList = users.reverse();
-            scope.Posts = posts;
+            scope[target] = posts;
+            if (target == 'Comments'){
+                scope[target] = _.uniqBy(posts,'text');
+            }
             scope.$apply();
         });
     };

@@ -15,7 +15,7 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
     $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
         $rootScope.previousState = from.name;
         if ($rootScope.previousState == 'comments') {
-            $rootScope.previousState = 'tab.giornalino'
+            $rootScope.previousState = 'tab.forum'
         }
     });
 

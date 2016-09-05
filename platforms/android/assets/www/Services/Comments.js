@@ -2,6 +2,7 @@ var Firebase = require('firebase');
 var Comments = function (Likes) {
 
     this.sendComment = function (scope, newData, commentList) {
+        var self = this;
         var oldLenght = scope.Comments.length;
         var newPostKey = Firebase.database().ref().child('Commenti').push().key;
         var updates = {};
@@ -10,7 +11,6 @@ var Comments = function (Likes) {
         Firebase.database().ref().update(updates)
             .then(function () {
                 alert("Commento Pubblicato con Successo");
-                scope.Comments.splice(oldLenght + 1, scope.Comments.length - oldLenght);
                 document.getElementById(commentList).style.display = 'block';
                 scope.$apply();
             })
@@ -30,7 +30,6 @@ var Comments = function (Likes) {
             if (results != null) {
 
                 Object.keys(results).map(function (item) {
-
                     if (!filter) {
                         comments.push({
                             author: results[item].author,
@@ -39,21 +38,26 @@ var Comments = function (Likes) {
                             date: results[item].date,
                             id: item
                         });
+
+                        Likes.getLikeCount(item, scope, comments, j, 'Comments');
                     } else if (results[item].father == father) {
                         comments.push({
                             author: results[item].author,
                             text: results[item].comment,
                             father: results[item].father,
                             date: results[item].date,
-                            id: item
+                            id: item,
+                            like: function () {
+                                Likes.checkLike(Firebase.auth().currentUser.displayName, item);
+                            }
                         });
+
+                        Likes.getLikeCount(item, scope, comments, comments.length-1, 'Comments');
                     }
+
 
                 });
             }
-            scope.Comments = comments.reverse();
-            scope.Comments.splice(comments.length, scope.Comments.length - comments.length)
-            scope.$apply();
             document.getElementById(spinner).style.display = 'none';
         });
     };
@@ -73,7 +77,7 @@ var Comments = function (Likes) {
                 });
             }
             posts[index].commentCount = count;
-            Likes.getLikeCount(father, scope, posts, index);
+            Likes.getLikeCount(father, scope, posts, index, 'Posts');
         });
 
     };
