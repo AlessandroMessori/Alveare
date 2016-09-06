@@ -10,17 +10,17 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
         $scope.User = Firebase.auth().currentUser.displayName;
         $scope.UserMail = Firebase.auth().currentUser.email;
         Auth.getAdmins($scope);
+        $scope.checkadmin();
     });
 
     $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
         $rootScope.previousState = from.name;
         if ($rootScope.previousState == 'comments') {
-            $rootScope.previousState = 'tab.giornalino'
+            $rootScope.previousState = 'tab.forum'
         }
     });
 
     $scope.checkadmin = function () {
-
         if (_.includes($scope.Admins, $scope.UserMail)) {
             return "ng-show";
         } else {

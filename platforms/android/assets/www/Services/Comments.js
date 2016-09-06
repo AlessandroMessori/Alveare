@@ -2,8 +2,6 @@ var Firebase = require('firebase');
 var Comments = function (Likes) {
 
     this.sendComment = function (scope, newData, commentList) {
-        var self = this;
-        var oldLenght = scope.Comments.length;
         var newPostKey = Firebase.database().ref().child('Commenti').push().key;
         var updates = {};
         document.getElementById(commentList).style.display = 'none';
@@ -16,19 +14,20 @@ var Comments = function (Likes) {
             })
     };
 
-    this.getComments = function (scope, spinner, filter) {
+    this.getComments = function (scope, state, spinner, filter) {
         if (filter == undefined) {
             filter = true;
         }
-        document.getElementById(spinner).style.display = 'block';
+
         var comments = [];
+        scope.Comments = [];
         var father = window.localStorage.getItem("currentPost");
         var ModelRef = Firebase.database().ref('Commenti');
         ModelRef.on('value', function (snapshot) {
             var results = snapshot.val();
 
             if (results != null) {
-
+                document.getElementById(spinner).style.display = 'block';
                 Object.keys(results).map(function (item) {
                     if (!filter) {
                         comments.push({
@@ -38,8 +37,7 @@ var Comments = function (Likes) {
                             date: results[item].date,
                             id: item
                         });
-
-                        Likes.getLikeCount(item, scope, comments, j, 'Comments');
+                        Likes.getLikeCount(item, scope, comments, comments.length - 1, 'Comments');
                     } else if (results[item].father == father) {
                         comments.push({
                             author: results[item].author,
@@ -49,15 +47,20 @@ var Comments = function (Likes) {
                             id: item,
                             like: function () {
                                 Likes.checkLike(Firebase.auth().currentUser.displayName, item);
+                            },
+                            link: function () {
+                                window.localStorage.setItem("currentPost", item);
+                                state.go('likes');
                             }
                         });
 
-                        Likes.getLikeCount(item, scope, comments, comments.length-1, 'Comments');
+                        Likes.getLikeCount(item, scope, comments, comments.length - 1, 'Comments');
                     }
 
 
                 });
             }
+
             document.getElementById(spinner).style.display = 'none';
         });
     };

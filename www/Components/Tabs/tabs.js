@@ -10,6 +10,7 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
         $scope.User = Firebase.auth().currentUser.displayName;
         $scope.UserMail = Firebase.auth().currentUser.email;
         Auth.getAdmins($scope);
+        $scope.checkadmin();
     });
 
     $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
@@ -20,7 +21,6 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
     });
 
     $scope.checkadmin = function () {
-
         if (_.includes($scope.Admins, $scope.UserMail)) {
             return "ng-show";
         } else {

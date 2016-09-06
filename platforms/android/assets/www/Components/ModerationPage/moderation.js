@@ -1,5 +1,5 @@
-var moderationCtrl = function ($scope, $ionicPopup, Comments) {
-    Comments.getComments($scope, 'commentsSpinner', false);
+var moderationCtrl = function ($scope, $state, $ionicPopup, Comments) {
+    Comments.getComments($scope, $state, 'commentsSpinner', false);
 
     $scope.removeComment = function (commentId) {
         Comments.deleteComment($scope, commentId, 'commentList');
@@ -20,3 +20,4 @@ var moderationCtrl = function ($scope, $ionicPopup, Comments) {
 };
 
 module.exports = moderationCtrl;
+

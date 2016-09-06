@@ -17928,8 +17928,8 @@
 /* 13 */
 /***/ function(module, exports) {
 
-	var moderationCtrl = function ($scope, $ionicPopup, Comments) {
-	    Comments.getComments($scope, 'commentsSpinner', false);
+	var moderationCtrl = function ($scope, $state, $ionicPopup, Comments) {
+	    Comments.getComments($scope, $state, 'commentsSpinner', false);
 
 	    $scope.removeComment = function (commentId) {
 	        Comments.deleteComment($scope, commentId, 'commentList');
@@ -17950,6 +17950,7 @@
 	};
 
 	module.exports = moderationCtrl;
+
 
 
 /***/ },
@@ -18067,6 +18068,7 @@
 	        $scope.User = Firebase.auth().currentUser.displayName;
 	        $scope.UserMail = Firebase.auth().currentUser.email;
 	        Auth.getAdmins($scope);
+	        $scope.checkadmin();
 	    });
 
 	    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
@@ -18077,7 +18079,6 @@
 	    });
 
 	    $scope.checkadmin = function () {
-
 	        if (_.includes($scope.Admins, $scope.UserMail)) {
 	            return "ng-show";
 	        } else {
@@ -18275,8 +18276,6 @@
 	var Comments = function (Likes) {
 
 	    this.sendComment = function (scope, newData, commentList) {
-	        var self = this;
-	        var oldLenght = scope.Comments.length;
 	        var newPostKey = Firebase.database().ref().child('Commenti').push().key;
 	        var updates = {};
 	        document.getElementById(commentList).style.display = 'none';
@@ -18289,19 +18288,20 @@
 	            })
 	    };
 
-	    this.getComments = function (scope,state, spinner, filter) {
+	    this.getComments = function (scope, state, spinner, filter) {
 	        if (filter == undefined) {
 	            filter = true;
 	        }
-	        document.getElementById(spinner).style.display = 'block';
+
 	        var comments = [];
+	        scope.Comments = [];
 	        var father = window.localStorage.getItem("currentPost");
 	        var ModelRef = Firebase.database().ref('Commenti');
 	        ModelRef.on('value', function (snapshot) {
 	            var results = snapshot.val();
 
 	            if (results != null) {
-
+	                document.getElementById(spinner).style.display = 'block';
 	                Object.keys(results).map(function (item) {
 	                    if (!filter) {
 	                        comments.push({
@@ -18311,8 +18311,7 @@
 	                            date: results[item].date,
 	                            id: item
 	                        });
-
-	                        Likes.getLikeCount(item, scope, comments, j, 'Comments');
+	                        Likes.getLikeCount(item, scope, comments, comments.length - 1, 'Comments');
 	                    } else if (results[item].father == father) {
 	                        comments.push({
 	                            author: results[item].author,
@@ -18329,12 +18328,13 @@
 	                            }
 	                        });
 
-	                        Likes.getLikeCount(item, scope, comments, comments.length-1, 'Comments');
+	                        Likes.getLikeCount(item, scope, comments, comments.length - 1, 'Comments');
 	                    }
 
 
 	                });
 	            }
+
 	            document.getElementById(spinner).style.display = 'none';
 	        });
 	    };
