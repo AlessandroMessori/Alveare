@@ -81,7 +81,9 @@ appAS.run(function ($ionicPlatform, $ionicPopup) {
     });
 });
 
-appAS.config(function ($stateProvider, $urlRouterProvider) {
+appAS.config(function ($ionicConfigProvider, $stateProvider, $urlRouterProvider) {
+
+    $ionicConfigProvider.scrolling.jsScrolling(false);
 
     $stateProvider
 

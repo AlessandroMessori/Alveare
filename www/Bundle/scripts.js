@@ -127,7 +127,9 @@
 	    });
 	});
 
-	appAS.config(function ($stateProvider, $urlRouterProvider) {
+	appAS.config(function ($ionicConfigProvider, $stateProvider, $urlRouterProvider) {
+
+	    $ionicConfigProvider.scrolling.jsScrolling(false);
 
 	    $stateProvider
 
@@ -18063,7 +18065,6 @@
 	    Auth.getAdmins($scope);
 
 	    $scope.$on('$ionicView.enter', function () {
-	        $ionicScrollDelegate.scrollTop();
 	        $scope.closeDrawer();
 	        $scope.User = Firebase.auth().currentUser.displayName;
 	        $scope.UserMail = Firebase.auth().currentUser.email;
@@ -18075,6 +18076,8 @@
 	        $rootScope.previousState = from.name;
 	        if ($rootScope.previousState == 'comments') {
 	            $rootScope.previousState = 'tab.forum'
+	        }else{
+	            $ionicScrollDelegate.scrollTop();
 	        }
 	    });
 
@@ -18292,7 +18295,7 @@
 	        if (filter == undefined) {
 	            filter = true;
 	        }
-
+	        document.getElementById(spinner).style.display = 'block';
 	        var comments = [];
 	        scope.Comments = [];
 	        var father = window.localStorage.getItem("currentPost");
@@ -18301,7 +18304,6 @@
 	            var results = snapshot.val();
 
 	            if (results != null) {
-	                document.getElementById(spinner).style.display = 'block';
 	                Object.keys(results).map(function (item) {
 	                    if (!filter) {
 	                        comments.push({

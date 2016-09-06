@@ -16,7 +16,7 @@
 
         <ion-spinner class="spinner" id="commentsSpinner"></ion-spinner>
         <div class="card item-text-wrap" id="commentList" style="margin:0%">
-            <div class="item" ng-repeat="Comment in Comments | orderBy:'-'">
+            <div class="item" ng-repeat="Comment in Comments | orderBy:'-' track by Comment.id">
                 <p>
                     <a style="color:blue">{{Comment.author}}</a>
                     <a>{{Comment.text}}</a>

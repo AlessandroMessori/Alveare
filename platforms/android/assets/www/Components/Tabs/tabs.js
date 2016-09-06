@@ -5,7 +5,6 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
     Auth.getAdmins($scope);
 
     $scope.$on('$ionicView.enter', function () {
-        $ionicScrollDelegate.scrollTop();
         $scope.closeDrawer();
         $scope.User = Firebase.auth().currentUser.displayName;
         $scope.UserMail = Firebase.auth().currentUser.email;
@@ -17,6 +16,8 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
         $rootScope.previousState = from.name;
         if ($rootScope.previousState == 'comments') {
             $rootScope.previousState = 'tab.forum'
+        }else{
+            $ionicScrollDelegate.scrollTop();
         }
     });
 

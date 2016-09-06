@@ -16,7 +16,7 @@
 
         <ion-spinner class="spinner" id="likesSpinner"></ion-spinner>
         <div class="card item-text-wrap" style="margin:0%">
-            <div class="item" ng-repeat="Liker in Likers">
+            <div class="item" ng-repeat="Liker in Likers track by Liker.id">
                 <p>{{Liker}}</p>
             </div>
         </div>

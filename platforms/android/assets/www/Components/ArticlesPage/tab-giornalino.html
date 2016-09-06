@@ -2,7 +2,7 @@
     <ion-content>
         <ion-spinner class="spinner" id="articlesSpinner"></ion-spinner>
 
-        <div class="list card" ng-repeat="Article in Articles track by $index">
+        <div class="list card" ng-repeat="Article in Articles track by Article.id">
 
             <div class="item">
                 <h2>{{Article.author}}</h2>

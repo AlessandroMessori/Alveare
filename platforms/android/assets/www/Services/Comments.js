@@ -18,7 +18,7 @@ var Comments = function (Likes) {
         if (filter == undefined) {
             filter = true;
         }
-
+        document.getElementById(spinner).style.display = 'block';
         var comments = [];
         scope.Comments = [];
         var father = window.localStorage.getItem("currentPost");
@@ -27,7 +27,6 @@ var Comments = function (Likes) {
             var results = snapshot.val();
 
             if (results != null) {
-                document.getElementById(spinner).style.display = 'block';
                 Object.keys(results).map(function (item) {
                     if (!filter) {
                         comments.push({
