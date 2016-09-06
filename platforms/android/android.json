@@ -43,6 +43,10 @@
                         {
                             "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<preference name=\"webView\" value=\"org.crosswalk.engine.XWalkWebViewEngine\" />",
+                            "count": 1
                         }
                     ]
                 }
@@ -92,6 +96,9 @@
             "PACKAGE_NAME": "com.lalveare.alveare"
         },
         "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.lalveare.alveare"
+        },
+        "cordova-plugin-crosswalk-webview": {
             "PACKAGE_NAME": "com.lalveare.alveare"
         }
     },
@@ -343,6 +350,7 @@
         "cordova-plugin-inappbrowser": "1.3.1-dev",
         "cordova-plugin-file": "4.1.1",
         "ch.ti8m.documenthandler": "0.2.2",
-        "cordova-plugin-network-information": "1.2.1"
+        "cordova-plugin-network-information": "1.2.1",
+        "cordova-plugin-crosswalk-webview": "1.2.0"
     }
 }

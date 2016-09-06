@@ -248,7 +248,8 @@ module.exports.metadata =
     "cordova-plugin-inappbrowser": "1.3.1-dev",
     "cordova-plugin-file": "4.1.1",
     "ch.ti8m.documenthandler": "0.2.2",
-    "cordova-plugin-network-information": "1.2.1"
+    "cordova-plugin-network-information": "1.2.1",
+    "cordova-plugin-crosswalk-webview": "1.2.0"
 };
 // BOTTOM OF METADATA
 });

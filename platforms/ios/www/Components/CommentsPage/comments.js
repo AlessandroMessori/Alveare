@@ -1,8 +1,8 @@
 var Firebase = require('firebase');
-var commentsCtrl = function ($scope, $window, Comments, DateHandler) {
+var commentsCtrl = function ($scope, $state, Comments, DateHandler) {
 
     $scope.$on('$ionicView.enter', function () {
-        Comments.getComments($scope, 'commentsSpinner');
+        Comments.getComments($scope, $state, 'commentsSpinner');
     });
 
     $scope.send = function (comment) {
@@ -21,7 +21,7 @@ var commentsCtrl = function ($scope, $window, Comments, DateHandler) {
         }
     };
 
-    Comments.getComments($scope, 'commentsSpinner');
+    Comments.getComments($scope, $state, 'commentsSpinner');
 
 };
 

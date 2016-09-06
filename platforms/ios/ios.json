@@ -94,6 +94,9 @@
         },
         "cordova-plugin-network-information": {
             "PACKAGE_NAME": "com.lalveare.alveare"
+        },
+        "cordova-plugin-crosswalk-webview": {
+            "PACKAGE_NAME": "com.lalveare.alveare"
         }
     },
     "dependent_plugins": {},
