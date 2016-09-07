@@ -22,6 +22,8 @@ var DateHandler = require('../Services/DateHandler');
 var InputFields = require('../Services/InputFields');
 var StringHandler = require('../Services/StringHandler');
 var Modals = require('../Services/Modals');
+var StaticData = require('../Services/StaticData');
+var FileHandler = require('../Services/FileHandler');
 var credentials = require('../../credentials');
 
 Firebase.initializeApp(credentials);
@@ -50,6 +52,8 @@ appAS.service('DateHandler', DateHandler);
 appAS.service('InputFields', InputFields);
 appAS.service('StringHandler', StringHandler);
 appAS.service('Modals', Modals);
+appAS.service('StaticData', StaticData);
+appAS.service('FileHandler', FileHandler);
 
 appAS.run(function ($ionicPlatform, $ionicPopup) {
     $ionicPlatform.ready(function () {

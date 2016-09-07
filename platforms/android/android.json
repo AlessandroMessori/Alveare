@@ -47,6 +47,14 @@
                         {
                             "xml": "<preference name=\"webView\" value=\"org.crosswalk.engine.XWalkWebViewEngine\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"FileTransfer\"><param name=\"android-package\" value=\"org.apache.cordova.filetransfer.FileTransfer\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"FileOpener2\"><param name=\"android-package\" value=\"io.github.pwlin.cordova.plugins.fileopener2.FileOpener2\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -56,10 +64,14 @@
                     "/*": [
                         {
                             "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-                            "count": 2
+                            "count": 3
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />",
                             "count": 1
                         }
                     ]
@@ -99,6 +111,12 @@
             "PACKAGE_NAME": "com.lalveare.alveare"
         },
         "cordova-plugin-crosswalk-webview": {
+            "PACKAGE_NAME": "com.lalveare.alveare"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "com.lalveare.alveare"
+        },
+        "cordova-plugin-file-opener2": {
             "PACKAGE_NAME": "com.lalveare.alveare"
         }
     },
@@ -338,6 +356,27 @@
             "clobbers": [
                 "Connection"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-file-transfer/www/FileTransferError.js",
+            "id": "cordova-plugin-file-transfer.FileTransferError",
+            "clobbers": [
+                "window.FileTransferError"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-file-transfer/www/FileTransfer.js",
+            "id": "cordova-plugin-file-transfer.FileTransfer",
+            "clobbers": [
+                "window.FileTransfer"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-file-opener2/www/plugins.FileOpener2.js",
+            "id": "cordova-plugin-file-opener2.FileOpener2",
+            "clobbers": [
+                "cordova.plugins.fileOpener2"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -351,6 +390,8 @@
         "cordova-plugin-file": "4.1.1",
         "ch.ti8m.documenthandler": "0.2.2",
         "cordova-plugin-network-information": "1.2.1",
-        "cordova-plugin-crosswalk-webview": "1.2.0"
+        "cordova-plugin-crosswalk-webview": "1.2.0",
+        "cordova-plugin-file-transfer": "1.5.1",
+        "cordova-plugin-file-opener2": "2.0.2"
     }
 }

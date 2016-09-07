@@ -36,6 +36,12 @@
         },
         "cordova-plugin-crosswalk-webview": {
             "PACKAGE_NAME": "com.lalveare.alveare"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "com.lalveare.alveare"
+        },
+        "cordova-plugin-file-opener2": {
+            "PACKAGE_NAME": "com.lalveare.alveare"
         }
     },
     "dependent_plugins": {}

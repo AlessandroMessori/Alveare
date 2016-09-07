@@ -2,6 +2,9 @@
     <ion-content>
         <ion-spinner class="spinner" id="articlesSpinner"></ion-spinner>
 
+        <ion-refresher on-refresh="doRefresh()">
+        </ion-refresher>
+
         <div class="list card" ng-repeat="Article in Articles track by Article.id">
 
             <div class="item">
@@ -22,7 +25,7 @@
                     <i class="icon ion-ios-book"></i>
                     Leggi
                 </span>
-                <span class="col col-50"  ng-click="Article.link('comments')">
+                <span class="col col-50" ng-click="Article.link('comments')">
                     <i class="icon ion-chatbox"></i>
                     Commenta
                 </span>

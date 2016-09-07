@@ -35,7 +35,9 @@
     "cordova-plugin-file",
     "polarcape-cordova-plugin-document-handler",
     "org.apache.cordova.network-information",
-    "cordova-plugin-crosswalk-webview@1.2.0"
+    "cordova-plugin-crosswalk-webview@1.2.0",
+    "org.apache.cordova.file-transfer",
+    "cordova-plugin-file-opener2"
   ],
   "cordovaPlatforms": [
     "ios",

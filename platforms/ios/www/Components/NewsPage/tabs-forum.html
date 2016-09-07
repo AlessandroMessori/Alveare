@@ -19,7 +19,7 @@
             <div class="item item-body">
                 <p class="postContent">{{Post.text}}</p>
                 <ul class="fileList">
-                    <li ng-click="openFile(file.url.ka)" ng-repeat="file in Post.files">
+                    <li ng-click="openFile(file.url)" ng-repeat="file in Post.files">
                         <span class="icon ion-paperclip"></span>
                         <a>{{file.name}}</a>
                     </li>
@@ -29,7 +29,8 @@
             </div>
 
             <div class="row">
-                <p class="icon ion-thumbsup actionIcon col-50" style={{'color:'+Post.color}} id={{Post.id}} ng-click="Post.like()"> Mi Piace</p>
+                <p class="icon ion-thumbsup actionIcon col-50" style={{'color:'+Post.color}} id={{Post.id}}
+                   ng-click="Post.like()"> Mi Piace</p>
                 <p class="icon ion-chatbox actionIcon col-50" ng-click="Post.link('comments')"> Commenta</p>
             </div>
 
