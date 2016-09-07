@@ -69,6 +69,7 @@
 	var StringHandler = __webpack_require__(25);
 	var Modals = __webpack_require__(26);
 	var StaticData = __webpack_require__(27);
+	var FileHandler = __webpack_require__(29);
 	var credentials = __webpack_require__(28);
 
 	Firebase.initializeApp(credentials);
@@ -98,6 +99,7 @@
 	appAS.service('StringHandler', StringHandler);
 	appAS.service('Modals', Modals);
 	appAS.service('StaticData', StaticData);
+	appAS.service('FileHandler', FileHandler);
 
 	appAS.run(function ($ionicPlatform, $ionicPopup) {
 	    $ionicPlatform.ready(function () {
@@ -861,14 +863,14 @@
 	    $scope.GetPic = function () {
 	        navigator.camera.getPicture(onSuccess, onFail, {
 	            quality: 50,
-	            destinationType: Camera.DestinationType.DATA_URL,
+	            destinationType: Camera.DestinationType.FILE_URI,
 	            sourceType: Camera.PictureSourceType.PHOTOLIBRARY
 	        });
 
-	        function onSuccess(imageData) {
-	            $scope.imgData = imageData;
+	        function onSuccess(imageUrl) {
+	            $scope.imgData = imageUrl;
 	            document.getElementById('img-preview').style.display = 'inline';
-	            document.getElementById('img_1').src = "data:image/png;base64," + imageData;
+	            document.getElementById('img_1').src = imageUrl;
 	        }
 
 	        function onFail(message) {
@@ -884,20 +886,20 @@
 	                template: 'Pubblicazione in Corso...'
 	            });
 
+
 	            var newData = {
 	                text: text,
 	                title: title,
 	                author: Firebase.auth().currentUser.displayName,
-	                date: DateHandler.GetCurrentDate(),
-	                img: document.getElementById('img_1').src
+	                date: DateHandler.GetCurrentDate()
 	            };
 
-	            Articles.sendArticle(newData);
+	            Articles.sendArticle(newData, document.getElementById('img_1').src);
 	            title = '';
 	            text = '';
 	        }
 	        else {
-	            alert('compila tutti i campi');
+	            alert('Compila tutti i campi');
 	        }
 	    };
 
@@ -17783,6 +17785,11 @@
 
 	    Articles.getArticles($scope, $state, type, "articlesSpinner");
 
+	    $scope.doRefresh = function () {
+	        Articles.getArticles($scope, $state, type, "articlesSpinner");
+	        $scope.$broadcast('scroll.refreshComplete');
+	        $scope.$apply();
+	    };
 	};
 
 	var attualitaCtrl = function ($scope, $state, $window, Articles) {
@@ -18192,20 +18199,26 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var Articles = function (DateHandler, StringHandler, Modals) {
+	var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
 
-	    this.sendArticle = function (newData) {
+	    this.sendArticle = function (newData, imgUrl) {
 	        var ArticleType = window.localStorage.getItem('contentType');
 	        var newPostKey = Firebase.database().ref().child(ArticleType).push().key;
 	        var updates = {};
+
 	        updates['/' + ArticleType + '/' + newPostKey] = newData;
-	        Firebase.database().ref().update(updates)
-	            .then(function () {
-	                Modals.ResultTemplate("Articolo Pubblicato con Successo");
-	            })
-	            .catch(function () {
-	                Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo");
-	            })
+	        Firebase.database().ref().update(updates);
+
+	        FileHandler.getFileBlob(imgUrl, function (blob) {
+	            var imagesRef = Firebase.storage().ref('img').child(newPostKey);
+	            imagesRef.put(blob)
+	                .then(function () {
+	                    Modals.ResultTemplate("Articolo Pubblicato con Successo");
+	                })
+	                .catch(function () {
+	                    Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo");
+	                });
+	        });
 	    };
 
 	    this.getArticles = function (scope, state, type, spinner) {
@@ -18220,32 +18233,40 @@
 
 	            if (results != null) {
 
-	                Object.keys(results).map(function (item, i) {
+	                var str = Firebase.storage().ref('img');
+	                var keys = Object.keys(results);
+
+	                keys.map(function (item, i) {
 	                    var date = "Data";
-	                    articles[i] = {
-	                        title: results[item].title,
-	                        author: results[item].author,
-	                        text: results[item].text,
-	                        coverText: StringHandler.shorten(results[item].text, 100),
-	                        img: results[item].img,
-	                        date: results[item].date,
-	                        id: item,
-	                        link: function (destination) {
-	                            window.localStorage.setItem("title", this.title);
-	                            window.localStorage.setItem("text", this.text);
-	                            window.localStorage.setItem("author", this.author);
-	                            window.localStorage.setItem("img", this.img);
-	                            window.localStorage.setItem("date", this.date);
-	                            window.localStorage.setItem("currentPost", item);
-	                            state.go(destination);
+
+	                    str.child(item).getDownloadURL().then(function (url) {
+	                        articles[i] = {
+	                            title: results[item].title,
+	                            author: results[item].author,
+	                            text: results[item].text,
+	                            coverText: StringHandler.shorten(results[item].text, 100),
+	                            img: url,
+	                            date: results[item].date,
+	                            id: item,
+	                            link: function (destination) {
+	                                window.localStorage.setItem("title", this.title);
+	                                window.localStorage.setItem("text", this.text);
+	                                window.localStorage.setItem("author", this.author);
+	                                window.localStorage.setItem("img", this.img);
+	                                window.localStorage.setItem("date", this.date);
+	                                window.localStorage.setItem("currentPost", item);
+	                                state.go(destination);
+	                            }
+	                        };
+
+	                        if (i == keys.length - 1) {
+	                            scope.Articles = articles.reverse();
+	                            scope.$apply();
+	                            document.getElementById(spinner).style.display = 'none';
 	                        }
-	                    };
+	                    });
 	                });
 	            }
-
-	            scope.Articles = articles.reverse();
-	            scope.$apply();
-	            document.getElementById(spinner).style.display = 'none';
 	        });
 
 	    };
@@ -18253,6 +18274,8 @@
 	};
 
 	module.exports = Articles;
+
+
 
 /***/ },
 /* 20 */
@@ -18719,6 +18742,24 @@
 	};
 
 	module.exports = config;
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	var FileHandler = function () {
+	    this.getFileBlob = function (url, cb) {
+	        var xhr = new XMLHttpRequest();
+	        xhr.open("GET", url);
+	        xhr.responseType = "blob";
+	        xhr.addEventListener('load', function () {
+	            cb(xhr.response);
+	        });
+	        xhr.send();
+	    };
+	};
+
+	module.exports = FileHandler;
 
 /***/ }
 /******/ ]);
