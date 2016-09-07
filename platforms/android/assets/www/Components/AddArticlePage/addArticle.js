@@ -1,5 +1,5 @@
 var Firebase = require('firebase');
-var addArticleCtrl = function ($scope, $window, $ionicLoading, Articles, InputFields, DateHandler) {
+var addArticleCtrl = function ($scope, $ionicLoading, Articles, InputFields, DateHandler, Modals) {
 
     document.getElementById('img-preview').style.display = 'none';
 
@@ -17,7 +17,7 @@ var addArticleCtrl = function ($scope, $window, $ionicLoading, Articles, InputFi
         }
 
         function onFail(message) {
-            alert('Non sono riuscito a reperire la foto perchè ' + message);
+            Modals.ResultTemplate('Non sono riuscito a reperire la foto perchè ' + message);
         }
 
     };
@@ -40,9 +40,10 @@ var addArticleCtrl = function ($scope, $window, $ionicLoading, Articles, InputFi
             Articles.sendArticle(newData, document.getElementById('img_1').src);
             title = '';
             text = '';
+            $scope.$apply();
         }
         else {
-            alert('Compila tutti i campi');
+            Modals.ResultTemplate('Compila tutti i campi');
         }
     };
 

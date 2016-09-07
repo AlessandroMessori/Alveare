@@ -36,20 +36,14 @@ var Likes = function () {
         document.getElementById(likebtn).style.color = 'blue';
         updates['/Likes/' + newPostKey] = newData;
         Firebase.database().ref().update(updates)
-            .then(function () {
-                console.log('like creato');
-            })
     };
 
     this.removeLike = function (target, likebtn) {
-        document.getElementById(likebtn).style.color = 'black';
-        firebase.database().ref('Likes/' + target).remove()
-            .then(function () {
-                console.log('like eliminato');
-            });
+        document.getElementById(likebtn).style.color = 'grey';
+        firebase.database().ref('Likes/' + target).remove();
     };
 
-    this.getLikeCount = function (father, scope, posts, index,target) {
+    this.getLikeCount = function (father, scope, posts, index, target) {
         var ModelRef = Firebase.database().ref('Likes');
         ModelRef.on('value', function (snapshot) {
             var results = snapshot.val();
@@ -72,14 +66,14 @@ var Likes = function () {
             posts[index].likeCount = cnt;
             posts[index].likerList = users.reverse();
             scope[target] = posts;
-            if (target == 'Comments'){
-                scope[target] = _.uniqBy(posts,'text');
+            if (target == 'Comments') {
+                scope[target] = _.uniqBy(posts, 'text');
             }
             scope.$apply();
         });
     };
 
-    this.getLikers = function (father,scope,spinner) {
+    this.getLikers = function (father, scope, spinner) {
         document.getElementById(spinner).style.display = 'block';
         var ModelRef = Firebase.database().ref('Likes');
         ModelRef.on('value', function (snapshot) {

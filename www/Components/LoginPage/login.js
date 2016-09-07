@@ -1,5 +1,5 @@
 var Firebase = require('firebase');
-var loginCtrl = function ($scope, $ionicLoading, $window, $state, $ionicHistory, Auth, InputFields,StaticData) {
+var loginCtrl = function ($scope, $ionicLoading, $window, $state, $ionicHistory, Auth, InputFields, StaticData, Modals) {
 
     Firebase.auth().signOut();
     $scope.inputType = 'password';
@@ -10,11 +10,11 @@ var loginCtrl = function ($scope, $ionicLoading, $window, $state, $ionicHistory,
             $ionicLoading.show({
                 template: 'Accesso in Corso...'
             });
-            Auth.Login(mail, password, $ionicLoading, $state, $ionicHistory);
+            Auth.Login(mail, password, $ionicLoading, $state, $ionicHistory, Modals);
             $scope.SetRememberMe(RememberMe);
         }
         else {
-            alert('compila tutti i campi');
+            Modals.ResultTemplate('compila tutti i campi');
         }
     };
 

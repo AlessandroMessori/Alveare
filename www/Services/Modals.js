@@ -6,7 +6,7 @@ var Modals = function ($ionicLoading) {
         });
         window.setTimeout(function () {
             $ionicLoading.hide();
-        }, 2000);
+        }, 1000);
     }
 };
 

@@ -1,6 +1,6 @@
 var _ = require('lodash');
 var Firebase = require('firebase');
-var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler) {
+var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler, Modals) {
 
     $scope.fileList = [];
     $scope.binaryList = [];
@@ -20,7 +20,7 @@ var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler) {
             Messages.sendPost(newData, $scope.binaryList);
         }
         else {
-            alert('compila il testo del messaggio');
+            Modals.ResultTemplate('compila il testo del messaggio');
         }
     };
 
@@ -31,11 +31,11 @@ var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler) {
         var fileType = ele.files[ele.files.length - 1].type;
 
         if (fileType != 'application/pdf') {
-            alert('puoi aggiungere solo file pdf');
+            Modals.ResultTemplate('puoi aggiungere solo file pdf');
             ele.disabled = false;
         }
         else if (_.includes($scope.fileList, filename)) {
-            alert('Hai già caricato questo File');
+            Modals.ResultTemplate('Hai già caricato questo File');
             ele.disabled = false;
         }
         else {

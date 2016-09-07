@@ -60,7 +60,6 @@ var DateHandler = function () {
     this.GetFullDate = function () {
 
         var now = new Date();
-        console.log(now);
         var Hour = now.getHours();
         var Minutes = now.getMinutes();
 

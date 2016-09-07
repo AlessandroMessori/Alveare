@@ -8,6 +8,32 @@ var FileHandler = function () {
         });
         xhr.send();
     };
+
+    this.openFile = function (file) {
+        var fileURL = cordova.file.externalApplicationStorageDirectory + "file.pdf";
+
+        var fileTransfer = new FileTransfer();
+
+        fileTransfer.download(
+            file,
+            fileURL,
+            function (entry) {
+                cordova.plugins.fileOpener2.open(
+                    entry.toURL(),
+                    'application/pdf',
+                    {
+                        error: function (e) {
+                        },
+                        success: function () {
+                        }
+                    }
+                );
+            },
+            function (error) {
+            },
+            false
+        );
+    }
 };
 
 module.exports = FileHandler;

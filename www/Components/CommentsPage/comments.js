@@ -1,5 +1,5 @@
 var Firebase = require('firebase');
-var commentsCtrl = function ($scope, $state, Comments, DateHandler) {
+var commentsCtrl = function ($scope, $state, Comments, DateHandler, Modals) {
 
     $scope.$on('$ionicView.enter', function () {
         Comments.getComments($scope, $state, 'commentsSpinner');
@@ -15,9 +15,10 @@ var commentsCtrl = function ($scope, $state, Comments, DateHandler) {
             };
             Comments.sendComment($scope, newData, 'commentList');
             comment = '';
+            $scope.$apply();
         }
         else {
-            alert('non puoi pubblicare un commento vuoto');
+            Modals.ResultTemplate('non puoi pubblicare un commento vuoto');
         }
     };
 

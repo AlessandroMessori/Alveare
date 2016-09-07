@@ -1,8 +1,8 @@
-var moderationCtrl = function ($scope, $state, $ionicPopup, Comments) {
+var moderationCtrl = function ($scope, $state, $ionicPopup, Comments, Modals) {
     Comments.getComments($scope, $state, 'commentsSpinner', false);
 
     $scope.removeComment = function (commentId) {
-        Comments.deleteComment($scope, commentId, 'commentList');
+        Comments.deleteComment($scope, commentId, 'commentList', Modals);
     };
 
     $scope.showConfirm = function (commentId) {

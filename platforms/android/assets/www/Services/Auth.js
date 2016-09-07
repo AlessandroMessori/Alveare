@@ -1,13 +1,13 @@
 var Firebase = require('firebase');
 var Auth = function () {
 
-    this.Signup = function (name, pass, mail, loadingtemplate, state, history) {
+    this.Signup = function (name, pass, mail, loadingtemplate, state, history, modals) {
 
         Firebase.auth().createUserWithEmailAndPassword(mail, pass).catch(function (error) {
             var errorCode = error.code;
             var errorMessage = error.message;
             loadingtemplate.hide();
-            alert(errorMessage);
+            modals.ResultTemplate(errorMessage);
         });
 
         Firebase.auth().onAuthStateChanged(function (user) {
@@ -16,7 +16,7 @@ var Auth = function () {
                 user.updateProfile({displayName: name});
                 loadingtemplate.hide();
                 Firebase.auth().signOut();
-                alert('Profilo creato correttamente');
+                modals.resultTemplate('Profilo creato correttamente');
                 state.go('login');
             }
 
@@ -24,11 +24,11 @@ var Auth = function () {
 
     };
 
-    this.Login = function (email, pass, loadingtemplate, state, history) {
+    this.Login = function (email, pass, loadingtemplate, state, history, modals) {
 
         Firebase.auth().signInWithEmailAndPassword(email, pass).catch(function (error) {
             //var errorCode = error.code;
-            alert(error.message);
+            modals.ResultTemplate(error.message);
             loadingtemplate.hide();
         });
 
@@ -42,13 +42,13 @@ var Auth = function () {
         });
     };
 
-    this.Logout = function (loadingtemplate, state) {
+    this.Logout = function (loadingtemplate, state, modals) {
         Firebase.auth().signOut().then(function () {
             state.go('login');
             loadingtemplate.hide();
         }, function (error) {
             loadingtemplate.hide();
-            alert('Impossibile disconnetersi dal profilo');
+            modals.ResultTemplate('Impossibile disconnetersi dal profilo');
         });
     };
 

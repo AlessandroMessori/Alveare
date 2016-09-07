@@ -8,7 +8,6 @@ var Comments = function (Likes) {
         updates['/Commenti/' + newPostKey] = newData;
         Firebase.database().ref().update(updates)
             .then(function () {
-                alert("Commento Pubblicato con Successo");
                 document.getElementById(commentList).style.display = 'block';
                 scope.$apply();
             })
@@ -84,12 +83,12 @@ var Comments = function (Likes) {
 
     };
 
-    this.deleteComment = function (scope, commentId, commentList) {
+    this.deleteComment = function (scope, commentId, commentList, modals) {
         var oldLenght = scope.Comments.length;
         document.getElementById(commentList).style.display = 'none';
         firebase.database().ref('Commenti/' + commentId).remove()
             .then(function () {
-                alert('commento eliminato con successo');
+                modals.ResultTemplate('commento eliminato con successo');
                 scope.Comments.splice(oldLenght - 1, oldLenght * 2);
                 document.getElementById(commentList).style.display = 'block';
                 scope.$apply();

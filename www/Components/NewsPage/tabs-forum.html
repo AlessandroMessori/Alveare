@@ -3,7 +3,7 @@
 
         <ion-spinner class="spinner" id="newsSpinner"></ion-spinner>
         <br>
-        <div class="list card" ng-repeat="Post in Posts | orderBy:'-' track by Post.id">
+        <div class="list card" ng-repeat="Post in Posts | orderBy:'-' track by $index">
 
             <div class="item">
                 <div class="row">

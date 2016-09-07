@@ -69,8 +69,8 @@
 	var StringHandler = __webpack_require__(25);
 	var Modals = __webpack_require__(26);
 	var StaticData = __webpack_require__(27);
-	var FileHandler = __webpack_require__(29);
-	var credentials = __webpack_require__(28);
+	var FileHandler = __webpack_require__(28);
+	var credentials = __webpack_require__(29);
 
 	Firebase.initializeApp(credentials);
 
@@ -856,7 +856,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var addArticleCtrl = function ($scope, $window, $ionicLoading, Articles, InputFields, DateHandler) {
+	var addArticleCtrl = function ($scope, $ionicLoading, Articles, InputFields, DateHandler, Modals) {
 
 	    document.getElementById('img-preview').style.display = 'none';
 
@@ -874,7 +874,7 @@
 	        }
 
 	        function onFail(message) {
-	            alert('Non sono riuscito a reperire la foto perchè ' + message);
+	            Modals.ResultTemplate('Non sono riuscito a reperire la foto perchè ' + message);
 	        }
 
 	    };
@@ -897,9 +897,10 @@
 	            Articles.sendArticle(newData, document.getElementById('img_1').src);
 	            title = '';
 	            text = '';
+	            $scope.$apply();
 	        }
 	        else {
-	            alert('Compila tutti i campi');
+	            Modals.ResultTemplate('Compila tutti i campi');
 	        }
 	    };
 
@@ -916,7 +917,7 @@
 
 	var _ = __webpack_require__(5);
 	var Firebase = __webpack_require__(1);
-	var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler) {
+	var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler, Modals) {
 
 	    $scope.fileList = [];
 	    $scope.binaryList = [];
@@ -936,7 +937,7 @@
 	            Messages.sendPost(newData, $scope.binaryList);
 	        }
 	        else {
-	            alert('compila il testo del messaggio');
+	            Modals.ResultTemplate('compila il testo del messaggio');
 	        }
 	    };
 
@@ -947,11 +948,11 @@
 	        var fileType = ele.files[ele.files.length - 1].type;
 
 	        if (fileType != 'application/pdf') {
-	            alert('puoi aggiungere solo file pdf');
+	            Modals.ResultTemplate('puoi aggiungere solo file pdf');
 	            ele.disabled = false;
 	        }
 	        else if (_.includes($scope.fileList, filename)) {
-	            alert('Hai già caricato questo File');
+	            Modals.ResultTemplate('Hai già caricato questo File');
 	            ele.disabled = false;
 	        }
 	        else {
@@ -17810,7 +17811,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var commentsCtrl = function ($scope, $state, Comments, DateHandler) {
+	var commentsCtrl = function ($scope, $state, Comments, DateHandler, Modals) {
 
 	    $scope.$on('$ionicView.enter', function () {
 	        Comments.getComments($scope, $state, 'commentsSpinner');
@@ -17826,9 +17827,10 @@
 	            };
 	            Comments.sendComment($scope, newData, 'commentList');
 	            comment = '';
+	            $scope.$apply();
 	        }
 	        else {
-	            alert('non puoi pubblicare un commento vuoto');
+	            Modals.ResultTemplate('non puoi pubblicare un commento vuoto');
 	        }
 	    };
 
@@ -17877,7 +17879,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var loginCtrl = function ($scope, $ionicLoading, $window, $state, $ionicHistory, Auth, InputFields,StaticData) {
+	var loginCtrl = function ($scope, $ionicLoading, $window, $state, $ionicHistory, Auth, InputFields, StaticData, Modals) {
 
 	    Firebase.auth().signOut();
 	    $scope.inputType = 'password';
@@ -17888,11 +17890,11 @@
 	            $ionicLoading.show({
 	                template: 'Accesso in Corso...'
 	            });
-	            Auth.Login(mail, password, $ionicLoading, $state, $ionicHistory);
+	            Auth.Login(mail, password, $ionicLoading, $state, $ionicHistory, Modals);
 	            $scope.SetRememberMe(RememberMe);
 	        }
 	        else {
-	            alert('compila tutti i campi');
+	            Modals.ResultTemplate('compila tutti i campi');
 	        }
 	    };
 
@@ -17919,11 +17921,11 @@
 /* 13 */
 /***/ function(module, exports) {
 
-	var moderationCtrl = function ($scope, $state, $ionicPopup, Comments) {
+	var moderationCtrl = function ($scope, $state, $ionicPopup, Comments, Modals) {
 	    Comments.getComments($scope, $state, 'commentsSpinner', false);
 
 	    $scope.removeComment = function (commentId) {
-	        Comments.deleteComment($scope, commentId, 'commentList');
+	        Comments.deleteComment($scope, commentId, 'commentList', Modals);
 	    };
 
 	    $scope.showConfirm = function (commentId) {
@@ -17948,41 +17950,12 @@
 /* 14 */
 /***/ function(module, exports) {
 
-	var forumCtrl = function ($scope, $state, $window, $http, Messages) {
+	var forumCtrl = function ($scope, $state, $window, $http, Messages, FileHandler) {
 
-	    $scope.$on('$ionicView.enter', function () {
-	        Messages.getPosts($scope, $state, 'newsSpinner');
-	    });
+	    Messages.getPosts($scope, $state, 'newsSpinner');
 
 	    $scope.openFile = function (file) {
-	        //window.open(file, '_system', 'location=yes');
-
-	        var fileURL = cordova.file.externalApplicationStorageDirectory + "file.pdf";
-
-	        var fileTransfer = new FileTransfer();
-
-	        fileTransfer.download(
-	            file,
-	            fileURL,
-	            function (entry) {
-	                cordova.plugins.fileOpener2.open(
-	                    entry.toURL(),
-	                    'application/pdf',
-	                    {
-	                        error: function (e) {
-	                            console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
-	                        },
-	                        success: function () {
-	                            console.log('file opened successfully');
-	                        }
-	                    }
-	                );
-	            },
-	            function (error) {
-	            },
-	            false
-	        );
-
+	        FileHandler.openFile(file);
 	    }
 
 
@@ -18033,7 +18006,7 @@
 /* 16 */
 /***/ function(module, exports) {
 
-	var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields, StaticData) {
+	var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields, StaticData, Modals) {
 
 	    $scope.inputType = 'password';
 	    $scope.imgData = StaticData.logoImg;
@@ -18043,10 +18016,10 @@
 	            $ionicLoading.show({
 	                template: 'Registrazione in corso...'
 	            });
-	            Auth.Signup(username, password, mail, $ionicLoading, $state, $ionicHistory);
+	            Auth.Signup(username, password, mail, $ionicLoading, $state, $ionicHistory, Modals);
 	        }
 	        else {
-	            alert('compila tutti i campi');
+	            Modals.ResultTemplate('compila tutti i campi');
 	        }
 	    };
 
@@ -18325,7 +18298,6 @@
 	        updates['/Commenti/' + newPostKey] = newData;
 	        Firebase.database().ref().update(updates)
 	            .then(function () {
-	                alert("Commento Pubblicato con Successo");
 	                document.getElementById(commentList).style.display = 'block';
 	                scope.$apply();
 	            })
@@ -18401,12 +18373,12 @@
 
 	    };
 
-	    this.deleteComment = function (scope, commentId, commentList) {
+	    this.deleteComment = function (scope, commentId, commentList, modals) {
 	        var oldLenght = scope.Comments.length;
 	        document.getElementById(commentList).style.display = 'none';
 	        firebase.database().ref('Commenti/' + commentId).remove()
 	            .then(function () {
-	                alert('commento eliminato con successo');
+	                modals.ResultTemplate('commento eliminato con successo');
 	                scope.Comments.splice(oldLenght - 1, oldLenght * 2);
 	                document.getElementById(commentList).style.display = 'block';
 	                scope.$apply();
@@ -18458,20 +18430,14 @@
 	        document.getElementById(likebtn).style.color = 'blue';
 	        updates['/Likes/' + newPostKey] = newData;
 	        Firebase.database().ref().update(updates)
-	            .then(function () {
-	                console.log('like creato');
-	            })
 	    };
 
 	    this.removeLike = function (target, likebtn) {
-	        document.getElementById(likebtn).style.color = 'black';
-	        firebase.database().ref('Likes/' + target).remove()
-	            .then(function () {
-	                console.log('like eliminato');
-	            });
+	        document.getElementById(likebtn).style.color = 'grey';
+	        firebase.database().ref('Likes/' + target).remove();
 	    };
 
-	    this.getLikeCount = function (father, scope, posts, index,target) {
+	    this.getLikeCount = function (father, scope, posts, index, target) {
 	        var ModelRef = Firebase.database().ref('Likes');
 	        ModelRef.on('value', function (snapshot) {
 	            var results = snapshot.val();
@@ -18494,14 +18460,14 @@
 	            posts[index].likeCount = cnt;
 	            posts[index].likerList = users.reverse();
 	            scope[target] = posts;
-	            if (target == 'Comments'){
-	                scope[target] = _.uniqBy(posts,'text');
+	            if (target == 'Comments') {
+	                scope[target] = _.uniqBy(posts, 'text');
 	            }
 	            scope.$apply();
 	        });
 	    };
 
-	    this.getLikers = function (father,scope,spinner) {
+	    this.getLikers = function (father, scope, spinner) {
 	        document.getElementById(spinner).style.display = 'block';
 	        var ModelRef = Firebase.database().ref('Likes');
 	        ModelRef.on('value', function (snapshot) {
@@ -18530,13 +18496,13 @@
 	var Firebase = __webpack_require__(1);
 	var Auth = function () {
 
-	    this.Signup = function (name, pass, mail, loadingtemplate, state, history) {
+	    this.Signup = function (name, pass, mail, loadingtemplate, state, history, modals) {
 
 	        Firebase.auth().createUserWithEmailAndPassword(mail, pass).catch(function (error) {
 	            var errorCode = error.code;
 	            var errorMessage = error.message;
 	            loadingtemplate.hide();
-	            alert(errorMessage);
+	            modals.ResultTemplate(errorMessage);
 	        });
 
 	        Firebase.auth().onAuthStateChanged(function (user) {
@@ -18545,7 +18511,7 @@
 	                user.updateProfile({displayName: name});
 	                loadingtemplate.hide();
 	                Firebase.auth().signOut();
-	                alert('Profilo creato correttamente');
+	                modals.resultTemplate('Profilo creato correttamente');
 	                state.go('login');
 	            }
 
@@ -18553,11 +18519,11 @@
 
 	    };
 
-	    this.Login = function (email, pass, loadingtemplate, state, history) {
+	    this.Login = function (email, pass, loadingtemplate, state, history, modals) {
 
 	        Firebase.auth().signInWithEmailAndPassword(email, pass).catch(function (error) {
 	            //var errorCode = error.code;
-	            alert(error.message);
+	            modals.ResultTemplate(error.message);
 	            loadingtemplate.hide();
 	        });
 
@@ -18571,13 +18537,13 @@
 	        });
 	    };
 
-	    this.Logout = function (loadingtemplate, state) {
+	    this.Logout = function (loadingtemplate, state, modals) {
 	        Firebase.auth().signOut().then(function () {
 	            state.go('login');
 	            loadingtemplate.hide();
 	        }, function (error) {
 	            loadingtemplate.hide();
-	            alert('Impossibile disconnetersi dal profilo');
+	            modals.ResultTemplate('Impossibile disconnetersi dal profilo');
 	        });
 	    };
 
@@ -18659,7 +18625,6 @@
 	    this.GetFullDate = function () {
 
 	        var now = new Date();
-	        console.log(now);
 	        var Hour = now.getHours();
 	        var Minutes = now.getMinutes();
 
@@ -18724,7 +18689,7 @@
 	        });
 	        window.setTimeout(function () {
 	            $ionicLoading.hide();
-	        }, 2000);
+	        }, 1000);
 	    }
 	};
 
@@ -18768,19 +18733,6 @@
 /* 28 */
 /***/ function(module, exports) {
 
-	var config = {
-	    apiKey: "AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8",
-	    authDomain: "app-liceoariostospallanz-d12b0.firebaseapp.com",
-	    databaseURL: "https://app-liceoariostospallanz-d12b0.firebaseio.com",
-	    storageBucket: "app-liceoariostospallanz-d12b0.appspot.com"
-	};
-
-	module.exports = config;
-
-/***/ },
-/* 29 */
-/***/ function(module, exports) {
-
 	var FileHandler = function () {
 	    this.getFileBlob = function (url, cb) {
 	        var xhr = new XMLHttpRequest();
@@ -18791,9 +18743,48 @@
 	        });
 	        xhr.send();
 	    };
+
+	    this.openFile = function (file) {
+	        var fileURL = cordova.file.externalApplicationStorageDirectory + "file.pdf";
+
+	        var fileTransfer = new FileTransfer();
+
+	        fileTransfer.download(
+	            file,
+	            fileURL,
+	            function (entry) {
+	                cordova.plugins.fileOpener2.open(
+	                    entry.toURL(),
+	                    'application/pdf',
+	                    {
+	                        error: function (e) {
+	                        },
+	                        success: function () {
+	                        }
+	                    }
+	                );
+	            },
+	            function (error) {
+	            },
+	            false
+	        );
+	    }
 	};
 
 	module.exports = FileHandler;
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	var config = {
+	    apiKey: "AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8",
+	    authDomain: "app-liceoariostospallanz-d12b0.firebaseapp.com",
+	    databaseURL: "https://app-liceoariostospallanz-d12b0.firebaseio.com",
+	    storageBucket: "app-liceoariostospallanz-d12b0.appspot.com"
+	};
+
+	module.exports = config;
 
 /***/ }
 /******/ ]);
