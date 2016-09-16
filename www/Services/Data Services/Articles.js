@@ -50,6 +50,7 @@ var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
                             pdf: '',
                             link: function (destination) {
                                 state.go(destination);
+                                window.localStorage.setItem('currentPost', item);
                             },
                             openPdf: function () {
                                 fileHandler.openPdf(this.pdf);

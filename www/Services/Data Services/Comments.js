@@ -63,7 +63,7 @@ var Comments = function (Likes) {
         });
     };
 
-    this.getCommentCount = function (father, scope, posts, index) {
+    this.getCommentCount = function (father, scope, posts, index, maxLength) {
         var ModelRef = Firebase.database().ref('Commenti');
         ModelRef.on('value', function (snapshot) {
             var results = snapshot.val();
@@ -78,7 +78,7 @@ var Comments = function (Likes) {
                 });
             }
             posts[index].commentCount = count;
-            Likes.getLikeCount(father, scope, posts, index, 'Posts');
+            Likes.getLikeCount(father, scope, posts, index, 'Posts', maxLength);
         });
 
     };

@@ -18100,6 +18100,7 @@
 	            if (results != null) {
 	                Object.keys(results).map(function (item, i) {
 
+	                    var maxLength = Object.keys(results).length;
 	                    var files = [];
 
 	                    if (results[item].files != undefined) {
@@ -18113,13 +18114,13 @@
 	                                });
 
 	                                if (j == results[item].files.length - 1) {
-	                                    self.setPostProperties(results, files, state, posts, scope, item, i);
+	                                    self.setPostProperties(results, files, state, posts, scope, item, i, maxLength);
 	                                }
 
 	                            });
 	                        });
 	                    } else {
-	                        self.setPostProperties(results, files, state, posts, scope, item, i);
+	                        self.setPostProperties(results, files, state, posts, scope, item, i, maxLength);
 	                    }
 	                });
 	            }
@@ -18128,7 +18129,7 @@
 
 	    };
 
-	    this.setPostProperties = function (results, files, state, posts, scope, item, i) {
+	    this.setPostProperties = function (results, files, state, posts, scope, item, i, maxLenght) {
 
 
 	        posts[i] = {
@@ -18148,7 +18149,7 @@
 	            }
 	        };
 
-	        Comments.getCommentCount(item, scope, posts, i);
+	        Comments.getCommentCount(item, scope, posts, i, results, maxLenght);
 	    }
 
 	};
@@ -18214,6 +18215,7 @@
 	                            pdf: '',
 	                            link: function (destination) {
 	                                state.go(destination);
+	                                window.localStorage.setItem('currentPost', item);
 	                            },
 	                            openPdf: function () {
 	                                fileHandler.openPdf(this.pdf);
@@ -18307,7 +18309,7 @@
 	        });
 	    };
 
-	    this.getCommentCount = function (father, scope, posts, index) {
+	    this.getCommentCount = function (father, scope, posts, index, maxLength) {
 	        var ModelRef = Firebase.database().ref('Commenti');
 	        ModelRef.on('value', function (snapshot) {
 	            var results = snapshot.val();
@@ -18322,7 +18324,7 @@
 	                });
 	            }
 	            posts[index].commentCount = count;
-	            Likes.getLikeCount(father, scope, posts, index, 'Posts');
+	            Likes.getLikeCount(father, scope, posts, index, 'Posts', maxLength);
 	        });
 
 	    };
@@ -18391,7 +18393,7 @@
 	        firebase.database().ref('Likes/' + target).remove();
 	    };
 
-	    this.getLikeCount = function (father, scope, posts, index, target) {
+	    this.getLikeCount = function (father, scope, posts, index, target, maxLenght) {
 	        var ModelRef = Firebase.database().ref('Likes');
 	        ModelRef.on('value', function (snapshot) {
 	            var results = snapshot.val();
@@ -18417,7 +18419,9 @@
 	            if (target == 'Comments') {
 	                scope[target] = _.uniqBy(posts, 'text');
 	            }
-	            scope.$apply();
+	            if (index == maxLenght - 1) {
+	                scope.$apply();
+	            }
 	        });
 	    };
 
