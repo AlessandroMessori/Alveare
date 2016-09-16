@@ -21,7 +21,7 @@ var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
         });
     };
 
-    this.getArticles = function (scope, state, type, spinner) {
+    this.getArticles = function (scope, state, fileHandler, type, spinner) {
 
         document.getElementById(spinner).style.display = 'block';
         var ModelRef = Firebase.database().ref(type);
@@ -37,7 +37,6 @@ var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
                 var keys = Object.keys(results);
 
                 keys.map(function (item, i) {
-                    var date = "Data";
 
                     str.child(item).getDownloadURL().then(function (url) {
                         articles[i] = {
@@ -48,14 +47,12 @@ var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
                             img: url,
                             date: results[item].date,
                             id: item,
+                            pdf: '',
                             link: function (destination) {
-                                window.localStorage.setItem("title", this.title);
-                                window.localStorage.setItem("text", this.text);
-                                window.localStorage.setItem("author", this.author);
-                                window.localStorage.setItem("img", this.img);
-                                window.localStorage.setItem("date", this.date);
-                                window.localStorage.setItem("currentPost", item);
                                 state.go(destination);
+                            },
+                            openPdf: function () {
+                                fileHandler.openPdf(this.pdf);
                             }
                         };
 

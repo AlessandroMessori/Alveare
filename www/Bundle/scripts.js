@@ -56,21 +56,21 @@
 	var loginCtrl = __webpack_require__(12);
 	var moderationCtrl = __webpack_require__(13);
 	var newsCtrl = __webpack_require__(14);
-	var readArticleCtrl = __webpack_require__(15);
-	var signupCtrl = __webpack_require__(16);
-	var tabsCtrl = __webpack_require__(17);
-	var Messages = __webpack_require__(18);
-	var Articles = __webpack_require__(19);
-	var Comments = __webpack_require__(20);
-	var Likes = __webpack_require__(21);
-	var Auth = __webpack_require__(22);
-	var StaticData = __webpack_require__(23);
-	var DateHandler = __webpack_require__(24);
-	var InputFields = __webpack_require__(25);
-	var StringHandler = __webpack_require__(26);
-	var Modals = __webpack_require__(27);
-	var FileHandler = __webpack_require__(28);
-	var credentials = __webpack_require__(29);
+	var signupCtrl = __webpack_require__(15);
+	var tabsCtrl = __webpack_require__(16);
+	var Messages = __webpack_require__(17);
+	var Articles = __webpack_require__(18);
+	var Comments = __webpack_require__(19);
+	var Likes = __webpack_require__(20);
+	var Auth = __webpack_require__(21);
+	var StaticData = __webpack_require__(22);
+	var DateHandler = __webpack_require__(23);
+	var InputFields = __webpack_require__(24);
+	var StringHandler = __webpack_require__(25);
+	var Modals = __webpack_require__(26);
+	var FileHandler = __webpack_require__(27);
+	var ActionBar = __webpack_require__(29);
+	var credentials = __webpack_require__(28);
 
 	Firebase.initializeApp(credentials);
 
@@ -86,7 +86,6 @@
 	appAS.controller('loginCtrl', loginCtrl);
 	appAS.controller('moderationCtrl', moderationCtrl);
 	appAS.controller('newsCtrl', newsCtrl);
-	appAS.controller('readArticleCtrl', readArticleCtrl);
 	appAS.controller('signupCtrl', signupCtrl);
 	appAS.controller('tabsCtrl', tabsCtrl);
 	appAS.service('Messages', Messages);
@@ -100,6 +99,7 @@
 	appAS.service('Modals', Modals);
 	appAS.service('StaticData', StaticData);
 	appAS.service('FileHandler', FileHandler);
+	appAS.directive('actionBar', ActionBar);
 
 	appAS.run(function ($ionicPlatform, $ionicPopup) {
 	    $ionicPlatform.ready(function () {
@@ -216,12 +216,6 @@
 	            url: '/sendMessage',
 	            templateUrl: 'Components/AddNewsPage/sendMessage.html',
 	            controller: 'addNewsCtrl'
-	        })
-
-	        .state('article', {
-	            url: '/article',
-	            templateUrl: 'Components/ReadArticlePage/readArticle.html',
-	            controller: 'readArticleCtrl'
 	        })
 
 	        .state('comments', {
@@ -17782,29 +17776,30 @@
 /* 8 */
 /***/ function(module, exports) {
 
-	var articlesCtrl = function ($scope, $state, $window, Articles, type) {
+	var articlesCtrl = function ($scope, $state, $window, Articles, FileHandler, type) {
 
-	    Articles.getArticles($scope, $state, type, "articlesSpinner");
+	    Articles.getArticles($scope, $state, FileHandler,type, "articlesSpinner");
 
 	    $scope.doRefresh = function () {
-	        Articles.getArticles($scope, $state, type, "articlesSpinner");
+	        Articles.getArticles($scope, $state,FileHandler, type, "articlesSpinner");
 	        $scope.$broadcast('scroll.refreshComplete');
 	        $scope.$apply();
 	    };
 	};
 
-	var attualitaCtrl = function ($scope, $state, $window, Articles) {
-	    return articlesCtrl($scope, $state, $window, Articles, 'Giornalino');
+	var attualitaCtrl = function ($scope, $state, $window, Articles, FileHandler) {
+	    return articlesCtrl($scope, $state, $window, Articles, FileHandler, 'Giornalino');
 	};
 
-	var orientamentoCtrl = function ($scope, $state, $window, Articles) {
-	    return articlesCtrl($scope, $state, $window, Articles, 'Orientamento');
+	var orientamentoCtrl = function ($scope, $state, $window, Articles, FileHandler) {
+	    return articlesCtrl($scope, $state, $window, Articles, FileHandler, 'Orientamento');
 	};
 
 	module.exports = {
 	    attualitaCtrl: attualitaCtrl,
 	    orientamentoCtrl: orientamentoCtrl
 	};
+
 
 /***/ },
 /* 9 */
@@ -17958,7 +17953,6 @@
 	        FileHandler.openFile(file);
 	    }
 
-
 	};
 
 	module.exports = forumCtrl;
@@ -17966,44 +17960,6 @@
 
 /***/ },
 /* 15 */
-/***/ function(module, exports) {
-
-	var articleCtrl = function ($scope, $stateParams, $state, $window, $ionicModal) {
-
-	  $scope.$on('$ionicView.enter', function (e) {
-
-	    $scope.title = $window.localStorage.getItem("title");
-	    $scope.text = $window.localStorage.getItem("text");
-	    $scope.img = $window.localStorage.getItem("img");
-	    $scope.date = $window.localStorage.getItem("date");
-
-	  });
-
-	  $ionicModal.fromTemplateUrl('image-modal.html', {
-	    scope: $scope,
-	    animation: 'slide-in-up'
-	  }).then(function (modal) {
-	    $scope.modal = modal;
-	  });
-
-	  $scope.openModal = function () {
-	    $scope.modal.show();
-	  };
-
-	  $scope.closeModal = function () {
-	    $scope.modal.hide();
-	  };
-
-	  $scope.$on('$destroy', function () {
-	    $scope.modal.remove();
-	  });
-
-	};
-
-	module.exports = articleCtrl;
-
-/***/ },
-/* 16 */
 /***/ function(module, exports) {
 
 	var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields, StaticData, Modals) {
@@ -18039,7 +17995,7 @@
 	module.exports = signupCtrl;
 
 /***/ },
-/* 17 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -18058,9 +18014,10 @@
 
 	    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
 	        $rootScope.previousState = from.name;
+	        $scope.viewTitle = from.name;
 	        if ($rootScope.previousState == 'comments') {
 	            $rootScope.previousState = 'tab.forum'
-	        }else{
+	        } else {
 	            $ionicScrollDelegate.scrollTop();
 	        }
 	    });
@@ -18100,7 +18057,7 @@
 	module.exports = tabsCtrl;
 
 /***/ },
-/* 18 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -18202,7 +18159,7 @@
 
 
 /***/ },
-/* 19 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -18228,7 +18185,7 @@
 	        });
 	    };
 
-	    this.getArticles = function (scope, state, type, spinner) {
+	    this.getArticles = function (scope, state, fileHandler, type, spinner) {
 
 	        document.getElementById(spinner).style.display = 'block';
 	        var ModelRef = Firebase.database().ref(type);
@@ -18244,7 +18201,6 @@
 	                var keys = Object.keys(results);
 
 	                keys.map(function (item, i) {
-	                    var date = "Data";
 
 	                    str.child(item).getDownloadURL().then(function (url) {
 	                        articles[i] = {
@@ -18255,14 +18211,12 @@
 	                            img: url,
 	                            date: results[item].date,
 	                            id: item,
+	                            pdf: '',
 	                            link: function (destination) {
-	                                window.localStorage.setItem("title", this.title);
-	                                window.localStorage.setItem("text", this.text);
-	                                window.localStorage.setItem("author", this.author);
-	                                window.localStorage.setItem("img", this.img);
-	                                window.localStorage.setItem("date", this.date);
-	                                window.localStorage.setItem("currentPost", item);
 	                                state.go(destination);
+	                            },
+	                            openPdf: function () {
+	                                fileHandler.openPdf(this.pdf);
 	                            }
 	                        };
 
@@ -18285,7 +18239,7 @@
 
 
 /***/ },
-/* 20 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -18389,7 +18343,7 @@
 	module.exports = Comments;
 
 /***/ },
-/* 21 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -18490,7 +18444,7 @@
 
 
 /***/ },
-/* 22 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -18560,7 +18514,7 @@
 
 
 /***/ },
-/* 23 */
+/* 22 */
 /***/ function(module, exports) {
 
 	var StaticData = function () {
@@ -18593,7 +18547,7 @@
 	module.exports = StaticData;
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports) {
 
 	var DateHandler = function () {
@@ -18674,7 +18628,7 @@
 
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports) {
 
 	var InputFields = function () {
@@ -18694,7 +18648,7 @@
 	module.exports = InputFields;
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports) {
 
 	var StringHandler = function () {
@@ -18711,7 +18665,7 @@
 
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports) {
 
 	var Modals = function ($ionicLoading) {
@@ -18730,7 +18684,7 @@
 
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports) {
 
 	var FileHandler = function () {
@@ -18774,7 +18728,7 @@
 	module.exports = FileHandler;
 
 /***/ },
-/* 29 */
+/* 28 */
 /***/ function(module, exports) {
 
 	var config = {
@@ -18785,6 +18739,22 @@
 	};
 
 	module.exports = config;
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	var actionBar = function () {
+	    return {
+	        scope: {
+	            title: '=title'
+	        },
+	        restrict: 'E',
+	        templateUrl: 'Directives/ActionBar/actionBar.html',
+	    };
+	};
+
+	module.exports = actionBar;
 
 /***/ }
 /******/ ]);

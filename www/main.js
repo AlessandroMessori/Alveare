@@ -1,30 +1,30 @@
 var Firebase = require('firebase');
-var addArticleCtrl = require('./AddArticlePage/addArticle');
-var addNewsCtrl = require('./AddNewsPage/addNews');
-var adminCtrl = require('./AdminPage/admin');
-var attualitaCtrl = require('./ArticlesPage/articles').attualitaCtrl;
-var orientamentoCtrl = require('./ArticlesPage/articles').orientamentoCtrl;
-var commentsCtrl = require('./CommentsPage/comments');
-var likesCtrl = require('./LikesPage/likes');
-var linkCtrl = require('./LinkPage/link');
-var loginCtrl = require('./LoginPage/login');
-var moderationCtrl = require('./ModerationPage/moderation');
-var newsCtrl = require('./NewsPage/newsCtrl');
-var readArticleCtrl = require('./ReadArticlePage/readArticle');
-var signupCtrl = require('./SignupPage/signup');
-var tabsCtrl = require('./Tabs/tabs');
-var Messages = require('../Services/Data Services/Messages');
-var Articles = require('../Services/Data Services/Articles');
-var Comments = require('../Services/Data Services/Comments');
-var Likes = require('../Services/Data Services/Likes');
-var Auth = require('../Services/Data Services/Auth');
-var StaticData = require('../Services/Data Services/StaticData');
-var DateHandler = require('../Services/Utility Services/DateHandler');
-var InputFields = require('../Services/Utility Services/InputFields');
-var StringHandler = require('../Services/Utility Services/StringHandler');
-var Modals = require('../Services/Utility Services/Modals');
-var FileHandler = require('../Services/Utility Services/FileHandler');
-var credentials = require('../../credentials');
+var addArticleCtrl = require('./Components/AddArticlePage/addArticle');
+var addNewsCtrl = require('./Components/AddNewsPage/addNews');
+var adminCtrl = require('./Components/AdminPage/admin');
+var attualitaCtrl = require('./Components/ArticlesPage/articles').attualitaCtrl;
+var orientamentoCtrl = require('./Components/ArticlesPage/articles').orientamentoCtrl;
+var commentsCtrl = require('./Components/CommentsPage/comments');
+var likesCtrl = require('./Components/LikesPage/likes');
+var linkCtrl = require('./Components/LinkPage/link');
+var loginCtrl = require('./Components/LoginPage/login');
+var moderationCtrl = require('./Components/ModerationPage/moderation');
+var newsCtrl = require('./Components/NewsPage/newsCtrl');
+var signupCtrl = require('./Components/SignupPage/signup');
+var tabsCtrl = require('./Components/Tabs/tabs');
+var Messages = require('./Services/Data Services/Messages');
+var Articles = require('./Services/Data Services/Articles');
+var Comments = require('./Services/Data Services/Comments');
+var Likes = require('./Services/Data Services/Likes');
+var Auth = require('./Services/Data Services/Auth');
+var StaticData = require('./Services/Data Services/StaticData');
+var DateHandler = require('./Services/Utility Services/DateHandler');
+var InputFields = require('./Services/Utility Services/InputFields');
+var StringHandler = require('./Services/Utility Services/StringHandler');
+var Modals = require('./Services/Utility Services/Modals');
+var FileHandler = require('./Services/Utility Services/FileHandler');
+var ActionBar = require('./Directives/ActionBar/actionBar');
+var credentials = require('../credentials');
 
 Firebase.initializeApp(credentials);
 
@@ -40,7 +40,6 @@ appAS.controller('linkCtrl', linkCtrl);
 appAS.controller('loginCtrl', loginCtrl);
 appAS.controller('moderationCtrl', moderationCtrl);
 appAS.controller('newsCtrl', newsCtrl);
-appAS.controller('readArticleCtrl', readArticleCtrl);
 appAS.controller('signupCtrl', signupCtrl);
 appAS.controller('tabsCtrl', tabsCtrl);
 appAS.service('Messages', Messages);
@@ -54,6 +53,7 @@ appAS.service('StringHandler', StringHandler);
 appAS.service('Modals', Modals);
 appAS.service('StaticData', StaticData);
 appAS.service('FileHandler', FileHandler);
+appAS.directive('actionBar', ActionBar);
 
 appAS.run(function ($ionicPlatform, $ionicPopup) {
     $ionicPlatform.ready(function () {
@@ -170,12 +170,6 @@ appAS.config(function ($ionicConfigProvider, $stateProvider, $urlRouterProvider)
             url: '/sendMessage',
             templateUrl: 'Components/AddNewsPage/sendMessage.html',
             controller: 'addNewsCtrl'
-        })
-
-        .state('article', {
-            url: '/article',
-            templateUrl: 'Components/ReadArticlePage/readArticle.html',
-            controller: 'readArticleCtrl'
         })
 
         .state('comments', {

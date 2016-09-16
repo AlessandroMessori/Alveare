@@ -1,5 +1,5 @@
 var config = {
-    entry: './www/Components/main.js',
+    entry: './www/main.js',
     output: {
         path: './www/Bundle/',
         filename: 'scripts.js',

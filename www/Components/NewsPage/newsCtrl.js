@@ -6,7 +6,6 @@ var forumCtrl = function ($scope, $state, $window, $http, Messages, FileHandler)
         FileHandler.openFile(file);
     }
 
-
 };
 
 module.exports = forumCtrl;

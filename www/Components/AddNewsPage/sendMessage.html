@@ -1,18 +1,6 @@
-<ion-view view-title="Crea Avviso">
-    <ion-nav-bar class="bar bar-header bar-positive" ng-controller="tabsCtrl">
-        <ion-nav-buttons side="left">
-            <button class="button backBtn" id="arrowBtn" ng-click="backBtnClick()">
-                <p class="ion-android-arrow-back"></p>
-            </button>
-        </ion-nav-buttons>
-        <ion-nav-buttons side="right">
-            <button class="button backBtn" ng-click="Disconnect()">
-                <p class="ion-log-out"></p>
-            </button>
-        </ion-nav-buttons>
-    </ion-nav-bar>
-    <ion-content class="padding">
-
+<ion-view>
+    <action-bar title="'Crea Avviso'"></action-bar>
+    <ion-content class="padding offsetY">
         <label class="item item-input">
             <textarea placeholder="Manda un avviso agli studenti" id="messagetxt" ng-model="news"></textarea>
         </label>
