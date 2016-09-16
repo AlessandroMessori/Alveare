@@ -1,8 +1,8 @@
 var Firebase = require('firebase');
-var commentsCtrl = function ($scope, $state, Comments, DateHandler, Modals) {
+var commentsCtrl = function ($scope, $rootScope, $state, $rootScope, Comments, DateHandler, Modals) {
 
     $scope.$on('$ionicView.enter', function () {
-        Comments.getComments($scope, $state, 'commentsSpinner');
+        Comments.getComments($scope, $rootScope, $state, 'commentsSpinner');
     });
 
     $scope.send = function (comment) {
@@ -10,7 +10,7 @@ var commentsCtrl = function ($scope, $state, Comments, DateHandler, Modals) {
             var newData = {
                 comment: comment,
                 author: Firebase.auth().currentUser.displayName,
-                father: localStorage.getItem('currentPost'),
+                father: $rootScope.currentPost,
                 date: DateHandler.GetCurrentDate()
             };
             Comments.sendComment($scope, newData, 'commentList');
@@ -22,7 +22,7 @@ var commentsCtrl = function ($scope, $state, Comments, DateHandler, Modals) {
         }
     };
 
-    Comments.getComments($scope, $state, 'commentsSpinner');
+    Comments.getComments($scope, $rootScope, $state, 'commentsSpinner');
 
 };
 

@@ -1,8 +1,7 @@
 var Firebase = require('firebase');
 var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
 
-    this.sendArticle = function (newData, imgUrl) {
-        var ArticleType = window.localStorage.getItem('contentType');
+    this.sendArticle = function (newData, imgUrl, ArticleType) {
         var newPostKey = Firebase.database().ref().child(ArticleType).push().key;
         var updates = {};
 
@@ -21,7 +20,7 @@ var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
         });
     };
 
-    this.getArticles = function (scope, state, fileHandler, type, spinner) {
+    this.getArticles = function (scope, rootScope, state, fileHandler, type, spinner) {
 
         document.getElementById(spinner).style.display = 'block';
         var ModelRef = Firebase.database().ref(type);
@@ -49,8 +48,8 @@ var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
                             id: item,
                             pdf: '',
                             link: function (destination) {
+                                rootScope.currentPost = item;
                                 state.go(destination);
-                                window.localStorage.setItem('currentPost', item);
                             },
                             openPdf: function () {
                                 fileHandler.openPdf(this.pdf);

@@ -13,14 +13,14 @@ var Comments = function (Likes) {
             })
     };
 
-    this.getComments = function (scope, state, spinner, filter) {
+    this.getComments = function (scope, rootScope, state, spinner, filter) {
         if (filter == undefined) {
             filter = true;
         }
         document.getElementById(spinner).style.display = 'block';
         var comments = [];
         scope.Comments = [];
-        var father = window.localStorage.getItem("currentPost");
+        var father = rootScope.currentPost;
         var ModelRef = Firebase.database().ref('Commenti');
         ModelRef.on('value', function (snapshot) {
             var results = snapshot.val();
@@ -47,7 +47,7 @@ var Comments = function (Likes) {
                                 Likes.checkLike(Firebase.auth().currentUser.displayName, item);
                             },
                             link: function () {
-                                window.localStorage.setItem("currentPost", item);
+                                rootScope.currentPost = item;
                                 state.go('likes');
                             }
                         });

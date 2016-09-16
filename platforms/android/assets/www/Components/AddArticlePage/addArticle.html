@@ -1,17 +1,6 @@
 <ion-view view-title="Crea Articolo" ng-init="checkFoto()">
-    <ion-nav-bar class="bar bar-header bar-positive" ng-controller="tabsCtrl">
-        <ion-nav-buttons side="left">
-            <button class="button backBtn" id="arrowBtn" ng-click="backBtnClick()">
-                <p class="ion-android-arrow-back"></p>
-            </button>
-        </ion-nav-buttons>
-        <ion-nav-buttons side="right">
-            <button class="button backBtn" ng-click="Disconnect()">
-                <p class="ion-log-out"></p>
-            </button>
-        </ion-nav-buttons>
-    </ion-nav-bar>
-    <ion-content class="padding">
+    <action-bar title="'Crea Articolo'"></action-bar>
+    <ion-content class="padding offsetY">
 
         <div class="row titleRow">
             <div class="col col-50 col-offset-25">
@@ -22,7 +11,7 @@
         </div>
 
         <label class="item item-input">
-            <textarea placeholder="Testo Articolo"  ng-model="text"></textarea>
+            <textarea placeholder="Descrizione Articolo" ng-model="text"></textarea>
         </label>
 
         <div class="row">

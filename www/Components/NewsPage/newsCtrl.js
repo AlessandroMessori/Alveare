@@ -1,6 +1,6 @@
-var forumCtrl = function ($scope, $state, $window, $http, Messages, FileHandler) {
+var forumCtrl = function ($scope, $rootScope, $state, Messages, FileHandler) {
 
-    Messages.getPosts($scope, $state, 'newsSpinner');
+    Messages.getPosts($scope, $rootScope, $state, 'newsSpinner');
 
     $scope.openFile = function (file) {
         FileHandler.openFile(file);

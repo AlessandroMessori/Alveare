@@ -43,7 +43,7 @@ var Likes = function () {
         firebase.database().ref('Likes/' + target).remove();
     };
 
-    this.getLikeCount = function (father, scope, posts, index, target) {
+    this.getLikeCount = function (father, scope, posts, index, target, maxLenght) {
         var ModelRef = Firebase.database().ref('Likes');
         ModelRef.on('value', function (snapshot) {
             var results = snapshot.val();
@@ -69,7 +69,9 @@ var Likes = function () {
             if (target == 'Comments') {
                 scope[target] = _.uniqBy(posts, 'text');
             }
-            scope.$apply();
+            if (index == maxLenght - 1) {
+                scope.$apply();
+            }
         });
     };
 

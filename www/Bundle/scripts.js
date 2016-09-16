@@ -850,7 +850,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var addArticleCtrl = function ($scope, $ionicLoading, Articles, InputFields, DateHandler, Modals) {
+	var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, InputFields, DateHandler, Modals) {
 
 	    document.getElementById('img-preview').style.display = 'none';
 
@@ -888,7 +888,7 @@
 	                date: DateHandler.GetCurrentDate()
 	            };
 
-	            Articles.sendArticle(newData, document.getElementById('img_1').src);
+	            Articles.sendArticle(newData, document.getElementById('img_1').src, $rootScope.contentType);
 	            title = '';
 	            text = '';
 	            $scope.$apply();
@@ -17727,14 +17727,14 @@
 /* 7 */
 /***/ function(module, exports) {
 
-	var adminCtrl = function ($scope, $state, $window) {
+	var adminCtrl = function ($scope, $rootScope, $state, $window) {
 
 	    $scope.title = "Sezione Amministratori ";
 
 	    $scope.Links = [
 	        {
 	            "name": "Scrivi Avviso",
-	            "icon":"icon ion-ios-bell",
+	            "icon": "icon ion-ios-bell",
 	            "url": "sendMessage",
 	            "direct": function () {
 	                $state.go(this.url);
@@ -17743,25 +17743,25 @@
 	        {
 	            "name": "Scrivi Articolo d'attualità",
 	            "url": "addArticle",
-	            "icon":"icon ion-ios-paper",
+	            "icon": "icon ion-ios-paper",
 	            "direct": function () {
 	                $state.go(this.url);
-	                $window.localStorage.setItem("contentType", "Giornalino");
+	                $rootScope.contentType = "Giornalino";
 	            }
 	        },
 	        {
 	            "name": "Scrivi Articolo d'orientamento",
 	            "url": "addArticle",
-	            "icon":"icon ion-ios-navigate",
+	            "icon": "icon ion-ios-navigate",
 	            "direct": function () {
 	                $state.go(this.url);
-	                $window.localStorage.setItem("contentType", "Orientamento");
+	                $rootScope.contentType = "Orientamento";
 	            }
 	        },
 	        {
 	            "name": "Modera Commenti",
 	            "url": "moderation",
-	            "icon":"icon ion-ios-trash",
+	            "icon": "icon ion-ios-trash",
 	            "direct": function () {
 	                $state.go(this.url);
 	            }
@@ -17776,23 +17776,23 @@
 /* 8 */
 /***/ function(module, exports) {
 
-	var articlesCtrl = function ($scope, $state, $window, Articles, FileHandler, type) {
+	var articlesCtrl = function ($scope, $rootScope, $state, $window, Articles, FileHandler, type) {
 
-	    Articles.getArticles($scope, $state, FileHandler,type, "articlesSpinner");
+	    Articles.getArticles($scope, $rootScope, $state, FileHandler, type, "articlesSpinner");
 
 	    $scope.doRefresh = function () {
-	        Articles.getArticles($scope, $state,FileHandler, type, "articlesSpinner");
+	        Articles.getArticles($scope, $rootScope, $state, FileHandler, type, "articlesSpinner");
 	        $scope.$broadcast('scroll.refreshComplete');
 	        $scope.$apply();
 	    };
 	};
 
-	var attualitaCtrl = function ($scope, $state, $window, Articles, FileHandler) {
-	    return articlesCtrl($scope, $state, $window, Articles, FileHandler, 'Giornalino');
+	var attualitaCtrl = function ($scope, $rootScope, $state, $window, Articles, FileHandler) {
+	    return articlesCtrl($scope, $rootScope, $state, $window, Articles, FileHandler, 'Giornalino');
 	};
 
-	var orientamentoCtrl = function ($scope, $state, $window, Articles, FileHandler) {
-	    return articlesCtrl($scope, $state, $window, Articles, FileHandler, 'Orientamento');
+	var orientamentoCtrl = function ($scope, $rootScope, $state, $window, Articles, FileHandler) {
+	    return articlesCtrl($scope, $rootScope, $state, $window, Articles, FileHandler, 'Orientamento');
 	};
 
 	module.exports = {
@@ -17806,10 +17806,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var commentsCtrl = function ($scope, $state, Comments, DateHandler, Modals) {
+	var commentsCtrl = function ($scope, $rootScope, $state, $rootScope, Comments, DateHandler, Modals) {
 
 	    $scope.$on('$ionicView.enter', function () {
-	        Comments.getComments($scope, $state, 'commentsSpinner');
+	        Comments.getComments($scope, $rootScope, $state, 'commentsSpinner');
 	    });
 
 	    $scope.send = function (comment) {
@@ -17817,7 +17817,7 @@
 	            var newData = {
 	                comment: comment,
 	                author: Firebase.auth().currentUser.displayName,
-	                father: localStorage.getItem('currentPost'),
+	                father: $rootScope.currentPost,
 	                date: DateHandler.GetCurrentDate()
 	            };
 	            Comments.sendComment($scope, newData, 'commentList');
@@ -17829,7 +17829,7 @@
 	        }
 	    };
 
-	    Comments.getComments($scope, $state, 'commentsSpinner');
+	    Comments.getComments($scope, $rootScope, $state, 'commentsSpinner');
 
 	};
 
@@ -17840,13 +17840,13 @@
 /* 10 */
 /***/ function(module, exports) {
 
-	var likesCtrl = function ($scope, Likes) {
+	var likesCtrl = function ($scope, $rootScope, Likes) {
 
 	    $scope.$on('$ionicView.enter', function () {
-	        Likes.getLikers(window.localStorage.getItem('currentPost'), $scope, 'likesSpinner');
+	        Likes.getLikers($rootScope.currentPost, $scope, 'likesSpinner');
 	    });
 
-	    Likes.getLikers(window.localStorage.getItem('currentPost'), $scope, 'likesSpinner');
+	    Likes.getLikers($rootScope.currentPosts, $scope, 'likesSpinner');
 
 	};
 
@@ -17916,8 +17916,8 @@
 /* 13 */
 /***/ function(module, exports) {
 
-	var moderationCtrl = function ($scope, $state, $ionicPopup, Comments, Modals) {
-	    Comments.getComments($scope, $state, 'commentsSpinner', false);
+	var moderationCtrl = function ($scope, $rootScope, $state, $ionicPopup, Comments, Modals) {
+	    Comments.getComments($scope, $rootScope, $state, 'commentsSpinner', false);
 
 	    $scope.removeComment = function (commentId) {
 	        Comments.deleteComment($scope, commentId, 'commentList', Modals);
@@ -17945,9 +17945,9 @@
 /* 14 */
 /***/ function(module, exports) {
 
-	var forumCtrl = function ($scope, $state, $window, $http, Messages, FileHandler) {
+	var forumCtrl = function ($scope, $rootScope, $state, Messages, FileHandler) {
 
-	    Messages.getPosts($scope, $state, 'newsSpinner');
+	    Messages.getPosts($scope, $rootScope, $state, 'newsSpinner');
 
 	    $scope.openFile = function (file) {
 	        FileHandler.openFile(file);
@@ -18086,7 +18086,7 @@
 	            })
 	    };
 
-	    this.getPosts = function (scope, state, spinner) {
+	    this.getPosts = function (scope, rootScope, state, spinner) {
 
 	        var storage = Firebase.storage();
 	        var self = this;
@@ -18114,13 +18114,13 @@
 	                                });
 
 	                                if (j == results[item].files.length - 1) {
-	                                    self.setPostProperties(results, files, state, posts, scope, item, i, maxLength);
+	                                    self.setPostProperties(results, files, state, posts, scope, rootScope, item, i, maxLength);
 	                                }
 
 	                            });
 	                        });
 	                    } else {
-	                        self.setPostProperties(results, files, state, posts, scope, item, i, maxLength);
+	                        self.setPostProperties(results, files, state, posts, scope, rootScope, item, i, maxLength);
 	                    }
 	                });
 	            }
@@ -18129,7 +18129,7 @@
 
 	    };
 
-	    this.setPostProperties = function (results, files, state, posts, scope, item, i, maxLenght) {
+	    this.setPostProperties = function (results, files, state, posts, scope, rootScope, item, i, maxLength) {
 
 
 	        posts[i] = {
@@ -18141,7 +18141,7 @@
 	            likeCount: 0,
 	            commentCount: 0,
 	            link: function (dest) {
-	                window.localStorage.setItem("currentPost", item);
+	                rootScope.currentPost = item;
 	                state.go(dest);
 	            },
 	            like: function () {
@@ -18149,7 +18149,7 @@
 	            }
 	        };
 
-	        Comments.getCommentCount(item, scope, posts, i, results, maxLenght);
+	        Comments.getCommentCount(item, scope, posts, i, results, maxLength);
 	    }
 
 	};
@@ -18166,8 +18166,7 @@
 	var Firebase = __webpack_require__(1);
 	var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
 
-	    this.sendArticle = function (newData, imgUrl) {
-	        var ArticleType = window.localStorage.getItem('contentType');
+	    this.sendArticle = function (newData, imgUrl, ArticleType) {
 	        var newPostKey = Firebase.database().ref().child(ArticleType).push().key;
 	        var updates = {};
 
@@ -18186,7 +18185,7 @@
 	        });
 	    };
 
-	    this.getArticles = function (scope, state, fileHandler, type, spinner) {
+	    this.getArticles = function (scope, rootScope, state, fileHandler, type, spinner) {
 
 	        document.getElementById(spinner).style.display = 'block';
 	        var ModelRef = Firebase.database().ref(type);
@@ -18214,8 +18213,8 @@
 	                            id: item,
 	                            pdf: '',
 	                            link: function (destination) {
+	                                rootScope.currentPost = item;
 	                                state.go(destination);
-	                                window.localStorage.setItem('currentPost', item);
 	                            },
 	                            openPdf: function () {
 	                                fileHandler.openPdf(this.pdf);
@@ -18259,14 +18258,14 @@
 	            })
 	    };
 
-	    this.getComments = function (scope, state, spinner, filter) {
+	    this.getComments = function (scope, rootScope, state, spinner, filter) {
 	        if (filter == undefined) {
 	            filter = true;
 	        }
 	        document.getElementById(spinner).style.display = 'block';
 	        var comments = [];
 	        scope.Comments = [];
-	        var father = window.localStorage.getItem("currentPost");
+	        var father = rootScope.currentPost;
 	        var ModelRef = Firebase.database().ref('Commenti');
 	        ModelRef.on('value', function (snapshot) {
 	            var results = snapshot.val();
@@ -18293,7 +18292,7 @@
 	                                Likes.checkLike(Firebase.auth().currentUser.displayName, item);
 	                            },
 	                            link: function () {
-	                                window.localStorage.setItem("currentPost", item);
+	                                rootScope.currentPost = item;
 	                                state.go('likes');
 	                            }
 	                        });

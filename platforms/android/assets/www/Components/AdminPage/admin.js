@@ -1,11 +1,11 @@
-var adminCtrl = function ($scope, $state, $window) {
+var adminCtrl = function ($scope, $rootScope, $state, $window) {
 
     $scope.title = "Sezione Amministratori ";
 
     $scope.Links = [
         {
             "name": "Scrivi Avviso",
-            "icon":"icon ion-ios-bell",
+            "icon": "icon ion-ios-bell",
             "url": "sendMessage",
             "direct": function () {
                 $state.go(this.url);
@@ -14,25 +14,25 @@ var adminCtrl = function ($scope, $state, $window) {
         {
             "name": "Scrivi Articolo d'attualità",
             "url": "addArticle",
-            "icon":"icon ion-ios-paper",
+            "icon": "icon ion-ios-paper",
             "direct": function () {
                 $state.go(this.url);
-                $window.localStorage.setItem("contentType", "Giornalino");
+                $rootScope.contentType = "Giornalino";
             }
         },
         {
             "name": "Scrivi Articolo d'orientamento",
             "url": "addArticle",
-            "icon":"icon ion-ios-navigate",
+            "icon": "icon ion-ios-navigate",
             "direct": function () {
                 $state.go(this.url);
-                $window.localStorage.setItem("contentType", "Orientamento");
+                $rootScope.contentType = "Orientamento";
             }
         },
         {
             "name": "Modera Commenti",
             "url": "moderation",
-            "icon":"icon ion-ios-trash",
+            "icon": "icon ion-ios-trash",
             "direct": function () {
                 $state.go(this.url);
             }

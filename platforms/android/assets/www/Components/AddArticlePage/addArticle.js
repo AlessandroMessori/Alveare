@@ -1,5 +1,5 @@
 var Firebase = require('firebase');
-var addArticleCtrl = function ($scope, $ionicLoading, Articles, InputFields, DateHandler, Modals) {
+var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, InputFields, DateHandler, Modals) {
 
     document.getElementById('img-preview').style.display = 'none';
 
@@ -37,7 +37,7 @@ var addArticleCtrl = function ($scope, $ionicLoading, Articles, InputFields, Dat
                 date: DateHandler.GetCurrentDate()
             };
 
-            Articles.sendArticle(newData, document.getElementById('img_1').src);
+            Articles.sendArticle(newData, document.getElementById('img_1').src, $rootScope.contentType);
             title = '';
             text = '';
             $scope.$apply();

@@ -1,10 +1,10 @@
-var likesCtrl = function ($scope, Likes) {
+var likesCtrl = function ($scope, $rootScope, Likes) {
 
     $scope.$on('$ionicView.enter', function () {
-        Likes.getLikers(window.localStorage.getItem('currentPost'), $scope, 'likesSpinner');
+        Likes.getLikers($rootScope.currentPost, $scope, 'likesSpinner');
     });
 
-    Likes.getLikers(window.localStorage.getItem('currentPost'), $scope, 'likesSpinner');
+    Likes.getLikers($rootScope.currentPosts, $scope, 'likesSpinner');
 
 };
 

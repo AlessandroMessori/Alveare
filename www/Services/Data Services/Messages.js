@@ -24,7 +24,7 @@ var Messages = function (Modals, Comments, Likes) {
             })
     };
 
-    this.getPosts = function (scope, state, spinner) {
+    this.getPosts = function (scope, rootScope, state, spinner) {
 
         var storage = Firebase.storage();
         var self = this;
@@ -52,13 +52,13 @@ var Messages = function (Modals, Comments, Likes) {
                                 });
 
                                 if (j == results[item].files.length - 1) {
-                                    self.setPostProperties(results, files, state, posts, scope, item, i, maxLength);
+                                    self.setPostProperties(results, files, state, posts, scope, rootScope, item, i, maxLength);
                                 }
 
                             });
                         });
                     } else {
-                        self.setPostProperties(results, files, state, posts, scope, item, i, maxLength);
+                        self.setPostProperties(results, files, state, posts, scope, rootScope, item, i, maxLength);
                     }
                 });
             }
@@ -67,7 +67,7 @@ var Messages = function (Modals, Comments, Likes) {
 
     };
 
-    this.setPostProperties = function (results, files, state, posts, scope, item, i, maxLenght) {
+    this.setPostProperties = function (results, files, state, posts, scope, rootScope, item, i, maxLength) {
 
 
         posts[i] = {
@@ -79,7 +79,7 @@ var Messages = function (Modals, Comments, Likes) {
             likeCount: 0,
             commentCount: 0,
             link: function (dest) {
-                window.localStorage.setItem("currentPost", item);
+                rootScope.currentPost = item;
                 state.go(dest);
             },
             like: function () {
@@ -87,7 +87,7 @@ var Messages = function (Modals, Comments, Likes) {
             }
         };
 
-        Comments.getCommentCount(item, scope, posts, i, results, maxLenght);
+        Comments.getCommentCount(item, scope, posts, i, results, maxLength);
     }
 
 };

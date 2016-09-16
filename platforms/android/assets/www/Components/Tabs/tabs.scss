@@ -8,7 +8,7 @@ $lightDark: #24292F;
 .bar-positive {
   background-color: $dark !important;
   .title {
-    text-align: center!important;
+    text-align: center !important;
   }
 }
 
@@ -31,10 +31,14 @@ $lightDark: #24292F;
   @extend .sideMenu;
 }
 
-#drawer{
+#drawer {
   width: 80%;
 }
 
 .bar h1 {
   color: white !important;
+}
+
+.offsetY {
+  margin-top: 10%;
 }
