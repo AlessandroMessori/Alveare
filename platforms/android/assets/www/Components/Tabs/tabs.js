@@ -1,15 +1,13 @@
 var Firebase = require('firebase');
-var _ = require('lodash');
 var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
     $scope.View = 'tab-link';
-    Auth.getAdmins($scope);
+    Auth.checkAdmins($scope, 'adminPanel');
 
     $scope.$on('$ionicView.enter', function () {
         $scope.closeDrawer();
         $scope.User = Firebase.auth().currentUser.displayName;
         $scope.UserMail = Firebase.auth().currentUser.email;
-        Auth.getAdmins($scope);
-        $scope.checkadmin();
+        Auth.checkAdmins($scope, 'adminPanel');
     });
 
     $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
@@ -22,14 +20,6 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
         }
     });
 
-    $scope.checkadmin = function () {
-        if (_.includes($scope.Admins, $scope.UserMail)) {
-            return "ng-show";
-        } else {
-            return "ng-hide";
-        }
-    };
-
     $scope.Disconnect = function () {
         $ionicLoading.show({
             template: 'Disconnessione in corso...'
@@ -37,6 +27,8 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
         Auth.Logout($ionicLoading, $state);
         $state.go('login');
         $window.localStorage.setItem("RememberMe", "false");
+        $window.localStorage.setItem("IsAdmin", "false");
+        $window.localStorage.removeItem("Username");
     };
 
     $scope.backBtnClick = function () {

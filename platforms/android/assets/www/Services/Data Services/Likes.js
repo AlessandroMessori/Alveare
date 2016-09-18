@@ -69,9 +69,9 @@ var Likes = function () {
             if (target == 'Comments') {
                 scope[target] = _.uniqBy(posts, 'text');
             }
-            if (index == maxLenght - 1) {
-                scope.$apply();
-            }
+            //if (index == maxLenght - 1)
+            scope.$apply();
+
         });
     };
 

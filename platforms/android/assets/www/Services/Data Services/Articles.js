@@ -38,7 +38,7 @@ var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
                 keys.map(function (item, i) {
 
                     str.child(item).getDownloadURL().then(function (url) {
-                        console.log(i + ':' + url);
+
                         articles[i] = {
                             title: results[item].title,
                             author: results[item].author,

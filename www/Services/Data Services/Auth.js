@@ -1,4 +1,5 @@
 var Firebase = require('firebase');
+var _ = require('lodash');
 var Auth = function () {
     this.Signup = function (name, pass, mail, loadingtemplate, state, history, modals) {
 
@@ -51,11 +52,32 @@ var Auth = function () {
         });
     };
 
-    this.getAdmins = function (scope) {
+    this.checkAdmins = function (scope, id) {
+
+        if (window.localStorage.getItem('Username')) {
+            scope.User = window.localStorage.getItem('Username');
+        }
         var ModelRef = Firebase.database().ref('Amministratori');
         ModelRef.on('value', function (snapshot) {
             var results = snapshot.val();
-            scope.Admins = results;
+
+            if (window.localStorage.getItem('IsAdmin') == 'true') {
+                document.getElementById(id).style.display = 'block';
+            }
+            else if (!_.includes(results, scope.UserMail) || !scope.UserMail) {
+                document.getElementById(id).style.display = 'none';
+                window.localStorage.setItem('IsAdmin', 'false');
+            }
+            else {
+                document.getElementById(id).style.display = 'block';
+                if (window.localStorage.getItem('RememberMe') == 'true') {
+                    window.localStorage.setItem('IsAdmin', 'true');
+                }
+            }
+
+            if (window.localStorage.getItem('RememberMe') == 'true') {
+                window.localStorage.setItem('Username', Firebase.auth().currentUser.displayName);
+            }
         });
     }
 };

@@ -18022,17 +18022,15 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var _ = __webpack_require__(5);
 	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
 	    $scope.View = 'tab-link';
-	    Auth.getAdmins($scope);
+	    Auth.checkAdmins($scope, 'adminPanel');
 
 	    $scope.$on('$ionicView.enter', function () {
 	        $scope.closeDrawer();
 	        $scope.User = Firebase.auth().currentUser.displayName;
 	        $scope.UserMail = Firebase.auth().currentUser.email;
-	        Auth.getAdmins($scope);
-	        $scope.checkadmin();
+	        Auth.checkAdmins($scope, 'adminPanel');
 	    });
 
 	    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
@@ -18045,14 +18043,6 @@
 	        }
 	    });
 
-	    $scope.checkadmin = function () {
-	        if (_.includes($scope.Admins, $scope.UserMail)) {
-	            return "ng-show";
-	        } else {
-	            return "ng-hide";
-	        }
-	    };
-
 	    $scope.Disconnect = function () {
 	        $ionicLoading.show({
 	            template: 'Disconnessione in corso...'
@@ -18060,6 +18050,8 @@
 	        Auth.Logout($ionicLoading, $state);
 	        $state.go('login');
 	        $window.localStorage.setItem("RememberMe", "false");
+	        $window.localStorage.setItem("IsAdmin", "false");
+	        $window.localStorage.removeItem("Username");
 	    };
 
 	    $scope.backBtnClick = function () {
@@ -18226,7 +18218,7 @@
 	                keys.map(function (item, i) {
 
 	                    str.child(item).getDownloadURL().then(function (url) {
-	                        console.log(i + ':' + url);
+
 	                        articles[i] = {
 	                            title: results[item].title,
 	                            author: results[item].author,
@@ -18442,9 +18434,9 @@
 	            if (target == 'Comments') {
 	                scope[target] = _.uniqBy(posts, 'text');
 	            }
-	            if (index == maxLenght - 1) {
-	                scope.$apply();
-	            }
+	            //if (index == maxLenght - 1)
+	            scope.$apply();
+
 	        });
 	    };
 
@@ -18475,6 +18467,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
+	var _ = __webpack_require__(5);
 	var Auth = function () {
 	    this.Signup = function (name, pass, mail, loadingtemplate, state, history, modals) {
 
@@ -18527,11 +18520,32 @@
 	        });
 	    };
 
-	    this.getAdmins = function (scope) {
+	    this.checkAdmins = function (scope, id) {
+
+	        if (window.localStorage.getItem('Username')) {
+	            scope.User = window.localStorage.getItem('Username');
+	        }
 	        var ModelRef = Firebase.database().ref('Amministratori');
 	        ModelRef.on('value', function (snapshot) {
 	            var results = snapshot.val();
-	            scope.Admins = results;
+
+	            if (window.localStorage.getItem('IsAdmin') == 'true') {
+	                document.getElementById(id).style.display = 'block';
+	            }
+	            else if (!_.includes(results, scope.UserMail) || !scope.UserMail) {
+	                document.getElementById(id).style.display = 'none';
+	                window.localStorage.setItem('IsAdmin', 'false');
+	            }
+	            else {
+	                document.getElementById(id).style.display = 'block';
+	                if (window.localStorage.getItem('RememberMe') == 'true') {
+	                    window.localStorage.setItem('IsAdmin', 'true');
+	                }
+	            }
+
+	            if (window.localStorage.getItem('RememberMe') == 'true') {
+	                window.localStorage.setItem('Username', Firebase.auth().currentUser.displayName);
+	            }
 	        });
 	    }
 	};
