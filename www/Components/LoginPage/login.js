@@ -14,7 +14,7 @@ var loginCtrl = function ($scope, $ionicLoading, $window, $state, $ionicHistory,
             $scope.SetRememberMe(RememberMe);
         }
         else {
-            Modals.ResultTemplate('compila tutti i campi');
+            Modals.ResultTemplate('alcuni campi sono vuoti o mail non è valida');
         }
     };
 

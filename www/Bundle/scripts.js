@@ -17912,7 +17912,7 @@
 	            $scope.SetRememberMe(RememberMe);
 	        }
 	        else {
-	            Modals.ResultTemplate('compila tutti i campi');
+	            Modals.ResultTemplate('alcuni campi sono vuoti o mail non è valida');
 	        }
 	    };
 
@@ -17985,7 +17985,7 @@
 /* 15 */
 /***/ function(module, exports) {
 
-	var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields, StaticData, Modals) {
+	var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields, StaticData, Modals, StringHandler) {
 
 	    $scope.inputType = 'password';
 	    $scope.imgData = StaticData.logoImg;
@@ -17995,7 +17995,7 @@
 	            $ionicLoading.show({
 	                template: 'Registrazione in corso...'
 	            });
-	            Auth.Signup(username, password, mail, $ionicLoading, $state, $ionicHistory, Modals);
+	            Auth.Signup(username, password, mail, $ionicLoading, $state, $ionicHistory, Modals, StringHandler);
 	        }
 	        else {
 	            Modals.ResultTemplate('compila tutti i campi');
@@ -18469,13 +18469,12 @@
 	var Firebase = __webpack_require__(1);
 	var _ = __webpack_require__(5);
 	var Auth = function () {
-	    this.Signup = function (name, pass, mail, loadingtemplate, state, history, modals) {
+	    this.Signup = function (name, pass, mail, loadingtemplate, state, history, modals, stringhandler) {
 
 	        Firebase.auth().createUserWithEmailAndPassword(mail, pass).catch(function (error) {
-	            var errorCode = error.code;
-	            var errorMessage = error.message;
 	            loadingtemplate.hide();
-	            modals.ResultTemplate(errorMessage);
+	            console.log(error.code);
+	            modals.ResultTemplate(stringhandler.getErrorMessage(error.code));
 	        });
 
 	        Firebase.auth().onAuthStateChanged(function (user) {
@@ -18484,10 +18483,9 @@
 	                user.updateProfile({displayName: name});
 	                loadingtemplate.hide();
 	                Firebase.auth().signOut();
-	                modals.resultTemplate('Profilo creato correttamente');
+	                modals.ResultTemplate('Profilo creato correttamente');
 	                state.go('login');
 	            }
-
 	        });
 
 	    };
@@ -18496,8 +18494,8 @@
 
 	        Firebase.auth().signInWithEmailAndPassword(email, pass).catch(function (error) {
 	            //var errorCode = error.code;
-	            modals.ResultTemplate(error.message);
 	            loadingtemplate.hide();
+	            modals.ResultTemplate("Mail o Password errati");
 	        });
 
 	        Firebase.auth().onAuthStateChanged(function (user) {
@@ -18698,6 +18696,22 @@
 	            ret = ret.substr(0, maxLength) + '…';
 	        }
 	        return ret;
+	    };
+
+	    this.getErrorMessage = function (error) {
+	        var message = "errore nella creazione dell'account";
+	        switch (error) {
+	            case "auth/invalid-email":
+	                message = 'la mail è formattata in modo scorretto';
+	                break;
+	            case "auth/weak-password":
+	                message = 'la password deve contenere almeno 6 caratteri';
+	                break;
+	            case "auth/email-already-in-use":
+	                return 'questa mail è già in uso su un altro account';
+	                break;
+	        }
+	        return message;
 	    }
 	};
 
