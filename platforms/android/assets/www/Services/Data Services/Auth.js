@@ -1,13 +1,12 @@
 var Firebase = require('firebase');
 var _ = require('lodash');
 var Auth = function () {
-    this.Signup = function (name, pass, mail, loadingtemplate, state, history, modals) {
+    this.Signup = function (name, pass, mail, loadingtemplate, state, history, modals, stringhandler) {
 
         Firebase.auth().createUserWithEmailAndPassword(mail, pass).catch(function (error) {
-            var errorCode = error.code;
-            var errorMessage = error.message;
             loadingtemplate.hide();
-            modals.ResultTemplate(errorMessage);
+            console.log(error.code);
+            modals.ResultTemplate(stringhandler.getErrorMessage(error.code));
         });
 
         Firebase.auth().onAuthStateChanged(function (user) {
@@ -16,10 +15,9 @@ var Auth = function () {
                 user.updateProfile({displayName: name});
                 loadingtemplate.hide();
                 Firebase.auth().signOut();
-                modals.resultTemplate('Profilo creato correttamente');
+                modals.ResultTemplate('Profilo creato correttamente');
                 state.go('login');
             }
-
         });
 
     };
@@ -28,8 +26,8 @@ var Auth = function () {
 
         Firebase.auth().signInWithEmailAndPassword(email, pass).catch(function (error) {
             //var errorCode = error.code;
-            modals.ResultTemplate(error.message);
             loadingtemplate.hide();
+            modals.ResultTemplate("Mail o Password errati");
         });
 
         Firebase.auth().onAuthStateChanged(function (user) {

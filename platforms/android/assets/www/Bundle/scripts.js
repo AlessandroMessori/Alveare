@@ -850,7 +850,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, InputFields, DateHandler, Modals) {
+	var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, InputFields, DateHandler, Modals, FileHandler) {
 
 	    document.getElementById('img-preview').style.display = 'none';
 
@@ -863,6 +863,14 @@
 
 	    $scope.setFormScope = function (scope) {
 	        $scope.formScope = scope;
+	    };
+
+	    $scope.loadFile = function (ele) {
+	        FileHandler.loadFile(ele, $scope, false);
+	    };
+
+	    $scope.removeFile = function (file) {
+	        FileHandler.removeFile(file, $scope.fileList);
 	    };
 
 	    $scope.GetPic = function () {
@@ -884,8 +892,8 @@
 
 	    };
 
-	    $scope.UploadArticle = function (title, text) {
-	        if (InputFields.filledFields([title, text, document.getElementById('img_1').src])) {
+	    $scope.UploadArticle = function (title, text, pdf) {
+	        if (InputFields.filledFields([title, text, pdf, document.getElementById('img_1').src])) {
 
 	            $ionicLoading.show({
 	                template: 'Pubblicazione in Corso...'
@@ -895,7 +903,8 @@
 	                text: text,
 	                title: title,
 	                author: Firebase.auth().currentUser.displayName,
-	                date: DateHandler.GetCurrentDate()
+	                date: DateHandler.GetCurrentDate(),
+	                pdf: pdf
 	            };
 
 	            Articles.sendArticle(newData, document.getElementById('img_1').src, $rootScope.contentType);
@@ -922,7 +931,7 @@
 
 	var _ = __webpack_require__(5);
 	var Firebase = __webpack_require__(1);
-	var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler, Modals) {
+	var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler, Modals, FileHandler) {
 
 	    $scope.fileList = [];
 	    $scope.binaryList = [];
@@ -958,33 +967,13 @@
 	    };
 
 	    $scope.loadFile = function (ele) {
-	        ele.disabled = true;
-	        var fullPath = ele.value;
-	        var filename = ele.files[ele.files.length - 1].name;
-	        var fileType = ele.files[ele.files.length - 1].type;
-
-	        if (fileType != 'application/pdf') {
-	            Modals.ResultTemplate('puoi aggiungere solo file pdf');
-	            ele.disabled = false;
-	        }
-	        else if (_.includes($scope.fileList, filename)) {
-	            Modals.ResultTemplate('Hai già caricato questo File');
-	            ele.disabled = false;
-	        }
-	        else {
-	            $scope.fileList.push(filename.slice(0, -4));
-	            $scope.binaryList.push({
-	                binary: ele.files[ele.files.length - 1],
-	                name: filename.slice(0, -4)
-	            });
-	            $scope.$apply();
-	            ele.disabled = false;
-	        }
+	        FileHandler.loadFile(ele, $scope, true);
 	    };
 
 	    $scope.removeFile = function (file) {
-	        _.pull($scope.fileList, file);
-	    };
+	        FileHandler.removeFile(file, $scope.fileList);
+	    }
+
 	};
 
 	module.exports = addNewsCtrl;
@@ -17763,7 +17752,7 @@
 	            }
 	        },
 	        {
-	            "name": "Scrivi Articolo d'attualità",
+	            "name": "Scrivi Articolo del Giornalino",
 	            "url": "addArticle",
 	            "icon": "icon ion-ios-paper",
 	            "direct": function () {
@@ -17912,7 +17901,7 @@
 	            $scope.SetRememberMe(RememberMe);
 	        }
 	        else {
-	            Modals.ResultTemplate('compila tutti i campi');
+	            Modals.ResultTemplate('alcuni campi sono vuoti o mail non è valida');
 	        }
 	    };
 
@@ -17985,7 +17974,7 @@
 /* 15 */
 /***/ function(module, exports) {
 
-	var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields, StaticData, Modals) {
+	var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields, StaticData, Modals, StringHandler) {
 
 	    $scope.inputType = 'password';
 	    $scope.imgData = StaticData.logoImg;
@@ -17995,7 +17984,7 @@
 	            $ionicLoading.show({
 	                template: 'Registrazione in corso...'
 	            });
-	            Auth.Signup(username, password, mail, $ionicLoading, $state, $ionicHistory, Modals);
+	            Auth.Signup(username, password, mail, $ionicLoading, $state, $ionicHistory, Modals, StringHandler);
 	        }
 	        else {
 	            Modals.ResultTemplate('compila tutti i campi');
@@ -18192,7 +18181,10 @@
 	            var imagesRef = Firebase.storage().ref('img').child(newPostKey);
 	            imagesRef.put(blob)
 	                .then(function () {
-	                    Modals.ResultTemplate("Articolo Pubblicato con Successo");
+	                    var pdfRef = Firebase.storage().ref('pdf').child(newData.pdf.name);
+	                    pdfRef.put(newData.pdf.binary).then(function () {
+	                        Modals.ResultTemplate("Articolo Pubblicato con Successo");
+	                    });
 	                })
 	                .catch(function () {
 	                    Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo");
@@ -18212,36 +18204,40 @@
 
 	            if (results != null) {
 
-	                var str = Firebase.storage().ref('img');
+	                var imgs = Firebase.storage().ref('img');
+	                var pdfs = Firebase.storage().ref('pdf');
 	                var keys = Object.keys(results);
 
 	                keys.map(function (item, i) {
 
-	                    str.child(item).getDownloadURL().then(function (url) {
+	                    imgs.child(item).getDownloadURL().then(function (imgUrl) {
 
-	                        articles[i] = {
-	                            title: results[item].title,
-	                            author: results[item].author,
-	                            text: results[item].text,
-	                            coverText: StringHandler.shorten(results[item].text, 100),
-	                            img: url,
-	                            date: results[item].date,
-	                            id: item,
-	                            pdf: '',
-	                            link: function (destination) {
-	                                rootScope.currentPost = item;
-	                                state.go(destination);
-	                            },
-	                            openPdf: function () {
-	                                fileHandler.openPdf(this.pdf);
+	                        pdfs.child(results[item].pdf.name).getDownloadURL().then(function (pdfUrl) {
+
+	                            articles[i] = {
+	                                title: results[item].title,
+	                                author: results[item].author,
+	                                text: results[item].text,
+	                                coverText: StringHandler.shorten(results[item].text, 100),
+	                                img: imgUrl,
+	                                date: results[item].date,
+	                                id: item,
+	                                pdf: pdfUrl,
+	                                link: function (destination) {
+	                                    rootScope.currentPost = item;
+	                                    state.go(destination);
+	                                },
+	                                openPdf: function () {
+	                                    fileHandler.openFile(pdfUrl);
+	                                }
+	                            };
+
+	                            if (i == keys.length - 1) {
+	                                scope.Articles = articles;
+	                                scope.$apply();
+	                                document.getElementById(spinner).style.display = 'none';
 	                            }
-	                        };
-
-	                        if (i == keys.length - 1) {
-	                            scope.Articles = articles;
-	                            scope.$apply();
-	                            document.getElementById(spinner).style.display = 'none';
-	                        }
+	                        });
 	                    });
 	                });
 	            }
@@ -18469,13 +18465,12 @@
 	var Firebase = __webpack_require__(1);
 	var _ = __webpack_require__(5);
 	var Auth = function () {
-	    this.Signup = function (name, pass, mail, loadingtemplate, state, history, modals) {
+	    this.Signup = function (name, pass, mail, loadingtemplate, state, history, modals, stringhandler) {
 
 	        Firebase.auth().createUserWithEmailAndPassword(mail, pass).catch(function (error) {
-	            var errorCode = error.code;
-	            var errorMessage = error.message;
 	            loadingtemplate.hide();
-	            modals.ResultTemplate(errorMessage);
+	            console.log(error.code);
+	            modals.ResultTemplate(stringhandler.getErrorMessage(error.code));
 	        });
 
 	        Firebase.auth().onAuthStateChanged(function (user) {
@@ -18484,10 +18479,9 @@
 	                user.updateProfile({displayName: name});
 	                loadingtemplate.hide();
 	                Firebase.auth().signOut();
-	                modals.resultTemplate('Profilo creato correttamente');
+	                modals.ResultTemplate('Profilo creato correttamente');
 	                state.go('login');
 	            }
-
 	        });
 
 	    };
@@ -18496,8 +18490,8 @@
 
 	        Firebase.auth().signInWithEmailAndPassword(email, pass).catch(function (error) {
 	            //var errorCode = error.code;
-	            modals.ResultTemplate(error.message);
 	            loadingtemplate.hide();
+	            modals.ResultTemplate("Mail o Password errati");
 	        });
 
 	        Firebase.auth().onAuthStateChanged(function (user) {
@@ -18698,6 +18692,22 @@
 	            ret = ret.substr(0, maxLength) + '…';
 	        }
 	        return ret;
+	    };
+
+	    this.getErrorMessage = function (error) {
+	        var message = "errore nella creazione dell'account";
+	        switch (error) {
+	            case "auth/invalid-email":
+	                message = 'la mail è formattata in modo scorretto';
+	                break;
+	            case "auth/weak-password":
+	                message = 'la password deve contenere almeno 6 caratteri';
+	                break;
+	            case "auth/email-already-in-use":
+	                return 'questa mail è già in uso su un altro account';
+	                break;
+	        }
+	        return message;
 	    }
 	};
 
@@ -18727,7 +18737,7 @@
 /* 27 */
 /***/ function(module, exports) {
 
-	var FileHandler = function () {
+	var FileHandler = function (Modals) {
 	    this.getFileBlob = function (url, cb) {
 	        var xhr = new XMLHttpRequest();
 	        xhr.open("GET", url);
@@ -18763,6 +18773,46 @@
 	            false
 	        );
 	    }
+
+	    this.loadFile = function (ele, scope, multiple) {
+	        ele.disabled = true;
+	        var fullPath = ele.value;
+	        var filename = ele.files[ele.files.length - 1].name;
+	        var fileType = ele.files[ele.files.length - 1].type;
+
+	        if (fileType != 'application/pdf') {
+	            Modals.ResultTemplate('puoi aggiungere solo file pdf');
+	            ele.disabled = false;
+	        }
+	        else if (multiple) {
+
+	            if (_.includes(scope.fileList, filename)) {
+	                Modals.ResultTemplate('Hai già caricato questo File');
+	                ele.disabled = false;
+	            }
+	            else {
+	                scope.fileList.push(filename.slice(0, -4));
+	                scope.binaryList.push({
+	                    binary: ele.files[ele.files.length - 1],
+	                    name: filename.slice(0, -4)
+	                });
+	                scope.$apply();
+	                ele.disabled = false;
+	            }
+	        }
+	        else {
+	            scope.pdf = {
+	                binary: ele.files[ele.files.length - 1],
+	                name: filename.slice(0, -4)
+	            };
+	            ele.disabled = false;
+	            scope.$apply();
+	        }
+	    };
+
+	    this.removeFile = function (file, fileList) {
+	        _.pull(fileList, file);
+	    };
 	};
 
 	module.exports = FileHandler;

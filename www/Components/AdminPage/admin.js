@@ -12,7 +12,7 @@ var adminCtrl = function ($scope, $rootScope, $state, $window) {
             }
         },
         {
-            "name": "Scrivi Articolo d'attualità",
+            "name": "Scrivi Articolo del Giornalino",
             "url": "addArticle",
             "icon": "icon ion-ios-paper",
             "direct": function () {

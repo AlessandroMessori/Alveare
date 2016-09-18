@@ -1,6 +1,6 @@
 var _ = require('lodash');
 var Firebase = require('firebase');
-var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler, Modals) {
+var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler, Modals, FileHandler) {
 
     $scope.fileList = [];
     $scope.binaryList = [];
@@ -36,33 +36,13 @@ var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler, Modals
     };
 
     $scope.loadFile = function (ele) {
-        ele.disabled = true;
-        var fullPath = ele.value;
-        var filename = ele.files[ele.files.length - 1].name;
-        var fileType = ele.files[ele.files.length - 1].type;
-
-        if (fileType != 'application/pdf') {
-            Modals.ResultTemplate('puoi aggiungere solo file pdf');
-            ele.disabled = false;
-        }
-        else if (_.includes($scope.fileList, filename)) {
-            Modals.ResultTemplate('Hai già caricato questo File');
-            ele.disabled = false;
-        }
-        else {
-            $scope.fileList.push(filename.slice(0, -4));
-            $scope.binaryList.push({
-                binary: ele.files[ele.files.length - 1],
-                name: filename.slice(0, -4)
-            });
-            $scope.$apply();
-            ele.disabled = false;
-        }
+        FileHandler.loadFile(ele, $scope, true);
     };
 
     $scope.removeFile = function (file) {
-        _.pull($scope.fileList, file);
-    };
+        FileHandler.removeFile(file, $scope.fileList);
+    }
+
 };
 
 module.exports = addNewsCtrl;

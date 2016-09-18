@@ -12,7 +12,10 @@ var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
             var imagesRef = Firebase.storage().ref('img').child(newPostKey);
             imagesRef.put(blob)
                 .then(function () {
-                    Modals.ResultTemplate("Articolo Pubblicato con Successo");
+                    var pdfRef = Firebase.storage().ref('pdf').child(newData.pdf.name);
+                    pdfRef.put(newData.pdf.binary).then(function () {
+                        Modals.ResultTemplate("Articolo Pubblicato con Successo");
+                    });
                 })
                 .catch(function () {
                     Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo");
@@ -32,36 +35,40 @@ var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
 
             if (results != null) {
 
-                var str = Firebase.storage().ref('img');
+                var imgs = Firebase.storage().ref('img');
+                var pdfs = Firebase.storage().ref('pdf');
                 var keys = Object.keys(results);
 
                 keys.map(function (item, i) {
 
-                    str.child(item).getDownloadURL().then(function (url) {
+                    imgs.child(item).getDownloadURL().then(function (imgUrl) {
 
-                        articles[i] = {
-                            title: results[item].title,
-                            author: results[item].author,
-                            text: results[item].text,
-                            coverText: StringHandler.shorten(results[item].text, 100),
-                            img: url,
-                            date: results[item].date,
-                            id: item,
-                            pdf: '',
-                            link: function (destination) {
-                                rootScope.currentPost = item;
-                                state.go(destination);
-                            },
-                            openPdf: function () {
-                                fileHandler.openPdf(this.pdf);
+                        pdfs.child(results[item].pdf.name).getDownloadURL().then(function (pdfUrl) {
+
+                            articles[i] = {
+                                title: results[item].title,
+                                author: results[item].author,
+                                text: results[item].text,
+                                coverText: StringHandler.shorten(results[item].text, 100),
+                                img: imgUrl,
+                                date: results[item].date,
+                                id: item,
+                                pdf: pdfUrl,
+                                link: function (destination) {
+                                    rootScope.currentPost = item;
+                                    state.go(destination);
+                                },
+                                openPdf: function () {
+                                    fileHandler.openFile(pdfUrl);
+                                }
+                            };
+
+                            if (i == keys.length - 1) {
+                                scope.Articles = articles;
+                                scope.$apply();
+                                document.getElementById(spinner).style.display = 'none';
                             }
-                        };
-
-                        if (i == keys.length - 1) {
-                            scope.Articles = articles;
-                            scope.$apply();
-                            document.getElementById(spinner).style.display = 'none';
-                        }
+                        });
                     });
                 });
             }

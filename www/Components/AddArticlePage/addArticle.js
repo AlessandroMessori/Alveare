@@ -52,12 +52,14 @@ var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, Inpu
                 text: text,
                 title: title,
                 author: Firebase.auth().currentUser.displayName,
-                date: DateHandler.GetCurrentDate()
+                date: DateHandler.GetCurrentDate(),
+                pdf: pdf
             };
 
             Articles.sendArticle(newData, document.getElementById('img_1').src, $rootScope.contentType);
             $scope.formScope.title = '';
             $scope.formScope.text = '';
+            $scope.pdf = '';
             document.getElementById('img-preview').style.display = 'none';
             $scope.$apply();
         }
