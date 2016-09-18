@@ -5,14 +5,14 @@
         <ion-refresher on-refresh="doRefresh()">
         </ion-refresher>
 
-        <div class="list card" ng-repeat="Article in Articles track by Article.id">
+        <div class="list card" ng-repeat="Article in Articles | orderBy:'-' track by $index">
 
             <div class="item">
                 <h2>{{Article.author}}</h2>
             </div>
 
             <div class="item item-image">
-                <img src={{Article.img}}>
+                <img src={{Article.img}} alt="Caricamento Immagine non Riuscito">
             </div>
 
             <div class="item item-body">

@@ -1,4 +1,4 @@
-<ion-view view-title="Commenti">
+<ion-view>
     <action-bar title="'Commenti'"></action-bar>
     <ion-content class="offsetY" has-footer="true" has-tabs="true">
         <ion-spinner class="spinner" id="commentsSpinner"></ion-spinner>
@@ -12,11 +12,11 @@
                     <a class="subdued">{{Comment.date}}</a>
                     <a class="subdued" style={{'color:'+Comment.color}} id={{Comment.id}} ng-click="Comment.like()">mi
                         piace</a>
-                    <a class="subdued" ng-click="Comment.link()">{{Comment.likeCount}} <span class="icon ion-thumbsup"></span></a>
+                    <a class="subdued" ng-click="Comment.link()">{{Comment.likeCount}} <span
+                            class="icon ion-thumbsup"></span></a>
                 </h4>
             </div>
         </div>
-
     </ion-content>
 
 

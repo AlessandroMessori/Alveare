@@ -1,6 +1,5 @@
 var Firebase = require('firebase');
 var Auth = function () {
-
     this.Signup = function (name, pass, mail, loadingtemplate, state, history, modals) {
 
         Firebase.auth().createUserWithEmailAndPassword(mail, pass).catch(function (error) {

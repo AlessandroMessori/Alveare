@@ -3,6 +3,17 @@ var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, Inpu
 
     document.getElementById('img-preview').style.display = 'none';
 
+    $scope.$on('$ionicView.enter', function () {
+        $scope.formScope.title = '';
+        $scope.formScope.text = '';
+        document.getElementById('img-preview').style.display = 'none';
+
+    });
+
+    $scope.setFormScope = function (scope) {
+        $scope.formScope = scope;
+    };
+
     $scope.GetPic = function () {
         navigator.camera.getPicture(onSuccess, onFail, {
             quality: 50,
@@ -29,7 +40,6 @@ var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, Inpu
                 template: 'Pubblicazione in Corso...'
             });
 
-
             var newData = {
                 text: text,
                 title: title,
@@ -38,8 +48,9 @@ var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, Inpu
             };
 
             Articles.sendArticle(newData, document.getElementById('img_1').src, $rootScope.contentType);
-            title = '';
-            text = '';
+            $scope.formScope.title = '';
+            $scope.formScope.text = '';
+            document.getElementById('img-preview').style.display = 'none';
             $scope.$apply();
         }
         else {

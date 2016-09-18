@@ -2,34 +2,33 @@
     <action-bar title="'Crea Articolo'"></action-bar>
     <ion-content class="padding offsetY">
 
-        <div class="row titleRow">
+        <form ng-init="setFormScope(this)">
             <div class="col col-50 col-offset-25">
                 <label class="item item-input">
-                    <input type="text" placeholder="Titolo Articolo" ng-model="Title">
+                    <input type="text" placeholder="Titolo Articolo" ng-model="title">
                 </label>
             </div>
+
+            <label class="item item-input">
+                <textarea placeholder="Descrizione Articolo" ng-model="text"></textarea>
+            </label>
+        </form>
+
+
+        <div>
+            <p href="#" id="cameraBtn" class="button button-icon icon ion-camera" ng-click="GetPic()">
+                Carica
+            </p>
         </div>
-
-        <label class="item item-input">
-            <textarea placeholder="Descrizione Articolo" ng-model="text"></textarea>
-        </label>
-
-        <div class="row">
-            <div class="col col-33">
-                <p href="#" id="cameraBtn" class="button button-icon icon ion-camera" ng-click="GetPic()">
-                    Carica
-                </p>
-            </div>
-            <div id="img-preview" class="col col-50">
-                <h4>Immagine di copertina</h4>
-                <img class="responsive" id="img_1"></img>
-            </div>
+        <div id="img-preview">
+            <h4>Immagine di copertina</h4>
+            <img class="responsive" id="img_1"></img>
         </div>
 
 
         <div class="row" id="btnrow">
             <div class="col col-33 col-offset-33">
-                <button id="sendbtn" class="button  button-positive" ng-click="UploadArticle(Title,text)">Invia</button>
+                <button id="sendbtn" class="button  button-positive" ng-click="UploadArticle(title,text)">Invia</button>
             </div>
         </div>
 

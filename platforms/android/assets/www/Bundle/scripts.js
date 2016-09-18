@@ -69,8 +69,8 @@
 	var StringHandler = __webpack_require__(25);
 	var Modals = __webpack_require__(26);
 	var FileHandler = __webpack_require__(27);
-	var ActionBar = __webpack_require__(29);
-	var credentials = __webpack_require__(28);
+	var ActionBar = __webpack_require__(28);
+	var credentials = __webpack_require__(29);
 
 	Firebase.initializeApp(credentials);
 
@@ -854,6 +854,17 @@
 
 	    document.getElementById('img-preview').style.display = 'none';
 
+	    $scope.$on('$ionicView.enter', function () {
+	        $scope.formScope.title = '';
+	        $scope.formScope.text = '';
+	        document.getElementById('img-preview').style.display = 'none';
+
+	    });
+
+	    $scope.setFormScope = function (scope) {
+	        $scope.formScope = scope;
+	    };
+
 	    $scope.GetPic = function () {
 	        navigator.camera.getPicture(onSuccess, onFail, {
 	            quality: 50,
@@ -880,7 +891,6 @@
 	                template: 'Pubblicazione in Corso...'
 	            });
 
-
 	            var newData = {
 	                text: text,
 	                title: title,
@@ -889,8 +899,9 @@
 	            };
 
 	            Articles.sendArticle(newData, document.getElementById('img_1').src, $rootScope.contentType);
-	            title = '';
-	            text = '';
+	            $scope.formScope.title = '';
+	            $scope.formScope.text = '';
+	            document.getElementById('img-preview').style.display = 'none';
 	            $scope.$apply();
 	        }
 	        else {
@@ -916,6 +927,15 @@
 	    $scope.fileList = [];
 	    $scope.binaryList = [];
 
+	    $scope.$on('$ionicView.enter', function () {
+	        $scope.formScope.news = '';
+	        $scope.fileList = [];
+	    });
+
+	    $scope.setNewsScope = function (scope) {
+	        $scope.formScope = scope;
+	    };
+
 	    $scope.sendNews = function (news) {
 	        var newData = {
 	            text: news,
@@ -933,6 +953,8 @@
 	        else {
 	            Modals.ResultTemplate('compila il testo del messaggio');
 	        }
+	        $scope.formScope.news = '';
+	        $scope.fileList = [];
 	    };
 
 	    $scope.loadFile = function (ele) {
@@ -17806,9 +17828,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var commentsCtrl = function ($scope, $rootScope, $state, $rootScope, Comments, DateHandler, Modals) {
+	var commentsCtrl = function ($scope, $rootScope, $state, Comments, DateHandler, Modals) {
 
 	    $scope.$on('$ionicView.enter', function () {
+	        $scope.comment = '';
 	        Comments.getComments($scope, $rootScope, $state, 'commentsSpinner');
 	    });
 
@@ -17821,7 +17844,7 @@
 	                date: DateHandler.GetCurrentDate()
 	            };
 	            Comments.sendComment($scope, newData, 'commentList');
-	            comment = '';
+	            $scope.comment = '';
 	            $scope.$apply();
 	        }
 	        else {
@@ -18203,6 +18226,7 @@
 	                keys.map(function (item, i) {
 
 	                    str.child(item).getDownloadURL().then(function (url) {
+	                        console.log(i + ':' + url);
 	                        articles[i] = {
 	                            title: results[item].title,
 	                            author: results[item].author,
@@ -18222,7 +18246,7 @@
 	                        };
 
 	                        if (i == keys.length - 1) {
-	                            scope.Articles = articles.reverse();
+	                            scope.Articles = articles;
 	                            scope.$apply();
 	                            document.getElementById(spinner).style.display = 'none';
 	                        }
@@ -18452,7 +18476,6 @@
 
 	var Firebase = __webpack_require__(1);
 	var Auth = function () {
-
 	    this.Signup = function (name, pass, mail, loadingtemplate, state, history, modals) {
 
 	        Firebase.auth().createUserWithEmailAndPassword(mail, pass).catch(function (error) {
@@ -18734,19 +18757,6 @@
 /* 28 */
 /***/ function(module, exports) {
 
-	var config = {
-	    apiKey: "AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8",
-	    authDomain: "app-liceoariostospallanz-d12b0.firebaseapp.com",
-	    databaseURL: "https://app-liceoariostospallanz-d12b0.firebaseio.com",
-	    storageBucket: "app-liceoariostospallanz-d12b0.appspot.com"
-	};
-
-	module.exports = config;
-
-/***/ },
-/* 29 */
-/***/ function(module, exports) {
-
 	var actionBar = function () {
 	    return {
 	        scope: {
@@ -18758,6 +18768,19 @@
 	};
 
 	module.exports = actionBar;
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	var config = {
+	    apiKey: "AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8",
+	    authDomain: "app-liceoariostospallanz-d12b0.firebaseapp.com",
+	    databaseURL: "https://app-liceoariostospallanz-d12b0.firebaseio.com",
+	    storageBucket: "app-liceoariostospallanz-d12b0.appspot.com"
+	};
+
+	module.exports = config;
 
 /***/ }
 /******/ ]);

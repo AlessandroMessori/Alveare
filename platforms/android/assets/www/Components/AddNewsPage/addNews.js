@@ -5,6 +5,15 @@ var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler, Modals
     $scope.fileList = [];
     $scope.binaryList = [];
 
+    $scope.$on('$ionicView.enter', function () {
+        $scope.formScope.news = '';
+        $scope.fileList = [];
+    });
+
+    $scope.setNewsScope = function (scope) {
+        $scope.formScope = scope;
+    };
+
     $scope.sendNews = function (news) {
         var newData = {
             text: news,
@@ -22,6 +31,8 @@ var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler, Modals
         else {
             Modals.ResultTemplate('compila il testo del messaggio');
         }
+        $scope.formScope.news = '';
+        $scope.fileList = [];
     };
 
     $scope.loadFile = function (ele) {

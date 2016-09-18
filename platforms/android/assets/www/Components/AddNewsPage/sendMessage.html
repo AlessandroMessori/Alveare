@@ -2,9 +2,9 @@
     <action-bar title="'Crea Avviso'"></action-bar>
     <ion-content class="padding offsetY">
         <label class="item item-input">
-            <textarea placeholder="Manda un avviso agli studenti" id="messagetxt" ng-model="news"></textarea>
+            <textarea ng-init="setNewsScope(this)" placeholder="Manda un avviso agli studenti"
+                      ng-model="news"></textarea>
         </label>
-        <br>
 
         <div id="upload-pdf">
             <button>
