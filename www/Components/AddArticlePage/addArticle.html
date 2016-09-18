@@ -14,6 +14,17 @@
             </label>
         </form>
 
+        <div id="upload-pdf">
+            <button>
+                <span class="icon ion-paperclip"></span>
+                <a href="javascript: void(0)">Carica PDF</a>
+            </button>
+            <input type="file" id="upload_input" name="upload"
+                   onchange="angular.element(this).scope().loadFile(this)">/>
+        </div>
+
+        <span class="fileName">{{pdf.name}}</span>
+
 
         <div>
             <p href="#" id="cameraBtn" class="button button-icon icon ion-camera" ng-click="GetPic()">
@@ -28,7 +39,9 @@
 
         <div class="row" id="btnrow">
             <div class="col col-33 col-offset-33">
-                <button id="sendbtn" class="button  button-positive" ng-click="UploadArticle(title,text)">Invia</button>
+                <button id="sendbtn" class="button  button-positive" ng-click="UploadArticle(title,text,pdf.name)">
+                    Invia
+                </button>
             </div>
         </div>
 

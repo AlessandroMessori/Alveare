@@ -1,5 +1,5 @@
 var Firebase = require('firebase');
-var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, InputFields, DateHandler, Modals) {
+var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, InputFields, DateHandler, Modals, FileHandler) {
 
     document.getElementById('img-preview').style.display = 'none';
 
@@ -12,6 +12,14 @@ var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, Inpu
 
     $scope.setFormScope = function (scope) {
         $scope.formScope = scope;
+    };
+
+    $scope.loadFile = function (ele) {
+        FileHandler.loadFile(ele, $scope, false);
+    };
+
+    $scope.removeFile = function (file) {
+        FileHandler.removeFile(file, $scope.fileList);
     };
 
     $scope.GetPic = function () {
@@ -33,8 +41,8 @@ var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, Inpu
 
     };
 
-    $scope.UploadArticle = function (title, text) {
-        if (InputFields.filledFields([title, text, document.getElementById('img_1').src])) {
+    $scope.UploadArticle = function (title, text, pdf) {
+        if (InputFields.filledFields([title, text, pdf, document.getElementById('img_1').src])) {
 
             $ionicLoading.show({
                 template: 'Pubblicazione in Corso...'

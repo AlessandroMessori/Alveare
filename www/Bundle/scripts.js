@@ -850,7 +850,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, InputFields, DateHandler, Modals) {
+	var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, InputFields, DateHandler, Modals, FileHandler) {
 
 	    document.getElementById('img-preview').style.display = 'none';
 
@@ -863,6 +863,14 @@
 
 	    $scope.setFormScope = function (scope) {
 	        $scope.formScope = scope;
+	    };
+
+	    $scope.loadFile = function (ele) {
+	        FileHandler.loadFile(ele, $scope, false);
+	    };
+
+	    $scope.removeFile = function (file) {
+	        FileHandler.removeFile(file, $scope.fileList);
 	    };
 
 	    $scope.GetPic = function () {
@@ -884,8 +892,8 @@
 
 	    };
 
-	    $scope.UploadArticle = function (title, text) {
-	        if (InputFields.filledFields([title, text, document.getElementById('img_1').src])) {
+	    $scope.UploadArticle = function (title, text, pdf) {
+	        if (InputFields.filledFields([title, text, pdf, document.getElementById('img_1').src])) {
 
 	            $ionicLoading.show({
 	                template: 'Pubblicazione in Corso...'
@@ -922,7 +930,7 @@
 
 	var _ = __webpack_require__(5);
 	var Firebase = __webpack_require__(1);
-	var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler, Modals) {
+	var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler, Modals, FileHandler) {
 
 	    $scope.fileList = [];
 	    $scope.binaryList = [];
@@ -958,33 +966,13 @@
 	    };
 
 	    $scope.loadFile = function (ele) {
-	        ele.disabled = true;
-	        var fullPath = ele.value;
-	        var filename = ele.files[ele.files.length - 1].name;
-	        var fileType = ele.files[ele.files.length - 1].type;
-
-	        if (fileType != 'application/pdf') {
-	            Modals.ResultTemplate('puoi aggiungere solo file pdf');
-	            ele.disabled = false;
-	        }
-	        else if (_.includes($scope.fileList, filename)) {
-	            Modals.ResultTemplate('Hai già caricato questo File');
-	            ele.disabled = false;
-	        }
-	        else {
-	            $scope.fileList.push(filename.slice(0, -4));
-	            $scope.binaryList.push({
-	                binary: ele.files[ele.files.length - 1],
-	                name: filename.slice(0, -4)
-	            });
-	            $scope.$apply();
-	            ele.disabled = false;
-	        }
+	        FileHandler.loadFile(ele, $scope, true);
 	    };
 
 	    $scope.removeFile = function (file) {
-	        _.pull($scope.fileList, file);
-	    };
+	        FileHandler.removeFile(file, $scope.fileList);
+	    }
+
 	};
 
 	module.exports = addNewsCtrl;
@@ -18741,7 +18729,7 @@
 /* 27 */
 /***/ function(module, exports) {
 
-	var FileHandler = function () {
+	var FileHandler = function (Modals) {
 	    this.getFileBlob = function (url, cb) {
 	        var xhr = new XMLHttpRequest();
 	        xhr.open("GET", url);
@@ -18777,6 +18765,46 @@
 	            false
 	        );
 	    }
+
+	    this.loadFile = function (ele, scope, multiple) {
+	        ele.disabled = true;
+	        var fullPath = ele.value;
+	        var filename = ele.files[ele.files.length - 1].name;
+	        var fileType = ele.files[ele.files.length - 1].type;
+
+	        if (fileType != 'application/pdf') {
+	            Modals.ResultTemplate('puoi aggiungere solo file pdf');
+	            ele.disabled = false;
+	        }
+	        else if (multiple) {
+
+	            if (_.includes(scope.fileList, filename)) {
+	                Modals.ResultTemplate('Hai già caricato questo File');
+	                ele.disabled = false;
+	            }
+	            else {
+	                scope.fileList.push(filename.slice(0, -4));
+	                scope.binaryList.push({
+	                    binary: ele.files[ele.files.length - 1],
+	                    name: filename.slice(0, -4)
+	                });
+	                scope.$apply();
+	                ele.disabled = false;
+	            }
+	        }
+	        else {
+	            scope.pdf = {
+	                binary: ele.files[ele.files.length - 1],
+	                name: filename.slice(0, -4)
+	            };
+	            ele.disabled = false;
+	            scope.$apply();
+	        }
+	    };
+
+	    this.removeFile = function (file, fileList) {
+	        _.pull(fileList, file);
+	    };
 	};
 
 	module.exports = FileHandler;
