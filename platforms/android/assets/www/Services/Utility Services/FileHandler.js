@@ -9,10 +9,12 @@ var FileHandler = function (Modals) {
         xhr.send();
     };
 
-    this.openFile = function (file) {
+    this.openFile = function (file, loadingTemplate) {
         var fileURL = cordova.file.externalApplicationStorageDirectory + "file.pdf";
-
         var fileTransfer = new FileTransfer();
+        loadingTemplate.show({
+            template: 'Apertura File in Corso...'
+        });
 
         fileTransfer.download(
             file,
@@ -23,8 +25,10 @@ var FileHandler = function (Modals) {
                     'application/pdf',
                     {
                         error: function (e) {
+                            loadingTemplate.hide();
                         },
                         success: function () {
+                            loadingTemplate.hide();
                         }
                     }
                 );
@@ -33,7 +37,7 @@ var FileHandler = function (Modals) {
             },
             false
         );
-    }
+    };
 
     this.loadFile = function (ele, scope, multiple) {
         ele.disabled = true;

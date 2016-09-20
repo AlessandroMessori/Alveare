@@ -910,6 +910,7 @@
 	            Articles.sendArticle(newData, document.getElementById('img_1').src, $rootScope.contentType);
 	            $scope.formScope.title = '';
 	            $scope.formScope.text = '';
+	            $scope.pdf = '';
 	            document.getElementById('img-preview').style.display = 'none';
 	            $scope.$apply();
 	        }
@@ -17787,23 +17788,23 @@
 /* 8 */
 /***/ function(module, exports) {
 
-	var articlesCtrl = function ($scope, $rootScope, $state, $window, Articles, FileHandler, type) {
+	var articlesCtrl = function ($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler, type) {
 
-	    Articles.getArticles($scope, $rootScope, $state, FileHandler, type, "articlesSpinner");
+	    Articles.getArticles($scope, $rootScope, $state, FileHandler, $ionicLoading, type, "articlesSpinner");
 
 	    $scope.doRefresh = function () {
-	        Articles.getArticles($scope, $rootScope, $state, FileHandler, type, "articlesSpinner");
+	        Articles.getArticles($scope, $rootScope, $state, FileHandler, $ionicLoading, type, "articlesSpinner");
 	        $scope.$broadcast('scroll.refreshComplete');
 	        $scope.$apply();
 	    };
 	};
 
-	var attualitaCtrl = function ($scope, $rootScope, $state, $window, Articles, FileHandler) {
-	    return articlesCtrl($scope, $rootScope, $state, $window, Articles, FileHandler, 'Giornalino');
+	var attualitaCtrl = function ($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler) {
+	    return articlesCtrl($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler, 'Giornalino');
 	};
 
-	var orientamentoCtrl = function ($scope, $rootScope, $state, $window, Articles, FileHandler) {
-	    return articlesCtrl($scope, $rootScope, $state, $window, Articles, FileHandler, 'Orientamento');
+	var orientamentoCtrl = function ($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler) {
+	    return articlesCtrl($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler, 'Orientamento');
 	};
 
 	module.exports = {
@@ -17957,12 +17958,12 @@
 /* 14 */
 /***/ function(module, exports) {
 
-	var forumCtrl = function ($scope, $rootScope, $state, Messages, FileHandler) {
+	var forumCtrl = function ($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler) {
 
 	    Messages.getPosts($scope, $rootScope, $state, 'newsSpinner');
 
 	    $scope.openFile = function (file) {
-	        FileHandler.openFile(file);
+	        FileHandler.openFile(file,$ionicLoading);
 	    }
 
 	};
@@ -18192,7 +18193,7 @@
 	        });
 	    };
 
-	    this.getArticles = function (scope, rootScope, state, fileHandler, type, spinner) {
+	    this.getArticles = function (scope, rootScope, state, fileHandler, loadingTemplate, type, spinner) {
 
 	        document.getElementById(spinner).style.display = 'block';
 	        var ModelRef = Firebase.database().ref(type);
@@ -18228,7 +18229,7 @@
 	                                    state.go(destination);
 	                                },
 	                                openPdf: function () {
-	                                    fileHandler.openFile(pdfUrl);
+	                                    fileHandler.openFile(pdfUrl, loadingTemplate);
 	                                }
 	                            };
 
@@ -18748,10 +18749,12 @@
 	        xhr.send();
 	    };
 
-	    this.openFile = function (file) {
+	    this.openFile = function (file, loadingTemplate) {
 	        var fileURL = cordova.file.externalApplicationStorageDirectory + "file.pdf";
-
 	        var fileTransfer = new FileTransfer();
+	        loadingTemplate.show({
+	            template: 'Apertura File in Corso...'
+	        });
 
 	        fileTransfer.download(
 	            file,
@@ -18762,8 +18765,10 @@
 	                    'application/pdf',
 	                    {
 	                        error: function (e) {
+	                            loadingTemplate.hide();
 	                        },
 	                        success: function () {
+	                            loadingTemplate.hide();
 	                        }
 	                    }
 	                );
@@ -18772,7 +18777,7 @@
 	            },
 	            false
 	        );
-	    }
+	    };
 
 	    this.loadFile = function (ele, scope, multiple) {
 	        ele.disabled = true;

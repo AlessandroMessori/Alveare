@@ -1,9 +1,9 @@
-var forumCtrl = function ($scope, $rootScope, $state, Messages, FileHandler) {
+var forumCtrl = function ($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler) {
 
     Messages.getPosts($scope, $rootScope, $state, 'newsSpinner');
 
     $scope.openFile = function (file) {
-        FileHandler.openFile(file);
+        FileHandler.openFile(file,$ionicLoading);
     }
 
 };

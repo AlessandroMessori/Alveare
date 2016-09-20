@@ -23,7 +23,7 @@ var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
         });
     };
 
-    this.getArticles = function (scope, rootScope, state, fileHandler, type, spinner) {
+    this.getArticles = function (scope, rootScope, state, fileHandler, loadingTemplate, type, spinner) {
 
         document.getElementById(spinner).style.display = 'block';
         var ModelRef = Firebase.database().ref(type);
@@ -59,7 +59,7 @@ var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
                                     state.go(destination);
                                 },
                                 openPdf: function () {
-                                    fileHandler.openFile(pdfUrl);
+                                    fileHandler.openFile(pdfUrl, loadingTemplate);
                                 }
                             };
 
