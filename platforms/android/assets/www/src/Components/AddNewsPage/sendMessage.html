@@ -1,0 +1,32 @@
+<ion-view>
+    <action-bar title="'Crea Avviso'"></action-bar>
+    <ion-content class="padding offsetY">
+        <label class="item item-input">
+            <textarea ng-init="setNewsScope(this)" placeholder="Manda un avviso agli studenti"
+                      ng-model="news"></textarea>
+        </label>
+
+        <div id="upload-pdf">
+            <button>
+                <span class="icon ion-paperclip"></span>
+                <a href="javascript: void(0)">Carica PDF</a>
+            </button>
+            <input type="file" id="upload_input" name="upload" multiple
+                   onchange="angular.element(this).scope().loadFile(this)">/>
+        </div>
+
+        <ul id="pdfList">
+            <li ng-repeat="file in fileList">
+                <span>{{file}}</span>
+                <span class="icon ion-android-cancel" ng-click="removeFile(file)"></span>
+            </li>
+        </ul>
+
+        <div class="row" id="btnrow">
+            <div class="col col-33 col-offset-33">
+                <button id="sendbtn" class="button  button-positive" ng-click="sendNews(news)">Invia</button>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

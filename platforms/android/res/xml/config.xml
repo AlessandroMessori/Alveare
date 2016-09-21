@@ -49,14 +49,16 @@
     <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
     <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
     <icon density="xhdpi" src="resources/android/icon/drawable-xhdpi-icon.png" />
-    <name>App Ariosto Spallanzani</name>
+    <icon density="xxhdpi" src="resources/android/icon/drawable-xxhdpi-icon.png" />
+    <icon density="xxxhdpi" src="resources/android/icon/drawable-xxxhdpi-icon.png" />
+    <name>Ariosto Spallanzani</name>
     <description>
-        Applicazione della lista L'Alveare
+        Applicazione della liceo Ariosto Spallanzani
     </description>
     <author email="lalveare1516@gmail.com" href="https://facebook.com/lalveare1516">
-      L'Alveare'
+        L'Alveare'
     </author>
-    <content src="index.html" />
+    <content src="dist/index.html" />
     <access origin="*" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />

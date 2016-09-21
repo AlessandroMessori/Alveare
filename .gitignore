@@ -44,5 +44,6 @@ Temporary Items
 node_modules/
 .vscode/
 .idea/
-www/Bundle/
+www/dist/scripts.js
+www/dist/styles.css
 credentials.js

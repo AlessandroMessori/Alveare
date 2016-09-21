@@ -1,0 +1,54 @@
+<ion-side-menus enable-menu-with-back-views="false">
+
+    <ion-side-menu-content>
+        <ion-nav-bar class="bar bar-header bar-positive">
+            <ion-nav-buttons side="left">
+                <button class="button" ng-click="openDrawer()">
+                    <p class="ion-navicon-round"></p>
+                </button>
+            </ion-nav-buttons>
+            <ion-nav-buttons side="right">
+                <button class="button backBtn" ng-click="Disconnect()">
+                    <p class="ion-log-out"></p>
+                </button>
+            </ion-nav-buttons>
+        </ion-nav-bar>
+        <ion-nav-view class="nav-view" id="MainView1" name="tab-admin"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="MainView2" name="tab-giornalino"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="MainView3" name="tab-orientamento"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="MainView4" name="tab-forum"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="MainView5" name="tab-link"></ion-nav-view>
+
+    </ion-side-menu-content>
+
+
+    <drawer side="left" id="drawer">
+        <ion-header-bar class="bar">
+            <h1 class="title">{{User}}</h1>
+        </ion-header-bar>
+        <ion-content>
+            <ion-list class="navList">
+                <ion-item menu-close ui-sref="tab.admin" ng-click="navigate('admin',1)" id="adminPanel">
+                    <span class="icon ion-locked"> Admin</span>
+                </ion-item>
+                <ion-item menu-close ui-sref="tab.giornalino" ng-click="navigate('giornalino',2)">
+                    <span class="icon ion-ios-paper"> Giornalino</span>
+                </ion-item>
+                <ion-item menu-close ui-sref="tab.orientamento" ng-click="navigate('orientamento',3)">
+                    <span class="icon ion-ios-navigate"> Orientamento</span>
+                </ion-item>
+                <ion-item menu-close ui-sref="tab.forum" ng-click="navigate('forum',4)">
+                    <span class="ion-clipboard"> Bacheca</span>
+                </ion-item>
+                <ion-item menu-close ui-sref="tab.link" ng-click="navigate('link',5)">
+                    <span class="icon ion-link"> Link Utili</span>
+                </ion-item>
+                <ion-item menu-close ui-sref="/">
+                    <span class="icon ion-ios-gear"> Impostazioni</span>
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </drawer>
+</ion-side-menus>
+
+
