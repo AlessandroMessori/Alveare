@@ -16,7 +16,7 @@ var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHisto
     };
 
     $scope.go = function () {
-        document.location.href = '#/login'
+        $state.go('login');
     };
 
     $scope.hideShowPassword = function () {

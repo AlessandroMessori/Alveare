@@ -62,12 +62,6 @@ appAS.run(function ($ionicPlatform, $ionicPopup) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         }
 
-        if (device.name == "ios") {
-            $ionicPlatform.ready(function () {
-                ionic.Platform.fullScreen();
-            });
-        }
-
         if (window.Connection) {
             if (navigator.connection.type == Connection.NONE) {
                 $ionicPopup.confirm({

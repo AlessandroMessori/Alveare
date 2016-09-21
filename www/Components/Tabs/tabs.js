@@ -10,9 +10,8 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
         Auth.checkAdmins($scope, 'adminPanel');
     });
 
-    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
+    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from) {
         $rootScope.previousState = from.name;
-        $scope.viewTitle = from.name;
         if ($rootScope.previousState == 'comments') {
             $rootScope.previousState = 'tab.forum'
         } else {
@@ -25,16 +24,13 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
             template: 'Disconnessione in corso...'
         });
         Auth.Logout($ionicLoading, $state);
-        $state.go('login');
-        $window.localStorage.setItem("RememberMe", "false");
-        $window.localStorage.setItem("IsAdmin", "false");
-        $window.localStorage.removeItem("Username");
     };
 
     $scope.backBtnClick = function () {
         $state.go($rootScope.previousState);
     };
 
+    //convert to Service
     $scope.navigate = function (destination, ind) {
         $scope.View = 'tab.' + destination;
         document.getElementById('MainView1').style.display = 'none';

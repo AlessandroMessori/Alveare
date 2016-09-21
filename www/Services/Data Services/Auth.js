@@ -1,7 +1,7 @@
 var Firebase = require('firebase');
 var _ = require('lodash');
 var Auth = function () {
-    this.Signup = function (name, pass, mail, loadingtemplate, state, history, modals, stringhandler) {
+    this.Signup = function (name, pass, mail, loadingTemplate, state, history, modals, stringhandler) {
 
         Firebase.auth().createUserWithEmailAndPassword(mail, pass).catch(function (error) {
             loadingtemplate.hide();
@@ -22,30 +22,32 @@ var Auth = function () {
 
     };
 
-    this.Login = function (email, pass, loadingtemplate, state, history, modals) {
+    this.Login = function (email, pass, loadingTemplate, state, history, modals) {
 
         Firebase.auth().signInWithEmailAndPassword(email, pass).catch(function (error) {
-            //var errorCode = error.code;
-            loadingtemplate.hide();
+            loadingTemplate.hide();
             modals.ResultTemplate("Mail o Password errati");
         });
 
         Firebase.auth().onAuthStateChanged(function (user) {
 
             if (user != null && history.currentStateName() == 'login') {
-                loadingtemplate.hide();
+                loadingTemplate.hide();
                 state.go("tab.link");
             }
 
         });
     };
 
-    this.Logout = function (loadingtemplate, state, modals) {
+    this.Logout = function (loadingTemplate, state, modals) {
         Firebase.auth().signOut().then(function () {
             state.go('login');
-            loadingtemplate.hide();
+            loadingTemplate.hide();
+            window.localStorage.setItem("RememberMe", "false");
+            window.localStorage.setItem("IsAdmin", "false");
+            window.localStorage.removeItem("Username");
         }, function (error) {
-            loadingtemplate.hide();
+            loadingTemplate.hide();
             modals.ResultTemplate('Impossibile disconnetersi dal profilo');
         });
     };
