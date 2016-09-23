@@ -4,7 +4,7 @@ var actionBar = function () {
             title: '=title'
         },
         restrict: 'E',
-        templateUrl: 'Directives/ActionBar/actionBar.html',
+        templateUrl: 'src/Directives/ActionBar/actionBar.html',
     };
 };
 

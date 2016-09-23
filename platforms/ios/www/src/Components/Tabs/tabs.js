@@ -1,7 +1,15 @@
 var Firebase = require('firebase');
 var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
+
     $scope.View = 'tab-link';
     Auth.checkAdmins($scope, 'adminPanel');
+
+    if (window.cordova) {
+        if (window.cordova.platform == 'iOS') {
+            document.getElementById('tabBar').style.marginTop = '-4%';
+        }
+        alert(cordova.platform);
+    }
 
     $scope.$on('$ionicView.enter', function () {
         $scope.closeDrawer();

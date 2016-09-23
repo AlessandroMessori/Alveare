@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "./www/Bundle/";
+/******/ 	__webpack_require__.p = ".dist/";
 
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -47,21 +47,21 @@
 	var Firebase = __webpack_require__(1);
 	var addArticleCtrl = __webpack_require__(3);
 	var addNewsCtrl = __webpack_require__(4);
-	var adminCtrl = __webpack_require__(7);
-	var attualitaCtrl = __webpack_require__(8).attualitaCtrl;
-	var orientamentoCtrl = __webpack_require__(8).orientamentoCtrl;
-	var commentsCtrl = __webpack_require__(9);
-	var likesCtrl = __webpack_require__(10);
-	var linkCtrl = __webpack_require__(11);
-	var loginCtrl = __webpack_require__(12);
-	var moderationCtrl = __webpack_require__(13);
-	var newsCtrl = __webpack_require__(14);
-	var signupCtrl = __webpack_require__(15);
-	var tabsCtrl = __webpack_require__(16);
-	var Messages = __webpack_require__(17);
-	var Articles = __webpack_require__(18);
-	var Comments = __webpack_require__(19);
-	var Likes = __webpack_require__(20);
+	var adminCtrl = __webpack_require__(5);
+	var attualitaCtrl = __webpack_require__(6).attualitaCtrl;
+	var orientamentoCtrl = __webpack_require__(6).orientamentoCtrl;
+	var commentsCtrl = __webpack_require__(7);
+	var likesCtrl = __webpack_require__(8);
+	var linkCtrl = __webpack_require__(9);
+	var loginCtrl = __webpack_require__(10);
+	var moderationCtrl = __webpack_require__(11);
+	var newsCtrl = __webpack_require__(12);
+	var signupCtrl = __webpack_require__(13);
+	var tabsCtrl = __webpack_require__(14);
+	var Messages = __webpack_require__(15);
+	var Articles = __webpack_require__(16);
+	var Comments = __webpack_require__(17);
+	var Likes = __webpack_require__(18);
 	var Auth = __webpack_require__(21);
 	var StaticData = __webpack_require__(22);
 	var DateHandler = __webpack_require__(23);
@@ -70,7 +70,9 @@
 	var Modals = __webpack_require__(26);
 	var FileHandler = __webpack_require__(27);
 	var ActionBar = __webpack_require__(28);
-	var credentials = __webpack_require__(29);
+	var Drawer = __webpack_require__(29);
+	var Configs = __webpack_require__(30);
+	var credentials = __webpack_require__(31);
 
 	Firebase.initializeApp(credentials);
 
@@ -101,144 +103,9 @@
 	appAS.service('FileHandler', FileHandler);
 	appAS.directive('actionBar', ActionBar);
 
-	appAS.run(function ($ionicPlatform, $ionicPopup) {
-	    $ionicPlatform.ready(function () {
+	appAS.run(Configs.run);
 
-	        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-	            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-	        }
-
-	        if (window.Connection) {
-	            if (navigator.connection.type == Connection.NONE) {
-	                $ionicPopup.confirm({
-	                    title: 'Connessione a Internet assente',
-	                    content: 'Non è stata trovata nessuna connessione a Internet,collegati ad una rete e riprova.'
-	                })
-	                    .then(function (result) {
-	                        if (!result) {
-	                            ionic.Platform.exitApp();
-	                        }
-	                    });
-	            }
-	        }
-
-	    });
-	});
-
-	appAS.config(function ($ionicConfigProvider, $stateProvider, $urlRouterProvider) {
-
-	    $ionicConfigProvider.scrolling.jsScrolling(false);
-
-	    $stateProvider
-
-	        .state('login', {
-	            url: '/login',
-	            templateUrl: 'Components/LoginPage/login.html',
-	            controller: 'loginCtrl'
-	        })
-
-	        .state('signup', {
-	            url: '/signup',
-	            templateUrl: 'Components/SignupPage/signup.html',
-	            controller: 'signupCtrl'
-	        })
-
-	        .state('tab', {
-	            url: "/tab",
-	            abstract: true,
-	            templateUrl: "Components/Tabs/tabs.html",
-	            controller: 'tabsCtrl'
-	        })
-
-	        .state('tab.admin', {
-	            url: '/admin',
-	            views: {
-	                'tab-admin': {
-	                    templateUrl: 'Components/AdminPage/tab-home.html',
-	                    controller: 'adminCtrl'
-	                }
-	            }
-	        })
-
-	        .state('tab.giornalino', {
-	            url: '/giornalino',
-	            views: {
-	                'tab-giornalino': {
-	                    templateUrl: 'Components/ArticlesPage/tab-giornalino.html',
-	                    controller: 'attualitaCtrl'
-	                }
-	            }
-	        })
-
-	        .state('tab.orientamento', {
-	            url: '/orientamento',
-	            views: {
-	                'tab-orientamento': {
-	                    templateUrl: 'Components/ArticlesPage/tab-giornalino.html',
-	                    controller: 'orientamentoCtrl'
-	                }
-	            }
-	        })
-
-	        .state('tab.forum', {
-	            url: '/forum',
-	            views: {
-	                'tab-forum': {
-	                    templateUrl: 'Components/NewsPage/tabs-forum.html',
-	                    controller: 'newsCtrl'
-	                }
-	            }
-	        })
-
-	        .state('tab.link', {
-	            url: '/link',
-	            views: {
-	                'tab-link': {
-	                    templateUrl: 'Components/LinkPage/tab-link.html',
-	                    controller: 'linkCtrl'
-	                }
-	            }
-	        })
-
-	        .state('addArticle', {
-	            url: '/addArticle',
-	            templateUrl: 'Components/AddArticlePage/addArticle.html',
-	            controller: 'addArticleCtrl'
-	        })
-
-	        .state('sendMessage', {
-	            url: '/sendMessage',
-	            templateUrl: 'Components/AddNewsPage/sendMessage.html',
-	            controller: 'addNewsCtrl'
-	        })
-
-	        .state('comments', {
-	            url: '/comments',
-	            templateUrl: 'Components/CommentsPage/comments.html',
-	            controller: 'commentsCtrl'
-	        })
-
-	        .state('likes', {
-	            url: '/likes',
-	            templateUrl: 'Components/LikesPage/likes.html',
-	            controller: 'likesCtrl'
-	        })
-
-	        .state('moderation', {
-	            url: '/moderation',
-	            templateUrl: 'Components/ModerationPage/moderation.html',
-	            controller: 'moderationCtrl'
-	        });
-
-
-	    if (window.localStorage.getItem("RememberMe") == "true") {
-	        $urlRouterProvider.otherwise('/tab/link');
-	    } else {
-	        $urlRouterProvider.otherwise('/login');
-	    }
-
-
-	});
+	appAS.config(Configs.config);
 
 
 /***/ },
@@ -982,6 +849,700 @@
 
 /***/ },
 /* 5 */
+/***/ function(module, exports) {
+
+	var adminCtrl = function ($scope,StaticData) {
+
+	    $scope.title = "Sezione Amministratori ";
+
+	    $scope.Links = StaticData.adminLinks;
+
+	};
+
+	module.exports = adminCtrl;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	var articlesCtrl = function ($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler, type) {
+
+	    Articles.getArticles($scope, $rootScope, $state, FileHandler, $ionicLoading, type, "articlesSpinner");
+
+	    $scope.doRefresh = function () {
+	        Articles.getArticles($scope, $rootScope, $state, FileHandler, $ionicLoading, type, "articlesSpinner");
+	        $scope.$broadcast('scroll.refreshComplete');
+	        $scope.$apply();
+	    };
+	};
+
+	var attualitaCtrl = function ($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler) {
+	    return articlesCtrl($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler, 'Giornalino');
+	};
+
+	var orientamentoCtrl = function ($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler) {
+	    return articlesCtrl($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler, 'Orientamento');
+	};
+
+	module.exports = {
+	    attualitaCtrl: attualitaCtrl,
+	    orientamentoCtrl: orientamentoCtrl
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Firebase = __webpack_require__(1);
+	var commentsCtrl = function ($scope, $rootScope, $state, Comments, DateHandler, Modals) {
+
+	    Comments.getComments($scope, $rootScope, $state, 'commentsSpinner');
+
+	    $scope.$on('$ionicView.enter', function () {
+	        $scope.comment = '';
+	        Comments.getComments($scope, $rootScope, $state, 'commentsSpinner');
+	    });
+
+	    $scope.send = function (comment) {
+	        if (comment != undefined) {
+	            var newData = {
+	                comment: comment,
+	                author: Firebase.auth().currentUser.displayName,
+	                father: $rootScope.currentPost,
+	                date: DateHandler.GetCurrentDate()
+	            };
+	            Comments.sendComment($scope, newData, 'commentList');
+	            $scope.comment = '';
+	            $scope.$apply();
+	        }
+	        else {
+	            Modals.ResultTemplate('non puoi pubblicare un commento vuoto');
+	        }
+	    };
+
+	};
+
+	module.exports = commentsCtrl;
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	var likesCtrl = function ($scope, $rootScope, Likes) {
+
+	    Likes.getLikers($rootScope.currentPosts, $scope, 'likesSpinner');
+
+	    $scope.$on('$ionicView.enter', function () {
+	        Likes.getLikers($rootScope.currentPost, $scope, 'likesSpinner');
+	    });
+
+	};
+
+	module.exports = likesCtrl;
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	var linkCtrl = function ($scope, StaticData) {
+
+	    $scope.Links = StaticData.links;
+
+	    $scope.OpenLink = function (url) {
+	        cordova.InAppBrowser.open(url, '_system', 'location=yes');
+	    };
+
+	};
+
+	module.exports = linkCtrl;
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Firebase = __webpack_require__(1);
+	var loginCtrl = function ($scope, $ionicLoading, $window, $state, $ionicHistory, Auth, InputFields, StaticData, Modals) {
+
+	    Firebase.auth().signOut();
+	    $scope.inputType = 'password';
+	    $scope.imgData = StaticData.logoImg;
+
+	    $scope.UserLogin = function (mail, password, RememberMe) {
+	        if (InputFields.filledFields([mail, password])) {
+	            $ionicLoading.show({
+	                template: 'Accesso in Corso...'
+	            });
+	            Auth.Login(mail, password, $ionicLoading, $state, $ionicHistory, Modals);
+	            $scope.SetRememberMe(RememberMe);
+	        }
+	        else {
+	            Modals.ResultTemplate('alcuni campi sono vuoti o mail non è valida');
+	        }
+	    };
+
+	    $scope.SetRememberMe = function (RememberMe) {
+
+	        if (RememberMe) {
+	            $window.localStorage.setItem("RememberMe", "true");
+	        }
+
+	    };
+
+	    $scope.hideShowPassword = function () {
+	        if ($scope.inputType == 'password')
+	            $scope.inputType = 'text';
+	        else
+	            $scope.inputType = 'password';
+	    };
+
+	};
+
+	module.exports = loginCtrl;
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	var moderationCtrl = function ($scope, $rootScope, $state, $ionicPopup, Comments, Modals) {
+
+	    Comments.getComments($scope, $rootScope, $state, 'commentsSpinner', false);
+
+	    $scope.removeComment = function (commentId) {
+	        Comments.deleteComment($scope, commentId, 'commentList', Modals);
+	    };
+
+	    $scope.showConfirm = function (commentId) {
+	        var confirmPopup = $ionicPopup.confirm({
+	            title: 'Conferma Eliminazione',
+	            template: 'Vuoi davvero eliminare questo commento?'
+	        });
+
+	        confirmPopup.then(function (res) {
+	            if (res) {
+	                $scope.removeComment(commentId);
+	            }
+	        });
+	    };
+	};
+
+	module.exports = moderationCtrl;
+
+
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	var forumCtrl = function ($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler) {
+
+	    Messages.getPosts($scope, $rootScope, $state, 'newsSpinner');
+
+	    $scope.openFile = function (file) {
+	        FileHandler.openFile(file,$ionicLoading);
+	    }
+
+	};
+
+	module.exports = forumCtrl;
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+	var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields, StaticData, Modals, StringHandler) {
+
+	    $scope.inputType = 'password';
+	    $scope.imgData = StaticData.logoImg;
+
+	    $scope.UserSignup = function (username, password, mail) {
+	        if (InputFields.filledFields([username, password, mail])) {
+	            $ionicLoading.show({
+	                template: 'Registrazione in corso...'
+	            });
+	            Auth.Signup(username, password, mail, $ionicLoading, $state, $ionicHistory, Modals, StringHandler);
+	        }
+	        else {
+	            Modals.ResultTemplate('compila tutti i campi');
+	        }
+	    };
+
+	    $scope.go = function () {
+	        $state.go('login');
+	    };
+
+	    $scope.hideShowPassword = function () {
+	        if ($scope.inputType == 'password')
+	            $scope.inputType = 'text';
+	        else
+	            $scope.inputType = 'password';
+	    };
+
+	};
+
+	module.exports = signupCtrl;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Firebase = __webpack_require__(1);
+	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
+
+	    $scope.View = 'tab-link';
+	    Auth.checkAdmins($scope, 'adminPanel');
+
+	    if (window.cordova) {
+	        if (window.cordova.platform == 'iOS') {
+	            document.getElementById('tabBar').style.marginTop = '-4%';
+	        }
+	        alert(cordova.platform);
+	    }
+
+	    $scope.$on('$ionicView.enter', function () {
+	        $scope.closeDrawer();
+	        $scope.User = Firebase.auth().currentUser.displayName;
+	        $scope.UserMail = Firebase.auth().currentUser.email;
+	        Auth.checkAdmins($scope, 'adminPanel');
+	    });
+
+	    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from) {
+	        $rootScope.previousState = from.name;
+	        if ($rootScope.previousState == 'comments') {
+	            $rootScope.previousState = 'tab.forum'
+	        } else {
+	            $ionicScrollDelegate.scrollTop();
+	        }
+	    });
+
+	    $scope.Disconnect = function () {
+	        $ionicLoading.show({
+	            template: 'Disconnessione in corso...'
+	        });
+	        Auth.Logout($ionicLoading, $state);
+	    };
+
+	    $scope.backBtnClick = function () {
+	        $state.go($rootScope.previousState);
+	    };
+
+	    //convert to Service
+	    $scope.navigate = function (destination, ind) {
+	        $scope.View = 'tab.' + destination;
+	        document.getElementById('MainView1').style.display = 'none';
+	        document.getElementById('MainView2').style.display = 'none';
+	        document.getElementById('MainView3').style.display = 'none';
+	        document.getElementById('MainView4').style.display = 'none';
+	        document.getElementById('MainView5').style.display = 'none';
+	        document.getElementById('MainView' + ind).style.display = 'block';
+	    }
+	};
+
+	module.exports = tabsCtrl;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Firebase = __webpack_require__(1);
+	var Messages = function (Modals, Comments, Likes) {
+
+	    this.sendPost = function (newData, binary) {
+
+	        if (binary.length > 0) {
+
+	            var storageRef = Firebase.storage().ref();
+	            binary.map(function (item) {
+	                var childRef = storageRef.child(item.name);
+	                childRef.put(item.binary);
+	            });
+	        }
+
+	        var newPostKey = Firebase.database().ref().child('Comunicazioni').push().key;
+	        var updates = {};
+	        updates['/Comunicazioni/' + newPostKey] = newData;
+	        Firebase.database().ref().update(updates)
+	            .then(function () {
+	                Modals.ResultTemplate("Comunicazione Pubblicata con Successo");
+	            })
+	            .catch(function () {
+	                Modals.ResultTemplate("Errore nella Pubblicazione della Comunicazione");
+	            })
+	    };
+
+	    this.getPosts = function (scope, rootScope, state, spinner) {
+
+	        var storage = Firebase.storage();
+	        var self = this;
+	        document.getElementById(spinner).style.display = 'block';
+
+	        var ModelRef = Firebase.database().ref('Comunicazioni');
+	        ModelRef.on('value', function (snapshot) {
+	            var results = snapshot.val();
+	            var posts = [];
+
+	            if (results != null) {
+	                Object.keys(results).map(function (item, i) {
+
+	                    var maxLength = Object.keys(results).length;
+	                    var files = [];
+
+	                    if (results[item].files != undefined) {
+
+	                        results[item].files.map(function (file, j) {
+	                            var stRef = storage.ref();
+	                            stRef.child(file).getDownloadURL().then(function (url) {
+	                                files.push({
+	                                    url: url,
+	                                    name: file
+	                                });
+
+	                                if (j == results[item].files.length - 1) {
+	                                    self.setPostProperties(results, files, state, posts, scope, rootScope, item, i, maxLength);
+	                                }
+
+	                            });
+	                        });
+	                    } else {
+	                        self.setPostProperties(results, files, state, posts, scope, rootScope, item, i, maxLength);
+	                    }
+	                });
+	            }
+
+	        });
+
+	    };
+
+	    this.setPostProperties = function (results, files, state, posts, scope, rootScope, item, i, maxLength) {
+
+
+	        posts[i] = {
+	            author: results[item].author,
+	            text: results[item].text,
+	            date: results[item].date,
+	            files: files,
+	            id: item,
+	            likeCount: 0,
+	            commentCount: 0,
+	            link: function (dest) {
+	                rootScope.currentPost = item;
+	                state.go(dest);
+	            },
+	            like: function () {
+	                Likes.checkLike(Firebase.auth().currentUser.displayName, item);
+	            }
+	        };
+
+	        Comments.getCommentCount(item, scope, posts, i, results, maxLength);
+	    }
+
+	};
+
+	module.exports = Messages;
+
+
+
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Firebase = __webpack_require__(1);
+	var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
+
+	    this.sendArticle = function (newData, imgUrl, ArticleType) {
+	        var newPostKey = Firebase.database().ref().child(ArticleType).push().key;
+	        var updates = {};
+
+	        updates['/' + ArticleType + '/' + newPostKey] = newData;
+	        Firebase.database().ref().update(updates);
+
+	        FileHandler.getFileBlob(imgUrl, function (blob) {
+	            var imagesRef = Firebase.storage().ref('img').child(newPostKey);
+	            imagesRef.put(blob)
+	                .then(function () {
+	                    var pdfRef = Firebase.storage().ref('pdf').child(newData.pdf.name);
+	                    pdfRef.put(newData.pdf.binary).then(function () {
+	                        Modals.ResultTemplate("Articolo Pubblicato con Successo");
+	                    });
+	                })
+	                .catch(function () {
+	                    Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo");
+	                });
+	        });
+	    };
+
+	    this.getArticles = function (scope, rootScope, state, fileHandler, loadingTemplate, type, spinner) {
+
+	        document.getElementById(spinner).style.display = 'block';
+	        var ModelRef = Firebase.database().ref(type);
+
+	        ModelRef.on('value', function (snapshot) {
+
+	            var results = snapshot.val();
+	            var articles = [];
+
+	            if (results != null) {
+
+	                var imgs = Firebase.storage().ref('img');
+	                var pdfs = Firebase.storage().ref('pdf');
+	                var keys = Object.keys(results);
+
+	                keys.map(function (item, i) {
+
+	                    imgs.child(item).getDownloadURL().then(function (imgUrl) {
+
+	                        pdfs.child(results[item].pdf.name).getDownloadURL().then(function (pdfUrl) {
+
+	                            articles[i] = {
+	                                title: results[item].title,
+	                                author: results[item].author,
+	                                text: results[item].text,
+	                                coverText: StringHandler.shorten(results[item].text, 100),
+	                                img: imgUrl,
+	                                date: results[item].date,
+	                                id: item,
+	                                pdf: pdfUrl,
+	                                link: function (destination) {
+	                                    rootScope.currentPost = item;
+	                                    state.go(destination);
+	                                },
+	                                openPdf: function () {
+	                                    fileHandler.openFile(pdfUrl, loadingTemplate);
+	                                }
+	                            };
+
+	                            if (i == keys.length - 1) {
+	                                scope.Articles = articles;
+	                                scope.$apply();
+	                                document.getElementById(spinner).style.display = 'none';
+	                            }
+	                        });
+	                    });
+	                });
+	            }
+	        });
+
+	    };
+
+	};
+
+	module.exports = Articles;
+
+
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Firebase = __webpack_require__(1);
+	var Comments = function (Likes) {
+
+	    this.sendComment = function (scope, newData, commentList) {
+	        var newPostKey = Firebase.database().ref().child('Commenti').push().key;
+	        var updates = {};
+	        document.getElementById(commentList).style.display = 'none';
+	        updates['/Commenti/' + newPostKey] = newData;
+	        Firebase.database().ref().update(updates)
+	            .then(function () {
+	                document.getElementById(commentList).style.display = 'block';
+	                scope.$apply();
+	            })
+	    };
+
+	    this.getComments = function (scope, rootScope, state, spinner, filter) {
+	        if (filter == undefined) {
+	            filter = true;
+	        }
+	        document.getElementById(spinner).style.display = 'block';
+	        var comments = [];
+	        scope.Comments = [];
+	        var father = rootScope.currentPost;
+	        var ModelRef = Firebase.database().ref('Commenti');
+	        ModelRef.on('value', function (snapshot) {
+	            var results = snapshot.val();
+
+	            if (results != null) {
+	                Object.keys(results).map(function (item) {
+	                    if (!filter) {
+	                        comments.push({
+	                            author: results[item].author,
+	                            text: results[item].comment,
+	                            father: results[item].father,
+	                            date: results[item].date,
+	                            id: item
+	                        });
+	                        Likes.getLikeCount(item, scope, comments, comments.length - 1, 'Comments');
+	                    } else if (results[item].father == father) {
+	                        comments.push({
+	                            author: results[item].author,
+	                            text: results[item].comment,
+	                            father: results[item].father,
+	                            date: results[item].date,
+	                            id: item,
+	                            like: function () {
+	                                Likes.checkLike(Firebase.auth().currentUser.displayName, item);
+	                            },
+	                            link: function () {
+	                                rootScope.currentPost = item;
+	                                state.go('likes');
+	                            }
+	                        });
+
+	                        Likes.getLikeCount(item, scope, comments, comments.length - 1, 'Comments');
+	                    }
+
+
+	                });
+	            }
+
+	            document.getElementById(spinner).style.display = 'none';
+	        });
+	    };
+
+	    this.getCommentCount = function (father, scope, posts, index, maxLength) {
+	        var ModelRef = Firebase.database().ref('Commenti');
+	        ModelRef.on('value', function (snapshot) {
+	            var results = snapshot.val();
+	            var count = 0;
+
+	            if (results != null) {
+
+	                Object.keys(results).map(function (item) {
+	                    if (results[item].father == father) {
+	                        count++;
+	                    }
+	                });
+	            }
+	            posts[index].commentCount = count;
+	            Likes.getLikeCount(father, scope, posts, index, 'Posts', maxLength);
+	        });
+
+	    };
+
+	    this.deleteComment = function (scope, commentId, commentList, modals) {
+	        var oldLenght = scope.Comments.length;
+	        document.getElementById(commentList).style.display = 'none';
+	        firebase.database().ref('Commenti/' + commentId).remove()
+	            .then(function () {
+	                modals.ResultTemplate('commento eliminato con successo');
+	                scope.Comments.splice(oldLenght - 1, oldLenght * 2);
+	                document.getElementById(commentList).style.display = 'block';
+	                scope.$apply();
+	            });
+	    }
+	};
+
+	module.exports = Comments;
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Firebase = __webpack_require__(1);
+	var _ = __webpack_require__(19);
+
+	var Likes = function () {
+
+	    this.checkLike = function (user, post) {
+	        var self = this;
+	        var ModelRef = Firebase.database().ref('Likes');
+	        ModelRef.once('value', function (snapshot) {
+	            var results = snapshot.val();
+	            var likeId;
+	            var check = true;
+
+	            if (results != null) {
+	                Object.keys(results).map(function (item) {
+	                    if (results[item].user == user && results[item].post == post) {
+	                        check = false;
+	                        likeId = item;
+	                    }
+	                });
+	            }
+
+	            if (check) {
+	                self.sendLike({user: user, post: post}, post);
+	            } else {
+	                self.removeLike(likeId, post)
+	            }
+
+	        });
+
+	    };
+
+	    this.sendLike = function (newData, likebtn) {
+	        var newPostKey = Firebase.database().ref().child('Likes').push().key;
+	        var updates = {};
+	        document.getElementById(likebtn).style.color = 'blue';
+	        updates['/Likes/' + newPostKey] = newData;
+	        Firebase.database().ref().update(updates)
+	    };
+
+	    this.removeLike = function (target, likebtn) {
+	        document.getElementById(likebtn).style.color = 'grey';
+	        firebase.database().ref('Likes/' + target).remove();
+	    };
+
+	    this.getLikeCount = function (father, scope, posts, index, target, maxLenght) {
+	        var ModelRef = Firebase.database().ref('Likes');
+	        ModelRef.on('value', function (snapshot) {
+	            var results = snapshot.val();
+	            var cnt = 0;
+	            var color = 'black';
+	            var users = [];
+
+	            if (results != null) {
+	                Object.keys(results).map(function (item) {
+	                    if (results[item].post == father) {
+	                        cnt++;
+	                        users.push(results[item].user);
+	                        if (Firebase.auth().currentUser.displayName == results[item].user) {
+	                            color = 'blue';
+	                        }
+	                    }
+	                });
+	            }
+	            posts[index].color = color;
+	            posts[index].likeCount = cnt;
+	            posts[index].likerList = users.reverse();
+	            scope[target] = posts;
+	            if (target == 'Comments') {
+	                scope[target] = _.uniqBy(posts, 'text');
+	            }
+	            //if (index == maxLenght - 1)
+	            scope.$apply();
+
+	        });
+	    };
+
+	    this.getLikers = function (father, scope, spinner) {
+	        document.getElementById(spinner).style.display = 'block';
+	        var ModelRef = Firebase.database().ref('Likes');
+	        ModelRef.on('value', function (snapshot) {
+	            var results = snapshot.val();
+	            var users = [];
+
+	            if (results != null) {
+	                Object.keys(results).map(function (item) {
+	                    if (results[item].post == father) {
+	                        users.push(results[item].user);
+	                    }
+	                });
+	                scope.Likers = users;
+	            }
+	            document.getElementById(spinner).style.display = 'none';
+	        });
+	    }
+	};
+	module.exports = Likes;
+
+
+/***/ },
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -17718,10 +18279,10 @@
 	  }
 	}.call(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(6)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(20)(module)))
 
 /***/ },
-/* 6 */
+/* 20 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -17737,697 +18298,11 @@
 
 
 /***/ },
-/* 7 */
-/***/ function(module, exports) {
-
-	var adminCtrl = function ($scope,StaticData) {
-
-	    $scope.title = "Sezione Amministratori ";
-
-	    $scope.Links = StaticData.adminLinks;
-
-	};
-
-	module.exports = adminCtrl;
-
-/***/ },
-/* 8 */
-/***/ function(module, exports) {
-
-	var articlesCtrl = function ($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler, type) {
-
-	    Articles.getArticles($scope, $rootScope, $state, FileHandler, $ionicLoading, type, "articlesSpinner");
-
-	    $scope.doRefresh = function () {
-	        Articles.getArticles($scope, $rootScope, $state, FileHandler, $ionicLoading, type, "articlesSpinner");
-	        $scope.$broadcast('scroll.refreshComplete');
-	        $scope.$apply();
-	    };
-	};
-
-	var attualitaCtrl = function ($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler) {
-	    return articlesCtrl($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler, 'Giornalino');
-	};
-
-	var orientamentoCtrl = function ($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler) {
-	    return articlesCtrl($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler, 'Orientamento');
-	};
-
-	module.exports = {
-	    attualitaCtrl: attualitaCtrl,
-	    orientamentoCtrl: orientamentoCtrl
-	};
-
-
-/***/ },
-/* 9 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Firebase = __webpack_require__(1);
-	var commentsCtrl = function ($scope, $rootScope, $state, Comments, DateHandler, Modals) {
-
-	    Comments.getComments($scope, $rootScope, $state, 'commentsSpinner');
-
-	    $scope.$on('$ionicView.enter', function () {
-	        $scope.comment = '';
-	        Comments.getComments($scope, $rootScope, $state, 'commentsSpinner');
-	    });
-
-	    $scope.send = function (comment) {
-	        if (comment != undefined) {
-	            var newData = {
-	                comment: comment,
-	                author: Firebase.auth().currentUser.displayName,
-	                father: $rootScope.currentPost,
-	                date: DateHandler.GetCurrentDate()
-	            };
-	            Comments.sendComment($scope, newData, 'commentList');
-	            $scope.comment = '';
-	            $scope.$apply();
-	        }
-	        else {
-	            Modals.ResultTemplate('non puoi pubblicare un commento vuoto');
-	        }
-	    };
-
-	};
-
-	module.exports = commentsCtrl;
-
-
-/***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-	var likesCtrl = function ($scope, $rootScope, Likes) {
-
-	    Likes.getLikers($rootScope.currentPosts, $scope, 'likesSpinner');
-
-	    $scope.$on('$ionicView.enter', function () {
-	        Likes.getLikers($rootScope.currentPost, $scope, 'likesSpinner');
-	    });
-
-	};
-
-	module.exports = likesCtrl;
-
-
-/***/ },
-/* 11 */
-/***/ function(module, exports) {
-
-	var linkCtrl = function ($scope, StaticData) {
-
-	    $scope.Links = StaticData.links;
-
-	    $scope.OpenLink = function (url) {
-	        cordova.InAppBrowser.open(url, '_system', 'location=yes');
-	    };
-
-	};
-
-	module.exports = linkCtrl;
-
-/***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Firebase = __webpack_require__(1);
-	var loginCtrl = function ($scope, $ionicLoading, $window, $state, $ionicHistory, Auth, InputFields, StaticData, Modals) {
-
-	    Firebase.auth().signOut();
-	    $scope.inputType = 'password';
-	    $scope.imgData = StaticData.logoImg;
-
-	    $scope.UserLogin = function (mail, password, RememberMe) {
-	        if (InputFields.filledFields([mail, password])) {
-	            $ionicLoading.show({
-	                template: 'Accesso in Corso...'
-	            });
-	            Auth.Login(mail, password, $ionicLoading, $state, $ionicHistory, Modals);
-	            $scope.SetRememberMe(RememberMe);
-	        }
-	        else {
-	            Modals.ResultTemplate('alcuni campi sono vuoti o mail non è valida');
-	        }
-	    };
-
-	    $scope.SetRememberMe = function (RememberMe) {
-
-	        if (RememberMe) {
-	            $window.localStorage.setItem("RememberMe", "true");
-	        }
-
-	    };
-
-	    $scope.hideShowPassword = function () {
-	        if ($scope.inputType == 'password')
-	            $scope.inputType = 'text';
-	        else
-	            $scope.inputType = 'password';
-	    };
-
-	};
-
-	module.exports = loginCtrl;
-
-/***/ },
-/* 13 */
-/***/ function(module, exports) {
-
-	var moderationCtrl = function ($scope, $rootScope, $state, $ionicPopup, Comments, Modals) {
-
-	    Comments.getComments($scope, $rootScope, $state, 'commentsSpinner', false);
-
-	    $scope.removeComment = function (commentId) {
-	        Comments.deleteComment($scope, commentId, 'commentList', Modals);
-	    };
-
-	    $scope.showConfirm = function (commentId) {
-	        var confirmPopup = $ionicPopup.confirm({
-	            title: 'Conferma Eliminazione',
-	            template: 'Vuoi davvero eliminare questo commento?'
-	        });
-
-	        confirmPopup.then(function (res) {
-	            if (res) {
-	                $scope.removeComment(commentId);
-	            }
-	        });
-	    };
-	};
-
-	module.exports = moderationCtrl;
-
-
-
-/***/ },
-/* 14 */
-/***/ function(module, exports) {
-
-	var forumCtrl = function ($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler) {
-
-	    Messages.getPosts($scope, $rootScope, $state, 'newsSpinner');
-
-	    $scope.openFile = function (file) {
-	        FileHandler.openFile(file,$ionicLoading);
-	    }
-
-	};
-
-	module.exports = forumCtrl;
-
-
-/***/ },
-/* 15 */
-/***/ function(module, exports) {
-
-	var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields, StaticData, Modals, StringHandler) {
-
-	    $scope.inputType = 'password';
-	    $scope.imgData = StaticData.logoImg;
-
-	    $scope.UserSignup = function (username, password, mail) {
-	        if (InputFields.filledFields([username, password, mail])) {
-	            $ionicLoading.show({
-	                template: 'Registrazione in corso...'
-	            });
-	            Auth.Signup(username, password, mail, $ionicLoading, $state, $ionicHistory, Modals, StringHandler);
-	        }
-	        else {
-	            Modals.ResultTemplate('compila tutti i campi');
-	        }
-	    };
-
-	    $scope.go = function () {
-	        $state.go('login');
-	    };
-
-	    $scope.hideShowPassword = function () {
-	        if ($scope.inputType == 'password')
-	            $scope.inputType = 'text';
-	        else
-	            $scope.inputType = 'password';
-	    };
-
-	};
-
-	module.exports = signupCtrl;
-
-/***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Firebase = __webpack_require__(1);
-	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
-	    $scope.View = 'tab-link';
-	    Auth.checkAdmins($scope, 'adminPanel');
-
-	    $scope.$on('$ionicView.enter', function () {
-	        $scope.closeDrawer();
-	        $scope.User = Firebase.auth().currentUser.displayName;
-	        $scope.UserMail = Firebase.auth().currentUser.email;
-	        Auth.checkAdmins($scope, 'adminPanel');
-	    });
-
-	    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from) {
-	        $rootScope.previousState = from.name;
-	        if ($rootScope.previousState == 'comments') {
-	            $rootScope.previousState = 'tab.forum'
-	        } else {
-	            $ionicScrollDelegate.scrollTop();
-	        }
-	    });
-
-	    $scope.Disconnect = function () {
-	        $ionicLoading.show({
-	            template: 'Disconnessione in corso...'
-	        });
-	        Auth.Logout($ionicLoading, $state);
-	    };
-
-	    $scope.backBtnClick = function () {
-	        $state.go($rootScope.previousState);
-	    };
-
-	    //convert to Service
-	    $scope.navigate = function (destination, ind) {
-	        $scope.View = 'tab.' + destination;
-	        document.getElementById('MainView1').style.display = 'none';
-	        document.getElementById('MainView2').style.display = 'none';
-	        document.getElementById('MainView3').style.display = 'none';
-	        document.getElementById('MainView4').style.display = 'none';
-	        document.getElementById('MainView5').style.display = 'none';
-	        document.getElementById('MainView' + ind).style.display = 'block';
-	    }
-	};
-
-	module.exports = tabsCtrl;
-
-/***/ },
-/* 17 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Firebase = __webpack_require__(1);
-	var Messages = function (Modals, Comments, Likes) {
-
-	    this.sendPost = function (newData, binary) {
-
-	        if (binary.length > 0) {
-
-	            var storageRef = Firebase.storage().ref();
-	            binary.map(function (item) {
-	                var childRef = storageRef.child(item.name);
-	                childRef.put(item.binary);
-	            });
-	        }
-
-	        var newPostKey = Firebase.database().ref().child('Comunicazioni').push().key;
-	        var updates = {};
-	        updates['/Comunicazioni/' + newPostKey] = newData;
-	        Firebase.database().ref().update(updates)
-	            .then(function () {
-	                Modals.ResultTemplate("Comunicazione Pubblicata con Successo");
-	            })
-	            .catch(function () {
-	                Modals.ResultTemplate("Errore nella Pubblicazione della Comunicazione");
-	            })
-	    };
-
-	    this.getPosts = function (scope, rootScope, state, spinner) {
-
-	        var storage = Firebase.storage();
-	        var self = this;
-	        document.getElementById(spinner).style.display = 'block';
-
-	        var ModelRef = Firebase.database().ref('Comunicazioni');
-	        ModelRef.on('value', function (snapshot) {
-	            var results = snapshot.val();
-	            var posts = [];
-
-	            if (results != null) {
-	                Object.keys(results).map(function (item, i) {
-
-	                    var maxLength = Object.keys(results).length;
-	                    var files = [];
-
-	                    if (results[item].files != undefined) {
-
-	                        results[item].files.map(function (file, j) {
-	                            var stRef = storage.ref();
-	                            stRef.child(file).getDownloadURL().then(function (url) {
-	                                files.push({
-	                                    url: url,
-	                                    name: file
-	                                });
-
-	                                if (j == results[item].files.length - 1) {
-	                                    self.setPostProperties(results, files, state, posts, scope, rootScope, item, i, maxLength);
-	                                }
-
-	                            });
-	                        });
-	                    } else {
-	                        self.setPostProperties(results, files, state, posts, scope, rootScope, item, i, maxLength);
-	                    }
-	                });
-	            }
-
-	        });
-
-	    };
-
-	    this.setPostProperties = function (results, files, state, posts, scope, rootScope, item, i, maxLength) {
-
-
-	        posts[i] = {
-	            author: results[item].author,
-	            text: results[item].text,
-	            date: results[item].date,
-	            files: files,
-	            id: item,
-	            likeCount: 0,
-	            commentCount: 0,
-	            link: function (dest) {
-	                rootScope.currentPost = item;
-	                state.go(dest);
-	            },
-	            like: function () {
-	                Likes.checkLike(Firebase.auth().currentUser.displayName, item);
-	            }
-	        };
-
-	        Comments.getCommentCount(item, scope, posts, i, results, maxLength);
-	    }
-
-	};
-
-	module.exports = Messages;
-
-
-
-
-/***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Firebase = __webpack_require__(1);
-	var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
-
-	    this.sendArticle = function (newData, imgUrl, ArticleType) {
-	        var newPostKey = Firebase.database().ref().child(ArticleType).push().key;
-	        var updates = {};
-
-	        updates['/' + ArticleType + '/' + newPostKey] = newData;
-	        Firebase.database().ref().update(updates);
-
-	        FileHandler.getFileBlob(imgUrl, function (blob) {
-	            var imagesRef = Firebase.storage().ref('img').child(newPostKey);
-	            imagesRef.put(blob)
-	                .then(function () {
-	                    var pdfRef = Firebase.storage().ref('pdf').child(newData.pdf.name);
-	                    pdfRef.put(newData.pdf.binary).then(function () {
-	                        Modals.ResultTemplate("Articolo Pubblicato con Successo");
-	                    });
-	                })
-	                .catch(function () {
-	                    Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo");
-	                });
-	        });
-	    };
-
-	    this.getArticles = function (scope, rootScope, state, fileHandler, loadingTemplate, type, spinner) {
-
-	        document.getElementById(spinner).style.display = 'block';
-	        var ModelRef = Firebase.database().ref(type);
-
-	        ModelRef.on('value', function (snapshot) {
-
-	            var results = snapshot.val();
-	            var articles = [];
-
-	            if (results != null) {
-
-	                var imgs = Firebase.storage().ref('img');
-	                var pdfs = Firebase.storage().ref('pdf');
-	                var keys = Object.keys(results);
-
-	                keys.map(function (item, i) {
-
-	                    imgs.child(item).getDownloadURL().then(function (imgUrl) {
-
-	                        pdfs.child(results[item].pdf.name).getDownloadURL().then(function (pdfUrl) {
-
-	                            articles[i] = {
-	                                title: results[item].title,
-	                                author: results[item].author,
-	                                text: results[item].text,
-	                                coverText: StringHandler.shorten(results[item].text, 100),
-	                                img: imgUrl,
-	                                date: results[item].date,
-	                                id: item,
-	                                pdf: pdfUrl,
-	                                link: function (destination) {
-	                                    rootScope.currentPost = item;
-	                                    state.go(destination);
-	                                },
-	                                openPdf: function () {
-	                                    fileHandler.openFile(pdfUrl, loadingTemplate);
-	                                }
-	                            };
-
-	                            if (i == keys.length - 1) {
-	                                scope.Articles = articles;
-	                                scope.$apply();
-	                                document.getElementById(spinner).style.display = 'none';
-	                            }
-	                        });
-	                    });
-	                });
-	            }
-	        });
-
-	    };
-
-	};
-
-	module.exports = Articles;
-
-
-
-/***/ },
-/* 19 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Firebase = __webpack_require__(1);
-	var Comments = function (Likes) {
-
-	    this.sendComment = function (scope, newData, commentList) {
-	        var newPostKey = Firebase.database().ref().child('Commenti').push().key;
-	        var updates = {};
-	        document.getElementById(commentList).style.display = 'none';
-	        updates['/Commenti/' + newPostKey] = newData;
-	        Firebase.database().ref().update(updates)
-	            .then(function () {
-	                document.getElementById(commentList).style.display = 'block';
-	                scope.$apply();
-	            })
-	    };
-
-	    this.getComments = function (scope, rootScope, state, spinner, filter) {
-	        if (filter == undefined) {
-	            filter = true;
-	        }
-	        document.getElementById(spinner).style.display = 'block';
-	        var comments = [];
-	        scope.Comments = [];
-	        var father = rootScope.currentPost;
-	        var ModelRef = Firebase.database().ref('Commenti');
-	        ModelRef.on('value', function (snapshot) {
-	            var results = snapshot.val();
-
-	            if (results != null) {
-	                Object.keys(results).map(function (item) {
-	                    if (!filter) {
-	                        comments.push({
-	                            author: results[item].author,
-	                            text: results[item].comment,
-	                            father: results[item].father,
-	                            date: results[item].date,
-	                            id: item
-	                        });
-	                        Likes.getLikeCount(item, scope, comments, comments.length - 1, 'Comments');
-	                    } else if (results[item].father == father) {
-	                        comments.push({
-	                            author: results[item].author,
-	                            text: results[item].comment,
-	                            father: results[item].father,
-	                            date: results[item].date,
-	                            id: item,
-	                            like: function () {
-	                                Likes.checkLike(Firebase.auth().currentUser.displayName, item);
-	                            },
-	                            link: function () {
-	                                rootScope.currentPost = item;
-	                                state.go('likes');
-	                            }
-	                        });
-
-	                        Likes.getLikeCount(item, scope, comments, comments.length - 1, 'Comments');
-	                    }
-
-
-	                });
-	            }
-
-	            document.getElementById(spinner).style.display = 'none';
-	        });
-	    };
-
-	    this.getCommentCount = function (father, scope, posts, index, maxLength) {
-	        var ModelRef = Firebase.database().ref('Commenti');
-	        ModelRef.on('value', function (snapshot) {
-	            var results = snapshot.val();
-	            var count = 0;
-
-	            if (results != null) {
-
-	                Object.keys(results).map(function (item) {
-	                    if (results[item].father == father) {
-	                        count++;
-	                    }
-	                });
-	            }
-	            posts[index].commentCount = count;
-	            Likes.getLikeCount(father, scope, posts, index, 'Posts', maxLength);
-	        });
-
-	    };
-
-	    this.deleteComment = function (scope, commentId, commentList, modals) {
-	        var oldLenght = scope.Comments.length;
-	        document.getElementById(commentList).style.display = 'none';
-	        firebase.database().ref('Commenti/' + commentId).remove()
-	            .then(function () {
-	                modals.ResultTemplate('commento eliminato con successo');
-	                scope.Comments.splice(oldLenght - 1, oldLenght * 2);
-	                document.getElementById(commentList).style.display = 'block';
-	                scope.$apply();
-	            });
-	    }
-	};
-
-	module.exports = Comments;
-
-/***/ },
-/* 20 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Firebase = __webpack_require__(1);
-	var _ = __webpack_require__(5);
-
-	var Likes = function () {
-
-	    this.checkLike = function (user, post) {
-	        var self = this;
-	        var ModelRef = Firebase.database().ref('Likes');
-	        ModelRef.once('value', function (snapshot) {
-	            var results = snapshot.val();
-	            var likeId;
-	            var check = true;
-
-	            if (results != null) {
-	                Object.keys(results).map(function (item) {
-	                    if (results[item].user == user && results[item].post == post) {
-	                        check = false;
-	                        likeId = item;
-	                    }
-	                });
-	            }
-
-	            if (check) {
-	                self.sendLike({user: user, post: post}, post);
-	            } else {
-	                self.removeLike(likeId, post)
-	            }
-
-	        });
-
-	    };
-
-	    this.sendLike = function (newData, likebtn) {
-	        var newPostKey = Firebase.database().ref().child('Likes').push().key;
-	        var updates = {};
-	        document.getElementById(likebtn).style.color = 'blue';
-	        updates['/Likes/' + newPostKey] = newData;
-	        Firebase.database().ref().update(updates)
-	    };
-
-	    this.removeLike = function (target, likebtn) {
-	        document.getElementById(likebtn).style.color = 'grey';
-	        firebase.database().ref('Likes/' + target).remove();
-	    };
-
-	    this.getLikeCount = function (father, scope, posts, index, target, maxLenght) {
-	        var ModelRef = Firebase.database().ref('Likes');
-	        ModelRef.on('value', function (snapshot) {
-	            var results = snapshot.val();
-	            var cnt = 0;
-	            var color = 'black';
-	            var users = [];
-
-	            if (results != null) {
-	                Object.keys(results).map(function (item) {
-	                    if (results[item].post == father) {
-	                        cnt++;
-	                        users.push(results[item].user);
-	                        if (Firebase.auth().currentUser.displayName == results[item].user) {
-	                            color = 'blue';
-	                        }
-	                    }
-	                });
-	            }
-	            posts[index].color = color;
-	            posts[index].likeCount = cnt;
-	            posts[index].likerList = users.reverse();
-	            scope[target] = posts;
-	            if (target == 'Comments') {
-	                scope[target] = _.uniqBy(posts, 'text');
-	            }
-	            //if (index == maxLenght - 1)
-	            scope.$apply();
-
-	        });
-	    };
-
-	    this.getLikers = function (father, scope, spinner) {
-	        document.getElementById(spinner).style.display = 'block';
-	        var ModelRef = Firebase.database().ref('Likes');
-	        ModelRef.on('value', function (snapshot) {
-	            var results = snapshot.val();
-	            var users = [];
-
-	            if (results != null) {
-	                Object.keys(results).map(function (item) {
-	                    if (results[item].post == father) {
-	                        users.push(results[item].user);
-	                    }
-	                });
-	                scope.Likers = users;
-	            }
-	            document.getElementById(spinner).style.display = 'none';
-	        });
-	    }
-	};
-	module.exports = Likes;
-
-
-/***/ },
 /* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var _ = __webpack_require__(5);
+	var _ = __webpack_require__(19);
 	var Auth = function () {
 	    this.Signup = function (name, pass, mail, loadingTemplate, state, history, modals, stringhandler) {
 
@@ -18836,7 +18711,7 @@
 	            title: '=title'
 	        },
 	        restrict: 'E',
-	        templateUrl: 'Directives/ActionBar/actionBar.html',
+	        templateUrl: 'src/Directives/ActionBar/actionBar.html',
 	    };
 	};
 
@@ -18844,6 +18719,330 @@
 
 /***/ },
 /* 29 */
+/***/ function(module, exports) {
+
+	var drawer = angular.module('ionic.contrib.drawer', ['ionic']);
+
+	drawer.controller('drawerCtrl', ['$element', '$attrs', '$ionicGesture', '$document', function ($element, $attr, $ionicGesture, $document) {
+	    var el = $element[0];
+	    var dragging = false;
+	    var startX, lastX, offsetX, newX;
+	    var side;
+
+	    // How far to drag before triggering
+	    var thresholdX = 1;
+	    // How far from edge before triggering
+	    var edgeX = 40;
+
+	    var LEFT = 0;
+	    var RIGHT = 1;
+
+	    var isTargetDrag = false;
+
+	    var width = $element[0].clientWidth;
+
+	    var enableAnimation = function () {
+	        $element.addClass('animate');
+	    };
+	    var disableAnimation = function () {
+	        $element.removeClass('animate');
+	    };
+
+	    // Check if this is on target or not
+	    var isTarget = function (el) {
+	        while (el) {
+	            if (el === $element[0]) {
+	                return true;
+	            }
+	            el = el.parentNode;
+	        }
+	    };
+
+	    var startDrag = function (e) {
+	        disableAnimation();
+
+	        dragging = true;
+	        offsetX = lastX - startX;
+	    };
+
+	    var startTargetDrag = function (e) {
+	        disableAnimation();
+
+	        dragging = true;
+	        isTargetDrag = true;
+	        offsetX = lastX - startX;
+	    };
+
+	    var doEndDrag = function (e) {
+	        startX = null;
+	        lastX = null;
+	        offsetX = null;
+	        isTargetDrag = false;
+
+	        if (!dragging) {
+	            return;
+	        }
+
+	        dragging = false;
+
+	        enableAnimation();
+
+	        ionic.requestAnimationFrame(function () {
+	            if (newX < (-width / 2)) {
+	                el.style.transform = el.style.webkitTransform = 'translate3d(' + -width + 'px, 0, 0)';
+	            } else {
+	                el.style.transform = el.style.webkitTransform = 'translate3d(0px, 0, 0)';
+	            }
+	        });
+	    };
+
+	    var doDrag = function (e) {
+	        if (e.defaultPrevented) {
+	            return;
+	        }
+
+	        if (!lastX) {
+	            startX = e.gesture.touches[0].pageX;
+	        }
+
+	        lastX = e.gesture.touches[0].pageX;
+
+	        if (!dragging) {
+
+	            // Dragged 15 pixels and finger is by edge
+	            if (Math.abs(lastX - startX) > thresholdX) {
+	                if (isTarget(e.target)) {
+	                    startTargetDrag(e);
+	                } else if (startX < edgeX) {
+	                    startDrag(e);
+	                }
+	            }
+	        } else {
+	            newX = Math.min(0, (-width + (lastX - offsetX)));
+	            ionic.requestAnimationFrame(function () {
+	                el.style.transform = el.style.webkitTransform = 'translate3d(' + newX + 'px, 0, 0)';
+	            });
+
+	        }
+
+	        if (dragging) {
+	            e.gesture.srcEvent.preventDefault();
+	        }
+	    };
+
+	    side = $attr.side == 'left' ? LEFT : RIGHT;
+
+	    $ionicGesture.on('drag', function (e) {
+	        doDrag(e);
+	    }, $document);
+	    $ionicGesture.on('dragend', function (e) {
+	        doEndDrag(e);
+	    }, $document);
+
+
+	    this.close = function () {
+	        enableAnimation();
+	        ionic.requestAnimationFrame(function () {
+	            if (side === LEFT) {
+	                el.style.transform = el.style.webkitTransform = 'translate3d(-100%, 0, 0)';
+	            } else {
+	                el.style.transform = el.style.webkitTransform = 'translate3d(100%, 0, 0)';
+	            }
+	        });
+	    };
+
+	    this.open = function () {
+	        enableAnimation();
+	        ionic.requestAnimationFrame(function () {
+	            if (side === LEFT) {
+	                el.style.transform = el.style.webkitTransform = 'translate3d(0%, 0, 0)';
+	            } else {
+	                el.style.transform = el.style.webkitTransform = 'translate3d(0%, 0, 0)';
+	            }
+	        });
+	    };
+	}])
+
+	drawer.directive('drawer', ['$rootScope', '$ionicGesture', function ($rootScope, $ionicGesture) {
+	    return {
+	        restrict: 'E',
+	        controller: 'drawerCtrl',
+	        link: function ($scope, $element, $attr, ctrl) {
+	            $element.addClass($attr.side);
+	            $scope.openDrawer = function () {
+	                ctrl.open();
+	            };
+	            $scope.closeDrawer = function () {
+	                ctrl.close();
+	            };
+	        }
+	    }
+	}])
+
+	drawer.directive('drawerClose', ['$rootScope', function ($rootScope) {
+	    return {
+	        restrict: 'A',
+	        link: function ($scope, $element) {
+	            $element.bind('click', function () {
+	                var drawerCtrl = $element.inheritedData('$drawerController');
+	                drawerCtrl.close();
+	            });
+	        }
+	    }
+	}]);
+
+	module.exports = drawer;
+
+/***/ },
+/* 30 */
+/***/ function(module, exports) {
+
+	var Configs = {
+
+	    run: function ($ionicPlatform, $ionicPopup) {
+	        $ionicPlatform.ready(function () {
+
+	            if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+	                cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+	            }
+
+	            if (window.Connection) {
+	                if (navigator.connection.type == Connection.NONE) {
+	                    $ionicPopup.confirm({
+	                        title: 'Connessione a Internet assente',
+	                        content: 'Non è stata trovata nessuna connessione a Internet,collegati ad una rete e riprova.'
+	                    })
+	                        .then(function (result) {
+	                            if (!result) {
+	                                ionic.Platform.exitApp();
+	                            }
+	                        });
+	                }
+	            }
+
+	        });
+	    },
+
+	    config: function ($ionicConfigProvider, $stateProvider, $urlRouterProvider) {
+
+	        $ionicConfigProvider.scrolling.jsScrolling(false);
+
+	        $stateProvider
+
+	            .state('login', {
+	                url: '/login',
+	                templateUrl: 'src/Components/LoginPage/login.html',
+	                controller: 'loginCtrl'
+	            })
+
+	            .state('signup', {
+	                url: '/signup',
+	                templateUrl: 'src/Components/SignupPage/signup.html',
+	                controller: 'signupCtrl'
+	            })
+
+	            .state('tab', {
+	                url: "/tab",
+	                abstract: true,
+	                templateUrl: "src/Components/Tabs/tabs.html",
+	                controller: 'tabsCtrl'
+	            })
+
+	            .state('tab.admin', {
+	                url: '/admin',
+	                views: {
+	                    'tab-admin': {
+	                        templateUrl: 'src/Components/AdminPage/tab-home.html',
+	                        controller: 'adminCtrl'
+	                    }
+	                }
+	            })
+
+	            .state('tab.giornalino', {
+	                url: '/giornalino',
+	                views: {
+	                    'tab-giornalino': {
+	                        templateUrl: 'src/Components/ArticlesPage/tab-giornalino.html',
+	                        controller: 'attualitaCtrl'
+	                    }
+	                }
+	            })
+
+	            .state('tab.orientamento', {
+	                url: '/orientamento',
+	                views: {
+	                    'tab-orientamento': {
+	                        templateUrl: 'src/Components/ArticlesPage/tab-giornalino.html',
+	                        controller: 'orientamentoCtrl'
+	                    }
+	                }
+	            })
+
+	            .state('tab.forum', {
+	                url: '/forum',
+	                views: {
+	                    'tab-forum': {
+	                        templateUrl: 'src/Components/NewsPage/tabs-forum.html',
+	                        controller: 'newsCtrl'
+	                    }
+	                }
+	            })
+
+	            .state('tab.link', {
+	                url: '/link',
+	                views: {
+	                    'tab-link': {
+	                        templateUrl: 'src/Components/LinkPage/tab-link.html',
+	                        controller: 'linkCtrl'
+	                    }
+	                }
+	            })
+
+	            .state('addArticle', {
+	                url: '/addArticle',
+	                templateUrl: 'src/Components/AddArticlePage/addArticle.html',
+	                controller: 'addArticleCtrl'
+	            })
+
+	            .state('sendMessage', {
+	                url: '/sendMessage',
+	                templateUrl: 'src/Components/AddNewsPage/sendMessage.html',
+	                controller: 'addNewsCtrl'
+	            })
+
+	            .state('comments', {
+	                url: '/comments',
+	                templateUrl: 'src/Components/CommentsPage/comments.html',
+	                controller: 'commentsCtrl'
+	            })
+
+	            .state('likes', {
+	                url: '/likes',
+	                templateUrl: 'src/Components/LikesPage/likes.html',
+	                controller: 'likesCtrl'
+	            })
+
+	            .state('moderation', {
+	                url: '/moderation',
+	                templateUrl: 'src/Components/ModerationPage/moderation.html',
+	                controller: 'moderationCtrl'
+	            });
+
+
+	        if (window.localStorage.getItem("RememberMe") == "true") {
+	            $urlRouterProvider.otherwise('/tab/link');
+	        } else {
+	            $urlRouterProvider.otherwise('/login');
+	        }
+
+
+	    }
+	};
+
+	module.exports = Configs;
+
+/***/ },
+/* 31 */
 /***/ function(module, exports) {
 
 	var config = {

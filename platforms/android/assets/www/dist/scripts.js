@@ -70,7 +70,9 @@
 	var Modals = __webpack_require__(26);
 	var FileHandler = __webpack_require__(27);
 	var ActionBar = __webpack_require__(28);
-	var credentials = __webpack_require__(29);
+	var Drawer = __webpack_require__(29);
+	var Configs = __webpack_require__(30);
+	var credentials = __webpack_require__(31);
 
 	Firebase.initializeApp(credentials);
 
@@ -101,144 +103,9 @@
 	appAS.service('FileHandler', FileHandler);
 	appAS.directive('actionBar', ActionBar);
 
-	appAS.run(function ($ionicPlatform, $ionicPopup) {
-	    $ionicPlatform.ready(function () {
+	appAS.run(Configs.run);
 
-	        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-	            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-	        }
-
-	        if (window.Connection) {
-	            if (navigator.connection.type == Connection.NONE) {
-	                $ionicPopup.confirm({
-	                    title: 'Connessione a Internet assente',
-	                    content: 'Non è stata trovata nessuna connessione a Internet,collegati ad una rete e riprova.'
-	                })
-	                    .then(function (result) {
-	                        if (!result) {
-	                            ionic.Platform.exitApp();
-	                        }
-	                    });
-	            }
-	        }
-
-	    });
-	});
-
-	appAS.config(function ($ionicConfigProvider, $stateProvider, $urlRouterProvider) {
-
-	    $ionicConfigProvider.scrolling.jsScrolling(false);
-
-	    $stateProvider
-
-	        .state('login', {
-	            url: '/login',
-	            templateUrl: 'Components/LoginPage/login.html',
-	            controller: 'loginCtrl'
-	        })
-
-	        .state('signup', {
-	            url: '/signup',
-	            templateUrl: 'Components/SignupPage/signup.html',
-	            controller: 'signupCtrl'
-	        })
-
-	        .state('tab', {
-	            url: "/tab",
-	            abstract: true,
-	            templateUrl: "Components/Tabs/tabs.html",
-	            controller: 'tabsCtrl'
-	        })
-
-	        .state('tab.admin', {
-	            url: '/admin',
-	            views: {
-	                'tab-admin': {
-	                    templateUrl: 'Components/AdminPage/tab-home.html',
-	                    controller: 'adminCtrl'
-	                }
-	            }
-	        })
-
-	        .state('tab.giornalino', {
-	            url: '/giornalino',
-	            views: {
-	                'tab-giornalino': {
-	                    templateUrl: 'Components/ArticlesPage/tab-giornalino.html',
-	                    controller: 'attualitaCtrl'
-	                }
-	            }
-	        })
-
-	        .state('tab.orientamento', {
-	            url: '/orientamento',
-	            views: {
-	                'tab-orientamento': {
-	                    templateUrl: 'Components/ArticlesPage/tab-giornalino.html',
-	                    controller: 'orientamentoCtrl'
-	                }
-	            }
-	        })
-
-	        .state('tab.forum', {
-	            url: '/forum',
-	            views: {
-	                'tab-forum': {
-	                    templateUrl: 'Components/NewsPage/tabs-forum.html',
-	                    controller: 'newsCtrl'
-	                }
-	            }
-	        })
-
-	        .state('tab.link', {
-	            url: '/link',
-	            views: {
-	                'tab-link': {
-	                    templateUrl: 'Components/LinkPage/tab-link.html',
-	                    controller: 'linkCtrl'
-	                }
-	            }
-	        })
-
-	        .state('addArticle', {
-	            url: '/addArticle',
-	            templateUrl: 'Components/AddArticlePage/addArticle.html',
-	            controller: 'addArticleCtrl'
-	        })
-
-	        .state('sendMessage', {
-	            url: '/sendMessage',
-	            templateUrl: 'Components/AddNewsPage/sendMessage.html',
-	            controller: 'addNewsCtrl'
-	        })
-
-	        .state('comments', {
-	            url: '/comments',
-	            templateUrl: 'Components/CommentsPage/comments.html',
-	            controller: 'commentsCtrl'
-	        })
-
-	        .state('likes', {
-	            url: '/likes',
-	            templateUrl: 'Components/LikesPage/likes.html',
-	            controller: 'likesCtrl'
-	        })
-
-	        .state('moderation', {
-	            url: '/moderation',
-	            templateUrl: 'Components/ModerationPage/moderation.html',
-	            controller: 'moderationCtrl'
-	        });
-
-
-	    if (window.localStorage.getItem("RememberMe") == "true") {
-	        $urlRouterProvider.otherwise('/tab/link');
-	    } else {
-	        $urlRouterProvider.otherwise('/login');
-	    }
-
-
-	});
+	appAS.config(Configs.config);
 
 
 /***/ },
@@ -1173,8 +1040,15 @@
 
 	    Messages.getPosts($scope, $rootScope, $state, 'newsSpinner');
 
+	    $scope.$on('$ionicView.enter', function () {
+	        if (window.localStorage.getItem('justLogged') == 'true') {
+	            Messages.getPosts($scope, $rootScope, $state, 'newsSpinner');
+	            window.localStorage.setItem('justLogged', 'false');
+	        }
+	    });
+
 	    $scope.openFile = function (file) {
-	        FileHandler.openFile(file,$ionicLoading);
+	        FileHandler.openFile(file, $ionicLoading);
 	    }
 
 	};
@@ -1223,9 +1097,16 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
+	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth, Modals) {
+
 	    $scope.View = 'tab-link';
 	    Auth.checkAdmins($scope, 'adminPanel');
+
+	    if (window.cordova) {
+	        if (window.cordova.platform == 'iOS') {
+	            document.getElementById('tabBar').style.marginTop = '-4%';
+	        }
+	    }
 
 	    $scope.$on('$ionicView.enter', function () {
 	        $scope.closeDrawer();
@@ -1244,10 +1125,7 @@
 	    });
 
 	    $scope.Disconnect = function () {
-	        $ionicLoading.show({
-	            template: 'Disconnessione in corso...'
-	        });
-	        Auth.Logout($ionicLoading, $state);
+	        Auth.Logout($state, $rootScope, Modals);
 	    };
 
 	    $scope.backBtnClick = function () {
@@ -1638,8 +1516,9 @@
 	            if (target == 'Comments') {
 	                scope[target] = _.uniqBy(posts, 'text');
 	            }
-	            //if (index == maxLenght - 1)
-	            scope.$apply();
+	            window.setTimeout(function () {
+	                scope.$apply();
+	            }, 1000);
 
 	        });
 	    };
@@ -18461,21 +18340,20 @@
 
 	            if (user != null && history.currentStateName() == 'login') {
 	                loadingTemplate.hide();
+	                window.localStorage.setItem('justLogged', 'true');
 	                state.go("tab.link");
 	            }
 
 	        });
 	    };
 
-	    this.Logout = function (loadingTemplate, state, modals) {
+	    this.Logout = function (state, rootScope, modals) {
 	        Firebase.auth().signOut().then(function () {
 	            state.go('login');
-	            loadingTemplate.hide();
 	            window.localStorage.setItem("RememberMe", "false");
 	            window.localStorage.setItem("IsAdmin", "false");
 	            window.localStorage.removeItem("Username");
-	        }, function (error) {
-	            loadingTemplate.hide();
+	        }, function () {
 	            modals.ResultTemplate('Impossibile disconnetersi dal profilo');
 	        });
 	    };
@@ -18836,7 +18714,7 @@
 	            title: '=title'
 	        },
 	        restrict: 'E',
-	        templateUrl: 'Directives/ActionBar/actionBar.html',
+	        templateUrl: 'src/Directives/ActionBar/actionBar.html',
 	    };
 	};
 
@@ -18844,6 +18722,330 @@
 
 /***/ },
 /* 29 */
+/***/ function(module, exports) {
+
+	var drawer = angular.module('ionic.contrib.drawer', ['ionic']);
+
+	drawer.controller('drawerCtrl', ['$element', '$attrs', '$ionicGesture', '$document', function ($element, $attr, $ionicGesture, $document) {
+	    var el = $element[0];
+	    var dragging = false;
+	    var startX, lastX, offsetX, newX;
+	    var side;
+
+	    // How far to drag before triggering
+	    var thresholdX = 1;
+	    // How far from edge before triggering
+	    var edgeX = 40;
+
+	    var LEFT = 0;
+	    var RIGHT = 1;
+
+	    var isTargetDrag = false;
+
+	    var width = $element[0].clientWidth;
+
+	    var enableAnimation = function () {
+	        $element.addClass('animate');
+	    };
+	    var disableAnimation = function () {
+	        $element.removeClass('animate');
+	    };
+
+	    // Check if this is on target or not
+	    var isTarget = function (el) {
+	        while (el) {
+	            if (el === $element[0]) {
+	                return true;
+	            }
+	            el = el.parentNode;
+	        }
+	    };
+
+	    var startDrag = function (e) {
+	        disableAnimation();
+
+	        dragging = true;
+	        offsetX = lastX - startX;
+	    };
+
+	    var startTargetDrag = function (e) {
+	        disableAnimation();
+
+	        dragging = true;
+	        isTargetDrag = true;
+	        offsetX = lastX - startX;
+	    };
+
+	    var doEndDrag = function (e) {
+	        startX = null;
+	        lastX = null;
+	        offsetX = null;
+	        isTargetDrag = false;
+
+	        if (!dragging) {
+	            return;
+	        }
+
+	        dragging = false;
+
+	        enableAnimation();
+
+	        ionic.requestAnimationFrame(function () {
+	            if (newX < (-width / 2)) {
+	                el.style.transform = el.style.webkitTransform = 'translate3d(' + -width + 'px, 0, 0)';
+	            } else {
+	                el.style.transform = el.style.webkitTransform = 'translate3d(0px, 0, 0)';
+	            }
+	        });
+	    };
+
+	    var doDrag = function (e) {
+	        if (e.defaultPrevented) {
+	            return;
+	        }
+
+	        if (!lastX) {
+	            startX = e.gesture.touches[0].pageX;
+	        }
+
+	        lastX = e.gesture.touches[0].pageX;
+
+	        if (!dragging) {
+
+	            // Dragged 15 pixels and finger is by edge
+	            if (Math.abs(lastX - startX) > thresholdX) {
+	                if (isTarget(e.target)) {
+	                    startTargetDrag(e);
+	                } else if (startX < edgeX) {
+	                    startDrag(e);
+	                }
+	            }
+	        } else {
+	            newX = Math.min(0, (-width + (lastX - offsetX)));
+	            ionic.requestAnimationFrame(function () {
+	                el.style.transform = el.style.webkitTransform = 'translate3d(' + newX + 'px, 0, 0)';
+	            });
+
+	        }
+
+	        if (dragging) {
+	            e.gesture.srcEvent.preventDefault();
+	        }
+	    };
+
+	    side = $attr.side == 'left' ? LEFT : RIGHT;
+
+	    $ionicGesture.on('drag', function (e) {
+	        doDrag(e);
+	    }, $document);
+	    $ionicGesture.on('dragend', function (e) {
+	        doEndDrag(e);
+	    }, $document);
+
+
+	    this.close = function () {
+	        enableAnimation();
+	        ionic.requestAnimationFrame(function () {
+	            if (side === LEFT) {
+	                el.style.transform = el.style.webkitTransform = 'translate3d(-100%, 0, 0)';
+	            } else {
+	                el.style.transform = el.style.webkitTransform = 'translate3d(100%, 0, 0)';
+	            }
+	        });
+	    };
+
+	    this.open = function () {
+	        enableAnimation();
+	        ionic.requestAnimationFrame(function () {
+	            if (side === LEFT) {
+	                el.style.transform = el.style.webkitTransform = 'translate3d(0%, 0, 0)';
+	            } else {
+	                el.style.transform = el.style.webkitTransform = 'translate3d(0%, 0, 0)';
+	            }
+	        });
+	    };
+	}])
+
+	drawer.directive('drawer', ['$rootScope', '$ionicGesture', function ($rootScope, $ionicGesture) {
+	    return {
+	        restrict: 'E',
+	        controller: 'drawerCtrl',
+	        link: function ($scope, $element, $attr, ctrl) {
+	            $element.addClass($attr.side);
+	            $scope.openDrawer = function () {
+	                ctrl.open();
+	            };
+	            $scope.closeDrawer = function () {
+	                ctrl.close();
+	            };
+	        }
+	    }
+	}])
+
+	drawer.directive('drawerClose', ['$rootScope', function ($rootScope) {
+	    return {
+	        restrict: 'A',
+	        link: function ($scope, $element) {
+	            $element.bind('click', function () {
+	                var drawerCtrl = $element.inheritedData('$drawerController');
+	                drawerCtrl.close();
+	            });
+	        }
+	    }
+	}]);
+
+	module.exports = drawer;
+
+/***/ },
+/* 30 */
+/***/ function(module, exports) {
+
+	var Configs = {
+
+	    run: function ($ionicPlatform, $ionicPopup) {
+	        $ionicPlatform.ready(function () {
+
+	            if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+	                cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+	            }
+
+	            if (window.Connection) {
+	                if (navigator.connection.type == Connection.NONE) {
+	                    $ionicPopup.confirm({
+	                        title: 'Connessione a Internet assente',
+	                        content: 'Non è stata trovata nessuna connessione a Internet,collegati ad una rete e riprova.'
+	                    })
+	                        .then(function (result) {
+	                            if (!result) {
+	                                ionic.Platform.exitApp();
+	                            }
+	                        });
+	                }
+	            }
+
+	        });
+	    },
+
+	    config: function ($ionicConfigProvider, $stateProvider, $urlRouterProvider) {
+
+	        $ionicConfigProvider.scrolling.jsScrolling(false);
+
+	        $stateProvider
+
+	            .state('login', {
+	                url: '/login',
+	                templateUrl: 'src/Components/LoginPage/login.html',
+	                controller: 'loginCtrl'
+	            })
+
+	            .state('signup', {
+	                url: '/signup',
+	                templateUrl: 'src/Components/SignupPage/signup.html',
+	                controller: 'signupCtrl'
+	            })
+
+	            .state('tab', {
+	                url: "/tab",
+	                abstract: true,
+	                templateUrl: "src/Components/Tabs/tabs.html",
+	                controller: 'tabsCtrl'
+	            })
+
+	            .state('tab.admin', {
+	                url: '/admin',
+	                views: {
+	                    'tab-admin': {
+	                        templateUrl: 'src/Components/AdminPage/tab-home.html',
+	                        controller: 'adminCtrl'
+	                    }
+	                }
+	            })
+
+	            .state('tab.giornalino', {
+	                url: '/giornalino',
+	                views: {
+	                    'tab-giornalino': {
+	                        templateUrl: 'src/Components/ArticlesPage/tab-giornalino.html',
+	                        controller: 'attualitaCtrl'
+	                    }
+	                }
+	            })
+
+	            .state('tab.orientamento', {
+	                url: '/orientamento',
+	                views: {
+	                    'tab-orientamento': {
+	                        templateUrl: 'src/Components/ArticlesPage/tab-giornalino.html',
+	                        controller: 'orientamentoCtrl'
+	                    }
+	                }
+	            })
+
+	            .state('tab.forum', {
+	                url: '/forum',
+	                views: {
+	                    'tab-forum': {
+	                        templateUrl: 'src/Components/NewsPage/tabs-forum.html',
+	                        controller: 'newsCtrl'
+	                    }
+	                }
+	            })
+
+	            .state('tab.link', {
+	                url: '/link',
+	                views: {
+	                    'tab-link': {
+	                        templateUrl: 'src/Components/LinkPage/tab-link.html',
+	                        controller: 'linkCtrl'
+	                    }
+	                }
+	            })
+
+	            .state('addArticle', {
+	                url: '/addArticle',
+	                templateUrl: 'src/Components/AddArticlePage/addArticle.html',
+	                controller: 'addArticleCtrl'
+	            })
+
+	            .state('sendMessage', {
+	                url: '/sendMessage',
+	                templateUrl: 'src/Components/AddNewsPage/sendMessage.html',
+	                controller: 'addNewsCtrl'
+	            })
+
+	            .state('comments', {
+	                url: '/comments',
+	                templateUrl: 'src/Components/CommentsPage/comments.html',
+	                controller: 'commentsCtrl'
+	            })
+
+	            .state('likes', {
+	                url: '/likes',
+	                templateUrl: 'src/Components/LikesPage/likes.html',
+	                controller: 'likesCtrl'
+	            })
+
+	            .state('moderation', {
+	                url: '/moderation',
+	                templateUrl: 'src/Components/ModerationPage/moderation.html',
+	                controller: 'moderationCtrl'
+	            });
+
+
+	        if (window.localStorage.getItem("RememberMe") == "true") {
+	            $urlRouterProvider.otherwise('/tab/link');
+	        } else {
+	            $urlRouterProvider.otherwise('/login');
+	        }
+
+
+	    }
+	};
+
+	module.exports = Configs;
+
+/***/ },
+/* 31 */
 /***/ function(module, exports) {
 
 	var config = {

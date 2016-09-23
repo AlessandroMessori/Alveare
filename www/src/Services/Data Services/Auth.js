@@ -39,15 +39,13 @@ var Auth = function () {
         });
     };
 
-    this.Logout = function (loadingTemplate, state, modals) {
+    this.Logout = function (state, rootScope, modals) {
         Firebase.auth().signOut().then(function () {
             state.go('login');
-            loadingTemplate.hide();
             window.localStorage.setItem("RememberMe", "false");
             window.localStorage.setItem("IsAdmin", "false");
             window.localStorage.removeItem("Username");
-        }, function (error) {
-            loadingTemplate.hide();
+        }, function () {
             modals.ResultTemplate('Impossibile disconnetersi dal profilo');
         });
     };

@@ -70,8 +70,9 @@
 	var Modals = __webpack_require__(26);
 	var FileHandler = __webpack_require__(27);
 	var ActionBar = __webpack_require__(28);
-	var Drawer = __webpack_require__(30);
-	var credentials = __webpack_require__(29);
+	var Drawer = __webpack_require__(29);
+	var Configs = __webpack_require__(30);
+	var credentials = __webpack_require__(31);
 
 	Firebase.initializeApp(credentials);
 
@@ -102,144 +103,9 @@
 	appAS.service('FileHandler', FileHandler);
 	appAS.directive('actionBar', ActionBar);
 
-	appAS.run(function ($ionicPlatform, $ionicPopup) {
-	    $ionicPlatform.ready(function () {
+	appAS.run(Configs.run);
 
-	        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-	            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-	        }
-
-	        if (window.Connection) {
-	            if (navigator.connection.type == Connection.NONE) {
-	                $ionicPopup.confirm({
-	                    title: 'Connessione a Internet assente',
-	                    content: 'Non è stata trovata nessuna connessione a Internet,collegati ad una rete e riprova.'
-	                })
-	                    .then(function (result) {
-	                        if (!result) {
-	                            ionic.Platform.exitApp();
-	                        }
-	                    });
-	            }
-	        }
-
-	    });
-	});
-
-	appAS.config(function ($ionicConfigProvider, $stateProvider, $urlRouterProvider) {
-
-	    $ionicConfigProvider.scrolling.jsScrolling(false);
-
-	    $stateProvider
-
-	        .state('login', {
-	            url: '/login',
-	            templateUrl: 'src/Components/LoginPage/login.html',
-	            controller: 'loginCtrl'
-	        })
-
-	        .state('signup', {
-	            url: '/signup',
-	            templateUrl: 'src/Components/SignupPage/signup.html',
-	            controller: 'signupCtrl'
-	        })
-
-	        .state('tab', {
-	            url: "/tab",
-	            abstract: true,
-	            templateUrl: "src/Components/Tabs/tabs.html",
-	            controller: 'tabsCtrl'
-	        })
-
-	        .state('tab.admin', {
-	            url: '/admin',
-	            views: {
-	                'tab-admin': {
-	                    templateUrl: 'src/Components/AdminPage/tab-home.html',
-	                    controller: 'adminCtrl'
-	                }
-	            }
-	        })
-
-	        .state('tab.giornalino', {
-	            url: '/giornalino',
-	            views: {
-	                'tab-giornalino': {
-	                    templateUrl: 'src/Components/ArticlesPage/tab-giornalino.html',
-	                    controller: 'attualitaCtrl'
-	                }
-	            }
-	        })
-
-	        .state('tab.orientamento', {
-	            url: '/orientamento',
-	            views: {
-	                'tab-orientamento': {
-	                    templateUrl: 'src/Components/ArticlesPage/tab-giornalino.html',
-	                    controller: 'orientamentoCtrl'
-	                }
-	            }
-	        })
-
-	        .state('tab.forum', {
-	            url: '/forum',
-	            views: {
-	                'tab-forum': {
-	                    templateUrl: 'src/Components/NewsPage/tabs-forum.html',
-	                    controller: 'newsCtrl'
-	                }
-	            }
-	        })
-
-	        .state('tab.link', {
-	            url: '/link',
-	            views: {
-	                'tab-link': {
-	                    templateUrl: 'src/Components/LinkPage/tab-link.html',
-	                    controller: 'linkCtrl'
-	                }
-	            }
-	        })
-
-	        .state('addArticle', {
-	            url: '/addArticle',
-	            templateUrl: 'src/Components/AddArticlePage/addArticle.html',
-	            controller: 'addArticleCtrl'
-	        })
-
-	        .state('sendMessage', {
-	            url: '/sendMessage',
-	            templateUrl: 'src/Components/AddNewsPage/sendMessage.html',
-	            controller: 'addNewsCtrl'
-	        })
-
-	        .state('comments', {
-	            url: '/comments',
-	            templateUrl: 'src/Components/CommentsPage/comments.html',
-	            controller: 'commentsCtrl'
-	        })
-
-	        .state('likes', {
-	            url: '/likes',
-	            templateUrl: 'src/Components/LikesPage/likes.html',
-	            controller: 'likesCtrl'
-	        })
-
-	        .state('moderation', {
-	            url: '/moderation',
-	            templateUrl: 'src/Components/ModerationPage/moderation.html',
-	            controller: 'moderationCtrl'
-	        });
-
-
-	    if (window.localStorage.getItem("RememberMe") == "true") {
-	        $urlRouterProvider.otherwise('/tab/link');
-	    } else {
-	        $urlRouterProvider.otherwise('/login');
-	    }
-
-
-	});
+	appAS.config(Configs.config);
 
 
 /***/ },
@@ -1109,6 +975,8 @@
 	            $ionicLoading.show({
 	                template: 'Accesso in Corso...'
 	            });
+	            $ionicHistory.clearHistory();
+	            $ionicHistory.clearCache();
 	            Auth.Login(mail, password, $ionicLoading, $state, $ionicHistory, Modals);
 	            $scope.SetRememberMe(RememberMe);
 	        }
@@ -1172,10 +1040,18 @@
 
 	var forumCtrl = function ($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler) {
 
+	    $rootScope.userName = window.localStorage.getItem('Username');
 	    Messages.getPosts($scope, $rootScope, $state, 'newsSpinner');
 
+	    $scope.$on('$ionicView.enter', function () {
+	        if ($rootScope.userName != window.localStorage.getItem('Username')) {
+	            Messages.getPosts($scope, $rootScope, $state, 'newsSpinner');
+	            $rootScope.userName = window.localStorage.getItem('Username');
+	        }
+	    });
+
 	    $scope.openFile = function (file) {
-	        FileHandler.openFile(file,$ionicLoading);
+	        FileHandler.openFile(file, $ionicLoading);
 	    }
 
 	};
@@ -1224,9 +1100,16 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
+	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth, Modals) {
+
 	    $scope.View = 'tab-link';
 	    Auth.checkAdmins($scope, 'adminPanel');
+
+	    if (window.cordova) {
+	        if (window.cordova.platform == 'iOS') {
+	            document.getElementById('tabBar').style.marginTop = '-4%';
+	        }
+	    }
 
 	    $scope.$on('$ionicView.enter', function () {
 	        $scope.closeDrawer();
@@ -1245,10 +1128,7 @@
 	    });
 
 	    $scope.Disconnect = function () {
-	        $ionicLoading.show({
-	            template: 'Disconnessione in corso...'
-	        });
-	        Auth.Logout($ionicLoading, $state);
+	        Auth.Logout($state, $rootScope, Modals);
 	    };
 
 	    $scope.backBtnClick = function () {
@@ -1304,6 +1184,7 @@
 	        var storage = Firebase.storage();
 	        var self = this;
 	        document.getElementById(spinner).style.display = 'block';
+	        scope.Posts = [];
 
 	        var ModelRef = Firebase.database().ref('Comunicazioni');
 	        ModelRef.on('value', function (snapshot) {
@@ -1639,8 +1520,9 @@
 	            if (target == 'Comments') {
 	                scope[target] = _.uniqBy(posts, 'text');
 	            }
-	            //if (index == maxLenght - 1)
-	            scope.$apply();
+	            window.setTimeout(function () {
+	                scope.$apply();
+	            }, 1000);
 
 	        });
 	    };
@@ -1662,7 +1544,7 @@
 	            }
 	            document.getElementById(spinner).style.display = 'none';
 	        });
-	    }
+	    };
 	};
 	module.exports = Likes;
 
@@ -18468,15 +18350,13 @@
 	        });
 	    };
 
-	    this.Logout = function (loadingTemplate, state, modals) {
+	    this.Logout = function (state, rootScope, modals) {
 	        Firebase.auth().signOut().then(function () {
 	            state.go('login');
-	            loadingTemplate.hide();
 	            window.localStorage.setItem("RememberMe", "false");
 	            window.localStorage.setItem("IsAdmin", "false");
 	            window.localStorage.removeItem("Username");
-	        }, function (error) {
-	            loadingTemplate.hide();
+	        }, function () {
 	            modals.ResultTemplate('Impossibile disconnetersi dal profilo');
 	        });
 	    };
@@ -18847,19 +18727,6 @@
 /* 29 */
 /***/ function(module, exports) {
 
-	var config = {
-	    apiKey: "AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8",
-	    authDomain: "app-liceoariostospallanz-d12b0.firebaseapp.com",
-	    databaseURL: "https://app-liceoariostospallanz-d12b0.firebaseio.com",
-	    storageBucket: "app-liceoariostospallanz-d12b0.appspot.com"
-	};
-
-	module.exports = config;
-
-/***/ },
-/* 30 */
-/***/ function(module, exports) {
-
 	var drawer = angular.module('ionic.contrib.drawer', ['ionic']);
 
 	drawer.controller('drawerCtrl', ['$element', '$attrs', '$ionicGesture', '$document', function ($element, $attr, $ionicGesture, $document) {
@@ -19031,6 +18898,167 @@
 	}]);
 
 	module.exports = drawer;
+
+/***/ },
+/* 30 */
+/***/ function(module, exports) {
+
+	var Configs = {
+
+	    run: function ($ionicPlatform, $ionicPopup) {
+	        $ionicPlatform.ready(function () {
+
+	            if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+	                cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+	            }
+
+	            if (window.Connection) {
+	                if (navigator.connection.type == Connection.NONE) {
+	                    $ionicPopup.confirm({
+	                        title: 'Connessione a Internet assente',
+	                        content: 'Non è stata trovata nessuna connessione a Internet,collegati ad una rete e riprova.'
+	                    })
+	                        .then(function (result) {
+	                            if (!result) {
+	                                ionic.Platform.exitApp();
+	                            }
+	                        });
+	                }
+	            }
+
+	        });
+	    },
+
+	    config: function ($ionicConfigProvider, $stateProvider, $urlRouterProvider) {
+
+	        $ionicConfigProvider.scrolling.jsScrolling(false);
+
+	        $stateProvider
+
+	            .state('login', {
+	                url: '/login',
+	                templateUrl: 'src/Components/LoginPage/login.html',
+	                controller: 'loginCtrl'
+	            })
+
+	            .state('signup', {
+	                url: '/signup',
+	                templateUrl: 'src/Components/SignupPage/signup.html',
+	                controller: 'signupCtrl'
+	            })
+
+	            .state('tab', {
+	                url: "/tab",
+	                abstract: true,
+	                templateUrl: "src/Components/Tabs/tabs.html",
+	                controller: 'tabsCtrl'
+	            })
+
+	            .state('tab.admin', {
+	                url: '/admin',
+	                views: {
+	                    'tab-admin': {
+	                        templateUrl: 'src/Components/AdminPage/tab-home.html',
+	                        controller: 'adminCtrl'
+	                    }
+	                }
+	            })
+
+	            .state('tab.giornalino', {
+	                url: '/giornalino',
+	                views: {
+	                    'tab-giornalino': {
+	                        templateUrl: 'src/Components/ArticlesPage/tab-giornalino.html',
+	                        controller: 'attualitaCtrl'
+	                    }
+	                }
+	            })
+
+	            .state('tab.orientamento', {
+	                url: '/orientamento',
+	                views: {
+	                    'tab-orientamento': {
+	                        templateUrl: 'src/Components/ArticlesPage/tab-giornalino.html',
+	                        controller: 'orientamentoCtrl'
+	                    }
+	                }
+	            })
+
+	            .state('tab.forum', {
+	                url: '/forum',
+	                views: {
+	                    'tab-forum': {
+	                        templateUrl: 'src/Components/NewsPage/tabs-forum.html',
+	                        controller: 'newsCtrl'
+	                    }
+	                }
+	            })
+
+	            .state('tab.link', {
+	                url: '/link',
+	                views: {
+	                    'tab-link': {
+	                        templateUrl: 'src/Components/LinkPage/tab-link.html',
+	                        controller: 'linkCtrl'
+	                    }
+	                }
+	            })
+
+	            .state('addArticle', {
+	                url: '/addArticle',
+	                templateUrl: 'src/Components/AddArticlePage/addArticle.html',
+	                controller: 'addArticleCtrl'
+	            })
+
+	            .state('sendMessage', {
+	                url: '/sendMessage',
+	                templateUrl: 'src/Components/AddNewsPage/sendMessage.html',
+	                controller: 'addNewsCtrl'
+	            })
+
+	            .state('comments', {
+	                url: '/comments',
+	                templateUrl: 'src/Components/CommentsPage/comments.html',
+	                controller: 'commentsCtrl'
+	            })
+
+	            .state('likes', {
+	                url: '/likes',
+	                templateUrl: 'src/Components/LikesPage/likes.html',
+	                controller: 'likesCtrl'
+	            })
+
+	            .state('moderation', {
+	                url: '/moderation',
+	                templateUrl: 'src/Components/ModerationPage/moderation.html',
+	                controller: 'moderationCtrl'
+	            });
+
+
+	        if (window.localStorage.getItem("RememberMe") == "true") {
+	            $urlRouterProvider.otherwise('/tab/link');
+	        } else {
+	            $urlRouterProvider.otherwise('/login');
+	        }
+
+
+	    }
+	};
+
+	module.exports = Configs;
+
+/***/ },
+/* 31 */
+/***/ function(module, exports) {
+
+	var config = {
+	    apiKey: "AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8",
+	    authDomain: "app-liceoariostospallanz-d12b0.firebaseapp.com",
+	    databaseURL: "https://app-liceoariostospallanz-d12b0.firebaseio.com",
+	    storageBucket: "app-liceoariostospallanz-d12b0.appspot.com"
+	};
+
+	module.exports = config;
 
 /***/ }
 /******/ ]);

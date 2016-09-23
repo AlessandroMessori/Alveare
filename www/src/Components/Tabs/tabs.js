@@ -1,7 +1,14 @@
 var Firebase = require('firebase');
-var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
+var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth, Modals) {
+
     $scope.View = 'tab-link';
     Auth.checkAdmins($scope, 'adminPanel');
+
+    if (window.cordova) {
+        if (window.cordova.platform == 'iOS') {
+            document.getElementById('tabBar').style.marginTop = '-4%';
+        }
+    }
 
     $scope.$on('$ionicView.enter', function () {
         $scope.closeDrawer();
@@ -20,10 +27,7 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
     });
 
     $scope.Disconnect = function () {
-        $ionicLoading.show({
-            template: 'Disconnessione in corso...'
-        });
-        Auth.Logout($ionicLoading, $state);
+        Auth.Logout($state, $rootScope, Modals);
     };
 
     $scope.backBtnClick = function () {

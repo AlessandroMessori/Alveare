@@ -58,7 +58,7 @@
     <author email="lalveare1516@gmail.com" href="https://facebook.com/lalveare1516">
         L'Alveare'
     </author>
-    <content src="dist/index.html" />
+    <content src="index.html" />
     <access origin="*" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
