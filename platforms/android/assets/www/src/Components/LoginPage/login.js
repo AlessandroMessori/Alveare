@@ -10,6 +10,8 @@ var loginCtrl = function ($scope, $ionicLoading, $window, $state, $ionicHistory,
             $ionicLoading.show({
                 template: 'Accesso in Corso...'
             });
+            $ionicHistory.clearHistory();
+            $ionicHistory.clearCache();
             Auth.Login(mail, password, $ionicLoading, $state, $ionicHistory, Modals);
             $scope.SetRememberMe(RememberMe);
         }

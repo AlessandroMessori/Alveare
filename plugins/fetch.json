@@ -104,5 +104,13 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "com.polarcape.plugins.documenthandler": {
+        "source": {
+            "type": "registry",
+            "id": "polarcape-cordova-plugin-document-handler"
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

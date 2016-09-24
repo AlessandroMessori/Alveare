@@ -1,4 +1,4 @@
-var FileHandler = function (Modals) {
+var FileHandler = function (Modals, PlatformHandler) {
     this.getFileBlob = function (url, cb) {
         var xhr = new XMLHttpRequest();
         xhr.open("GET", url);
@@ -10,38 +10,44 @@ var FileHandler = function (Modals) {
     };
 
     this.openFile = function (file, loadingTemplate) {
-        var fileURL = cordova.file.externalApplicationStorageDirectory + "file.pdf";
-        var fileTransfer = new FileTransfer();
-        loadingTemplate.show({
-            template: 'Apertura File in Corso...'
-        });
+        PlatformHandler.is('iOS',
+            function () {
+                cordova.InAppBrowser.open(file, '_system', 'location=yes');
+            },
+            function () {
 
-        fileTransfer.download(
-            file,
-            fileURL,
-            function (entry) {
-                cordova.plugins.fileOpener2.open(
-                    entry.toURL(),
-                    'application/pdf',
-                    {
-                        error: function (e) {
-                            loadingTemplate.hide();
-                        },
-                        success: function () {
-                            loadingTemplate.hide();
-                        }
-                    }
+                var fileURL = cordova.file.externalApplicationStorageDirectory + "file.pdf";
+                var fileTransfer = new FileTransfer();
+                loadingTemplate.show({
+                    template: 'Apertura File in Corso...'
+                });
+
+                fileTransfer.download(
+                    file,
+                    fileURL,
+                    function (entry) {
+                        cordova.plugins.fileOpener2.open(
+                            entry.toURL(),
+                            'application/pdf',
+                            {
+                                error: function (e) {
+                                    loadingTemplate.hide();
+                                },
+                                success: function () {
+                                    loadingTemplate.hide();
+                                }
+                            }
+                        );
+                    },
+                    function (error) {
+                    },
+                    false
                 );
-            },
-            function (error) {
-            },
-            false
-        );
+            });
     };
 
     this.loadFile = function (ele, scope, multiple) {
         ele.disabled = true;
-        var fullPath = ele.value;
         var filename = ele.files[ele.files.length - 1].name;
         var fileType = ele.files[ele.files.length - 1].type;
 

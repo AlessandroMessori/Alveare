@@ -40,7 +40,7 @@
     "cordova-plugin-file-opener2"
   ],
   "cordovaPlatforms": [
-    "ios",
-    "android"
+    "android",
+    "ios"
   ]
 }

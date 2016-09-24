@@ -69,6 +69,7 @@
 	var StringHandler = __webpack_require__(25);
 	var Modals = __webpack_require__(26);
 	var FileHandler = __webpack_require__(27);
+	var PlatformHandler = __webpack_require__(32);
 	var ActionBar = __webpack_require__(28);
 	var Drawer = __webpack_require__(29);
 	var Configs = __webpack_require__(30);
@@ -101,6 +102,7 @@
 	appAS.service('Modals', Modals);
 	appAS.service('StaticData', StaticData);
 	appAS.service('FileHandler', FileHandler);
+	appAS.service('PlatformHandler', PlatformHandler);
 	appAS.directive('actionBar', ActionBar);
 
 	appAS.run(Configs.run);
@@ -975,6 +977,8 @@
 	            $ionicLoading.show({
 	                template: 'Accesso in Corso...'
 	            });
+	            $ionicHistory.clearHistory();
+	            $ionicHistory.clearCache();
 	            Auth.Login(mail, password, $ionicLoading, $state, $ionicHistory, Modals);
 	            $scope.SetRememberMe(RememberMe);
 	        }
@@ -1038,10 +1042,18 @@
 
 	var forumCtrl = function ($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler) {
 
+	    $rootScope.userName = window.localStorage.getItem('Username');
 	    Messages.getPosts($scope, $rootScope, $state, 'newsSpinner');
 
+	    $scope.$on('$ionicView.enter', function () {
+	        if ($rootScope.userName != window.localStorage.getItem('Username')) {
+	            Messages.getPosts($scope, $rootScope, $state, 'newsSpinner');
+	            $rootScope.userName = window.localStorage.getItem('Username');
+	        }
+	    });
+
 	    $scope.openFile = function (file) {
-	        FileHandler.openFile(file,$ionicLoading);
+	        FileHandler.openFile(file, $ionicLoading);
 	    }
 
 	};
@@ -1090,17 +1102,18 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth) {
+	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth, Modals, PlatformHandler) {
 
 	    $scope.View = 'tab-link';
 	    Auth.checkAdmins($scope, 'adminPanel');
 
-	    if (window.cordova) {
-	        if (window.cordova.platform == 'iOS') {
-	            document.getElementById('tabBar').style.marginTop = '-4%';
-	        }
-	        alert(cordova.platform);
-	    }
+	    PlatformHandler.is('iOS', function () {
+	        document.getElementById('tabBar').style.marginTop = '-5%';
+	        /*var offsets = document.getElementsByClassName('offsetY');
+	        offsets.length.map(function (item) {
+	            item.style.marginTop = '15%';
+	        });*/
+	    });
 
 	    $scope.$on('$ionicView.enter', function () {
 	        $scope.closeDrawer();
@@ -1119,10 +1132,7 @@
 	    });
 
 	    $scope.Disconnect = function () {
-	        $ionicLoading.show({
-	            template: 'Disconnessione in corso...'
-	        });
-	        Auth.Logout($ionicLoading, $state);
+	        Auth.Logout($state, $rootScope, Modals);
 	    };
 
 	    $scope.backBtnClick = function () {
@@ -1178,6 +1188,7 @@
 	        var storage = Firebase.storage();
 	        var self = this;
 	        document.getElementById(spinner).style.display = 'block';
+	        scope.Posts = [];
 
 	        var ModelRef = Firebase.database().ref('Comunicazioni');
 	        ModelRef.on('value', function (snapshot) {
@@ -1513,8 +1524,9 @@
 	            if (target == 'Comments') {
 	                scope[target] = _.uniqBy(posts, 'text');
 	            }
-	            //if (index == maxLenght - 1)
-	            scope.$apply();
+	            window.setTimeout(function () {
+	                scope.$apply();
+	            }, 1000);
 
 	        });
 	    };
@@ -1536,7 +1548,7 @@
 	            }
 	            document.getElementById(spinner).style.display = 'none';
 	        });
-	    }
+	    };
 	};
 	module.exports = Likes;
 
@@ -18342,15 +18354,13 @@
 	        });
 	    };
 
-	    this.Logout = function (loadingTemplate, state, modals) {
+	    this.Logout = function (state, rootScope, modals) {
 	        Firebase.auth().signOut().then(function () {
 	            state.go('login');
-	            loadingTemplate.hide();
 	            window.localStorage.setItem("RememberMe", "false");
 	            window.localStorage.setItem("IsAdmin", "false");
 	            window.localStorage.removeItem("Username");
-	        }, function (error) {
-	            loadingTemplate.hide();
+	        }, function () {
 	            modals.ResultTemplate('Impossibile disconnetersi dal profilo');
 	        });
 	    };
@@ -18617,7 +18627,7 @@
 /* 27 */
 /***/ function(module, exports) {
 
-	var FileHandler = function (Modals) {
+	var FileHandler = function (Modals, PlatformHandler) {
 	    this.getFileBlob = function (url, cb) {
 	        var xhr = new XMLHttpRequest();
 	        xhr.open("GET", url);
@@ -18629,33 +18639,40 @@
 	    };
 
 	    this.openFile = function (file, loadingTemplate) {
-	        var fileURL = cordova.file.externalApplicationStorageDirectory + "file.pdf";
-	        var fileTransfer = new FileTransfer();
-	        loadingTemplate.show({
-	            template: 'Apertura File in Corso...'
-	        });
+	        PlatformHandler.is('iOS',
+	            function () {
+	                cordova.InAppBrowser.open(file, '_system', 'location=yes');
+	            },
+	            function () {
 
-	        fileTransfer.download(
-	            file,
-	            fileURL,
-	            function (entry) {
-	                cordova.plugins.fileOpener2.open(
-	                    entry.toURL(),
-	                    'application/pdf',
-	                    {
-	                        error: function (e) {
-	                            loadingTemplate.hide();
-	                        },
-	                        success: function () {
-	                            loadingTemplate.hide();
-	                        }
-	                    }
+	                var fileURL = cordova.file.externalApplicationStorageDirectory + "file.pdf";
+	                var fileTransfer = new FileTransfer();
+	                loadingTemplate.show({
+	                    template: 'Apertura File in Corso...'
+	                });
+
+	                fileTransfer.download(
+	                    file,
+	                    fileURL,
+	                    function (entry) {
+	                        cordova.plugins.fileOpener2.open(
+	                            entry.toURL(),
+	                            'application/pdf',
+	                            {
+	                                error: function (e) {
+	                                    loadingTemplate.hide();
+	                                },
+	                                success: function () {
+	                                    loadingTemplate.hide();
+	                                }
+	                            }
+	                        );
+	                    },
+	                    function (error) {
+	                    },
+	                    false
 	                );
-	            },
-	            function (error) {
-	            },
-	            false
-	        );
+	            });
 	    };
 
 	    this.loadFile = function (ele, scope, multiple) {
@@ -19053,6 +19070,38 @@
 	};
 
 	module.exports = config;
+
+/***/ },
+/* 32 */
+/***/ function(module, exports) {
+
+	var PlatformHandler = function () {
+
+	    this.is = function (platform, callback1, callback2) {
+
+	        if (callback1 == undefined) {
+	            callback1 = null;
+	        }
+
+	        if (callback2 == undefined) {
+	            callback2 = null;
+	        }
+
+	        document.addEventListener("deviceready", function () {
+	            if (window.cordova) {
+	                if (device.platform == platform) {
+	                    callback1();
+	                }
+	                else {
+	                    callback2();
+	                }
+	            }
+	        }, false);
+	    }
+
+	};
+
+	module.exports = PlatformHandler;
 
 /***/ }
 /******/ ]);

@@ -93,6 +93,6 @@ var Likes = function () {
             }
             document.getElementById(spinner).style.display = 'none';
         });
-    }
+    };
 };
 module.exports = Likes;

@@ -69,6 +69,7 @@
 	var StringHandler = __webpack_require__(25);
 	var Modals = __webpack_require__(26);
 	var FileHandler = __webpack_require__(27);
+	var PlatformHandler = __webpack_require__(32);
 	var ActionBar = __webpack_require__(28);
 	var Drawer = __webpack_require__(29);
 	var Configs = __webpack_require__(30);
@@ -101,6 +102,7 @@
 	appAS.service('Modals', Modals);
 	appAS.service('StaticData', StaticData);
 	appAS.service('FileHandler', FileHandler);
+	appAS.service('PlatformHandler', PlatformHandler);
 	appAS.directive('actionBar', ActionBar);
 
 	appAS.run(Configs.run);
@@ -1100,16 +1102,18 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth, Modals) {
+	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth, Modals, PlatformHandler) {
 
 	    $scope.View = 'tab-link';
 	    Auth.checkAdmins($scope, 'adminPanel');
 
-	    if (window.cordova) {
-	        if (window.cordova.platform == 'iOS') {
-	            document.getElementById('tabBar').style.marginTop = '-4%';
-	        }
-	    }
+	    PlatformHandler.is('iOS', function () {
+	        document.getElementById('tabBar').style.marginTop = '-5%';
+	        /*var offsets = document.getElementsByClassName('offsetY');
+	        offsets.length.map(function (item) {
+	            item.style.marginTop = '15%';
+	        });*/
+	    });
 
 	    $scope.$on('$ionicView.enter', function () {
 	        $scope.closeDrawer();
@@ -18623,7 +18627,7 @@
 /* 27 */
 /***/ function(module, exports) {
 
-	var FileHandler = function (Modals) {
+	var FileHandler = function (Modals, PlatformHandler) {
 	    this.getFileBlob = function (url, cb) {
 	        var xhr = new XMLHttpRequest();
 	        xhr.open("GET", url);
@@ -18635,38 +18639,44 @@
 	    };
 
 	    this.openFile = function (file, loadingTemplate) {
-	        var fileURL = cordova.file.externalApplicationStorageDirectory + "file.pdf";
-	        var fileTransfer = new FileTransfer();
-	        loadingTemplate.show({
-	            template: 'Apertura File in Corso...'
-	        });
+	        PlatformHandler.is('iOS',
+	            function () {
+	                cordova.InAppBrowser.open(file, '_system', 'location=yes');
+	            },
+	            function () {
 
-	        fileTransfer.download(
-	            file,
-	            fileURL,
-	            function (entry) {
-	                cordova.plugins.fileOpener2.open(
-	                    entry.toURL(),
-	                    'application/pdf',
-	                    {
-	                        error: function (e) {
-	                            loadingTemplate.hide();
-	                        },
-	                        success: function () {
-	                            loadingTemplate.hide();
-	                        }
-	                    }
+	                var fileURL = cordova.file.externalApplicationStorageDirectory + "file.pdf";
+	                var fileTransfer = new FileTransfer();
+	                loadingTemplate.show({
+	                    template: 'Apertura File in Corso...'
+	                });
+
+	                fileTransfer.download(
+	                    file,
+	                    fileURL,
+	                    function (entry) {
+	                        cordova.plugins.fileOpener2.open(
+	                            entry.toURL(),
+	                            'application/pdf',
+	                            {
+	                                error: function (e) {
+	                                    loadingTemplate.hide();
+	                                },
+	                                success: function () {
+	                                    loadingTemplate.hide();
+	                                }
+	                            }
+	                        );
+	                    },
+	                    function (error) {
+	                    },
+	                    false
 	                );
-	            },
-	            function (error) {
-	            },
-	            false
-	        );
+	            });
 	    };
 
 	    this.loadFile = function (ele, scope, multiple) {
 	        ele.disabled = true;
-	        var fullPath = ele.value;
 	        var filename = ele.files[ele.files.length - 1].name;
 	        var fileType = ele.files[ele.files.length - 1].type;
 
@@ -19059,6 +19069,38 @@
 	};
 
 	module.exports = config;
+
+/***/ },
+/* 32 */
+/***/ function(module, exports) {
+
+	var PlatformHandler = function () {
+
+	    this.is = function (platform, callback1, callback2) {
+
+	        if (callback1 == undefined) {
+	            callback1 = null;
+	        }
+
+	        if (callback2 == undefined) {
+	            callback2 = null;
+	        }
+
+	        document.addEventListener("deviceready", function () {
+	            if (window.cordova) {
+	                if (device.platform == platform) {
+	                    callback1();
+	                }
+	                else {
+	                    callback2();
+	                }
+	            }
+	        }, false);
+	    }
+
+	};
+
+	module.exports = PlatformHandler;
 
 /***/ }
 /******/ ]);

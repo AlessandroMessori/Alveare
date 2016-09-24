@@ -1,11 +1,12 @@
 var forumCtrl = function ($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler) {
 
+    $rootScope.userName = window.localStorage.getItem('Username');
     Messages.getPosts($scope, $rootScope, $state, 'newsSpinner');
 
     $scope.$on('$ionicView.enter', function () {
-        if (window.localStorage.getItem('justLogged') == 'true') {
+        if ($rootScope.userName != window.localStorage.getItem('Username')) {
             Messages.getPosts($scope, $rootScope, $state, 'newsSpinner');
-            window.localStorage.setItem('justLogged', 'false');
+            $rootScope.userName = window.localStorage.getItem('Username');
         }
     });
 

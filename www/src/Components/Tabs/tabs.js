@@ -1,14 +1,16 @@
 var Firebase = require('firebase');
-var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth, Modals) {
+var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth, Modals, PlatformHandler) {
 
     $scope.View = 'tab-link';
     Auth.checkAdmins($scope, 'adminPanel');
 
-    if (window.cordova) {
-        if (window.cordova.platform == 'iOS') {
-            document.getElementById('tabBar').style.marginTop = '-4%';
-        }
-    }
+    PlatformHandler.is('iOS', function () {
+        document.getElementById('tabBar').style.marginTop = '-5%';
+        /*var offsets = document.getElementsByClassName('offsetY');
+        offsets.length.map(function (item) {
+            item.style.marginTop = '15%';
+        });*/
+    });
 
     $scope.$on('$ionicView.enter', function () {
         $scope.closeDrawer();

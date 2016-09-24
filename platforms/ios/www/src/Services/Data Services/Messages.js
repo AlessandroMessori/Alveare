@@ -29,6 +29,7 @@ var Messages = function (Modals, Comments, Likes) {
         var storage = Firebase.storage();
         var self = this;
         document.getElementById(spinner).style.display = 'block';
+        scope.Posts = [];
 
         var ModelRef = Firebase.database().ref('Comunicazioni');
         ModelRef.on('value', function (snapshot) {

@@ -69,8 +69,9 @@ var Likes = function () {
             if (target == 'Comments') {
                 scope[target] = _.uniqBy(posts, 'text');
             }
-            //if (index == maxLenght - 1)
-            scope.$apply();
+            window.setTimeout(function () {
+                scope.$apply();
+            }, 1000);
 
         });
     };
@@ -92,6 +93,6 @@ var Likes = function () {
             }
             document.getElementById(spinner).style.display = 'none';
         });
-    }
+    };
 };
 module.exports = Likes;

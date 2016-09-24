@@ -33,7 +33,6 @@ var Auth = function () {
 
             if (user != null && history.currentStateName() == 'login') {
                 loadingTemplate.hide();
-                window.localStorage.setItem('justLogged', 'true');
                 state.go("tab.link");
             }
 

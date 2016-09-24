@@ -17,7 +17,7 @@
  under the License.
  */
 //
-// Prefix header for all source files of the 'App Ariosto Spallanzani' target in the 'App Ariosto Spallanzani' project
+// Prefix header for all source files of the 'Ariosto Spallanzani' target in the 'Ariosto Spallanzani' project
 //
 
 #ifdef __OBJC__
