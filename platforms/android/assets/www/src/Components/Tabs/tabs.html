@@ -8,8 +8,8 @@
                 </button>
             </ion-nav-buttons>
             <ion-nav-buttons side="right">
-                <button class="button backBtn" ng-click="Disconnect()">
-                    <p class="ion-log-out"></p>
+                <button class="button backBtn">
+                    <p></p>
                 </button>
             </ion-nav-buttons>
         </ion-nav-bar>
@@ -18,6 +18,7 @@
         <ion-nav-view class="nav-view" id="MainView3" name="tab-orientamento"></ion-nav-view>
         <ion-nav-view class="nav-view" id="MainView4" name="tab-forum"></ion-nav-view>
         <ion-nav-view class="nav-view" id="MainView5" name="tab-link"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="MainView6" name="tab-settings"></ion-nav-view>
 
     </ion-side-menu-content>
 
@@ -43,7 +44,7 @@
                 <ion-item menu-close ui-sref="tab.link" ng-click="navigate('link',5)">
                     <span class="icon ion-link"> Link Utili</span>
                 </ion-item>
-                <ion-item menu-close ui-sref="/">
+                <ion-item menu-close ui-sref="tab.settings" ng-click="navigate('settings',6)">
                     <span class="icon ion-ios-gear"> Impostazioni</span>
                 </ion-item>
             </ion-list>

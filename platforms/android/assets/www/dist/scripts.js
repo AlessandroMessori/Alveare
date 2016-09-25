@@ -56,6 +56,7 @@
 	var loginCtrl = __webpack_require__(10);
 	var moderationCtrl = __webpack_require__(11);
 	var newsCtrl = __webpack_require__(12);
+	var settingsCtrl = __webpack_require__(33);
 	var signupCtrl = __webpack_require__(13);
 	var tabsCtrl = __webpack_require__(14);
 	var Messages = __webpack_require__(15);
@@ -89,6 +90,7 @@
 	appAS.controller('loginCtrl', loginCtrl);
 	appAS.controller('moderationCtrl', moderationCtrl);
 	appAS.controller('newsCtrl', newsCtrl);
+	appAS.controller('settingsCtrl', settingsCtrl);
 	appAS.controller('signupCtrl', signupCtrl);
 	appAS.controller('tabsCtrl', tabsCtrl);
 	appAS.service('Messages', Messages);
@@ -1128,22 +1130,19 @@
 	        }
 	    });
 
-	    $scope.Disconnect = function () {
-	        Auth.Logout($state, $rootScope, Modals);
-	    };
-
 	    $scope.backBtnClick = function () {
 	        $state.go($rootScope.previousState);
 	    };
 
 	    //convert to Service
 	    $scope.navigate = function (destination, ind) {
-	        $scope.View = 'tab.' + destination;
+	        $scope.View = 'tab-' + destination;
 	        document.getElementById('MainView1').style.display = 'none';
 	        document.getElementById('MainView2').style.display = 'none';
 	        document.getElementById('MainView3').style.display = 'none';
 	        document.getElementById('MainView4').style.display = 'none';
 	        document.getElementById('MainView5').style.display = 'none';
+	        document.getElementById('MainView6').style.display = 'none';
 	        document.getElementById('MainView' + ind).style.display = 'block';
 	    }
 	};
@@ -19048,6 +19047,16 @@
 	                }
 	            })
 
+	            .state('tab.settings', {
+	                url: '/settings',
+	                views: {
+	                    'tab-settings': {
+	                        templateUrl: 'src/Components/SettingsPage/tab-settings.html',
+	                        controller: 'settingsCtrl'
+	                    }
+	                }
+	            })
+
 	            .state('addArticle', {
 	                url: '/addArticle',
 	                templateUrl: 'src/Components/AddArticlePage/addArticle.html',
@@ -19103,6 +19112,33 @@
 	};
 
 	module.exports = config;
+
+/***/ },
+/* 33 */
+/***/ function(module, exports) {
+
+	var settingsCtrl = function ($scope, $rootScope, $state, Auth, Modals) {
+
+	    if (window.localStorage.getItem('RememberMe') == 'true') {
+	        $scope.RememberMe = true;
+	    }
+	    else {
+	        $scope.RememberMe = false;
+	    }
+
+	    $scope.updateRememberMe = function (RememberMe) {
+	        window.localStorage.setItem('RememberMe', RememberMe.toString());
+	        $scope.RememberMe = RememberMe;
+	    };
+
+	    $scope.Disconnect = function () {
+	        Auth.Logout($state, $rootScope, Modals);
+	    };
+
+	};
+
+	module.exports = settingsCtrl;
+
 
 /***/ }
 /******/ ]);

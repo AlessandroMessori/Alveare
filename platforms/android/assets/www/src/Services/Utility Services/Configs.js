@@ -99,6 +99,16 @@ var Configs = {
                 }
             })
 
+            .state('tab.settings', {
+                url: '/settings',
+                views: {
+                    'tab-settings': {
+                        templateUrl: 'src/Components/SettingsPage/tab-settings.html',
+                        controller: 'settingsCtrl'
+                    }
+                }
+            })
+
             .state('addArticle', {
                 url: '/addArticle',
                 templateUrl: 'src/Components/AddArticlePage/addArticle.html',
