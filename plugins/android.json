@@ -13,7 +13,22 @@
         "cordova-plugin-console": {
             "PACKAGE_NAME": "com.lalveare.alveare"
         },
+        "cordova-plugin-crosswalk-webview": {
+            "PACKAGE_NAME": "com.lalveare.alveare"
+        },
         "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.lalveare.alveare"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.lalveare.alveare"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "com.lalveare.alveare"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.lalveare.alveare"
+        },
+        "cordova-plugin-network-information": {
             "PACKAGE_NAME": "com.lalveare.alveare"
         },
         "cordova-plugin-splashscreen": {
@@ -23,24 +38,6 @@
             "PACKAGE_NAME": "com.lalveare.alveare"
         },
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.lalveare.alveare"
-        },
-        "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.lalveare.alveare"
-        },
-        "cordova-plugin-file": {
-            "PACKAGE_NAME": "com.lalveare.alveare"
-        },
-        "ch.ti8m.documenthandler": {
-            "PACKAGE_NAME": "com.lalveare.alveare"
-        },
-        "cordova-plugin-network-information": {
-            "PACKAGE_NAME": "com.lalveare.alveare"
-        },
-        "cordova-plugin-crosswalk-webview": {
-            "PACKAGE_NAME": "com.lalveare.alveare"
-        },
-        "cordova-plugin-file-transfer": {
             "PACKAGE_NAME": "com.lalveare.alveare"
         },
         "cordova-plugin-file-opener2": {

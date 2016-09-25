@@ -43,7 +43,7 @@ var Likes = function () {
         firebase.database().ref('Likes/' + target).remove();
     };
 
-    this.getLikeCount = function (father, scope, posts, index, target, maxLenght) {
+    this.getLikeCount = function (father, scope, posts, index, target) {
         var ModelRef = Firebase.database().ref('Likes');
         ModelRef.on('value', function (snapshot) {
             var results = snapshot.val();

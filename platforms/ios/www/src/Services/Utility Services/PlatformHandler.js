@@ -3,11 +3,15 @@ var PlatformHandler = function () {
     this.is = function (platform, callback1, callback2) {
 
         if (callback1 == undefined) {
-            callback1 = null;
+            callback1 = function () {
+                
+            };
         }
 
         if (callback2 == undefined) {
-            callback2 = null;
+            callback2 = function () {
+                
+            };
         }
 
         document.addEventListener("deviceready", function () {

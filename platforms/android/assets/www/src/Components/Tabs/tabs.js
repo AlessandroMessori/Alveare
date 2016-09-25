@@ -4,13 +4,10 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
     $scope.View = 'tab-link';
     Auth.checkAdmins($scope, 'adminPanel');
 
-    PlatformHandler.is('iOS', function () {
-        document.getElementById('tabBar').style.marginTop = '-5%';
-        /*var offsets = document.getElementsByClassName('offsetY');
-        offsets.length.map(function (item) {
-            item.style.marginTop = '15%';
-        });*/
-    });
+    PlatformHandler.is('iOS',
+        function () {
+            document.getElementById('tabBar').style.marginTop = '-5%';
+        });
 
     $scope.$on('$ionicView.enter', function () {
         $scope.closeDrawer();

@@ -69,11 +69,11 @@
 	var StringHandler = __webpack_require__(25);
 	var Modals = __webpack_require__(26);
 	var FileHandler = __webpack_require__(27);
-	var PlatformHandler = __webpack_require__(32);
-	var ActionBar = __webpack_require__(28);
-	var Drawer = __webpack_require__(29);
-	var Configs = __webpack_require__(30);
-	var credentials = __webpack_require__(31);
+	var PlatformHandler = __webpack_require__(28);
+	var ActionBar = __webpack_require__(29);
+	var Drawer = __webpack_require__(30);
+	var Configs = __webpack_require__(31);
+	var credentials = __webpack_require__(32);
 
 	Firebase.initializeApp(credentials);
 
@@ -1107,13 +1107,10 @@
 	    $scope.View = 'tab-link';
 	    Auth.checkAdmins($scope, 'adminPanel');
 
-	    PlatformHandler.is('iOS', function () {
-	        document.getElementById('tabBar').style.marginTop = '-5%';
-	        /*var offsets = document.getElementsByClassName('offsetY');
-	        offsets.length.map(function (item) {
-	            item.style.marginTop = '15%';
-	        });*/
-	    });
+	    PlatformHandler.is('iOS',
+	        function () {
+	            document.getElementById('tabBar').style.marginTop = '-5%';
+	        });
 
 	    $scope.$on('$ionicView.enter', function () {
 	        $scope.closeDrawer();
@@ -1403,6 +1400,7 @@
 	                            }
 	                        });
 
+	                        document.getElementById(spinner).style.display = 'none';
 	                        Likes.getLikeCount(item, scope, comments, comments.length - 1, 'Comments');
 	                    }
 
@@ -1498,7 +1496,7 @@
 	        firebase.database().ref('Likes/' + target).remove();
 	    };
 
-	    this.getLikeCount = function (father, scope, posts, index, target, maxLenght) {
+	    this.getLikeCount = function (father, scope, posts, index, target) {
 	        var ModelRef = Firebase.database().ref('Likes');
 	        ModelRef.on('value', function (snapshot) {
 	            var results = snapshot.val();
@@ -18721,6 +18719,42 @@
 /* 28 */
 /***/ function(module, exports) {
 
+	var PlatformHandler = function () {
+
+	    this.is = function (platform, callback1, callback2) {
+
+	        if (callback1 == undefined) {
+	            callback1 = function () {
+	                
+	            };
+	        }
+
+	        if (callback2 == undefined) {
+	            callback2 = function () {
+	                
+	            };
+	        }
+
+	        document.addEventListener("deviceready", function () {
+	            if (window.cordova) {
+	                if (device.platform == platform) {
+	                    callback1();
+	                }
+	                else {
+	                    callback2();
+	                }
+	            }
+	        }, false);
+	    }
+
+	};
+
+	module.exports = PlatformHandler;
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
 	var actionBar = function () {
 	    return {
 	        scope: {
@@ -18734,7 +18768,7 @@
 	module.exports = actionBar;
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports) {
 
 	var drawer = angular.module('ionic.contrib.drawer', ['ionic']);
@@ -18910,7 +18944,7 @@
 	module.exports = drawer;
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports) {
 
 	var Configs = {
@@ -19058,7 +19092,7 @@
 	module.exports = Configs;
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports) {
 
 	var config = {
@@ -19069,38 +19103,6 @@
 	};
 
 	module.exports = config;
-
-/***/ },
-/* 32 */
-/***/ function(module, exports) {
-
-	var PlatformHandler = function () {
-
-	    this.is = function (platform, callback1, callback2) {
-
-	        if (callback1 == undefined) {
-	            callback1 = null;
-	        }
-
-	        if (callback2 == undefined) {
-	            callback2 = null;
-	        }
-
-	        document.addEventListener("deviceready", function () {
-	            if (window.cordova) {
-	                if (device.platform == platform) {
-	                    callback1();
-	                }
-	                else {
-	                    callback2();
-	                }
-	            }
-	        }, false);
-	    }
-
-	};
-
-	module.exports = PlatformHandler;
 
 /***/ }
 /******/ ]);

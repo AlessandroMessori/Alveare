@@ -7,9 +7,6 @@
         "files": {}
     },
     "installed_plugins": {
-        "ch.ti8m.documenthandler": {
-            "PACKAGE_NAME": "com.lalveare.alveare"
-        },
         "cordova-plugin-camera": {
             "PACKAGE_NAME": "com.lalveare.alveare"
         },
@@ -23,9 +20,6 @@
             "PACKAGE_NAME": "com.lalveare.alveare"
         },
         "cordova-plugin-file": {
-            "PACKAGE_NAME": "com.lalveare.alveare"
-        },
-        "cordova-plugin-file-opener2": {
             "PACKAGE_NAME": "com.lalveare.alveare"
         },
         "cordova-plugin-file-transfer": {
@@ -44,6 +38,9 @@
             "PACKAGE_NAME": "com.lalveare.alveare"
         },
         "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.lalveare.alveare"
+        },
+        "cordova-plugin-file-opener2": {
             "PACKAGE_NAME": "com.lalveare.alveare"
         }
     },

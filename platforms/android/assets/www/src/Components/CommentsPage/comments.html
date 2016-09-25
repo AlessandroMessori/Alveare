@@ -1,6 +1,6 @@
 <ion-view>
     <action-bar title="'Commenti'"></action-bar>
-    <ion-content class="offsetY" has-footer="true" has-tabs="true">
+    <ion-content class="has-header" has-footer="true" has-tabs="true">
         <ion-spinner class="spinner" id="commentsSpinner"></ion-spinner>
         <div class="card item-text-wrap" id="commentList" style="margin:0%">
             <div class="item" ng-repeat="Comment in Comments | orderBy:'-' track by Comment.id">

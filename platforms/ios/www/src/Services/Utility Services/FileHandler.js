@@ -48,7 +48,6 @@ var FileHandler = function (Modals, PlatformHandler) {
 
     this.loadFile = function (ele, scope, multiple) {
         ele.disabled = true;
-        var fullPath = ele.value;
         var filename = ele.files[ele.files.length - 1].name;
         var fileType = ele.files[ele.files.length - 1].type;
 

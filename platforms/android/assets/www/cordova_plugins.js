@@ -36,33 +36,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
-        "id": "cordova-plugin-splashscreen.SplashScreen",
-        "clobbers": [
-            "navigator.splashscreen"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
-        "id": "cordova-plugin-statusbar.statusbar",
-        "clobbers": [
-            "window.StatusBar"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-whitelist/whitelist.js",
-        "id": "cordova-plugin-whitelist.whitelist",
-        "runs": true
-    },
-    {
-        "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
-        "id": "cordova-plugin-inappbrowser.inappbrowser",
-        "clobbers": [
-            "cordova.InAppBrowser.open",
-            "window.open"
-        ]
-    },
-    {
         "file": "plugins/cordova-plugin-file/www/DirectoryEntry.js",
         "id": "cordova-plugin-file.DirectoryEntry",
         "clobbers": [
@@ -214,10 +187,25 @@ module.exports = [
         "runs": true
     },
     {
-        "file": "plugins/ch.ti8m.documenthandler/www/DocumentHandler.js",
-        "id": "ch.ti8m.documenthandler.DocumentHandler",
+        "file": "plugins/cordova-plugin-file-transfer/www/FileTransferError.js",
+        "id": "cordova-plugin-file-transfer.FileTransferError",
         "clobbers": [
-            "handleDocumentWithURL"
+            "window.FileTransferError"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-file-transfer/www/FileTransfer.js",
+        "id": "cordova-plugin-file-transfer.FileTransfer",
+        "clobbers": [
+            "window.FileTransfer"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+        "id": "cordova-plugin-inappbrowser.inappbrowser",
+        "clobbers": [
+            "cordova.InAppBrowser.open",
+            "window.open"
         ]
     },
     {
@@ -236,17 +224,17 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/cordova-plugin-file-transfer/www/FileTransferError.js",
-        "id": "cordova-plugin-file-transfer.FileTransferError",
+        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "id": "cordova-plugin-splashscreen.SplashScreen",
         "clobbers": [
-            "window.FileTransferError"
+            "navigator.splashscreen"
         ]
     },
     {
-        "file": "plugins/cordova-plugin-file-transfer/www/FileTransfer.js",
-        "id": "cordova-plugin-file-transfer.FileTransfer",
+        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+        "id": "cordova-plugin-statusbar.statusbar",
         "clobbers": [
-            "window.FileTransfer"
+            "window.StatusBar"
         ]
     },
     {
@@ -260,18 +248,17 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "cordova-plugin-camera": "2.1.0",
-    "cordova-plugin-console": "1.0.2",
-    "cordova-plugin-device": "1.1.1",
-    "cordova-plugin-splashscreen": "3.1.0",
-    "cordova-plugin-statusbar": "2.1.1",
-    "cordova-plugin-whitelist": "1.2.1",
-    "cordova-plugin-inappbrowser": "1.3.1-dev",
-    "cordova-plugin-file": "4.1.1",
-    "ch.ti8m.documenthandler": "0.2.2",
-    "cordova-plugin-network-information": "1.2.1",
+    "cordova-plugin-camera": "2.1.1",
+    "cordova-plugin-console": "1.0.4",
     "cordova-plugin-crosswalk-webview": "1.2.0",
-    "cordova-plugin-file-transfer": "1.5.1",
+    "cordova-plugin-device": "1.1.3",
+    "cordova-plugin-file": "4.1.1",
+    "cordova-plugin-file-transfer": "1.6.0",
+    "cordova-plugin-inappbrowser": "1.3.1-dev",
+    "cordova-plugin-network-information": "1.3.0",
+    "cordova-plugin-splashscreen": "3.1.0",
+    "cordova-plugin-statusbar": "2.1.3",
+    "cordova-plugin-whitelist": "1.2.2",
     "cordova-plugin-file-opener2": "2.0.2"
 };
 // BOTTOM OF METADATA

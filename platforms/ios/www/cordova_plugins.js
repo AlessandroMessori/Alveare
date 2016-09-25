@@ -1,14 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "file": "plugins/ch.ti8m.documenthandler/www/DocumentHandler.js",
-        "id": "ch.ti8m.documenthandler.DocumentHandler",
-        "pluginId": "ch.ti8m.documenthandler",
-        "clobbers": [
-            "handleDocumentWithURL"
-        ]
-    },
-    {
         "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
         "id": "cordova-plugin-camera.Camera",
         "pluginId": "cordova-plugin-camera",
@@ -238,14 +230,6 @@ module.exports = [
         "runs": true
     },
     {
-        "file": "plugins/cordova-plugin-file-opener2/www/plugins.FileOpener2.js",
-        "id": "cordova-plugin-file-opener2.FileOpener2",
-        "pluginId": "cordova-plugin-file-opener2",
-        "clobbers": [
-            "cordova.plugins.fileOpener2"
-        ]
-    },
-    {
         "file": "plugins/cordova-plugin-file-transfer/www/FileTransferError.js",
         "id": "cordova-plugin-file-transfer.FileTransferError",
         "pluginId": "cordova-plugin-file-transfer",
@@ -301,6 +285,14 @@ module.exports = [
         "pluginId": "cordova-plugin-statusbar",
         "clobbers": [
             "window.StatusBar"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-file-opener2/www/plugins.FileOpener2.js",
+        "id": "cordova-plugin-file-opener2.FileOpener2",
+        "pluginId": "cordova-plugin-file-opener2",
+        "clobbers": [
+            "cordova.plugins.fileOpener2"
         ]
     }
 ];

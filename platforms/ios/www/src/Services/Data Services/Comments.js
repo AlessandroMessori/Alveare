@@ -52,6 +52,7 @@ var Comments = function (Likes) {
                             }
                         });
 
+                        document.getElementById(spinner).style.display = 'none';
                         Likes.getLikeCount(item, scope, comments, comments.length - 1, 'Comments');
                     }
 
