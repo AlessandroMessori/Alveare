@@ -36,6 +36,9 @@
     <feature name="FileOpener2">
         <param name="android-package" value="io.github.pwlin.cordova.plugins.fileopener2.FileOpener2" />
     </feature>
+    <feature name="SocialSharing">
+        <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
+    </feature>
     <splash density="port-ldpi" src="resources/android/splash/drawable-port-ldpi-screen.png" />
     <splash density="port-mdpi" src="resources/android/splash/drawable-port-mdpi-screen.png" />
     <splash density="port-hdpi" src="resources/android/splash/drawable-port-hdpi-screen.png" />

@@ -42,6 +42,9 @@
         },
         "cordova-plugin-file-opener2": {
             "PACKAGE_NAME": "com.lalveare.alveare"
+        },
+        "cordova-plugin-x-socialsharing": {
+            "PACKAGE_NAME": "com.lalveare.alveare"
         }
     },
     "dependent_plugins": {}

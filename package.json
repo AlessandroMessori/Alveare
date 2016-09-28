@@ -30,7 +30,8 @@
     "org.apache.cordova.network-information",
     "cordova-plugin-crosswalk-webview@1.2.0",
     "org.apache.cordova.file-transfer",
-    "cordova-plugin-file-opener2"
+    "cordova-plugin-file-opener2",
+    "cordova-plugin-x-socialsharing"
   ],
   "cordovaPlatforms": [
     "ios",

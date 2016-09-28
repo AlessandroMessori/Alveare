@@ -1,4 +1,4 @@
-var settingsCtrl = function ($scope, $rootScope, $state, Auth, Modals) {
+var settingsCtrl = function ($scope, $rootScope, $state, Auth, Modals, SocialHandler) {
 
     if (window.localStorage.getItem('RememberMe') == 'true') {
         $scope.RememberMe = true;
@@ -10,6 +10,14 @@ var settingsCtrl = function ($scope, $rootScope, $state, Auth, Modals) {
     $scope.updateRememberMe = function (RememberMe) {
         window.localStorage.setItem('RememberMe', RememberMe.toString());
         $scope.RememberMe = RememberMe;
+    };
+
+    $scope.shareApp = function () {
+        SocialHandler.shareApp();
+    };
+
+    $scope.rateUs = function () {
+        SocialHandler.rareUs();
     };
 
     $scope.Disconnect = function () {

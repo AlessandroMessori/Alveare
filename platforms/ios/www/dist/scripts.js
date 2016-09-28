@@ -56,24 +56,26 @@
 	var loginCtrl = __webpack_require__(10);
 	var moderationCtrl = __webpack_require__(11);
 	var newsCtrl = __webpack_require__(12);
-	var signupCtrl = __webpack_require__(13);
-	var tabsCtrl = __webpack_require__(14);
-	var Messages = __webpack_require__(15);
-	var Articles = __webpack_require__(16);
-	var Comments = __webpack_require__(17);
-	var Likes = __webpack_require__(18);
-	var Auth = __webpack_require__(21);
-	var StaticData = __webpack_require__(22);
-	var DateHandler = __webpack_require__(23);
-	var InputFields = __webpack_require__(24);
-	var StringHandler = __webpack_require__(25);
-	var Modals = __webpack_require__(26);
-	var FileHandler = __webpack_require__(27);
-	var PlatformHandler = __webpack_require__(28);
-	var ActionBar = __webpack_require__(29);
-	var Drawer = __webpack_require__(30);
-	var Configs = __webpack_require__(31);
-	var credentials = __webpack_require__(32);
+	var settingsCtrl = __webpack_require__(13);
+	var signupCtrl = __webpack_require__(14);
+	var tabsCtrl = __webpack_require__(15);
+	var Messages = __webpack_require__(16);
+	var Articles = __webpack_require__(17);
+	var Comments = __webpack_require__(18);
+	var Likes = __webpack_require__(19);
+	var Auth = __webpack_require__(22);
+	var StaticData = __webpack_require__(23);
+	var DateHandler = __webpack_require__(24);
+	var InputFields = __webpack_require__(25);
+	var StringHandler = __webpack_require__(26);
+	var Modals = __webpack_require__(27);
+	var FileHandler = __webpack_require__(28);
+	var PlatformHandler = __webpack_require__(29);
+	var SocialHandler = __webpack_require__(34);
+	var ActionBar = __webpack_require__(30);
+	var Drawer = __webpack_require__(31);
+	var Configs = __webpack_require__(32);
+	var credentials = __webpack_require__(33);
 
 	Firebase.initializeApp(credentials);
 
@@ -89,6 +91,7 @@
 	appAS.controller('loginCtrl', loginCtrl);
 	appAS.controller('moderationCtrl', moderationCtrl);
 	appAS.controller('newsCtrl', newsCtrl);
+	appAS.controller('settingsCtrl', settingsCtrl);
 	appAS.controller('signupCtrl', signupCtrl);
 	appAS.controller('tabsCtrl', tabsCtrl);
 	appAS.service('Messages', Messages);
@@ -103,6 +106,7 @@
 	appAS.service('StaticData', StaticData);
 	appAS.service('FileHandler', FileHandler);
 	appAS.service('PlatformHandler', PlatformHandler);
+	appAS.service('SocialHandler', SocialHandler);
 	appAS.directive('actionBar', ActionBar);
 
 	appAS.run(Configs.run);
@@ -1065,6 +1069,37 @@
 /* 13 */
 /***/ function(module, exports) {
 
+	var settingsCtrl = function ($scope, $rootScope, $state, Auth, Modals, SocialHandler) {
+
+	    if (window.localStorage.getItem('RememberMe') == 'true') {
+	        $scope.RememberMe = true;
+	    }
+	    else {
+	        $scope.RememberMe = false;
+	    }
+
+	    $scope.updateRememberMe = function (RememberMe) {
+	        window.localStorage.setItem('RememberMe', RememberMe.toString());
+	        $scope.RememberMe = RememberMe;
+	    };
+
+	    $scope.shareApp = function () {
+	        SocialHandler.shareApp();
+	    };
+
+	    $scope.Disconnect = function () {
+	        Auth.Logout($state, $rootScope, Modals);
+	    };
+
+	};
+
+	module.exports = settingsCtrl;
+
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
 	var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields, StaticData, Modals, StringHandler) {
 
 	    $scope.inputType = 'password';
@@ -1098,7 +1133,7 @@
 	module.exports = signupCtrl;
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -1128,22 +1163,19 @@
 	        }
 	    });
 
-	    $scope.Disconnect = function () {
-	        Auth.Logout($state, $rootScope, Modals);
-	    };
-
 	    $scope.backBtnClick = function () {
 	        $state.go($rootScope.previousState);
 	    };
 
 	    //convert to Service
 	    $scope.navigate = function (destination, ind) {
-	        $scope.View = 'tab.' + destination;
+	        $scope.View = 'tab-' + destination;
 	        document.getElementById('MainView1').style.display = 'none';
 	        document.getElementById('MainView2').style.display = 'none';
 	        document.getElementById('MainView3').style.display = 'none';
 	        document.getElementById('MainView4').style.display = 'none';
 	        document.getElementById('MainView5').style.display = 'none';
+	        document.getElementById('MainView6').style.display = 'none';
 	        document.getElementById('MainView' + ind).style.display = 'block';
 	    }
 	};
@@ -1151,7 +1183,7 @@
 	module.exports = tabsCtrl;
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -1255,7 +1287,7 @@
 
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -1343,7 +1375,7 @@
 
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
@@ -1448,11 +1480,11 @@
 	module.exports = Comments;
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var _ = __webpack_require__(19);
+	var _ = __webpack_require__(20);
 
 	var Likes = function () {
 
@@ -1552,7 +1584,7 @@
 
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -18289,10 +18321,10 @@
 	  }
 	}.call(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(20)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(21)(module)))
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -18308,11 +18340,11 @@
 
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var _ = __webpack_require__(19);
+	var _ = __webpack_require__(20);
 	var Auth = function () {
 	    this.Signup = function (name, pass, mail, loadingTemplate, state, history, modals, stringhandler) {
 
@@ -18397,7 +18429,7 @@
 
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports) {
 
 	var StaticData = function ($state, $rootScope) {
@@ -18469,7 +18501,7 @@
 	module.exports = StaticData;
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports) {
 
 	var DateHandler = function () {
@@ -18550,7 +18582,7 @@
 
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports) {
 
 	var InputFields = function () {
@@ -18570,7 +18602,7 @@
 	module.exports = InputFields;
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports) {
 
 	var StringHandler = function () {
@@ -18603,7 +18635,7 @@
 
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports) {
 
 	var Modals = function ($ionicLoading) {
@@ -18622,7 +18654,7 @@
 
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports) {
 
 	var FileHandler = function (Modals, PlatformHandler) {
@@ -18716,7 +18748,7 @@
 	module.exports = FileHandler;
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports) {
 
 	var PlatformHandler = function () {
@@ -18752,7 +18784,7 @@
 	module.exports = PlatformHandler;
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports) {
 
 	var actionBar = function () {
@@ -18768,7 +18800,7 @@
 	module.exports = actionBar;
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports) {
 
 	var drawer = angular.module('ionic.contrib.drawer', ['ionic']);
@@ -18944,7 +18976,7 @@
 	module.exports = drawer;
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports) {
 
 	var Configs = {
@@ -19048,6 +19080,16 @@
 	                }
 	            })
 
+	            .state('tab.settings', {
+	                url: '/settings',
+	                views: {
+	                    'tab-settings': {
+	                        templateUrl: 'src/Components/SettingsPage/tab-settings.html',
+	                        controller: 'settingsCtrl'
+	                    }
+	                }
+	            })
+
 	            .state('addArticle', {
 	                url: '/addArticle',
 	                templateUrl: 'src/Components/AddArticlePage/addArticle.html',
@@ -19092,7 +19134,7 @@
 	module.exports = Configs;
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports) {
 
 	var config = {
@@ -19103,6 +19145,31 @@
 	};
 
 	module.exports = config;
+
+/***/ },
+/* 34 */
+/***/ function(module, exports) {
+
+	var SocialHandler = function () {
+
+	    this.shareApp = function () {
+
+	        var options = {
+	            message: 'share this',
+	            subject: 'the subject',
+	            files: []
+	        };
+
+	        window.plugins.socialsharing.shareWithOptions(options,
+	            function (result) {
+	            }, function (msg) {
+	            });
+	    }
+
+	};
+
+	module.exports = SocialHandler;
+
 
 /***/ }
 /******/ ]);

@@ -25,6 +25,7 @@ var StringHandler = require('./Services/Utility Services/StringHandler');
 var Modals = require('./Services/Utility Services/Modals');
 var FileHandler = require('./Services/Utility Services/FileHandler');
 var PlatformHandler = require('./Services/Utility Services/PlatformHandler');
+var SocialHandler = require('./Services/Utility Services/SocialHandler');
 var ActionBar = require('./Directives/ActionBar/actionBar');
 var Drawer = require('./Directives/Drawer/drawer');
 var Configs = require('./Services/Utility Services/Configs');
@@ -59,6 +60,7 @@ appAS.service('Modals', Modals);
 appAS.service('StaticData', StaticData);
 appAS.service('FileHandler', FileHandler);
 appAS.service('PlatformHandler', PlatformHandler);
+appAS.service('SocialHandler', SocialHandler);
 appAS.directive('actionBar', ActionBar);
 
 appAS.run(Configs.run);

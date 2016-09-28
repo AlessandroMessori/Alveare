@@ -3,3 +3,12 @@
     max-height:350px;
   }
 }
+
+.article-header{
+  display: inline-flex;
+  width: 100%;
+
+  .right{
+    margin-left: 40%;
+  }
+}
