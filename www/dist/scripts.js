@@ -51,6 +51,9 @@
 	var attualitaCtrl = __webpack_require__(6).attualitaCtrl;
 	var orientamentoCtrl = __webpack_require__(6).orientamentoCtrl;
 	var commentsCtrl = __webpack_require__(7);
+	var conventionsCtrl = __webpack_require__(35);
+	var freeZoneCtrl = __webpack_require__(37);
+	var libraryCtrl = __webpack_require__(36);
 	var likesCtrl = __webpack_require__(8);
 	var linkCtrl = __webpack_require__(9);
 	var loginCtrl = __webpack_require__(10);
@@ -71,11 +74,11 @@
 	var Modals = __webpack_require__(27);
 	var FileHandler = __webpack_require__(28);
 	var PlatformHandler = __webpack_require__(29);
-	var SocialHandler = __webpack_require__(34);
-	var ActionBar = __webpack_require__(30);
-	var Drawer = __webpack_require__(31);
-	var Configs = __webpack_require__(32);
-	var credentials = __webpack_require__(33);
+	var SocialHandler = __webpack_require__(30);
+	var ActionBar = __webpack_require__(31);
+	var Drawer = __webpack_require__(32);
+	var Configs = __webpack_require__(33);
+	var credentials = __webpack_require__(34);
 
 	Firebase.initializeApp(credentials);
 
@@ -86,6 +89,9 @@
 	appAS.controller('attualitaCtrl', attualitaCtrl);
 	appAS.controller('orientamentoCtrl', orientamentoCtrl);
 	appAS.controller('commentsCtrl', commentsCtrl);
+	appAS.controller('conventionsCtrl', conventionsCtrl);
+	appAS.controller('freeZoneCtrl', freeZoneCtrl);
+	appAS.controller('libraryCtrl', libraryCtrl);
 	appAS.controller('likesCtrl', likesCtrl);
 	appAS.controller('linkCtrl', linkCtrl);
 	appAS.controller('loginCtrl', loginCtrl);
@@ -871,23 +877,23 @@
 /* 6 */
 /***/ function(module, exports) {
 
-	var articlesCtrl = function ($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler, type) {
+	var articlesCtrl = function ($scope, $rootScope, $state, Articles, type) {
 
-	    Articles.getArticles($scope, $rootScope, $state, FileHandler, $ionicLoading, type, "articlesSpinner");
+	    Articles.getArticles($scope, $rootScope, $state, type, "articlesSpinner");
 
 	    $scope.doRefresh = function () {
-	        Articles.getArticles($scope, $rootScope, $state, FileHandler, $ionicLoading, type, "articlesSpinner");
+	        Articles.getArticles($scope, $rootScope, $state, type, "articlesSpinner");
 	        $scope.$broadcast('scroll.refreshComplete');
 	        $scope.$apply();
 	    };
 	};
 
-	var attualitaCtrl = function ($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler) {
-	    return articlesCtrl($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler, 'Giornalino');
+	var attualitaCtrl = function ($scope, $rootScope, $state, Articles) {
+	    return articlesCtrl($scope, $rootScope, $state, Articles, 'Giornalino');
 	};
 
-	var orientamentoCtrl = function ($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler) {
-	    return articlesCtrl($scope, $rootScope, $state, $window, $ionicLoading, Articles, FileHandler, 'Orientamento');
+	var orientamentoCtrl = function ($scope, $rootScope, $state, Articles) {
+	    return articlesCtrl($scope, $rootScope, $state, Articles, 'Orientamento');
 	};
 
 	module.exports = {
@@ -1104,7 +1110,7 @@
 /* 14 */
 /***/ function(module, exports) {
 
-	var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields, StaticData, Modals, StringHandler) {
+	var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields, StaticData, Modals) {
 
 	    $scope.inputType = 'password';
 	    $scope.imgData = StaticData.logoImg;
@@ -1114,7 +1120,7 @@
 	            $ionicLoading.show({
 	                template: 'Registrazione in corso...'
 	            });
-	            Auth.Signup(username, password, mail, $ionicLoading, $state, $ionicHistory, Modals, StringHandler);
+	            Auth.Signup(username, password, mail, $state, $ionicHistory);
 	        }
 	        else {
 	            Modals.ResultTemplate('compila tutti i campi');
@@ -1174,12 +1180,9 @@
 	    //convert to Service
 	    $scope.navigate = function (destination, ind) {
 	        $scope.View = 'tab-' + destination;
-	        document.getElementById('MainView1').style.display = 'none';
-	        document.getElementById('MainView2').style.display = 'none';
-	        document.getElementById('MainView3').style.display = 'none';
-	        document.getElementById('MainView4').style.display = 'none';
-	        document.getElementById('MainView5').style.display = 'none';
-	        document.getElementById('MainView6').style.display = 'none';
+	        for (var i = 1; i < 10; i++) {
+	            document.getElementById('MainView' + i).style.display = 'none';
+	        }
 	        document.getElementById('MainView' + ind).style.display = 'block';
 	    }
 	};
@@ -1295,7 +1298,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Firebase = __webpack_require__(1);
-	var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
+	var Articles = function ($ionicLoading, DateHandler, StringHandler, Modals, FileHandler) {
 
 	    this.sendArticle = function (newData, imgUrl, ArticleType) {
 	        var newPostKey = Firebase.database().ref().child(ArticleType).push().key;
@@ -1319,7 +1322,7 @@
 	        });
 	    };
 
-	    this.getArticles = function (scope, rootScope, state, fileHandler, loadingTemplate, type, spinner) {
+	    this.getArticles = function (scope, rootScope, state, type, spinner) {
 
 	        document.getElementById(spinner).style.display = 'block';
 	        var ModelRef = Firebase.database().ref(type);
@@ -1355,7 +1358,7 @@
 	                                    state.go(destination);
 	                                },
 	                                openPdf: function () {
-	                                    fileHandler.openFile(pdfUrl, loadingTemplate);
+	                                    FileHandler.openFile(pdfUrl, $ionicLoading);
 	                                }
 	                            };
 
@@ -18349,22 +18352,22 @@
 
 	var Firebase = __webpack_require__(1);
 	var _ = __webpack_require__(20);
-	var Auth = function () {
-	    this.Signup = function (name, pass, mail, loadingTemplate, state, history, modals, stringhandler) {
+
+	var Auth = function ($ionicLoading, Modals, StringHandler) {
+	    this.Signup = function (name, pass, mail, state, history) {
 
 	        Firebase.auth().createUserWithEmailAndPassword(mail, pass).catch(function (error) {
-	            loadingtemplate.hide();
-	            console.log(error.code);
-	            modals.ResultTemplate(stringhandler.getErrorMessage(error.code));
+	            $ionicLoading.hide();
+	            Modals.ResultTemplate(StringHandler.getErrorMessage(error.code));
 	        });
 
 	        Firebase.auth().onAuthStateChanged(function (user) {
 
 	            if (user != null && history.currentStateName() == 'signup') {
 	                user.updateProfile({displayName: name});
-	                loadingtemplate.hide();
+	                $ionicLoading.hide();
 	                Firebase.auth().signOut();
-	                modals.ResultTemplate('Profilo creato correttamente');
+	                Modals.ResultTemplate('Profilo creato correttamente');
 	                state.go('login');
 	            }
 	        });
@@ -18791,6 +18794,39 @@
 /* 30 */
 /***/ function(module, exports) {
 
+	var SocialHandler = function ($ionicPlatform) {
+
+	    this.shareApp = function () {
+
+	        var options = {
+	            message: "Scarica l'applicazione del liceo Ariosto Spallanzani!",
+	            subject: 'Applicazione liceo Ariosto Spallanzani',
+	            files: []
+	        };
+
+	        window.plugins.socialsharing.shareWithOptions(options,
+	            function (result) {
+	            }, function (msg) {
+	            });
+	    };
+
+	    this.rateUs = function () {
+	        if ($ionicPlatform.is('ios')) {
+	            window.open('itms-apps://itunes.apple.com/us/app/domainsicle-domain-name-search/id511364723?ls=1&mt=8'); // or itms://
+	        } else if ($ionicPlatform.is('android')) {
+	            window.open('market://details?id=<package_name>');
+	        }
+	    }
+
+	};
+
+	module.exports = SocialHandler;
+
+
+/***/ },
+/* 31 */
+/***/ function(module, exports) {
+
 	var actionBar = function () {
 	    return {
 	        scope: {
@@ -18804,7 +18840,7 @@
 	module.exports = actionBar;
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports) {
 
 	var drawer = angular.module('ionic.contrib.drawer', ['ionic']);
@@ -18980,7 +19016,7 @@
 	module.exports = drawer;
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports) {
 
 	var Configs = {
@@ -19064,12 +19100,42 @@
 	                }
 	            })
 
+	            .state('tab.biblioteca', {
+	                url: '/biblioteca',
+	                views: {
+	                    'tab-biblioteca': {
+	                        templateUrl: 'src/Components/LibraryPage/tab-library.html',
+	                        controller: 'libraryCtrl'
+	                    }
+	                }
+	            })
+
 	            .state('tab.forum', {
 	                url: '/forum',
 	                views: {
 	                    'tab-forum': {
 	                        templateUrl: 'src/Components/NewsPage/tabs-forum.html',
 	                        controller: 'newsCtrl'
+	                    }
+	                }
+	            })
+
+	            .state('tab.libera', {
+	                url: '/libera',
+	                views: {
+	                    'tab-libera': {
+	                        templateUrl: 'src/Components/FreeZonePage/tab-freeZone.html',
+	                        controller: 'freeZoneCtrl'
+	                    }
+	                }
+	            })
+
+	            .state('tab.convenzioni', {
+	                url: '/convenzioni',
+	                views: {
+	                    'tab-convenzioni': {
+	                        templateUrl: 'src/Components/ConventionsPage/tab-conventions.html',
+	                        controller: 'conventionsCtrl'
 	                    }
 	                }
 	            })
@@ -19138,7 +19204,7 @@
 	module.exports = Configs;
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports) {
 
 	var config = {
@@ -19151,37 +19217,34 @@
 	module.exports = config;
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports) {
 
-	var SocialHandler = function ($ionicPlatform) {
-
-	    this.shareApp = function () {
-
-	        var options = {
-	            message: "Scarica l'applicazione del liceo Ariosto Spallanzani!",
-	            subject: 'Applicazione liceo Ariosto Spallanzani',
-	            files: []
-	        };
-
-	        window.plugins.socialsharing.shareWithOptions(options,
-	            function (result) {
-	            }, function (msg) {
-	            });
-	    };
-
-	    this.rateUs = function () {
-	        if ($ionicPlatform.is('ios')) {
-	            window.open('itms-apps://itunes.apple.com/us/app/domainsicle-domain-name-search/id511364723?ls=1&mt=8'); // or itms://
-	        } else if ($ionicPlatform.is('android')) {
-	            window.open('market://details?id=<package_name>');
-	        }
-	    }
+	var conventionsCtrl = function () {
 
 	};
 
-	module.exports = SocialHandler;
+	module.exports = conventionsCtrl;
 
+/***/ },
+/* 36 */
+/***/ function(module, exports) {
+
+	var libraryCtrl = function () {
+
+	};
+
+	module.exports = libraryCtrl;
+
+/***/ },
+/* 37 */
+/***/ function(module, exports) {
+
+	var freeZoneCtrl = function () {
+
+	};
+
+	module.exports = freeZoneCtrl;
 
 /***/ }
 /******/ ]);

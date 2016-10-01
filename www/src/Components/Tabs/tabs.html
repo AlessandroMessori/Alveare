@@ -1,6 +1,7 @@
 <ion-side-menus enable-menu-with-back-views="false">
 
     <ion-side-menu-content>
+
         <ion-nav-bar class="bar bar-header bar-positive" id="tabBar">
             <ion-nav-buttons side="left">
                 <button class="button" ng-click="openDrawer()">
@@ -16,9 +17,12 @@
         <ion-nav-view class="nav-view" id="MainView1" name="tab-admin"></ion-nav-view>
         <ion-nav-view class="nav-view" id="MainView2" name="tab-giornalino"></ion-nav-view>
         <ion-nav-view class="nav-view" id="MainView3" name="tab-orientamento"></ion-nav-view>
-        <ion-nav-view class="nav-view" id="MainView4" name="tab-forum"></ion-nav-view>
-        <ion-nav-view class="nav-view" id="MainView5" name="tab-link"></ion-nav-view>
-        <ion-nav-view class="nav-view" id="MainView6" name="tab-settings"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="MainView4" name="tab-biblioteca"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="MainView5" name="tab-forum"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="MainView6" name="tab-libera"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="MainView7" name="tab-convenzioni"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="MainView8" name="tab-link"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="MainView9" name="tab-settings"></ion-nav-view>
 
     </ion-side-menu-content>
 
@@ -38,13 +42,22 @@
                 <ion-item menu-close ui-sref="tab.orientamento" ng-click="navigate('orientamento',3)">
                     <span class="icon ion-ios-navigate"> Orientamento</span>
                 </ion-item>
-                <ion-item menu-close ui-sref="tab.forum" ng-click="navigate('forum',4)">
-                    <span class="ion-clipboard"> Bacheca</span>
+                <ion-item menu-close ui-sref="tab.biblioteca" ng-click="navigate('biblioteca',4)">
+                    <span class="icon ion-ios-bookmarks"> Biblioteca</span>
                 </ion-item>
-                <ion-item menu-close ui-sref="tab.link" ng-click="navigate('link',5)">
+                <ion-item menu-close ui-sref="tab.forum" ng-click="navigate('forum',5)">
+                    <span class="ion-clipboard"> Circolari e Avvisi</span>
+                </ion-item>
+                <ion-item menu-close ui-sref="tab.libera" ng-click="navigate('libera',6)">
+                    <span class="icon ion-android-chat"> Area Libera</span>
+                </ion-item>
+                <ion-item menu-close ui-sref="tab.convenzioni" ng-click="navigate('convenzioni',7)">
+                    <span class="icon ion-android-restaurant"> Convenzioni</span>
+                </ion-item>
+                <ion-item menu-close ui-sref="tab.link" ng-click="navigate('link',8)">
                     <span class="icon ion-link"> Link Utili</span>
                 </ion-item>
-                <ion-item menu-close ui-sref="tab.settings" ng-click="navigate('settings',6)">
+                <ion-item menu-close ui-sref="tab.settings" ng-click="navigate('settings',9)">
                     <span class="icon ion-ios-gear"> Impostazioni</span>
                 </ion-item>
             </ion-list>

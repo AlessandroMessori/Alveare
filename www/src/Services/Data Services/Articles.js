@@ -1,5 +1,5 @@
 var Firebase = require('firebase');
-var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
+var Articles = function ($ionicLoading, DateHandler, StringHandler, Modals, FileHandler) {
 
     this.sendArticle = function (newData, imgUrl, ArticleType) {
         var newPostKey = Firebase.database().ref().child(ArticleType).push().key;
@@ -23,7 +23,7 @@ var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
         });
     };
 
-    this.getArticles = function (scope, rootScope, state, fileHandler, loadingTemplate, type, spinner) {
+    this.getArticles = function (scope, rootScope, state, type, spinner) {
 
         document.getElementById(spinner).style.display = 'block';
         var ModelRef = Firebase.database().ref(type);
@@ -59,7 +59,7 @@ var Articles = function (DateHandler, StringHandler, Modals, FileHandler) {
                                     state.go(destination);
                                 },
                                 openPdf: function () {
-                                    fileHandler.openFile(pdfUrl, loadingTemplate);
+                                    FileHandler.openFile(pdfUrl, $ionicLoading);
                                 }
                             };
 

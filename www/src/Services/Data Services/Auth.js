@@ -1,21 +1,21 @@
 var Firebase = require('firebase');
 var _ = require('lodash');
-var Auth = function () {
-    this.Signup = function (name, pass, mail, loadingTemplate, state, history, modals, stringhandler) {
+
+var Auth = function ($ionicLoading, Modals, StringHandler) {
+    this.Signup = function (name, pass, mail, state, history) {
 
         Firebase.auth().createUserWithEmailAndPassword(mail, pass).catch(function (error) {
-            loadingtemplate.hide();
-            console.log(error.code);
-            modals.ResultTemplate(stringhandler.getErrorMessage(error.code));
+            $ionicLoading.hide();
+            Modals.ResultTemplate(StringHandler.getErrorMessage(error.code));
         });
 
         Firebase.auth().onAuthStateChanged(function (user) {
 
             if (user != null && history.currentStateName() == 'signup') {
                 user.updateProfile({displayName: name});
-                loadingtemplate.hide();
+                $ionicLoading.hide();
                 Firebase.auth().signOut();
-                modals.ResultTemplate('Profilo creato correttamente');
+                Modals.ResultTemplate('Profilo creato correttamente');
                 state.go('login');
             }
         });
