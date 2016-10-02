@@ -9,7 +9,7 @@ var DateHandler = function () {
         var mm = today.getMonth() + 1; //January is 0!
 
         if (dd < 10) {
-            dd = '0' + dd
+            dd = "0" + dd;
         }
 
         switch (mm) {
@@ -52,7 +52,7 @@ var DateHandler = function () {
 
         }
 
-        today = dd + ' ' + mm;
+        today = dd + " " + mm;
 
         return today;
     };
@@ -69,7 +69,7 @@ var DateHandler = function () {
 
         return self.GetCurrentDate() + " alle " + Hour + ":" + Minutes;
 
-    }
+    };
 };
 
 module.exports = DateHandler;

@@ -1,4 +1,4 @@
-var Firebase = require('firebase');
+var Firebase = require("firebase");
 var Messages = function (Modals, Comments, Likes) {
 
     this.sendPost = function (newData, binary) {
@@ -12,27 +12,27 @@ var Messages = function (Modals, Comments, Likes) {
             });
         }
 
-        var newPostKey = Firebase.database().ref().child('Comunicazioni').push().key;
+        var newPostKey = Firebase.database().ref().child("Comunicazioni").push().key;
         var updates = {};
-        updates['/Comunicazioni/' + newPostKey] = newData;
+        updates["/Comunicazioni/" + newPostKey] = newData;
         Firebase.database().ref().update(updates)
             .then(function () {
                 Modals.ResultTemplate("Comunicazione Pubblicata con Successo");
             })
             .catch(function () {
                 Modals.ResultTemplate("Errore nella Pubblicazione della Comunicazione");
-            })
+            });
     };
 
     this.getPosts = function (scope, rootScope, state, spinner) {
 
         var storage = Firebase.storage();
         var self = this;
-        document.getElementById(spinner).style.display = 'block';
+        document.getElementById(spinner).style.display = "block";
         scope.Posts = [];
 
-        var ModelRef = Firebase.database().ref('Comunicazioni');
-        ModelRef.on('value', function (snapshot) {
+        var ModelRef = Firebase.database().ref("Comunicazioni");
+        ModelRef.on("value", function (snapshot) {
             var results = snapshot.val();
             var posts = [];
 
@@ -89,7 +89,7 @@ var Messages = function (Modals, Comments, Likes) {
         };
 
         Comments.getCommentCount(item, scope, posts, i, results, maxLength);
-    }
+    };
 
 };
 

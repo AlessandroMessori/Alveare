@@ -1,11 +1,11 @@
-var Firebase = require('firebase');
+var Firebase = require("firebase");
 var commentsCtrl = function ($scope, $rootScope, $state, Comments, DateHandler, Modals) {
 
-    Comments.getComments($scope, $rootScope, $state, 'commentsSpinner');
+    Comments.getComments($scope, $rootScope, $state, "commentsSpinner");
 
-    $scope.$on('$ionicView.enter', function () {
-        $scope.comment = '';
-        Comments.getComments($scope, $rootScope, $state, 'commentsSpinner');
+    $scope.$on("$ionicView.enter", function () {
+        $scope.comment = "";
+        Comments.getComments($scope, $rootScope, $state, "commentsSpinner");
     });
 
     $scope.send = function (comment) {
@@ -16,12 +16,12 @@ var commentsCtrl = function ($scope, $rootScope, $state, Comments, DateHandler, 
                 father: $rootScope.currentPost,
                 date: DateHandler.GetCurrentDate()
             };
-            Comments.sendComment($scope, newData, 'commentList');
-            $scope.comment = '';
+            Comments.sendComment($scope, newData, "commentList");
+            $scope.comment = "";
             $scope.$apply();
         }
         else {
-            Modals.ResultTemplate('non puoi pubblicare un commento vuoto');
+            Modals.ResultTemplate("non puoi pubblicare un commento vuoto");
         }
     };
 

@@ -1,6 +1,6 @@
-var drawer = angular.module('ionic.contrib.drawer', ['ionic']);
+var drawer = angular.module("ionic.contrib.drawer", ["ionic"]);
 
-drawer.controller('drawerCtrl', ['$element', '$attrs', '$ionicGesture', '$document', function ($element, $attr, $ionicGesture, $document) {
+drawer.controller("drawerCtrl", ["$element", "$attrs", "$ionicGesture", "$document", function ($element, $attr, $ionicGesture, $document) {
     var el = $element[0];
     var dragging = false;
     var startX, lastX, offsetX, newX;
@@ -14,15 +14,13 @@ drawer.controller('drawerCtrl', ['$element', '$attrs', '$ionicGesture', '$docume
     var LEFT = 0;
     var RIGHT = 1;
 
-    var isTargetDrag = false;
-
     var width = $element[0].clientWidth;
 
     var enableAnimation = function () {
-        $element.addClass('animate');
+        $element.addClass("animate");
     };
     var disableAnimation = function () {
-        $element.removeClass('animate');
+        $element.removeClass("animate");
     };
 
     // Check if this is on target or not
@@ -35,14 +33,14 @@ drawer.controller('drawerCtrl', ['$element', '$attrs', '$ionicGesture', '$docume
         }
     };
 
-    var startDrag = function (e) {
+    var startDrag = function () {
         disableAnimation();
 
         dragging = true;
         offsetX = lastX - startX;
     };
 
-    var startTargetDrag = function (e) {
+    var startTargetDrag = function () {
         disableAnimation();
 
         dragging = true;
@@ -50,7 +48,7 @@ drawer.controller('drawerCtrl', ['$element', '$attrs', '$ionicGesture', '$docume
         offsetX = lastX - startX;
     };
 
-    var doEndDrag = function (e) {
+    var doEndDrag = function () {
         startX = null;
         lastX = null;
         offsetX = null;
@@ -66,9 +64,9 @@ drawer.controller('drawerCtrl', ['$element', '$attrs', '$ionicGesture', '$docume
 
         ionic.requestAnimationFrame(function () {
             if (newX < (-width / 2)) {
-                el.style.transform = el.style.webkitTransform = 'translate3d(' + -width + 'px, 0, 0)';
+                el.style.transform = el.style.webkitTransform = "translate3d(" + -width + "px, 0, 0)";
             } else {
-                el.style.transform = el.style.webkitTransform = 'translate3d(0px, 0, 0)';
+                el.style.transform = el.style.webkitTransform = "translate3d(0px, 0, 0)";
             }
         });
     };
@@ -97,7 +95,7 @@ drawer.controller('drawerCtrl', ['$element', '$attrs', '$ionicGesture', '$docume
         } else {
             newX = Math.min(0, (-width + (lastX - offsetX)));
             ionic.requestAnimationFrame(function () {
-                el.style.transform = el.style.webkitTransform = 'translate3d(' + newX + 'px, 0, 0)';
+                el.style.transform = el.style.webkitTransform = "translate3d(" + newX + "px, 0, 0)";
             });
 
         }
@@ -107,12 +105,12 @@ drawer.controller('drawerCtrl', ['$element', '$attrs', '$ionicGesture', '$docume
         }
     };
 
-    side = $attr.side == 'left' ? LEFT : RIGHT;
+    side = $attr.side == "left" ? LEFT : RIGHT;
 
-    $ionicGesture.on('drag', function (e) {
+    $ionicGesture.on("drag", function (e) {
         doDrag(e);
     }, $document);
-    $ionicGesture.on('dragend', function (e) {
+    $ionicGesture.on("dragend", function (e) {
         doEndDrag(e);
     }, $document);
 
@@ -121,9 +119,9 @@ drawer.controller('drawerCtrl', ['$element', '$attrs', '$ionicGesture', '$docume
         enableAnimation();
         ionic.requestAnimationFrame(function () {
             if (side === LEFT) {
-                el.style.transform = el.style.webkitTransform = 'translate3d(-100%, 0, 0)';
+                el.style.transform = el.style.webkitTransform = "translate3d(-100%, 0, 0)";
             } else {
-                el.style.transform = el.style.webkitTransform = 'translate3d(100%, 0, 0)';
+                el.style.transform = el.style.webkitTransform = "translate3d(100%, 0, 0)";
             }
         });
     };
@@ -132,18 +130,18 @@ drawer.controller('drawerCtrl', ['$element', '$attrs', '$ionicGesture', '$docume
         enableAnimation();
         ionic.requestAnimationFrame(function () {
             if (side === LEFT) {
-                el.style.transform = el.style.webkitTransform = 'translate3d(0%, 0, 0)';
+                el.style.transform = el.style.webkitTransform = "translate3d(0%, 0, 0)";
             } else {
-                el.style.transform = el.style.webkitTransform = 'translate3d(0%, 0, 0)';
+                el.style.transform = el.style.webkitTransform = "translate3d(0%, 0, 0)";
             }
         });
     };
-}])
+}]);
 
-drawer.directive('drawer', ['$rootScope', '$ionicGesture', function ($rootScope, $ionicGesture) {
+drawer.directive("drawer", [function () {
     return {
-        restrict: 'E',
-        controller: 'drawerCtrl',
+        restrict: "E",
+        controller: "drawerCtrl",
         link: function ($scope, $element, $attr, ctrl) {
             $element.addClass($attr.side);
             $scope.openDrawer = function () {
@@ -153,19 +151,19 @@ drawer.directive('drawer', ['$rootScope', '$ionicGesture', function ($rootScope,
                 ctrl.close();
             };
         }
-    }
-}])
+    };
+}]);
 
-drawer.directive('drawerClose', ['$rootScope', function ($rootScope) {
+drawer.directive("drawerClose", [function () {
     return {
-        restrict: 'A',
+        restrict: "A",
         link: function ($scope, $element) {
-            $element.bind('click', function () {
-                var drawerCtrl = $element.inheritedData('$drawerController');
+            $element.bind("click", function () {
+                var drawerCtrl = $element.inheritedData("$drawerController");
                 drawerCtrl.close();
             });
         }
-    }
+    };
 }]);
 
 module.exports = drawer;

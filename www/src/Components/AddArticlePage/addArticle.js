@@ -1,16 +1,16 @@
-var Firebase = require('firebase');
+var Firebase = require("firebase");
 
 var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, InputFields, DateHandler, Modals, FileHandler) {
 
-    $scope.$on('$ionicView.enter', function () {
+    $scope.$on("$ionicView.enter", function () {
         $scope.clearData();
     });
 
     $scope.clearData = function () {
-        $scope.formScope.title = '';
-        $scope.formScope.text = '';
-        $scope.pdf = '';
-        document.getElementById('img-preview').style.display = 'none';
+        $scope.formScope.title = "";
+        $scope.formScope.text = "";
+        $scope.pdf = "";
+        document.getElementById("img-preview").style.display = "none";
         $scope.$apply();
     };
 
@@ -36,21 +36,21 @@ var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, Inpu
 
         function onSuccess(imageUrl) {
             $scope.imgData = imageUrl;
-            document.getElementById('img-preview').style.display = 'inline';
-            document.getElementById('img_1').src = imageUrl;
+            document.getElementById("img-preview").style.display = "inline";
+            document.getElementById("img_1").src = imageUrl;
         }
 
         function onFail(message) {
-            Modals.ResultTemplate('Non sono riuscito a reperire la foto perchè ' + message);
+            Modals.ResultTemplate("Non sono riuscito a reperire la foto perchè " + message);
         }
 
     };
 
     $scope.UploadArticle = function (title, text, pdf) {
-        if (InputFields.filledFields([title, text, pdf, document.getElementById('img_1').src])) {
+        if (InputFields.filledFields([title, text, pdf, document.getElementById("img_1").src])) {
 
             $ionicLoading.show({
-                template: 'Pubblicazione in Corso...'
+                template: "Pubblicazione in Corso..."
             });
 
             var newData = {
@@ -61,10 +61,10 @@ var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, Inpu
                 pdf: pdf
             };
 
-            Articles.sendArticle(newData, document.getElementById('img_1').src, $rootScope.contentType);
+            Articles.sendArticle(newData, document.getElementById("img_1").src, $rootScope.contentType);
         }
         else {
-            Modals.ResultTemplate('Compila tutti i campi');
+            Modals.ResultTemplate("Compila tutti i campi");
         }
     };
 

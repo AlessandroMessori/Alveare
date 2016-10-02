@@ -1,25 +1,26 @@
+var _ = require("lodash");
 var FileHandler = function (Modals, PlatformHandler) {
     this.getFileBlob = function (url, cb) {
         var xhr = new XMLHttpRequest();
         xhr.open("GET", url);
         xhr.responseType = "blob";
-        xhr.addEventListener('load', function () {
+        xhr.addEventListener("load", function () {
             cb(xhr.response);
         });
         xhr.send();
     };
 
     this.openFile = function (file, loadingTemplate) {
-        PlatformHandler.is('iOS',
+        PlatformHandler.is("iOS",
             function () {
-                cordova.InAppBrowser.open(file, '_system', 'location=yes');
+                cordova.InAppBrowser.open(file, "_system", "location=yes");
             },
             function () {
 
                 var fileURL = cordova.file.externalApplicationStorageDirectory + "file.pdf";
                 var fileTransfer = new FileTransfer();
                 loadingTemplate.show({
-                    template: 'Apertura File in Corso...'
+                    template: "Apertura File in Corso..."
                 });
 
                 fileTransfer.download(
@@ -28,9 +29,9 @@ var FileHandler = function (Modals, PlatformHandler) {
                     function (entry) {
                         cordova.plugins.fileOpener2.open(
                             entry.toURL(),
-                            'application/pdf',
+                            "application/pdf",
                             {
-                                error: function (e) {
+                                error: function () {
                                     loadingTemplate.hide();
                                 },
                                 success: function () {
@@ -39,7 +40,7 @@ var FileHandler = function (Modals, PlatformHandler) {
                             }
                         );
                     },
-                    function (error) {
+                    function () {
                     },
                     false
                 );
@@ -51,14 +52,14 @@ var FileHandler = function (Modals, PlatformHandler) {
         var filename = ele.files[ele.files.length - 1].name;
         var fileType = ele.files[ele.files.length - 1].type;
 
-        if (fileType != 'application/pdf') {
-            Modals.ResultTemplate('puoi aggiungere solo file pdf');
+        if (fileType != "application/pdf") {
+            Modals.ResultTemplate("puoi aggiungere solo file pdf");
             ele.disabled = false;
         }
         else if (multiple) {
 
             if (_.includes(scope.fileList, filename)) {
-                Modals.ResultTemplate('Hai già caricato questo File');
+                Modals.ResultTemplate("Hai già caricato questo File");
                 ele.disabled = false;
             }
             else {

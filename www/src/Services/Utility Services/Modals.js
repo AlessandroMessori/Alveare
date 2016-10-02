@@ -7,7 +7,7 @@ var Modals = function ($ionicLoading) {
         window.setTimeout(function () {
             $ionicLoading.hide();
         }, 1000);
-    }
+    };
 };
 
 module.exports = Modals;

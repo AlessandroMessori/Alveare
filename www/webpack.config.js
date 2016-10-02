@@ -1,15 +1,28 @@
 var config = {
     entry: './src/main.js',
-    preLoaders: [
-        {
-            test: /\.js?$/,
-            loaders: ['eslint']
-        }
-    ],
     output: {
         path: './dist/',
         filename: 'scripts.js',
         publicPath: '.dist/'
+    },
+    module: {
+        preLoaders: [
+            {
+                test: /\.js?$/,
+                loaders: ['eslint'],
+                exclude: /node_modules/,
+            }
+        ],
+        loaders: [
+            {
+                test: /.js?$/,
+                loader: 'babel-loader',
+                exclude: /node_modules[\/\\](?!admin-config)/,
+                query: {
+                    presets: ['es2015']
+                }
+            }
+        ]
     }
 };
 

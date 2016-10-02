@@ -1,13 +1,18 @@
 module.exports = {
     "env": {
         "browser": true,
-        "commonjs": true
+        "commonjs": true,
+        "es6": true
     },
     "extends": "eslint:recommended",
+    "parserOptions": {
+        "sourceType": "module"
+    },
     "rules": {
         "indent": [
             "error",
-            "tab"
+            4,
+            {"SwitchCase": 1}
         ],
         "linebreak-style": [
             "error",
@@ -20,6 +25,7 @@ module.exports = {
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "no-undef": 1
     }
 };

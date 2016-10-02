@@ -1,6 +1,6 @@
 var settingsCtrl = function ($scope, $rootScope, $state, Auth, Modals, SocialHandler) {
 
-    if (window.localStorage.getItem('RememberMe') == 'true') {
+    if (window.localStorage.getItem("RememberMe") == "true") {
         $scope.RememberMe = true;
     }
     else {
@@ -8,7 +8,7 @@ var settingsCtrl = function ($scope, $rootScope, $state, Auth, Modals, SocialHan
     }
 
     $scope.updateRememberMe = function (RememberMe) {
-        window.localStorage.setItem('RememberMe', RememberMe.toString());
+        window.localStorage.setItem("RememberMe", RememberMe.toString());
         $scope.RememberMe = RememberMe;
     };
 

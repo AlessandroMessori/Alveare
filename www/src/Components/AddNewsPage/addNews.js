@@ -1,16 +1,16 @@
-var Firebase = require('firebase');
+var Firebase = require("firebase");
 
 var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler, Modals, FileHandler) {
 
     $scope.fileList = [];
     $scope.binaryList = [];
 
-    $scope.$on('$ionicView.enter', function () {
+    $scope.$on("$ionicView.enter", function () {
         $scope.clearData();
     });
 
     $scope.clearData = function () {
-        $scope.formScope.news = '';
+        $scope.formScope.news = "";
         $scope.fileList = [];
         $scope.binaryList = [];
     };
@@ -21,10 +21,10 @@ var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler, Modals
 
     $scope.sendNews = function (news) {
 
-        if (news != '') {
+        if (news != "") {
 
             $ionicLoading.show({
-                template: 'Pubblicazione in Corso...'
+                template: "Pubblicazione in Corso..."
             });
 
             var newData = {
@@ -38,7 +38,7 @@ var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler, Modals
             $scope.clearData();
         }
         else {
-            Modals.ResultTemplate('compila il testo del messaggio');
+            Modals.ResultTemplate("compila il testo del messaggio");
         }
     };
 
@@ -48,7 +48,7 @@ var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler, Modals
 
     $scope.removeFile = function (file) {
         FileHandler.removeFile(file, $scope.fileList);
-    }
+    };
 
 };
 

@@ -1,13 +1,13 @@
-var Firebase = require('firebase');
+var Firebase = require("firebase");
 var loginCtrl = function ($scope, $ionicLoading, $window, $state, $ionicHistory, Auth, InputFields, Modals) {
 
     Firebase.auth().signOut();
-    $scope.inputType = 'password';
+    $scope.inputType = "password";
 
     $scope.UserLogin = function (mail, password, RememberMe) {
         if (InputFields.filledFields([mail, password])) {
             $ionicLoading.show({
-                template: 'Accesso in Corso...'
+                template: "Accesso in Corso..."
             });
             $ionicHistory.clearHistory();
             $ionicHistory.clearCache();
@@ -15,7 +15,7 @@ var loginCtrl = function ($scope, $ionicLoading, $window, $state, $ionicHistory,
             $scope.SetRememberMe(RememberMe);
         }
         else {
-            Modals.ResultTemplate('alcuni campi sono vuoti o mail non è valida');
+            Modals.ResultTemplate("alcuni campi sono vuoti o mail non è valida");
         }
     };
 
@@ -28,10 +28,10 @@ var loginCtrl = function ($scope, $ionicLoading, $window, $state, $ionicHistory,
     };
 
     $scope.hideShowPassword = function () {
-        if ($scope.inputType == 'password')
-            $scope.inputType = 'text';
+        if ($scope.inputType == "password")
+            $scope.inputType = "text";
         else
-            $scope.inputType = 'password';
+            $scope.inputType = "password";
     };
 
 };

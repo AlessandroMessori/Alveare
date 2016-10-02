@@ -44,6 +44,8 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	var Firebase = __webpack_require__(1);
 	var addArticleCtrl = __webpack_require__(3);
 	var addNewsCtrl = __webpack_require__(4);
@@ -76,49 +78,48 @@
 	var PlatformHandler = __webpack_require__(32);
 	var SocialHandler = __webpack_require__(33);
 	var ActionBar = __webpack_require__(34);
-	var Drawer = __webpack_require__(35);
+	__webpack_require__(35);
 	var Configs = __webpack_require__(36);
 	var credentials = __webpack_require__(37);
 
 	Firebase.initializeApp(credentials);
 
-	var appAS = angular.module('appAS', ['ionic', 'ionic.contrib.drawer']);
-	appAS.controller('addArticleCtrl', addArticleCtrl);
-	appAS.controller('addNewsCtrl', addNewsCtrl);
-	appAS.controller('adminCtrl', adminCtrl);
-	appAS.controller('attualitaCtrl', attualitaCtrl);
-	appAS.controller('orientamentoCtrl', orientamentoCtrl);
-	appAS.controller('commentsCtrl', commentsCtrl);
-	appAS.controller('conventionsCtrl', conventionsCtrl);
-	appAS.controller('freeZoneCtrl', freeZoneCtrl);
-	appAS.controller('libraryCtrl', libraryCtrl);
-	appAS.controller('likesCtrl', likesCtrl);
-	appAS.controller('linkCtrl', linkCtrl);
-	appAS.controller('loginCtrl', loginCtrl);
-	appAS.controller('moderationCtrl', moderationCtrl);
-	appAS.controller('newsCtrl', newsCtrl);
-	appAS.controller('settingsCtrl', settingsCtrl);
-	appAS.controller('signupCtrl', signupCtrl);
-	appAS.controller('tabsCtrl', tabsCtrl);
-	appAS.service('Messages', Messages);
-	appAS.service('Articles', Articles);
-	appAS.service('Comments', Comments);
-	appAS.service('Likes', Likes);
-	appAS.service('Auth', Auth);
-	appAS.service('DateHandler', DateHandler);
-	appAS.service('InputFields', InputFields);
-	appAS.service('StringHandler', StringHandler);
-	appAS.service('Modals', Modals);
-	appAS.service('StaticData', StaticData);
-	appAS.service('FileHandler', FileHandler);
-	appAS.service('PlatformHandler', PlatformHandler);
-	appAS.service('SocialHandler', SocialHandler);
-	appAS.directive('actionBar', ActionBar);
+	var appAS = angular.module("appAS", ["ionic", "ionic.contrib.drawer"]);
+	appAS.controller("addArticleCtrl", addArticleCtrl);
+	appAS.controller("addNewsCtrl", addNewsCtrl);
+	appAS.controller("adminCtrl", adminCtrl);
+	appAS.controller("attualitaCtrl", attualitaCtrl);
+	appAS.controller("orientamentoCtrl", orientamentoCtrl);
+	appAS.controller("commentsCtrl", commentsCtrl);
+	appAS.controller("conventionsCtrl", conventionsCtrl);
+	appAS.controller("freeZoneCtrl", freeZoneCtrl);
+	appAS.controller("libraryCtrl", libraryCtrl);
+	appAS.controller("likesCtrl", likesCtrl);
+	appAS.controller("linkCtrl", linkCtrl);
+	appAS.controller("loginCtrl", loginCtrl);
+	appAS.controller("moderationCtrl", moderationCtrl);
+	appAS.controller("newsCtrl", newsCtrl);
+	appAS.controller("settingsCtrl", settingsCtrl);
+	appAS.controller("signupCtrl", signupCtrl);
+	appAS.controller("tabsCtrl", tabsCtrl);
+	appAS.service("Messages", Messages);
+	appAS.service("Articles", Articles);
+	appAS.service("Comments", Comments);
+	appAS.service("Likes", Likes);
+	appAS.service("Auth", Auth);
+	appAS.service("DateHandler", DateHandler);
+	appAS.service("InputFields", InputFields);
+	appAS.service("StringHandler", StringHandler);
+	appAS.service("Modals", Modals);
+	appAS.service("StaticData", StaticData);
+	appAS.service("FileHandler", FileHandler);
+	appAS.service("PlatformHandler", PlatformHandler);
+	appAS.service("SocialHandler", SocialHandler);
+	appAS.directive("actionBar", ActionBar);
 
 	appAS.run(Configs.run);
 
 	appAS.config(Configs.config);
-
 
 /***/ },
 /* 1 */
@@ -722,19 +723,21 @@
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	var Firebase = __webpack_require__(1);
 
-	var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, InputFields, DateHandler, Modals, FileHandler) {
+	var addArticleCtrl = function addArticleCtrl($scope, $rootScope, $ionicLoading, Articles, InputFields, DateHandler, Modals, FileHandler) {
 
-	    $scope.$on('$ionicView.enter', function () {
+	    $scope.$on("$ionicView.enter", function () {
 	        $scope.clearData();
 	    });
 
 	    $scope.clearData = function () {
-	        $scope.formScope.title = '';
-	        $scope.formScope.text = '';
-	        $scope.pdf = '';
-	        document.getElementById('img-preview').style.display = 'none';
+	        $scope.formScope.title = "";
+	        $scope.formScope.text = "";
+	        $scope.pdf = "";
+	        document.getElementById("img-preview").style.display = "none";
 	        $scope.$apply();
 	    };
 
@@ -760,21 +763,20 @@
 
 	        function onSuccess(imageUrl) {
 	            $scope.imgData = imageUrl;
-	            document.getElementById('img-preview').style.display = 'inline';
-	            document.getElementById('img_1').src = imageUrl;
+	            document.getElementById("img-preview").style.display = "inline";
+	            document.getElementById("img_1").src = imageUrl;
 	        }
 
 	        function onFail(message) {
-	            Modals.ResultTemplate('Non sono riuscito a reperire la foto perchè ' + message);
+	            Modals.ResultTemplate("Non sono riuscito a reperire la foto perchè " + message);
 	        }
-
 	    };
 
 	    $scope.UploadArticle = function (title, text, pdf) {
-	        if (InputFields.filledFields([title, text, pdf, document.getElementById('img_1').src])) {
+	        if (InputFields.filledFields([title, text, pdf, document.getElementById("img_1").src])) {
 
 	            $ionicLoading.show({
-	                template: 'Pubblicazione in Corso...'
+	                template: "Pubblicazione in Corso..."
 	            });
 
 	            var newData = {
@@ -785,37 +787,34 @@
 	                pdf: pdf
 	            };
 
-	            Articles.sendArticle(newData, document.getElementById('img_1').src, $rootScope.contentType);
-	        }
-	        else {
-	            Modals.ResultTemplate('Compila tutti i campi');
+	            Articles.sendArticle(newData, document.getElementById("img_1").src, $rootScope.contentType);
+	        } else {
+	            Modals.ResultTemplate("Compila tutti i campi");
 	        }
 	    };
-
-
 	};
 
 	module.exports = addArticleCtrl;
-
-
 
 /***/ },
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	var Firebase = __webpack_require__(1);
 
-	var addNewsCtrl = function ($scope, $ionicLoading, Messages, DateHandler, Modals, FileHandler) {
+	var addNewsCtrl = function addNewsCtrl($scope, $ionicLoading, Messages, DateHandler, Modals, FileHandler) {
 
 	    $scope.fileList = [];
 	    $scope.binaryList = [];
 
-	    $scope.$on('$ionicView.enter', function () {
+	    $scope.$on("$ionicView.enter", function () {
 	        $scope.clearData();
 	    });
 
 	    $scope.clearData = function () {
-	        $scope.formScope.news = '';
+	        $scope.formScope.news = "";
 	        $scope.fileList = [];
 	        $scope.binaryList = [];
 	    };
@@ -826,10 +825,10 @@
 
 	    $scope.sendNews = function (news) {
 
-	        if (news != '') {
+	        if (news != "") {
 
 	            $ionicLoading.show({
-	                template: 'Pubblicazione in Corso...'
+	                template: "Pubblicazione in Corso..."
 	            });
 
 	            var newData = {
@@ -841,9 +840,8 @@
 
 	            Messages.sendPost(newData, $scope.binaryList);
 	            $scope.clearData();
-	        }
-	        else {
-	            Modals.ResultTemplate('compila il testo del messaggio');
+	        } else {
+	            Modals.ResultTemplate("compila il testo del messaggio");
 	        }
 	    };
 
@@ -853,8 +851,7 @@
 
 	    $scope.removeFile = function (file) {
 	        FileHandler.removeFile(file, $scope.fileList);
-	    }
-
+	    };
 	};
 
 	module.exports = addNewsCtrl;
@@ -863,12 +860,13 @@
 /* 5 */
 /***/ function(module, exports) {
 
-	var adminCtrl = function ($scope,StaticData) {
+	"use strict";
+
+	var adminCtrl = function adminCtrl($scope, StaticData) {
 
 	    $scope.title = "Sezione Amministratori ";
 
 	    $scope.Links = StaticData.adminLinks;
-
 	};
 
 	module.exports = adminCtrl;
@@ -877,23 +875,25 @@
 /* 6 */
 /***/ function(module, exports) {
 
-	var articlesCtrl = function ($scope, $rootScope, $state, Articles, type) {
+	"use strict";
+
+	var articlesCtrl = function articlesCtrl($scope, $rootScope, $state, Articles, type) {
 
 	    Articles.getArticles($scope, $rootScope, $state, type, "articlesSpinner");
 
 	    $scope.doRefresh = function () {
 	        Articles.getArticles($scope, $rootScope, $state, type, "articlesSpinner");
-	        $scope.$broadcast('scroll.refreshComplete');
+	        $scope.$broadcast("scroll.refreshComplete");
 	        $scope.$apply();
 	    };
 	};
 
-	var attualitaCtrl = function ($scope, $rootScope, $state, Articles) {
-	    return articlesCtrl($scope, $rootScope, $state, Articles, 'Giornalino');
+	var attualitaCtrl = function attualitaCtrl($scope, $rootScope, $state, Articles) {
+	    return articlesCtrl($scope, $rootScope, $state, Articles, "Giornalino");
 	};
 
-	var orientamentoCtrl = function ($scope, $rootScope, $state, Articles) {
-	    return articlesCtrl($scope, $rootScope, $state, Articles, 'Orientamento');
+	var orientamentoCtrl = function orientamentoCtrl($scope, $rootScope, $state, Articles) {
+	    return articlesCtrl($scope, $rootScope, $state, Articles, "Orientamento");
 	};
 
 	module.exports = {
@@ -901,19 +901,20 @@
 	    orientamentoCtrl: orientamentoCtrl
 	};
 
-
 /***/ },
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	var Firebase = __webpack_require__(1);
-	var commentsCtrl = function ($scope, $rootScope, $state, Comments, DateHandler, Modals) {
+	var commentsCtrl = function commentsCtrl($scope, $rootScope, $state, Comments, DateHandler, Modals) {
 
-	    Comments.getComments($scope, $rootScope, $state, 'commentsSpinner');
+	    Comments.getComments($scope, $rootScope, $state, "commentsSpinner");
 
-	    $scope.$on('$ionicView.enter', function () {
-	        $scope.comment = '';
-	        Comments.getComments($scope, $rootScope, $state, 'commentsSpinner');
+	    $scope.$on("$ionicView.enter", function () {
+	        $scope.comment = "";
+	        Comments.getComments($scope, $rootScope, $state, "commentsSpinner");
 	    });
 
 	    $scope.send = function (comment) {
@@ -924,28 +925,26 @@
 	                father: $rootScope.currentPost,
 	                date: DateHandler.GetCurrentDate()
 	            };
-	            Comments.sendComment($scope, newData, 'commentList');
-	            $scope.comment = '';
+	            Comments.sendComment($scope, newData, "commentList");
+	            $scope.comment = "";
 	            $scope.$apply();
-	        }
-	        else {
-	            Modals.ResultTemplate('non puoi pubblicare un commento vuoto');
+	        } else {
+	            Modals.ResultTemplate("non puoi pubblicare un commento vuoto");
 	        }
 	    };
-
 	};
 
 	module.exports = commentsCtrl;
-
 
 /***/ },
 /* 8 */
 /***/ function(module, exports) {
 
-	var conventionsCtrl = function ($scope, StaticData) {
+	"use strict";
+
+	var conventionsCtrl = function conventionsCtrl($scope, StaticData) {
 
 	    $scope.Conventions = StaticData.conventions;
-
 	};
 
 	module.exports = conventionsCtrl;
@@ -954,9 +953,9 @@
 /* 9 */
 /***/ function(module, exports) {
 
-	var freeZoneCtrl = function () {
+	"use strict";
 
-	};
+	var freeZoneCtrl = function freeZoneCtrl() {};
 
 	module.exports = freeZoneCtrl;
 
@@ -964,9 +963,9 @@
 /* 10 */
 /***/ function(module, exports) {
 
-	var libraryCtrl = function () {
+	"use strict";
 
-	};
+	var libraryCtrl = function libraryCtrl() {};
 
 	module.exports = libraryCtrl;
 
@@ -974,31 +973,32 @@
 /* 11 */
 /***/ function(module, exports) {
 
-	var likesCtrl = function ($scope, $rootScope, Likes) {
+	"use strict";
 
-	    Likes.getLikers($rootScope.currentPosts, $scope, 'likesSpinner');
+	var likesCtrl = function likesCtrl($scope, $rootScope, Likes) {
 
-	    $scope.$on('$ionicView.enter', function () {
-	        Likes.getLikers($rootScope.currentPost, $scope, 'likesSpinner');
+	    Likes.getLikers($rootScope.currentPosts, $scope, "likesSpinner");
+
+	    $scope.$on("$ionicView.enter", function () {
+	        Likes.getLikers($rootScope.currentPost, $scope, "likesSpinner");
 	    });
-
 	};
 
 	module.exports = likesCtrl;
-
 
 /***/ },
 /* 12 */
 /***/ function(module, exports) {
 
-	var linkCtrl = function ($scope, StaticData) {
+	"use strict";
+
+	var linkCtrl = function linkCtrl($scope, StaticData) {
 
 	    $scope.Links = StaticData.links;
 
 	    $scope.OpenLink = function (url) {
-	        cordova.InAppBrowser.open(url, '_system', 'location=yes');
+	        cordova.InAppBrowser.open(url, "_system", "location=yes");
 	    };
-
 	};
 
 	module.exports = linkCtrl;
@@ -1007,24 +1007,25 @@
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	var Firebase = __webpack_require__(1);
-	var loginCtrl = function ($scope, $ionicLoading, $window, $state, $ionicHistory, Auth, InputFields, Modals) {
+	var loginCtrl = function loginCtrl($scope, $ionicLoading, $window, $state, $ionicHistory, Auth, InputFields, Modals) {
 
 	    Firebase.auth().signOut();
-	    $scope.inputType = 'password';
+	    $scope.inputType = "password";
 
 	    $scope.UserLogin = function (mail, password, RememberMe) {
 	        if (InputFields.filledFields([mail, password])) {
 	            $ionicLoading.show({
-	                template: 'Accesso in Corso...'
+	                template: "Accesso in Corso..."
 	            });
 	            $ionicHistory.clearHistory();
 	            $ionicHistory.clearCache();
 	            Auth.Login(mail, password, $ionicLoading, $state, $ionicHistory, Modals);
 	            $scope.SetRememberMe(RememberMe);
-	        }
-	        else {
-	            Modals.ResultTemplate('alcuni campi sono vuoti o mail non è valida');
+	        } else {
+	            Modals.ResultTemplate("alcuni campi sono vuoti o mail non è valida");
 	        }
 	    };
 
@@ -1033,16 +1034,11 @@
 	        if (RememberMe) {
 	            $window.localStorage.setItem("RememberMe", "true");
 	        }
-
 	    };
 
 	    $scope.hideShowPassword = function () {
-	        if ($scope.inputType == 'password')
-	            $scope.inputType = 'text';
-	        else
-	            $scope.inputType = 'password';
+	        if ($scope.inputType == "password") $scope.inputType = "text";else $scope.inputType = "password";
 	    };
-
 	};
 
 	module.exports = loginCtrl;
@@ -1051,18 +1047,20 @@
 /* 14 */
 /***/ function(module, exports) {
 
-	var moderationCtrl = function ($scope, $rootScope, $state, $ionicPopup, Comments, Modals) {
+	"use strict";
 
-	    Comments.getComments($scope, $rootScope, $state, 'commentsSpinner', false);
+	var moderationCtrl = function moderationCtrl($scope, $rootScope, $state, $ionicPopup, Comments, Modals) {
+
+	    Comments.getComments($scope, $rootScope, $state, "commentsSpinner", false);
 
 	    $scope.removeComment = function (commentId) {
-	        Comments.deleteComment($scope, commentId, 'commentList', Modals);
+	        Comments.deleteComment($scope, commentId, "commentList", Modals);
 	    };
 
 	    $scope.showConfirm = function (commentId) {
 	        var confirmPopup = $ionicPopup.confirm({
-	            title: 'Conferma Eliminazione',
-	            template: 'Vuoi davvero eliminare questo commento?'
+	            title: "Conferma Eliminazione",
+	            template: "Vuoi davvero eliminare questo commento?"
 	        });
 
 	        confirmPopup.then(function (res) {
@@ -1075,48 +1073,47 @@
 
 	module.exports = moderationCtrl;
 
-
-
 /***/ },
 /* 15 */
 /***/ function(module, exports) {
 
-	var forumCtrl = function ($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler) {
+	"use strict";
 
-	    $rootScope.userName = window.localStorage.getItem('Username');
-	    Messages.getPosts($scope, $rootScope, $state, 'newsSpinner');
+	var forumCtrl = function forumCtrl($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler) {
 
-	    $scope.$on('$ionicView.enter', function () {
-	        if ($rootScope.userName != window.localStorage.getItem('Username')) {
-	            Messages.getPosts($scope, $rootScope, $state, 'newsSpinner');
-	            $rootScope.userName = window.localStorage.getItem('Username');
+	    $rootScope.userName = window.localStorage.getItem("Username");
+	    Messages.getPosts($scope, $rootScope, $state, "newsSpinner");
+
+	    $scope.$on("$ionicView.enter", function () {
+	        if ($rootScope.userName != window.localStorage.getItem("Username")) {
+	            Messages.getPosts($scope, $rootScope, $state, "newsSpinner");
+	            $rootScope.userName = window.localStorage.getItem("Username");
 	        }
 	    });
 
 	    $scope.openFile = function (file) {
 	        FileHandler.openFile(file, $ionicLoading);
-	    }
-
+	    };
 	};
 
 	module.exports = forumCtrl;
-
 
 /***/ },
 /* 16 */
 /***/ function(module, exports) {
 
-	var settingsCtrl = function ($scope, $rootScope, $state, Auth, Modals, SocialHandler) {
+	"use strict";
 
-	    if (window.localStorage.getItem('RememberMe') == 'true') {
+	var settingsCtrl = function settingsCtrl($scope, $rootScope, $state, Auth, Modals, SocialHandler) {
+
+	    if (window.localStorage.getItem("RememberMe") == "true") {
 	        $scope.RememberMe = true;
-	    }
-	    else {
+	    } else {
 	        $scope.RememberMe = false;
 	    }
 
 	    $scope.updateRememberMe = function (RememberMe) {
-	        window.localStorage.setItem('RememberMe', RememberMe.toString());
+	        window.localStorage.setItem("RememberMe", RememberMe.toString());
 	        $scope.RememberMe = RememberMe;
 	    };
 
@@ -1131,43 +1128,38 @@
 	    $scope.Disconnect = function () {
 	        Auth.Logout($state, $rootScope, Modals);
 	    };
-
 	};
 
 	module.exports = settingsCtrl;
-
 
 /***/ },
 /* 17 */
 /***/ function(module, exports) {
 
-	var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields, Modals) {
+	"use strict";
 
-	    $scope.inputType = 'password';
+	var signupCtrl = function signupCtrl($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields, Modals) {
+
+	    $scope.inputType = "password";
 
 	    $scope.UserSignup = function (username, password, mail) {
 	        if (InputFields.filledFields([username, password, mail])) {
 	            $ionicLoading.show({
-	                template: 'Registrazione in corso...'
+	                template: "Registrazione in corso..."
 	            });
 	            Auth.Signup(username, password, mail, $state, $ionicHistory);
-	        }
-	        else {
-	            Modals.ResultTemplate('compila tutti i campi');
+	        } else {
+	            Modals.ResultTemplate("compila tutti i campi");
 	        }
 	    };
 
 	    $scope.go = function () {
-	        $state.go('login');
+	        $state.go("login");
 	    };
 
 	    $scope.hideShowPassword = function () {
-	        if ($scope.inputType == 'password')
-	            $scope.inputType = 'text';
-	        else
-	            $scope.inputType = 'password';
+	        if ($scope.inputType == "password") $scope.inputType = "text";else $scope.inputType = "password";
 	    };
-
 	};
 
 	module.exports = signupCtrl;
@@ -1176,29 +1168,30 @@
 /* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	var Firebase = __webpack_require__(1);
-	var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth, Modals, PlatformHandler) {
+	var tabsCtrl = function tabsCtrl($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth, Modals, PlatformHandler) {
 
-	    $scope.View = 'tab-link';
+	    $scope.View = "tab-link";
 
-	    Auth.checkAdmins($scope, 'adminPanel');
+	    Auth.checkAdmins($scope, "adminPanel");
 
-	    PlatformHandler.is('iOS',
-	        function () {
-	            document.getElementById('tabBar').style.marginTop = '-5%';
-	        });
+	    PlatformHandler.is("iOS", function () {
+	        document.getElementById("tabBar").style.marginTop = "-5%";
+	    });
 
-	    $scope.$on('$ionicView.enter', function () {
+	    $scope.$on("$ionicView.enter", function () {
 	        $scope.closeDrawer();
 	        $scope.User = Firebase.auth().currentUser.displayName;
 	        $scope.UserMail = Firebase.auth().currentUser.email;
-	        Auth.checkAdmins($scope, 'adminPanel');
+	        Auth.checkAdmins($scope, "adminPanel");
 	    });
 
-	    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from) {
+	    $rootScope.$on("$stateChangeSuccess", function (ev, to, toParams, from) {
 	        $rootScope.previousState = from.name;
-	        if ($rootScope.previousState == 'comments') {
-	            $rootScope.previousState = 'tab.forum'
+	        if ($rootScope.previousState == "comments") {
+	            $rootScope.previousState = "tab.forum";
 	        } else {
 	            $ionicScrollDelegate.scrollTop();
 	        }
@@ -1209,22 +1202,21 @@
 	    };
 
 	    $scope.ShowLinks = function () {
-	        if (document.getElementById('linkList').style.display == 'block') {
-	            document.getElementById('linkList').style.display = 'none'
-	        }
-	        else {
-	            document.getElementById('linkList').style.display = 'block'
+	        if (document.getElementById("linkList").style.display == "block") {
+	            document.getElementById("linkList").style.display = "none";
+	        } else {
+	            document.getElementById("linkList").style.display = "block";
 	        }
 	    };
 
 	    //convert to Service
 	    $scope.navigate = function (destination, ind) {
-	        $scope.View = 'tab-' + destination;
+	        $scope.View = "tab-" + destination;
 	        for (var i = 1; i < 10; i++) {
-	            document.getElementById('MainView' + i).style.display = 'none';
+	            document.getElementById("MainView" + i).style.display = "none";
 	        }
-	        document.getElementById('MainView' + ind).style.display = 'block';
-	    }
+	        document.getElementById("MainView" + ind).style.display = "block";
+	    };
 	};
 
 	module.exports = tabsCtrl;
@@ -1233,8 +1225,10 @@
 /* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	var Firebase = __webpack_require__(1);
-	var Messages = function (Modals, Comments, Likes) {
+	var Messages = function Messages(Modals, Comments, Likes) {
 
 	    this.sendPost = function (newData, binary) {
 
@@ -1247,27 +1241,25 @@
 	            });
 	        }
 
-	        var newPostKey = Firebase.database().ref().child('Comunicazioni').push().key;
+	        var newPostKey = Firebase.database().ref().child("Comunicazioni").push().key;
 	        var updates = {};
-	        updates['/Comunicazioni/' + newPostKey] = newData;
-	        Firebase.database().ref().update(updates)
-	            .then(function () {
-	                Modals.ResultTemplate("Comunicazione Pubblicata con Successo");
-	            })
-	            .catch(function () {
-	                Modals.ResultTemplate("Errore nella Pubblicazione della Comunicazione");
-	            })
+	        updates["/Comunicazioni/" + newPostKey] = newData;
+	        Firebase.database().ref().update(updates).then(function () {
+	            Modals.ResultTemplate("Comunicazione Pubblicata con Successo");
+	        }).catch(function () {
+	            Modals.ResultTemplate("Errore nella Pubblicazione della Comunicazione");
+	        });
 	    };
 
 	    this.getPosts = function (scope, rootScope, state, spinner) {
 
 	        var storage = Firebase.storage();
 	        var self = this;
-	        document.getElementById(spinner).style.display = 'block';
+	        document.getElementById(spinner).style.display = "block";
 	        scope.Posts = [];
 
-	        var ModelRef = Firebase.database().ref('Comunicazioni');
-	        ModelRef.on('value', function (snapshot) {
+	        var ModelRef = Firebase.database().ref("Comunicazioni");
+	        ModelRef.on("value", function (snapshot) {
 	            var results = snapshot.val();
 	            var posts = [];
 
@@ -1290,7 +1282,6 @@
 	                                if (j == results[item].files.length - 1) {
 	                                    self.setPostProperties(results, files, state, posts, scope, rootScope, item, i, maxLength);
 	                                }
-
 	                            });
 	                        });
 	                    } else {
@@ -1298,13 +1289,10 @@
 	                    }
 	                });
 	            }
-
 	        });
-
 	    };
 
 	    this.setPostProperties = function (results, files, state, posts, scope, rootScope, item, i, maxLength) {
-
 
 	        posts[i] = {
 	            author: results[item].author,
@@ -1314,68 +1302,64 @@
 	            id: item,
 	            likeCount: 0,
 	            commentCount: 0,
-	            link: function (dest) {
+	            link: function link(dest) {
 	                rootScope.currentPost = item;
 	                state.go(dest);
 	            },
-	            like: function () {
+	            like: function like() {
 	                Likes.checkLike(Firebase.auth().currentUser.displayName, item);
 	            }
 	        };
 
 	        Comments.getCommentCount(item, scope, posts, i, results, maxLength);
-	    }
-
+	    };
 	};
 
 	module.exports = Messages;
-
-
-
 
 /***/ },
 /* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	var Firebase = __webpack_require__(1);
-	var Articles = function ($ionicLoading, DateHandler, StringHandler, Modals, FileHandler) {
+	var Articles = function Articles($ionicLoading, DateHandler, StringHandler, Modals, FileHandler) {
 
 	    this.sendArticle = function (newData, imgUrl, ArticleType) {
 	        var newPostKey = Firebase.database().ref().child(ArticleType).push().key;
 	        var updates = {};
 
-	        updates['/' + ArticleType + '/' + newPostKey] = newData;
+	        updates["/" + ArticleType + "/" + newPostKey] = newData;
 	        Firebase.database().ref().update(updates);
 
 	        FileHandler.getFileBlob(imgUrl, function (blob) {
-	            var imagesRef = Firebase.storage().ref('img').child(newPostKey);
-	            imagesRef.put(blob)
-	                .then(function () {
-	                    var pdfRef = Firebase.storage().ref('pdf').child(newData.pdf.name);
-	                    pdfRef.put(newData.pdf.binary).then(function () {
-	                        Modals.ResultTemplate("Articolo Pubblicato con Successo");
-	                    });
-	                })
-	                .catch(function () {
-	                    Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo");
+	            var imagesRef = Firebase.storage().ref("img").child(newPostKey);
+	            imagesRef.put(blob).then(function () {
+	                var pdfRef = Firebase.storage().ref("pdf").child(newData.pdf.name);
+	                pdfRef.put(newData.pdf.binary).then(function () {
+	                    Modals.ResultTemplate("Articolo Pubblicato con Successo");
 	                });
+	            }).catch(function () {
+	                Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo");
+	            });
 	        });
 	    };
 
 	    this.getArticles = function (scope, rootScope, state, type, spinner) {
 
-	        document.getElementById(spinner).style.display = 'block';
+	        document.getElementById(spinner).style.display = "block";
 	        var ModelRef = Firebase.database().ref(type);
 
-	        ModelRef.on('value', function (snapshot) {
+	        ModelRef.on("value", function (snapshot) {
 
 	            var results = snapshot.val();
 	            var articles = [];
 
 	            if (results != null) {
 
-	                var imgs = Firebase.storage().ref('img');
-	                var pdfs = Firebase.storage().ref('pdf');
+	                var imgs = Firebase.storage().ref("img");
+	                var pdfs = Firebase.storage().ref("pdf");
 	                var keys = Object.keys(results);
 
 	                keys.map(function (item, i) {
@@ -1393,11 +1377,11 @@
 	                                date: results[item].date,
 	                                id: item,
 	                                pdf: pdfUrl,
-	                                link: function (destination) {
+	                                link: function link(destination) {
 	                                    rootScope.currentPost = item;
 	                                    state.go(destination);
 	                                },
-	                                openPdf: function () {
+	                                openPdf: function openPdf() {
 	                                    FileHandler.openFile(pdfUrl, $ionicLoading);
 	                                }
 	                            };
@@ -1405,51 +1389,48 @@
 	                            if (i == keys.length - 1) {
 	                                scope.Articles = articles;
 	                                scope.$apply();
-	                                document.getElementById(spinner).style.display = 'none';
+	                                document.getElementById(spinner).style.display = "none";
 	                            }
 	                        });
 	                    });
 	                });
 	            }
 	        });
-
 	    };
-
 	};
 
 	module.exports = Articles;
-
-
 
 /***/ },
 /* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	var Firebase = __webpack_require__(1);
-	var Comments = function (Likes) {
+	var Comments = function Comments(Likes) {
 
 	    this.sendComment = function (scope, newData, commentList) {
-	        var newPostKey = Firebase.database().ref().child('Commenti').push().key;
+	        var newPostKey = Firebase.database().ref().child("Commenti").push().key;
 	        var updates = {};
-	        document.getElementById(commentList).style.display = 'none';
-	        updates['/Commenti/' + newPostKey] = newData;
-	        Firebase.database().ref().update(updates)
-	            .then(function () {
-	                document.getElementById(commentList).style.display = 'block';
-	                scope.$apply();
-	            })
+	        document.getElementById(commentList).style.display = "none";
+	        updates["/Commenti/" + newPostKey] = newData;
+	        Firebase.database().ref().update(updates).then(function () {
+	            document.getElementById(commentList).style.display = "block";
+	            scope.$apply();
+	        });
 	    };
 
 	    this.getComments = function (scope, rootScope, state, spinner, filter) {
 	        if (filter == undefined) {
 	            filter = true;
 	        }
-	        document.getElementById(spinner).style.display = 'block';
+	        document.getElementById(spinner).style.display = "block";
 	        var comments = [];
 	        scope.Comments = [];
 	        var father = rootScope.currentPost;
-	        var ModelRef = Firebase.database().ref('Commenti');
-	        ModelRef.on('value', function (snapshot) {
+	        var ModelRef = Firebase.database().ref("Commenti");
+	        ModelRef.on("value", function (snapshot) {
 	            var results = snapshot.val();
 
 	            if (results != null) {
@@ -1462,7 +1443,7 @@
 	                            date: results[item].date,
 	                            id: item
 	                        });
-	                        Likes.getLikeCount(item, scope, comments, comments.length - 1, 'Comments');
+	                        Likes.getLikeCount(item, scope, comments, comments.length - 1, "Comments");
 	                    } else if (results[item].father == father) {
 	                        comments.push({
 	                            author: results[item].author,
@@ -1470,30 +1451,28 @@
 	                            father: results[item].father,
 	                            date: results[item].date,
 	                            id: item,
-	                            like: function () {
+	                            like: function like() {
 	                                Likes.checkLike(Firebase.auth().currentUser.displayName, item);
 	                            },
-	                            link: function () {
+	                            link: function link() {
 	                                rootScope.currentPost = item;
-	                                state.go('likes');
+	                                state.go("likes");
 	                            }
 	                        });
 
-	                        document.getElementById(spinner).style.display = 'none';
-	                        Likes.getLikeCount(item, scope, comments, comments.length - 1, 'Comments');
+	                        document.getElementById(spinner).style.display = "none";
+	                        Likes.getLikeCount(item, scope, comments, comments.length - 1, "Comments");
 	                    }
-
-
 	                });
 	            }
 
-	            document.getElementById(spinner).style.display = 'none';
+	            document.getElementById(spinner).style.display = "none";
 	        });
 	    };
 
 	    this.getCommentCount = function (father, scope, posts, index, maxLength) {
-	        var ModelRef = Firebase.database().ref('Commenti');
-	        ModelRef.on('value', function (snapshot) {
+	        var ModelRef = Firebase.database().ref("Commenti");
+	        ModelRef.on("value", function (snapshot) {
 	            var results = snapshot.val();
 	            var count = 0;
 
@@ -1506,22 +1485,20 @@
 	                });
 	            }
 	            posts[index].commentCount = count;
-	            Likes.getLikeCount(father, scope, posts, index, 'Posts', maxLength);
+	            Likes.getLikeCount(father, scope, posts, index, "Posts", maxLength);
 	        });
-
 	    };
 
 	    this.deleteComment = function (scope, commentId, commentList, modals) {
 	        var oldLenght = scope.Comments.length;
-	        document.getElementById(commentList).style.display = 'none';
-	        firebase.database().ref('Commenti/' + commentId).remove()
-	            .then(function () {
-	                modals.ResultTemplate('commento eliminato con successo');
-	                scope.Comments.splice(oldLenght - 1, oldLenght * 2);
-	                document.getElementById(commentList).style.display = 'block';
-	                scope.$apply();
-	            });
-	    }
+	        document.getElementById(commentList).style.display = "none";
+	        Firebase.database().ref("Commenti/" + commentId).remove().then(function () {
+	            modals.ResultTemplate("commento eliminato con successo");
+	            scope.Comments.splice(oldLenght - 1, oldLenght * 2);
+	            document.getElementById(commentList).style.display = "block";
+	            scope.$apply();
+	        });
+	    };
 	};
 
 	module.exports = Comments;
@@ -1530,15 +1507,17 @@
 /* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	var Firebase = __webpack_require__(1);
 	var _ = __webpack_require__(23);
 
-	var Likes = function () {
+	var Likes = function Likes() {
 
 	    this.checkLike = function (user, post) {
 	        var self = this;
-	        var ModelRef = Firebase.database().ref('Likes');
-	        ModelRef.once('value', function (snapshot) {
+	        var ModelRef = Firebase.database().ref("Likes");
+	        ModelRef.once("value", function (snapshot) {
 	            var results = snapshot.val();
 	            var likeId;
 	            var check = true;
@@ -1553,34 +1532,32 @@
 	            }
 
 	            if (check) {
-	                self.sendLike({user: user, post: post}, post);
+	                self.sendLike({ user: user, post: post }, post);
 	            } else {
-	                self.removeLike(likeId, post)
+	                self.removeLike(likeId, post);
 	            }
-
 	        });
-
 	    };
 
 	    this.sendLike = function (newData, likebtn) {
-	        var newPostKey = Firebase.database().ref().child('Likes').push().key;
+	        var newPostKey = Firebase.database().ref().child("Likes").push().key;
 	        var updates = {};
-	        document.getElementById(likebtn).style.color = 'blue';
-	        updates['/Likes/' + newPostKey] = newData;
-	        Firebase.database().ref().update(updates)
+	        document.getElementById(likebtn).style.color = "blue";
+	        updates["/Likes/" + newPostKey] = newData;
+	        Firebase.database().ref().update(updates);
 	    };
 
 	    this.removeLike = function (target, likebtn) {
-	        document.getElementById(likebtn).style.color = 'grey';
-	        firebase.database().ref('Likes/' + target).remove();
+	        document.getElementById(likebtn).style.color = "grey";
+	        Firebase.database().ref("Likes/" + target).remove();
 	    };
 
 	    this.getLikeCount = function (father, scope, posts, index, target) {
-	        var ModelRef = Firebase.database().ref('Likes');
-	        ModelRef.on('value', function (snapshot) {
+	        var ModelRef = Firebase.database().ref("Likes");
+	        ModelRef.on("value", function (snapshot) {
 	            var results = snapshot.val();
 	            var cnt = 0;
-	            var color = 'black';
+	            var color = "black";
 	            var users = [];
 
 	            if (results != null) {
@@ -1589,7 +1566,7 @@
 	                        cnt++;
 	                        users.push(results[item].user);
 	                        if (Firebase.auth().currentUser.displayName == results[item].user) {
-	                            color = 'blue';
+	                            color = "blue";
 	                        }
 	                    }
 	                });
@@ -1598,20 +1575,19 @@
 	            posts[index].likeCount = cnt;
 	            posts[index].likerList = users.reverse();
 	            scope[target] = posts;
-	            if (target == 'Comments') {
-	                scope[target] = _.uniqBy(posts, 'text');
+	            if (target == "Comments") {
+	                scope[target] = _.uniqBy(posts, "text");
 	            }
 	            window.setTimeout(function () {
 	                scope.$apply();
 	            }, 1000);
-
 	        });
 	    };
 
 	    this.getLikers = function (father, scope, spinner) {
-	        document.getElementById(spinner).style.display = 'block';
-	        var ModelRef = Firebase.database().ref('Likes');
-	        ModelRef.on('value', function (snapshot) {
+	        document.getElementById(spinner).style.display = "block";
+	        var ModelRef = Firebase.database().ref("Likes");
+	        ModelRef.on("value", function (snapshot) {
 	            var results = snapshot.val();
 	            var users = [];
 
@@ -1623,12 +1599,11 @@
 	                });
 	                scope.Likers = users;
 	            }
-	            document.getElementById(spinner).style.display = 'none';
+	            document.getElementById(spinner).style.display = "none";
 	        });
 	    };
 	};
 	module.exports = Likes;
-
 
 /***/ },
 /* 23 */
@@ -18390,10 +18365,12 @@
 /* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
 	var Firebase = __webpack_require__(1);
 	var _ = __webpack_require__(23);
 
-	var Auth = function ($ionicLoading, Modals, StringHandler) {
+	var Auth = function Auth($ionicLoading, Modals, StringHandler) {
 	    this.Signup = function (name, pass, mail, state, history) {
 
 	        Firebase.auth().createUserWithEmailAndPassword(mail, pass).catch(function (error) {
@@ -18403,209 +18380,184 @@
 
 	        Firebase.auth().onAuthStateChanged(function (user) {
 
-	            if (user != null && history.currentStateName() == 'signup') {
-	                user.updateProfile({displayName: name});
+	            if (user != null && history.currentStateName() == "signup") {
+	                user.updateProfile({ displayName: name });
 	                $ionicLoading.hide();
 	                Firebase.auth().signOut();
-	                Modals.ResultTemplate('Profilo creato correttamente');
-	                state.go('login');
+	                Modals.ResultTemplate("Profilo creato correttamente");
+	                state.go("login");
 	            }
 	        });
-
 	    };
 
 	    this.Login = function (email, pass, loadingTemplate, state, history, modals) {
 
-	        Firebase.auth().signInWithEmailAndPassword(email, pass).catch(function (error) {
+	        Firebase.auth().signInWithEmailAndPassword(email, pass).catch(function () {
 	            loadingTemplate.hide();
 	            modals.ResultTemplate("Mail o Password errati");
 	        });
 
 	        Firebase.auth().onAuthStateChanged(function (user) {
 
-	            if (user != null && history.currentStateName() == 'login') {
+	            if (user != null && history.currentStateName() == "login") {
 	                loadingTemplate.hide();
 	                state.go("tab.forum");
 	            }
-
 	        });
 	    };
 
 	    this.Logout = function (state, rootScope, modals) {
 	        Firebase.auth().signOut().then(function () {
-	            state.go('login');
+	            state.go("login");
 	            window.localStorage.setItem("RememberMe", "false");
 	            window.localStorage.setItem("IsAdmin", "false");
 	            window.localStorage.removeItem("Username");
 	        }, function () {
-	            modals.ResultTemplate('Impossibile disconnetersi dal profilo');
+	            modals.ResultTemplate("Impossibile disconnetersi dal profilo");
 	        });
 	    };
 
 	    this.checkAdmins = function (scope, id) {
 
-	        if (window.localStorage.getItem('Username')) {
-	            scope.User = window.localStorage.getItem('Username');
+	        if (window.localStorage.getItem("Username")) {
+	            scope.User = window.localStorage.getItem("Username");
 	        }
-	        var ModelRef = Firebase.database().ref('Amministratori');
-	        ModelRef.on('value', function (snapshot) {
+	        var ModelRef = Firebase.database().ref("Amministratori");
+	        ModelRef.on("value", function (snapshot) {
 	            var results = snapshot.val();
 
-	            if (window.localStorage.getItem('IsAdmin') == 'true') {
-	                document.getElementById(id).style.display = 'block';
-	            }
-	            else if (!_.includes(results, scope.UserMail) || !scope.UserMail) {
-	                document.getElementById(id).style.display = 'none';
-	                window.localStorage.setItem('IsAdmin', 'false');
-	            }
-	            else {
-	                document.getElementById(id).style.display = 'block';
-	                if (window.localStorage.getItem('RememberMe') == 'true') {
-	                    window.localStorage.setItem('IsAdmin', 'true');
+	            if (window.localStorage.getItem("IsAdmin") == "true") {
+	                document.getElementById(id).style.display = "block";
+	            } else if (!_.includes(results, scope.UserMail) || !scope.UserMail) {
+	                document.getElementById(id).style.display = "none";
+	                window.localStorage.setItem("IsAdmin", "false");
+	            } else {
+	                document.getElementById(id).style.display = "block";
+	                if (window.localStorage.getItem("RememberMe") == "true") {
+	                    window.localStorage.setItem("IsAdmin", "true");
 	                }
 	            }
 
-	            if (window.localStorage.getItem('RememberMe') == 'true') {
-	                window.localStorage.setItem('Username', Firebase.auth().currentUser.displayName);
+	            if (window.localStorage.getItem("RememberMe") == "true") {
+	                window.localStorage.setItem("Username", Firebase.auth().currentUser.displayName);
 	            }
 	        });
-	    }
+	    };
 	};
 
 	module.exports = Auth;
-
 
 /***/ },
 /* 26 */
 /***/ function(module, exports) {
 
-	var StaticData = function ($state, $rootScope) {
+	"use strict";
 
-	    this.adminLinks = [
-	        {
-	            "name": "Scrivi Avviso",
-	            "icon": "icon ion-ios-bell",
-	            "url": "sendMessage",
-	            "direct": function () {
-	                $state.go(this.url);
-	            }
-	        },
-	        {
-	            "name": "Scrivi Articolo del Giornalino",
-	            "url": "addArticle",
-	            "icon": "icon ion-ios-paper",
-	            "direct": function () {
-	                $state.go(this.url);
-	                $rootScope.contentType = "Giornalino";
-	            }
-	        },
-	        {
-	            "name": "Scrivi Articolo d'orientamento",
-	            "url": "addArticle",
-	            "icon": "icon ion-ios-navigate",
-	            "direct": function () {
-	                $state.go(this.url);
-	                $rootScope.contentType = "Orientamento";
-	            }
-	        },
-	        {
-	            "name": "Modera Commenti",
-	            "url": "moderation",
-	            "icon": "icon ion-ios-trash",
-	            "direct": function () {
-	                $state.go(this.url);
-	            }
+	var StaticData = function StaticData($state, $rootScope) {
+
+	    this.adminLinks = [{
+	        "name": "Scrivi Avviso",
+	        "icon": "icon ion-ios-bell",
+	        "url": "sendMessage",
+	        "direct": function direct() {
+	            $state.go(this.url);
 	        }
-	    ];
-
-	    this.links = [
-	        {
-	            "name": "Registro Elettronico",
-	            "url": "https://spallanzani-re-sito.registroelettronico.com/login/?next=/select-student/",
-	            "icon": "icon ion-ios-book-outline"
-	        },
-	        {
-	            "name": "Quaderno Elettronico",
-	            "url": "http://2.229.79.199/quaderno/index.php",
-	            "icon": "icon ion-ios-book"
-	        },
-	        {
-	            "name": "Sito Web Della Scuola",
-	            "url": "http://www.liceoariostospallanzani-re.gov.it/",
-	            "icon": "icon ion-ios-world"
-	        },
-	        {
-	            "name": "Accesso Web Mail",
-	            "url": "https://mail.google.com",
-	            "icon": "icon ion-ios-email"
+	    }, {
+	        "name": "Scrivi Articolo del Giornalino",
+	        "url": "addArticle",
+	        "icon": "icon ion-ios-paper",
+	        "direct": function direct() {
+	            $state.go(this.url);
+	            $rootScope.contentType = "Giornalino";
 	        }
-	    ];
-
-	    this.conventions = [
-	        {
-	            name: "Re Di Pane",
-	            address: "via a caso 1",
-	            description: "Sconto del 5% su tutti i prodotti",
-	            img: "dist/Images/Conventions/con1.jpeg"
-	        },
-	        {
-	            name: "Hamburgheria",
-	            address: "via cicciona 10",
-	            description: "Sconto del 10% su tutti i prodotti",
-	            img: "dist/Images/Conventions/con2.jpeg"
-
-	        },
-	        {
-	            name: "Pizzeria",
-	            address: "via adjflkdfslkfd",
-	            description: "Sconto del 5% sulle pizze",
-	            img: "dist/Images/Conventions/con3.jpeg"
-	        },
-	        {
-	            name: "Bar Mazzini",
-	            address: "via  di fronte allo spalla",
-	            description: "La seconda Pasta è gratis",
-	            img: "dist/Images/Conventions/con4.jpeg"
-
-	        },
-	        {
-	            name: "Ligabue",
-	            address: "via rossi 5",
-	            description: "Sconto del 5% sulle torte",
-	            img: "dist/Images/Conventions/con5.jpeg"
-	        },
-	        {
-	            name: "Da Malindo",
-	            address: "via einstein 10",
-	            description: "Sconto del 5%",
-	            img: "dist/Images/Conventions/con6.jpeg"
-	        },
-	        {
-	            name: "Forno Panciroli",
-	            address: "via a caso 197",
-	            description: "Sconto del 5% sul Gnocco",
-	            img: "dist/Images/Conventions/con7.jpeg"
-	        },
-	        {
-	            name: "Gelateria",
-	            address: "via per Modena 6",
-	            description: "Granite Gratis per tutti",
-	            img: "dist/Images/Conventions/con8.jpeg"
-	        },
-	        {
-	            name: "Negozio a Caso",
-	            address: "via senza nome",
-	            description: "Sconto a caso",
-	            img: "dist/Images/Conventions/con9.jpeg"
-	        },
-	        {
-	            name: "Armandos",
-	            address: "via a caso 154",
-	            description: "Sconto del 5% su tutto",
-	            img: "dist/Images/Conventions/con10.jpeg"
+	    }, {
+	        "name": "Scrivi Articolo d'orientamento",
+	        "url": "addArticle",
+	        "icon": "icon ion-ios-navigate",
+	        "direct": function direct() {
+	            $state.go(this.url);
+	            $rootScope.contentType = "Orientamento";
 	        }
-	    ]
+	    }, {
+	        "name": "Modera Commenti",
+	        "url": "moderation",
+	        "icon": "icon ion-ios-trash",
+	        "direct": function direct() {
+	            $state.go(this.url);
+	        }
+	    }];
 
+	    this.links = [{
+	        "name": "Registro Elettronico",
+	        "url": "https://spallanzani-re-sito.registroelettronico.com/login/?next=/select-student/",
+	        "icon": "icon ion-ios-book-outline"
+	    }, {
+	        "name": "Quaderno Elettronico",
+	        "url": "http://2.229.79.199/quaderno/index.php",
+	        "icon": "icon ion-ios-book"
+	    }, {
+	        "name": "Sito Web Della Scuola",
+	        "url": "http://www.liceoariostospallanzani-re.gov.it/",
+	        "icon": "icon ion-ios-world"
+	    }, {
+	        "name": "Accesso Web Mail",
+	        "url": "https://mail.google.com",
+	        "icon": "icon ion-ios-email"
+	    }];
+
+	    this.conventions = [{
+	        name: "Re Di Pane",
+	        address: "via a caso 1",
+	        description: "Sconto del 5% su tutti i prodotti",
+	        img: "dist/Images/Conventions/con1.jpeg"
+	    }, {
+	        name: "Hamburgheria",
+	        address: "via cicciona 10",
+	        description: "Sconto del 10% su tutti i prodotti",
+	        img: "dist/Images/Conventions/con2.jpeg"
+
+	    }, {
+	        name: "Pizzeria",
+	        address: "via adjflkdfslkfd",
+	        description: "Sconto del 5% sulle pizze",
+	        img: "dist/Images/Conventions/con3.jpeg"
+	    }, {
+	        name: "Bar Mazzini",
+	        address: "via  di fronte allo spalla",
+	        description: "La seconda Pasta è gratis",
+	        img: "dist/Images/Conventions/con4.jpeg"
+
+	    }, {
+	        name: "Ligabue",
+	        address: "via rossi 5",
+	        description: "Sconto del 5% sulle torte",
+	        img: "dist/Images/Conventions/con5.jpeg"
+	    }, {
+	        name: "Da Malindo",
+	        address: "via einstein 10",
+	        description: "Sconto del 5%",
+	        img: "dist/Images/Conventions/con6.jpeg"
+	    }, {
+	        name: "Forno Panciroli",
+	        address: "via a caso 197",
+	        description: "Sconto del 5% sul Gnocco",
+	        img: "dist/Images/Conventions/con7.jpeg"
+	    }, {
+	        name: "Gelateria",
+	        address: "via per Modena 6",
+	        description: "Granite Gratis per tutti",
+	        img: "dist/Images/Conventions/con8.jpeg"
+	    }, {
+	        name: "Negozio a Caso",
+	        address: "via senza nome",
+	        description: "Sconto a caso",
+	        img: "dist/Images/Conventions/con9.jpeg"
+	    }, {
+	        name: "Armandos",
+	        address: "via a caso 154",
+	        description: "Sconto del 5% su tutto",
+	        img: "dist/Images/Conventions/con10.jpeg"
+	    }];
 	};
 
 	module.exports = StaticData;
@@ -18614,7 +18566,9 @@
 /* 27 */
 /***/ function(module, exports) {
 
-	var DateHandler = function () {
+	"use strict";
+
+	var DateHandler = function DateHandler() {
 
 	    var self = this;
 
@@ -18625,7 +18579,7 @@
 	        var mm = today.getMonth() + 1; //January is 0!
 
 	        if (dd < 10) {
-	            dd = '0' + dd
+	            dd = "0" + dd;
 	        }
 
 	        switch (mm) {
@@ -18668,7 +18622,7 @@
 
 	        }
 
-	        today = dd + ' ' + mm;
+	        today = dd + " " + mm;
 
 	        return today;
 	    };
@@ -18684,29 +18638,28 @@
 	        }
 
 	        return self.GetCurrentDate() + " alle " + Hour + ":" + Minutes;
-
-	    }
+	    };
 	};
 
 	module.exports = DateHandler;
-
 
 /***/ },
 /* 28 */
 /***/ function(module, exports) {
 
-	var InputFields = function () {
+	"use strict";
+
+	var InputFields = function InputFields() {
 
 	    this.filledFields = function (fields) {
 	        var check = true;
 	        fields.map(function (item) {
-	            if (item == undefined || item == '') {
+	            if (item == undefined || item == "") {
 	                check = false;
 	            }
 	        });
 	        return check;
 	    };
-
 	};
 
 	module.exports = InputFields;
@@ -18715,11 +18668,13 @@
 /* 29 */
 /***/ function(module, exports) {
 
-	var StringHandler = function () {
+	"use strict";
+
+	var StringHandler = function StringHandler() {
 	    this.shorten = function shorten(text, maxLength) {
 	        var ret = text;
 	        if (ret.length > maxLength) {
-	            ret = ret.substr(0, maxLength) + '…';
+	            ret = ret.substr(0, maxLength) + "…";
 	        }
 	        return ret;
 	    };
@@ -18728,27 +18683,28 @@
 	        var message = "errore nella creazione dell'account";
 	        switch (error) {
 	            case "auth/invalid-email":
-	                message = 'la mail è formattata in modo scorretto';
+	                message = "la mail è formattata in modo scorretto";
 	                break;
 	            case "auth/weak-password":
-	                message = 'la password deve contenere almeno 6 caratteri';
+	                message = "la password deve contenere almeno 6 caratteri";
 	                break;
 	            case "auth/email-already-in-use":
-	                return 'questa mail è già in uso su un altro account';
+	                message = "questa mail è già in uso su un altro account";
 	                break;
 	        }
 	        return message;
-	    }
+	    };
 	};
 
 	module.exports = StringHandler;
-
 
 /***/ },
 /* 30 */
 /***/ function(module, exports) {
 
-	var Modals = function ($ionicLoading) {
+	"use strict";
+
+	var Modals = function Modals($ionicLoading) {
 	    this.ResultTemplate = function (text) {
 	        $ionicLoading.hide();
 	        $ionicLoading.show({
@@ -18757,62 +18713,51 @@
 	        window.setTimeout(function () {
 	            $ionicLoading.hide();
 	        }, 1000);
-	    }
+	    };
 	};
 
 	module.exports = Modals;
 
-
 /***/ },
 /* 31 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	var FileHandler = function (Modals, PlatformHandler) {
+	"use strict";
+
+	var _ = __webpack_require__(23);
+	var FileHandler = function FileHandler(Modals, PlatformHandler) {
 	    this.getFileBlob = function (url, cb) {
 	        var xhr = new XMLHttpRequest();
 	        xhr.open("GET", url);
 	        xhr.responseType = "blob";
-	        xhr.addEventListener('load', function () {
+	        xhr.addEventListener("load", function () {
 	            cb(xhr.response);
 	        });
 	        xhr.send();
 	    };
 
 	    this.openFile = function (file, loadingTemplate) {
-	        PlatformHandler.is('iOS',
-	            function () {
-	                cordova.InAppBrowser.open(file, '_system', 'location=yes');
-	            },
-	            function () {
+	        PlatformHandler.is("iOS", function () {
+	            cordova.InAppBrowser.open(file, "_system", "location=yes");
+	        }, function () {
 
-	                var fileURL = cordova.file.externalApplicationStorageDirectory + "file.pdf";
-	                var fileTransfer = new FileTransfer();
-	                loadingTemplate.show({
-	                    template: 'Apertura File in Corso...'
-	                });
-
-	                fileTransfer.download(
-	                    file,
-	                    fileURL,
-	                    function (entry) {
-	                        cordova.plugins.fileOpener2.open(
-	                            entry.toURL(),
-	                            'application/pdf',
-	                            {
-	                                error: function (e) {
-	                                    loadingTemplate.hide();
-	                                },
-	                                success: function () {
-	                                    loadingTemplate.hide();
-	                                }
-	                            }
-	                        );
-	                    },
-	                    function (error) {
-	                    },
-	                    false
-	                );
+	            var fileURL = cordova.file.externalApplicationStorageDirectory + "file.pdf";
+	            var fileTransfer = new FileTransfer();
+	            loadingTemplate.show({
+	                template: "Apertura File in Corso..."
 	            });
+
+	            fileTransfer.download(file, fileURL, function (entry) {
+	                cordova.plugins.fileOpener2.open(entry.toURL(), "application/pdf", {
+	                    error: function error() {
+	                        loadingTemplate.hide();
+	                    },
+	                    success: function success() {
+	                        loadingTemplate.hide();
+	                    }
+	                });
+	            }, function () {}, false);
+	        });
 	    };
 
 	    this.loadFile = function (ele, scope, multiple) {
@@ -18820,17 +18765,15 @@
 	        var filename = ele.files[ele.files.length - 1].name;
 	        var fileType = ele.files[ele.files.length - 1].type;
 
-	        if (fileType != 'application/pdf') {
-	            Modals.ResultTemplate('puoi aggiungere solo file pdf');
+	        if (fileType != "application/pdf") {
+	            Modals.ResultTemplate("puoi aggiungere solo file pdf");
 	            ele.disabled = false;
-	        }
-	        else if (multiple) {
+	        } else if (multiple) {
 
 	            if (_.includes(scope.fileList, filename)) {
-	                Modals.ResultTemplate('Hai già caricato questo File');
+	                Modals.ResultTemplate("Hai già caricato questo File");
 	                ele.disabled = false;
-	            }
-	            else {
+	            } else {
 	                scope.fileList.push(filename.slice(0, -4));
 	                scope.binaryList.push({
 	                    binary: ele.files[ele.files.length - 1],
@@ -18839,8 +18782,7 @@
 	                scope.$apply();
 	                ele.disabled = false;
 	            }
-	        }
-	        else {
+	        } else {
 	            scope.pdf = {
 	                binary: ele.files[ele.files.length - 1],
 	                name: filename.slice(0, -4)
@@ -18861,34 +18803,30 @@
 /* 32 */
 /***/ function(module, exports) {
 
-	var PlatformHandler = function () {
+	"use strict";
+
+	var PlatformHandler = function PlatformHandler() {
 
 	    this.is = function (platform, callback1, callback2) {
 
 	        if (callback1 == undefined) {
-	            callback1 = function () {
-	                
-	            };
+	            callback1 = function callback1() {};
 	        }
 
 	        if (callback2 == undefined) {
-	            callback2 = function () {
-	                
-	            };
+	            callback2 = function callback2() {};
 	        }
 
 	        document.addEventListener("deviceready", function () {
 	            if (window.cordova) {
 	                if (device.platform == platform) {
 	                    callback1();
-	                }
-	                else {
+	                } else {
 	                    callback2();
 	                }
 	            }
 	        }, false);
-	    }
-
+	    };
 	};
 
 	module.exports = PlatformHandler;
@@ -18897,46 +18835,45 @@
 /* 33 */
 /***/ function(module, exports) {
 
-	var SocialHandler = function ($ionicPlatform) {
+	"use strict";
+
+	var SocialHandler = function SocialHandler($ionicPlatform) {
 
 	    this.shareApp = function () {
 
 	        var options = {
 	            message: "Scarica l'applicazione del liceo Ariosto Spallanzani!",
-	            subject: 'Applicazione liceo Ariosto Spallanzani',
+	            subject: "Applicazione liceo Ariosto Spallanzani",
 	            files: []
 	        };
 
-	        window.plugins.socialsharing.shareWithOptions(options,
-	            function (result) {
-	            }, function (msg) {
-	            });
+	        window.plugins.socialsharing.shareWithOptions(options, function () {}, function () {});
 	    };
 
 	    this.rateUs = function () {
-	        if ($ionicPlatform.is('ios')) {
-	            window.open('itms-apps://itunes.apple.com/us/app/domainsicle-domain-name-search/id511364723?ls=1&mt=8'); // or itms://
-	        } else if ($ionicPlatform.is('android')) {
-	            window.open('market://details?id=<package_name>');
+	        if ($ionicPlatform.is("ios")) {
+	            window.open("itms-apps://itunes.apple.com/us/app/domainsicle-domain-name-search/id511364723?ls=1&mt=8"); // or itms://
+	        } else if ($ionicPlatform.is("android")) {
+	            window.open("market://details?id=<package_name>");
 	        }
-	    }
-
+	    };
 	};
 
 	module.exports = SocialHandler;
-
 
 /***/ },
 /* 34 */
 /***/ function(module, exports) {
 
-	var actionBar = function () {
+	"use strict";
+
+	var actionBar = function actionBar() {
 	    return {
 	        scope: {
-	            title: '=title'
+	            title: "=title"
 	        },
-	        restrict: 'E',
-	        templateUrl: 'src/Directives/ActionBar/actionBar.html',
+	        restrict: "E",
+	        templateUrl: "src/Directives/ActionBar/actionBar.html"
 	    };
 	};
 
@@ -18946,9 +18883,11 @@
 /* 35 */
 /***/ function(module, exports) {
 
-	var drawer = angular.module('ionic.contrib.drawer', ['ionic']);
+	"use strict";
 
-	drawer.controller('drawerCtrl', ['$element', '$attrs', '$ionicGesture', '$document', function ($element, $attr, $ionicGesture, $document) {
+	var drawer = angular.module("ionic.contrib.drawer", ["ionic"]);
+
+	drawer.controller("drawerCtrl", ["$element", "$attrs", "$ionicGesture", "$document", function ($element, $attr, $ionicGesture, $document) {
 	    var el = $element[0];
 	    var dragging = false;
 	    var startX, lastX, offsetX, newX;
@@ -18962,19 +18901,17 @@
 	    var LEFT = 0;
 	    var RIGHT = 1;
 
-	    var isTargetDrag = false;
-
 	    var width = $element[0].clientWidth;
 
-	    var enableAnimation = function () {
-	        $element.addClass('animate');
+	    var enableAnimation = function enableAnimation() {
+	        $element.addClass("animate");
 	    };
-	    var disableAnimation = function () {
-	        $element.removeClass('animate');
+	    var disableAnimation = function disableAnimation() {
+	        $element.removeClass("animate");
 	    };
 
 	    // Check if this is on target or not
-	    var isTarget = function (el) {
+	    var isTarget = function isTarget(el) {
 	        while (el) {
 	            if (el === $element[0]) {
 	                return true;
@@ -18983,14 +18920,14 @@
 	        }
 	    };
 
-	    var startDrag = function (e) {
+	    var startDrag = function startDrag() {
 	        disableAnimation();
 
 	        dragging = true;
 	        offsetX = lastX - startX;
 	    };
 
-	    var startTargetDrag = function (e) {
+	    var startTargetDrag = function startTargetDrag() {
 	        disableAnimation();
 
 	        dragging = true;
@@ -18998,7 +18935,7 @@
 	        offsetX = lastX - startX;
 	    };
 
-	    var doEndDrag = function (e) {
+	    var doEndDrag = function doEndDrag() {
 	        startX = null;
 	        lastX = null;
 	        offsetX = null;
@@ -19013,15 +18950,15 @@
 	        enableAnimation();
 
 	        ionic.requestAnimationFrame(function () {
-	            if (newX < (-width / 2)) {
-	                el.style.transform = el.style.webkitTransform = 'translate3d(' + -width + 'px, 0, 0)';
+	            if (newX < -width / 2) {
+	                el.style.transform = el.style.webkitTransform = "translate3d(" + -width + "px, 0, 0)";
 	            } else {
-	                el.style.transform = el.style.webkitTransform = 'translate3d(0px, 0, 0)';
+	                el.style.transform = el.style.webkitTransform = "translate3d(0px, 0, 0)";
 	            }
 	        });
 	    };
 
-	    var doDrag = function (e) {
+	    var doDrag = function doDrag(e) {
 	        if (e.defaultPrevented) {
 	            return;
 	        }
@@ -19043,11 +18980,10 @@
 	                }
 	            }
 	        } else {
-	            newX = Math.min(0, (-width + (lastX - offsetX)));
+	            newX = Math.min(0, -width + (lastX - offsetX));
 	            ionic.requestAnimationFrame(function () {
-	                el.style.transform = el.style.webkitTransform = 'translate3d(' + newX + 'px, 0, 0)';
+	                el.style.transform = el.style.webkitTransform = "translate3d(" + newX + "px, 0, 0)";
 	            });
-
 	        }
 
 	        if (dragging) {
@@ -19055,23 +18991,22 @@
 	        }
 	    };
 
-	    side = $attr.side == 'left' ? LEFT : RIGHT;
+	    side = $attr.side == "left" ? LEFT : RIGHT;
 
-	    $ionicGesture.on('drag', function (e) {
+	    $ionicGesture.on("drag", function (e) {
 	        doDrag(e);
 	    }, $document);
-	    $ionicGesture.on('dragend', function (e) {
+	    $ionicGesture.on("dragend", function (e) {
 	        doEndDrag(e);
 	    }, $document);
-
 
 	    this.close = function () {
 	        enableAnimation();
 	        ionic.requestAnimationFrame(function () {
 	            if (side === LEFT) {
-	                el.style.transform = el.style.webkitTransform = 'translate3d(-100%, 0, 0)';
+	                el.style.transform = el.style.webkitTransform = "translate3d(-100%, 0, 0)";
 	            } else {
-	                el.style.transform = el.style.webkitTransform = 'translate3d(100%, 0, 0)';
+	                el.style.transform = el.style.webkitTransform = "translate3d(100%, 0, 0)";
 	            }
 	        });
 	    };
@@ -19080,19 +19015,19 @@
 	        enableAnimation();
 	        ionic.requestAnimationFrame(function () {
 	            if (side === LEFT) {
-	                el.style.transform = el.style.webkitTransform = 'translate3d(0%, 0, 0)';
+	                el.style.transform = el.style.webkitTransform = "translate3d(0%, 0, 0)";
 	            } else {
-	                el.style.transform = el.style.webkitTransform = 'translate3d(0%, 0, 0)';
+	                el.style.transform = el.style.webkitTransform = "translate3d(0%, 0, 0)";
 	            }
 	        });
 	    };
-	}])
+	}]);
 
-	drawer.directive('drawer', ['$rootScope', '$ionicGesture', function ($rootScope, $ionicGesture) {
+	drawer.directive("drawer", [function () {
 	    return {
-	        restrict: 'E',
-	        controller: 'drawerCtrl',
-	        link: function ($scope, $element, $attr, ctrl) {
+	        restrict: "E",
+	        controller: "drawerCtrl",
+	        link: function link($scope, $element, $attr, ctrl) {
 	            $element.addClass($attr.side);
 	            $scope.openDrawer = function () {
 	                ctrl.open();
@@ -19101,19 +19036,19 @@
 	                ctrl.close();
 	            };
 	        }
-	    }
-	}])
+	    };
+	}]);
 
-	drawer.directive('drawerClose', ['$rootScope', function ($rootScope) {
+	drawer.directive("drawerClose", [function () {
 	    return {
-	        restrict: 'A',
-	        link: function ($scope, $element) {
-	            $element.bind('click', function () {
-	                var drawerCtrl = $element.inheritedData('$drawerController');
+	        restrict: "A",
+	        link: function link($scope, $element) {
+	            $element.bind("click", function () {
+	                var drawerCtrl = $element.inheritedData("$drawerController");
 	                drawerCtrl.close();
 	            });
 	        }
-	    }
+	    };
 	}]);
 
 	module.exports = drawer;
@@ -19122,9 +19057,11 @@
 /* 36 */
 /***/ function(module, exports) {
 
+	"use strict";
+
 	var Configs = {
 
-	    run: function ($ionicPlatform, $ionicPopup) {
+	    run: function run($ionicPlatform, $ionicPopup) {
 	        $ionicPlatform.ready(function () {
 
 	            if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -19134,173 +19071,134 @@
 	            if (window.Connection) {
 	                if (navigator.connection.type == Connection.NONE) {
 	                    $ionicPopup.confirm({
-	                        title: 'Connessione a Internet assente',
-	                        content: 'Non è stata trovata nessuna connessione a Internet,collegati ad una rete e riprova.'
-	                    })
-	                        .then(function (result) {
-	                            if (!result) {
-	                                ionic.Platform.exitApp();
-	                            }
-	                        });
+	                        title: "Connessione a Internet assente",
+	                        content: "Non è stata trovata nessuna connessione a Internet,collegati ad una rete e riprova."
+	                    }).then(function (result) {
+	                        if (!result) {
+	                            ionic.Platform.exitApp();
+	                        }
+	                    });
 	                }
 	            }
-
 	        });
 	    },
 
-	    config: function ($ionicConfigProvider, $stateProvider, $urlRouterProvider) {
+	    config: function config($ionicConfigProvider, $stateProvider, $urlRouterProvider) {
 
 	        $ionicConfigProvider.scrolling.jsScrolling(false);
 
-	        $stateProvider
-
-	            .state('login', {
-	                url: '/login',
-	                templateUrl: 'src/Components/LoginPage/login.html',
-	                controller: 'loginCtrl'
-	            })
-
-	            .state('signup', {
-	                url: '/signup',
-	                templateUrl: 'src/Components/SignupPage/signup.html',
-	                controller: 'signupCtrl'
-	            })
-
-	            .state('tab', {
-	                url: "/tab",
-	                abstract: true,
-	                templateUrl: "src/Components/Tabs/tabs.html",
-	                controller: 'tabsCtrl'
-	            })
-
-	            .state('tab.admin', {
-	                url: '/admin',
-	                views: {
-	                    'tab-admin': {
-	                        templateUrl: 'src/Components/AdminPage/tab-home.html',
-	                        controller: 'adminCtrl'
-	                    }
+	        $stateProvider.state("login", {
+	            url: "/login",
+	            templateUrl: "src/Components/LoginPage/login.html",
+	            controller: "loginCtrl"
+	        }).state("signup", {
+	            url: "/signup",
+	            templateUrl: "src/Components/SignupPage/signup.html",
+	            controller: "signupCtrl"
+	        }).state("tab", {
+	            url: "/tab",
+	            abstract: true,
+	            templateUrl: "src/Components/Tabs/tabs.html",
+	            controller: "tabsCtrl"
+	        }).state("tab.admin", {
+	            url: "/admin",
+	            views: {
+	                "tab-admin": {
+	                    templateUrl: "src/Components/AdminPage/tab-home.html",
+	                    controller: "adminCtrl"
 	                }
-	            })
-
-	            .state('tab.giornalino', {
-	                url: '/giornalino',
-	                views: {
-	                    'tab-giornalino': {
-	                        templateUrl: 'src/Components/ArticlesPage/tab-giornalino.html',
-	                        controller: 'attualitaCtrl'
-	                    }
+	            }
+	        }).state("tab.giornalino", {
+	            url: "/giornalino",
+	            views: {
+	                "tab-giornalino": {
+	                    templateUrl: "src/Components/ArticlesPage/tab-giornalino.html",
+	                    controller: "attualitaCtrl"
 	                }
-	            })
-
-	            .state('tab.orientamento', {
-	                url: '/orientamento',
-	                views: {
-	                    'tab-orientamento': {
-	                        templateUrl: 'src/Components/ArticlesPage/tab-giornalino.html',
-	                        controller: 'orientamentoCtrl'
-	                    }
+	            }
+	        }).state("tab.orientamento", {
+	            url: "/orientamento",
+	            views: {
+	                "tab-orientamento": {
+	                    templateUrl: "src/Components/ArticlesPage/tab-giornalino.html",
+	                    controller: "orientamentoCtrl"
 	                }
-	            })
-
-	            .state('tab.biblioteca', {
-	                url: '/biblioteca',
-	                views: {
-	                    'tab-biblioteca': {
-	                        templateUrl: 'src/Components/LibraryPage/tab-library.html',
-	                        controller: 'libraryCtrl'
-	                    }
+	            }
+	        }).state("tab.biblioteca", {
+	            url: "/biblioteca",
+	            views: {
+	                "tab-biblioteca": {
+	                    templateUrl: "src/Components/LibraryPage/tab-library.html",
+	                    controller: "libraryCtrl"
 	                }
-	            })
-
-	            .state('tab.forum', {
-	                url: '/forum',
-	                views: {
-	                    'tab-forum': {
-	                        templateUrl: 'src/Components/NewsPage/tabs-forum.html',
-	                        controller: 'newsCtrl'
-	                    }
+	            }
+	        }).state("tab.forum", {
+	            url: "/forum",
+	            views: {
+	                "tab-forum": {
+	                    templateUrl: "src/Components/NewsPage/tabs-forum.html",
+	                    controller: "newsCtrl"
 	                }
-	            })
-
-	            .state('tab.libera', {
-	                url: '/libera',
-	                views: {
-	                    'tab-libera': {
-	                        templateUrl: 'src/Components/FreeZonePage/tab-freeZone.html',
-	                        controller: 'freeZoneCtrl'
-	                    }
+	            }
+	        }).state("tab.libera", {
+	            url: "/libera",
+	            views: {
+	                "tab-libera": {
+	                    templateUrl: "src/Components/FreeZonePage/tab-freeZone.html",
+	                    controller: "freeZoneCtrl"
 	                }
-	            })
-
-	            .state('tab.convenzioni', {
-	                url: '/convenzioni',
-	                views: {
-	                    'tab-convenzioni': {
-	                        templateUrl: 'src/Components/ConventionsPage/tab-conventions.html',
-	                        controller: 'conventionsCtrl'
-	                    }
+	            }
+	        }).state("tab.convenzioni", {
+	            url: "/convenzioni",
+	            views: {
+	                "tab-convenzioni": {
+	                    templateUrl: "src/Components/ConventionsPage/tab-conventions.html",
+	                    controller: "conventionsCtrl"
 	                }
-	            })
-
-	            .state('tab.link', {
-	                url: '/link',
-	                views: {
-	                    'tab-link': {
-	                        templateUrl: 'src/Components/LinkPage/tab-link.html',
-	                        controller: 'linkCtrl'
-	                    }
+	            }
+	        }).state("tab.link", {
+	            url: "/link",
+	            views: {
+	                "tab-link": {
+	                    templateUrl: "src/Components/LinkPage/tab-link.html",
+	                    controller: "linkCtrl"
 	                }
-	            })
-
-	            .state('tab.settings', {
-	                url: '/settings',
-	                views: {
-	                    'tab-settings': {
-	                        templateUrl: 'src/Components/SettingsPage/tab-settings.html',
-	                        controller: 'settingsCtrl'
-	                    }
+	            }
+	        }).state("tab.settings", {
+	            url: "/settings",
+	            views: {
+	                "tab-settings": {
+	                    templateUrl: "src/Components/SettingsPage/tab-settings.html",
+	                    controller: "settingsCtrl"
 	                }
-	            })
-
-	            .state('addArticle', {
-	                url: '/addArticle',
-	                templateUrl: 'src/Components/AddArticlePage/addArticle.html',
-	                controller: 'addArticleCtrl'
-	            })
-
-	            .state('sendMessage', {
-	                url: '/sendMessage',
-	                templateUrl: 'src/Components/AddNewsPage/sendMessage.html',
-	                controller: 'addNewsCtrl'
-	            })
-
-	            .state('comments', {
-	                url: '/comments',
-	                templateUrl: 'src/Components/CommentsPage/comments.html',
-	                controller: 'commentsCtrl'
-	            })
-
-	            .state('likes', {
-	                url: '/likes',
-	                templateUrl: 'src/Components/LikesPage/likes.html',
-	                controller: 'likesCtrl'
-	            })
-
-	            .state('moderation', {
-	                url: '/moderation',
-	                templateUrl: 'src/Components/ModerationPage/moderation.html',
-	                controller: 'moderationCtrl'
-	            });
-
+	            }
+	        }).state("addArticle", {
+	            url: "/addArticle",
+	            templateUrl: "src/Components/AddArticlePage/addArticle.html",
+	            controller: "addArticleCtrl"
+	        }).state("sendMessage", {
+	            url: "/sendMessage",
+	            templateUrl: "src/Components/AddNewsPage/sendMessage.html",
+	            controller: "addNewsCtrl"
+	        }).state("comments", {
+	            url: "/comments",
+	            templateUrl: "src/Components/CommentsPage/comments.html",
+	            controller: "commentsCtrl"
+	        }).state("likes", {
+	            url: "/likes",
+	            templateUrl: "src/Components/LikesPage/likes.html",
+	            controller: "likesCtrl"
+	        }).state("moderation", {
+	            url: "/moderation",
+	            templateUrl: "src/Components/ModerationPage/moderation.html",
+	            controller: "moderationCtrl"
+	        });
 
 	        if (window.localStorage.getItem("RememberMe") == "true") {
-	            $urlRouterProvider.otherwise('/tab/forum');
+	            $urlRouterProvider.otherwise("/tab/forum");
 	        } else {
-	            $urlRouterProvider.otherwise('/login');
+	            $urlRouterProvider.otherwise("/login");
 	        }
-
-
 	    }
 	};
 
@@ -19309,6 +19207,8 @@
 /***/ },
 /* 37 */
 /***/ function(module, exports) {
+
+	"use strict";
 
 	var config = {
 	    apiKey: "AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8",
