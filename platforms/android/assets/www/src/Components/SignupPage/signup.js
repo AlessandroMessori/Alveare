@@ -1,7 +1,6 @@
-var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields, StaticData, Modals) {
+var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields, Modals) {
 
     $scope.inputType = 'password';
-    $scope.imgData = StaticData.logoImg;
 
     $scope.UserSignup = function (username, password, mail) {
         if (InputFields.filledFields([username, password, mail])) {

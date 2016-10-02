@@ -32,12 +32,9 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
     //convert to Service
     $scope.navigate = function (destination, ind) {
         $scope.View = 'tab-' + destination;
-        document.getElementById('MainView1').style.display = 'none';
-        document.getElementById('MainView2').style.display = 'none';
-        document.getElementById('MainView3').style.display = 'none';
-        document.getElementById('MainView4').style.display = 'none';
-        document.getElementById('MainView5').style.display = 'none';
-        document.getElementById('MainView6').style.display = 'none';
+        for (var i = 1; i < 10; i++) {
+            document.getElementById('MainView' + i).style.display = 'none';
+        }
         document.getElementById('MainView' + ind).style.display = 'block';
     }
 };

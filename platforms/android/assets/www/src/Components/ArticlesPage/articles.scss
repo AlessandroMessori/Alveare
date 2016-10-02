@@ -1,14 +1,20 @@
+@import "../Tabs/tabs";
+
+.scrollView {
+  background-color: $background !important;
+}
+
 .item-image {
   img {
-    max-height:350px;
+    max-height: 350px;
   }
 }
 
-.article-header{
+.article-header {
   display: inline-flex;
   width: 100%;
 
-  .right{
+  .right {
     margin-left: 40%;
   }
 }

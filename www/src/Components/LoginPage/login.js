@@ -1,9 +1,8 @@
 var Firebase = require('firebase');
-var loginCtrl = function ($scope, $ionicLoading, $window, $state, $ionicHistory, Auth, InputFields, StaticData, Modals) {
+var loginCtrl = function ($scope, $ionicLoading, $window, $state, $ionicHistory, Auth, InputFields, Modals) {
 
     Firebase.auth().signOut();
     $scope.inputType = 'password';
-    $scope.imgData = StaticData.logoImg;
 
     $scope.UserLogin = function (mail, password, RememberMe) {
         if (InputFields.filledFields([mail, password])) {

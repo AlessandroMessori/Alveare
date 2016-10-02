@@ -79,12 +79,42 @@ var Configs = {
                 }
             })
 
+            .state('tab.biblioteca', {
+                url: '/biblioteca',
+                views: {
+                    'tab-biblioteca': {
+                        templateUrl: 'src/Components/LibraryPage/tab-library.html',
+                        controller: 'libraryCtrl'
+                    }
+                }
+            })
+
             .state('tab.forum', {
                 url: '/forum',
                 views: {
                     'tab-forum': {
                         templateUrl: 'src/Components/NewsPage/tabs-forum.html',
                         controller: 'newsCtrl'
+                    }
+                }
+            })
+
+            .state('tab.libera', {
+                url: '/libera',
+                views: {
+                    'tab-libera': {
+                        templateUrl: 'src/Components/FreeZonePage/tab-freeZone.html',
+                        controller: 'freeZoneCtrl'
+                    }
+                }
+            })
+
+            .state('tab.convenzioni', {
+                url: '/convenzioni',
+                views: {
+                    'tab-convenzioni': {
+                        templateUrl: 'src/Components/ConventionsPage/tab-conventions.html',
+                        controller: 'conventionsCtrl'
                     }
                 }
             })
