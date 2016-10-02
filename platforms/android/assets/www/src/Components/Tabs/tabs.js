@@ -2,6 +2,7 @@ var Firebase = require('firebase');
 var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth, Modals, PlatformHandler) {
 
     $scope.View = 'tab-link';
+
     Auth.checkAdmins($scope, 'adminPanel');
 
     PlatformHandler.is('iOS',
@@ -27,6 +28,15 @@ var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $st
 
     $scope.backBtnClick = function () {
         $state.go($rootScope.previousState);
+    };
+
+    $scope.ShowLinks = function () {
+        if (document.getElementById('linkList').style.display == 'block') {
+            document.getElementById('linkList').style.display = 'none'
+        }
+        else {
+            document.getElementById('linkList').style.display = 'block'
+        }
     };
 
     //convert to Service

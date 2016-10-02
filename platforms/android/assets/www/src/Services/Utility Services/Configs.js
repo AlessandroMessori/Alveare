@@ -171,7 +171,7 @@ var Configs = {
 
 
         if (window.localStorage.getItem("RememberMe") == "true") {
-            $urlRouterProvider.otherwise('/tab/link');
+            $urlRouterProvider.otherwise('/tab/forum');
         } else {
             $urlRouterProvider.otherwise('/login');
         }

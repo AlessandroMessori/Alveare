@@ -33,7 +33,7 @@ var Auth = function ($ionicLoading, Modals, StringHandler) {
 
             if (user != null && history.currentStateName() == 'login') {
                 loadingTemplate.hide();
-                state.go("tab.link");
+                state.go("tab.forum");
             }
 
         });
