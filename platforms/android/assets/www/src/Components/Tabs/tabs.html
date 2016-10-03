@@ -4,7 +4,7 @@
 
         <ion-nav-bar class="bar bar-header bar-positive" id="tabBar">
             <ion-nav-buttons side="left">
-                <button class="button" ng-click="openDrawer()">
+                <button class="button" menu-toggle="left">
                     <p class="ion-navicon-round"></p>
                 </button>
             </ion-nav-buttons>
@@ -27,7 +27,7 @@
     </ion-side-menu-content>
 
 
-    <drawer side="left" id="drawer">
+    <ion-side-menu side="left" id="drawer">
         <ion-header-bar class="bar">
             <h1 class="title">{{User}}</h1>
         </ion-header-bar>
@@ -68,7 +68,7 @@
                 </ion-item>
             </ion-list>
         </ion-content>
-    </drawer>
+    </ion-side-menu>
 </ion-side-menus>
 
 

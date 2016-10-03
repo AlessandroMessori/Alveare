@@ -1,82 +1,84 @@
-var Firebase = require("firebase");
-var Articles = function ($ionicLoading, DateHandler, StringHandler, Modals, FileHandler) {
+import Firebase from "firebase";
 
-    this.sendArticle = function (newData, imgUrl, ArticleType) {
-        var newPostKey = Firebase.database().ref().child(ArticleType).push().key;
-        var updates = {};
+class Articles {
 
-        updates["/" + ArticleType + "/" + newPostKey] = newData;
-        Firebase.database().ref().update(updates);
+    constructor($ionicLoading, StringHandler, Modals, FileHandler) {
 
-        FileHandler.getFileBlob(imgUrl, function (blob) {
-            var imagesRef = Firebase.storage().ref("img").child(newPostKey);
-            imagesRef.put(blob)
-                .then(function () {
-                    var pdfRef = Firebase.storage().ref("pdf").child(newData.pdf.name);
-                    pdfRef.put(newData.pdf.binary).then(function () {
-                        Modals.ResultTemplate("Articolo Pubblicato con Successo");
+        this.sendArticle = (newData, imgUrl, ArticleType) => {
+            const newPostKey = Firebase.database().ref().child(ArticleType).push().key;
+            let updates = {};
+
+            updates["/" + ArticleType + "/" + newPostKey] = newData;
+            Firebase.database().ref().update(updates);
+
+            FileHandler.getFileBlob(imgUrl, blob => {
+                const imagesRef = Firebase.storage().ref("img").child(newPostKey);
+                imagesRef.put(blob)
+                    .then(() => {
+                        const pdfRef = Firebase.storage().ref("pdf").child(newData.pdf.name);
+                        pdfRef.put(newData.pdf.binary)
+                            .then(()=>Modals.ResultTemplate("Articolo Pubblicato con Successo"))
+                            .catch(()=>Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo"));
                     });
-                })
-                .catch(function () {
-                    Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo");
-                });
-        });
-    };
+            });
+        };
 
-    this.getArticles = function (scope, rootScope, state, type, spinner) {
+        this.getArticles = (scope, rootScope, state, type, spinner) => {
 
-        document.getElementById(spinner).style.display = "block";
-        var ModelRef = Firebase.database().ref(type);
+            document.getElementById(spinner).style.display = "block";
+            const ModelRef = Firebase.database().ref(type);
 
-        ModelRef.on("value", function (snapshot) {
+            ModelRef.on("value", snapshot => {
 
-            var results = snapshot.val();
-            var articles = [];
+                const results = snapshot.val();
+                let articles = [];
 
-            if (results != null) {
+                if (results != null) {
 
-                var imgs = Firebase.storage().ref("img");
-                var pdfs = Firebase.storage().ref("pdf");
-                var keys = Object.keys(results);
+                    const imgs = Firebase.storage().ref("img");
+                    const pdfs = Firebase.storage().ref("pdf");
+                    const keys = Object.keys(results);
 
-                keys.map(function (item, i) {
+                    keys.map((item, i)=> {
 
-                    imgs.child(item).getDownloadURL().then(function (imgUrl) {
+                        imgs.child(item).getDownloadURL().then(imgUrl => {
 
-                        pdfs.child(results[item].pdf.name).getDownloadURL().then(function (pdfUrl) {
+                            pdfs.child(results[item].pdf.name).getDownloadURL().then(pdfUrl=> {
 
-                            articles[i] = {
-                                title: results[item].title,
-                                author: results[item].author,
-                                text: results[item].text,
-                                coverText: StringHandler.shorten(results[item].text, 100),
-                                img: imgUrl,
-                                date: results[item].date,
-                                id: item,
-                                pdf: pdfUrl,
-                                link: function (destination) {
-                                    rootScope.currentPost = item;
-                                    state.go(destination);
-                                },
-                                openPdf: function () {
-                                    FileHandler.openFile(pdfUrl, $ionicLoading);
+                                articles[i] = {
+                                    title: results[item].title,
+                                    author: results[item].author,
+                                    text: results[item].text,
+                                    coverText: StringHandler.shorten(results[item].text, 100),
+                                    img: imgUrl,
+                                    date: results[item].date,
+                                    id: item,
+                                    pdf: pdfUrl,
+                                    link(destination) {
+                                        rootScope.currentPost = item;
+                                        state.go(destination);
+                                    },
+                                    openPdf() {
+                                        FileHandler.openFile(pdfUrl, $ionicLoading);
+                                    }
+                                };
+
+                                if (i == keys.length - 1) {
+                                    scope.Articles = articles;
+                                    scope.$apply();
+                                    document.getElementById(spinner).style.display = "none";
                                 }
-                            };
-
-                            if (i == keys.length - 1) {
-                                scope.Articles = articles;
-                                scope.$apply();
-                                document.getElementById(spinner).style.display = "none";
-                            }
+                            });
                         });
                     });
-                });
-            }
-        });
+                }
+            });
 
-    };
+        };
 
-};
+    }
 
-module.exports = Articles;
+}
+
+export default Articles;
 

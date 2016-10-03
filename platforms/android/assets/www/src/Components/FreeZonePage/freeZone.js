@@ -1,5 +1,5 @@
-var freeZoneCtrl = function () {
-
-};
-
-module.exports = freeZoneCtrl;
+class freeZoneCtrl {
+    constructor() {
+    }
+}
+export default freeZoneCtrl;

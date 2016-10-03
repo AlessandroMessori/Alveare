@@ -29,13 +29,12 @@ import FileHandler  from "./Services/Utility Services/FileHandler";
 import PlatformHandler  from "./Services/Utility Services/PlatformHandler";
 import SocialHandler  from "./Services/Utility Services/SocialHandler";
 import ActionBar  from "./Directives/ActionBar/actionBar";
-import "./Directives/Drawer/drawer";
 import Configs  from "./Services/Utility Services/Configs";
 import credentials  from "../credentials";
 
 Firebase.initializeApp(credentials);
 
-const appAS = angular.module("appAS", ["ionic", "ionic.contrib.drawer"]);
+const appAS = angular.module("appAS", ["ionic"]);
 appAS.controller("addArticleCtrl", addArticleCtrl);
 appAS.controller("addNewsCtrl", addNewsCtrl);
 appAS.controller("adminCtrl", adminCtrl);

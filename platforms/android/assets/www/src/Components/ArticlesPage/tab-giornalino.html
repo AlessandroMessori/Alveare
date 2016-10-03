@@ -1,5 +1,5 @@
 <ion-view view-title="Articoli">
-    <ion-content  class="scrollView">
+    <ion-content class="scrollView">
         <ion-spinner class="spinner" id="articlesSpinner"></ion-spinner>
 
         <ion-refresher on-refresh="doRefresh()">
@@ -7,9 +7,10 @@
 
         <div class="list card" ng-repeat="Article in Articles | orderBy:'-' track by $index">
 
-            <div class="item article-header">
+            <div class="item item-avatar">
+                <img src="dist/Images/user.png">
                 <h2>{{Article.author}}</h2>
-                <h2 class="right">{{Article.date}}</h2>
+                <p>{{Article.date}}</p>
             </div>
 
             <div class="item item-image">

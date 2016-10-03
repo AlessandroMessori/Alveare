@@ -5,16 +5,12 @@
 
         <div class="list card" ng-repeat="Post in Posts | orderBy:'-' track by $index">
 
-            <div class="item">
-                <div class="row">
-                    <div class="col">
-                        <a class="subdued author">{{Post.author}}</a>
-                    </div>
-                    <div class="col date">
-                        <a class="subdued">{{Post.date}}</a>
-                    </div>
-                </div>
+            <div class="item item-avatar">
+                <img src="dist/Images/user.png">
+                <h2>{{Post.author}}</h2>
+                <p>{{Post.date}}</p>
             </div>
+
 
             <div class="item item-body">
                 <p class="postContent">{{Post.text}}</p>

@@ -1,32 +1,22 @@
-var drawer = angular.module('ionic.contrib.drawer', ['ionic']);
+export const drawerCtrl = ($element, $attr, $ionicGesture, $document) => {
 
-drawer.controller('drawerCtrl', ['$element', '$attrs', '$ionicGesture', '$document', function ($element, $attr, $ionicGesture, $document) {
-    var el = $element[0];
-    var dragging = false;
-    var startX, lastX, offsetX, newX;
-    var side;
+    this.el = $element[0];
+    this.dragging = false;
+    this.startX, lastX, offsetX, newX;
+    this.side = $attr.side == "left" ? LEFT : RIGHT;
+    this.thresholdX = 0; // How far to drag before triggering
+    this.edgeX = 0; // How far from edge before triggering
+    this.LEFT = 0;
+    this.RIGHT = 1;
+    this.isTargetDrag = false;
+    this.width = $element[0].clientWidth;
 
-    // How far to drag before triggering
-    var thresholdX = 1;
-    // How far from edge before triggering
-    var edgeX = 40;
+    this.enableAnimation = () => $element.addClass("animate");
 
-    var LEFT = 0;
-    var RIGHT = 1;
-
-    var isTargetDrag = false;
-
-    var width = $element[0].clientWidth;
-
-    var enableAnimation = function () {
-        $element.addClass('animate');
-    };
-    var disableAnimation = function () {
-        $element.removeClass('animate');
-    };
+    this.disableAnimation = () => $element.removeClass("animate");
 
     // Check if this is on target or not
-    var isTarget = function (el) {
+    this.isTarget = (el) => {
         while (el) {
             if (el === $element[0]) {
                 return true;
@@ -35,56 +25,56 @@ drawer.controller('drawerCtrl', ['$element', '$attrs', '$ionicGesture', '$docume
         }
     };
 
-    var startDrag = function (e) {
-        disableAnimation();
+    this.startDrag = () => {
+        this.disableAnimation();
 
-        dragging = true;
-        offsetX = lastX - startX;
+        this.dragging = true;
+        this.offsetX = this.lastX - this.startX;
     };
 
-    var startTargetDrag = function (e) {
-        disableAnimation();
+    this.startTargetDrag = () => {
+        this.disableAnimation();
 
-        dragging = true;
-        isTargetDrag = true;
-        offsetX = lastX - startX;
+        this.dragging = true;
+        this.isTargetDrag = true;
+        this.offsetX = this.lastX - this.startX;
     };
 
-    var doEndDrag = function (e) {
-        startX = null;
-        lastX = null;
-        offsetX = null;
-        isTargetDrag = false;
+    this.doEndDrag = () => {
+        this.startX = null;
+        this.lastX = null;
+        this.offsetX = null;
+        this.isTargetDrag = false;
 
-        if (!dragging) {
+        if (!this.dragging) {
             return;
         }
 
-        dragging = false;
+        this.dragging = false;
 
-        enableAnimation();
+        this.enableAnimation();
 
-        ionic.requestAnimationFrame(function () {
+        ionic.requestAnimationFrame(()=> {
             if (newX < (-width / 2)) {
-                el.style.transform = el.style.webkitTransform = 'translate3d(' + -width + 'px, 0, 0)';
+                el.style.transform = el.style.webkitTransform = "translate3d(" + -width + "px, 0, 0)";
             } else {
-                el.style.transform = el.style.webkitTransform = 'translate3d(0px, 0, 0)';
+                el.style.transform = el.style.webkitTransform = "translate3d(0px, 0, 0)";
             }
         });
     };
 
-    var doDrag = function (e) {
+    this.doDrag = (e) => {
         if (e.defaultPrevented) {
             return;
         }
 
-        if (!lastX) {
-            startX = e.gesture.touches[0].pageX;
+        if (!this.lastX) {
+            this.startX = e.gesture.touches[0].pageX;
         }
 
-        lastX = e.gesture.touches[0].pageX;
+        this.lastX = e.gesture.touches[0].pageX;
 
-        if (!dragging) {
+        if (!this.dragging) {
 
             // Dragged 15 pixels and finger is by edge
             if (Math.abs(lastX - startX) > thresholdX) {
@@ -96,8 +86,8 @@ drawer.controller('drawerCtrl', ['$element', '$attrs', '$ionicGesture', '$docume
             }
         } else {
             newX = Math.min(0, (-width + (lastX - offsetX)));
-            ionic.requestAnimationFrame(function () {
-                el.style.transform = el.style.webkitTransform = 'translate3d(' + newX + 'px, 0, 0)';
+            ionic.requestAnimationFrame(() => {
+                el.style.transform = el.style.webkitTransform = "translate3d(" + newX + "px, 0, 0)";
             });
 
         }
@@ -107,65 +97,57 @@ drawer.controller('drawerCtrl', ['$element', '$attrs', '$ionicGesture', '$docume
         }
     };
 
-    side = $attr.side == 'left' ? LEFT : RIGHT;
-
-    $ionicGesture.on('drag', function (e) {
-        doDrag(e);
-    }, $document);
-    $ionicGesture.on('dragend', function (e) {
-        doEndDrag(e);
-    }, $document);
-
-
-    this.close = function () {
+    this.close = () => {
         enableAnimation();
-        ionic.requestAnimationFrame(function () {
+        ionic.requestAnimationFrame(() => {
             if (side === LEFT) {
-                el.style.transform = el.style.webkitTransform = 'translate3d(-100%, 0, 0)';
+                el.style.transform = el.style.webkitTransform = "translate3d(-100%, 0, 0)";
             } else {
-                el.style.transform = el.style.webkitTransform = 'translate3d(100%, 0, 0)';
+                el.style.transform = el.style.webkitTransform = "translate3d(100%, 0, 0)";
             }
         });
     };
 
-    this.open = function () {
+    this.open = () => {
         enableAnimation();
-        ionic.requestAnimationFrame(function () {
+        ionic.requestAnimationFrame(() => {
             if (side === LEFT) {
-                el.style.transform = el.style.webkitTransform = 'translate3d(0%, 0, 0)';
+                el.style.transform = el.style.webkitTransform = "translate3d(0%, 0, 0)";
             } else {
-                el.style.transform = el.style.webkitTransform = 'translate3d(0%, 0, 0)';
+                el.style.transform = el.style.webkitTransform = "translate3d(0%, 0, 0)";
             }
         });
     };
-}])
 
-drawer.directive('drawer', ['$rootScope', '$ionicGesture', function ($rootScope, $ionicGesture) {
+    $ionicGesture.on("drag", (e) => this.doDrag(e), $document);
+
+    $ionicGesture.on("dragend", (e) => this.doEndDrag(e), $document);
+};
+
+export const drawer = () => {
     return {
-        restrict: 'E',
-        controller: 'drawerCtrl',
-        link: function ($scope, $element, $attr, ctrl) {
+        restrict: "E",
+        controller: drawerCtrl,
+        link: ($scope, $element, $attr, ctrl) => {
             $element.addClass($attr.side);
-            $scope.openDrawer = function () {
+            $scope.openDrawer = () => {
                 ctrl.open();
             };
-            $scope.closeDrawer = function () {
+            $scope.closeDrawer = () => {
                 ctrl.close();
             };
         }
-    }
-}])
+    };
+};
 
-drawer.directive('drawerClose', ['$rootScope', function ($rootScope) {
+export const drawerClose = () => {
     return {
-        restrict: 'A',
-        link: function ($scope, $element) {
-            $element.bind('click', function () {
-                var drawerCtrl = $element.inheritedData('$drawerController');
+        restrict: "A",
+        link: ($scope, $element) => {
+            $element.bind("click", () => {
+                var drawerCtrl = $element.inheritedData("$drawerController");
                 drawerCtrl.close();
             });
         }
-    }
-}]);
-
-module.exports = drawer;
+    };
+};

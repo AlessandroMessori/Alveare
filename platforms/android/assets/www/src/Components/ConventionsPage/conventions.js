@@ -1,7 +1,7 @@
-var conventionsCtrl = function ($scope, StaticData) {
+class conventionsCtrl {
+    constructor($scope, StaticData) {
+        $scope.Conventions = StaticData.conventions;
+    }
+}
 
-    $scope.Conventions = StaticData.conventions;
-
-};
-
-module.exports = conventionsCtrl;
+export default conventionsCtrl;

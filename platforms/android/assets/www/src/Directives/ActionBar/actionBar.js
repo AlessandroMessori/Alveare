@@ -1,11 +1,11 @@
-var actionBar = function () {
+const actionBar = function () {
     return {
         scope: {
-            title: '=title'
+            title: "=title"
         },
-        restrict: 'E',
-        templateUrl: 'src/Directives/ActionBar/actionBar.html',
+        restrict: "E",
+        templateUrl: "src/Directives/ActionBar/actionBar.html",
     };
 };
 
-module.exports = actionBar;
+export default actionBar;

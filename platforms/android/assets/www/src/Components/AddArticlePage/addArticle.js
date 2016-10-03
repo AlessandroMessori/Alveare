@@ -1,75 +1,70 @@
-var Firebase = require('firebase');
+import Firebase from "firebase";
 
-var addArticleCtrl = function ($scope, $rootScope, $ionicLoading, Articles, InputFields, DateHandler, Modals, FileHandler) {
+class addArticleCtrl {
 
-    $scope.$on('$ionicView.enter', function () {
-        $scope.clearData();
-    });
+    constructor($scope, $rootScope, $ionicLoading, Articles, InputFields, DateHandler, Modals, FileHandler) {
 
-    $scope.clearData = function () {
-        $scope.formScope.title = '';
-        $scope.formScope.text = '';
-        $scope.pdf = '';
-        document.getElementById('img-preview').style.display = 'none';
-        $scope.$apply();
-    };
+        $scope.$on("$ionicView.enter", () => $scope.clearData());
 
-    $scope.setFormScope = function (scope) {
-        $scope.formScope = scope;
-    };
+        $scope.clearData = () => {
+            $scope.formScope.title = "";
+            $scope.formScope.text = "";
+            $scope.pdf = "";
+            document.getElementById("img-preview").style.display = "none";
+            $scope.$apply();
+        };
 
-    $scope.loadFile = function (ele) {
-        FileHandler.loadFile(ele, $scope, false);
-    };
+        $scope.setFormScope = (scope) => $scope.formScope = scope;
 
-    $scope.removeFile = function (file) {
-        FileHandler.removeFile(file, $scope.fileList);
-    };
+        $scope.loadFile = (ele) => FileHandler.loadFile(ele, $scope, false);
 
-    //convert to Service
-    $scope.GetPic = function () {
-        navigator.camera.getPicture(onSuccess, onFail, {
-            quality: 50,
-            destinationType: Camera.DestinationType.FILE_URI,
-            sourceType: Camera.PictureSourceType.PHOTOLIBRARY
-        });
-
-        function onSuccess(imageUrl) {
-            $scope.imgData = imageUrl;
-            document.getElementById('img-preview').style.display = 'inline';
-            document.getElementById('img_1').src = imageUrl;
-        }
-
-        function onFail(message) {
-            Modals.ResultTemplate('Non sono riuscito a reperire la foto perchè ' + message);
-        }
-
-    };
-
-    $scope.UploadArticle = function (title, text, pdf) {
-        if (InputFields.filledFields([title, text, pdf, document.getElementById('img_1').src])) {
-
-            $ionicLoading.show({
-                template: 'Pubblicazione in Corso...'
-            });
-
-            var newData = {
-                text: text,
-                title: title,
-                author: Firebase.auth().currentUser.displayName,
-                date: DateHandler.GetCurrentDate(),
-                pdf: pdf
-            };
-
-            Articles.sendArticle(newData, document.getElementById('img_1').src, $rootScope.contentType);
-        }
-        else {
-            Modals.ResultTemplate('Compila tutti i campi');
-        }
-    };
+        $scope.removeFile = (file) => FileHandler.removeFile(file, $scope.fileList);
 
 
-};
+        //convert to Service
+        $scope.GetPic = () => {
+            navigator.camera.getPicture(
+                imageUrl => {
+                    $scope.imgData = imageUrl;
+                    document.getElementById("img-preview").style.display = "inline";
+                    document.getElementById("img_1").src = imageUrl;
+                },
+                (message) => {
+                    Modals.ResultTemplate("Non sono riuscito a reperire la foto perchè " + message);
+                },
+                {
+                    quality: 50,
+                    destinationType: Camera.DestinationType.FILE_URI,
+                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+                });
 
-module.exports = addArticleCtrl;
+        };
+
+        $scope.UploadArticle = (title, text, pdf) => {
+            if (InputFields.filledFields([title, text, pdf, document.getElementById("img_1").src])) {
+
+                $ionicLoading.show({
+                    template: "Pubblicazione in Corso..."
+                });
+
+                const newData = {
+                    text: text,
+                    title: title,
+                    author: Firebase.auth().currentUser.displayName,
+                    date: DateHandler.GetCurrentDate(),
+                    pdf: pdf
+                };
+
+                Articles.sendArticle(newData, document.getElementById("img_1").src, $rootScope.contentType);
+            }
+            else {
+                Modals.ResultTemplate("Compila tutti i campi");
+            }
+        };
+
+    }
+}
+
+
+export default addArticleCtrl;
 

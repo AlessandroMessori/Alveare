@@ -1,30 +1,34 @@
-var Firebase = require('firebase');
-var commentsCtrl = function ($scope, $rootScope, $state, Comments, DateHandler, Modals) {
+import Firebase from "firebase";
 
-    Comments.getComments($scope, $rootScope, $state, 'commentsSpinner');
+class commentsCtrl {
 
-    $scope.$on('$ionicView.enter', function () {
-        $scope.comment = '';
-        Comments.getComments($scope, $rootScope, $state, 'commentsSpinner');
-    });
+    constructor($scope, $rootScope, $state, Comments, DateHandler, Modals) {
 
-    $scope.send = function (comment) {
-        if (comment != undefined) {
-            var newData = {
-                comment: comment,
-                author: Firebase.auth().currentUser.displayName,
-                father: $rootScope.currentPost,
-                date: DateHandler.GetCurrentDate()
-            };
-            Comments.sendComment($scope, newData, 'commentList');
-            $scope.comment = '';
-            $scope.$apply();
-        }
-        else {
-            Modals.ResultTemplate('non puoi pubblicare un commento vuoto');
-        }
-    };
+        Comments.getComments($scope, $rootScope, $state, "commentsSpinner");
 
-};
+        $scope.$on("$ionicView.enter", () => {
+            $scope.comment = "";
+            Comments.getComments($scope, $rootScope, $state, "commentsSpinner");
+        });
 
-module.exports = commentsCtrl;
+        $scope.send = (comment) => {
+            if (comment != undefined) {
+                const newData = {
+                    comment: comment,
+                    author: Firebase.auth().currentUser.displayName,
+                    father: $rootScope.currentPost,
+                    date: DateHandler.GetCurrentDate()
+                };
+                Comments.sendComment($scope, newData, "commentList");
+                $scope.comment = "";
+                $scope.$apply();
+            }
+            else {
+                Modals.ResultTemplate("non puoi pubblicare un commento vuoto");
+            }
+        };
+    }
+
+}
+
+export default commentsCtrl;

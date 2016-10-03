@@ -12,7 +12,7 @@ class tabsCtrl {
         });
 
         $scope.$on("$ionicView.enter", () => {
-            $scope.closeDrawer();
+            //$scope.closeDrawer();
             $scope.User = Firebase.auth().currentUser.displayName;
             $scope.UserMail = Firebase.auth().currentUser.email;
             Auth.checkAdmins($scope, "adminPanel");

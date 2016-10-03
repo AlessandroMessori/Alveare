@@ -123,7 +123,7 @@ var StaticData = function ($state, $rootScope) {
             description: "Sconto del 5% su tutto",
             img: "dist/Images/Conventions/con10.jpeg"
         }
-    ]
+    ];
 
 };
 

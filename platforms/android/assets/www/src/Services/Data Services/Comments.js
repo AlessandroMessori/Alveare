@@ -1,28 +1,28 @@
-var Firebase = require('firebase');
+var Firebase = require("firebase");
 var Comments = function (Likes) {
 
     this.sendComment = function (scope, newData, commentList) {
-        var newPostKey = Firebase.database().ref().child('Commenti').push().key;
+        var newPostKey = Firebase.database().ref().child("Commenti").push().key;
         var updates = {};
-        document.getElementById(commentList).style.display = 'none';
-        updates['/Commenti/' + newPostKey] = newData;
+        document.getElementById(commentList).style.display = "none";
+        updates["/Commenti/" + newPostKey] = newData;
         Firebase.database().ref().update(updates)
             .then(function () {
-                document.getElementById(commentList).style.display = 'block';
+                document.getElementById(commentList).style.display = "block";
                 scope.$apply();
-            })
+            });
     };
 
     this.getComments = function (scope, rootScope, state, spinner, filter) {
         if (filter == undefined) {
             filter = true;
         }
-        document.getElementById(spinner).style.display = 'block';
+        document.getElementById(spinner).style.display = "block";
         var comments = [];
         scope.Comments = [];
         var father = rootScope.currentPost;
-        var ModelRef = Firebase.database().ref('Commenti');
-        ModelRef.on('value', function (snapshot) {
+        var ModelRef = Firebase.database().ref("Commenti");
+        ModelRef.on("value", function (snapshot) {
             var results = snapshot.val();
 
             if (results != null) {
@@ -35,7 +35,7 @@ var Comments = function (Likes) {
                             date: results[item].date,
                             id: item
                         });
-                        Likes.getLikeCount(item, scope, comments, comments.length - 1, 'Comments');
+                        Likes.getLikeCount(item, scope, comments, comments.length - 1, "Comments");
                     } else if (results[item].father == father) {
                         comments.push({
                             author: results[item].author,
@@ -48,25 +48,25 @@ var Comments = function (Likes) {
                             },
                             link: function () {
                                 rootScope.currentPost = item;
-                                state.go('likes');
+                                state.go("likes");
                             }
                         });
 
-                        document.getElementById(spinner).style.display = 'none';
-                        Likes.getLikeCount(item, scope, comments, comments.length - 1, 'Comments');
+                        document.getElementById(spinner).style.display = "none";
+                        Likes.getLikeCount(item, scope, comments, comments.length - 1, "Comments");
                     }
 
 
                 });
             }
 
-            document.getElementById(spinner).style.display = 'none';
+            document.getElementById(spinner).style.display = "none";
         });
     };
 
     this.getCommentCount = function (father, scope, posts, index, maxLength) {
-        var ModelRef = Firebase.database().ref('Commenti');
-        ModelRef.on('value', function (snapshot) {
+        var ModelRef = Firebase.database().ref("Commenti");
+        ModelRef.on("value", function (snapshot) {
             var results = snapshot.val();
             var count = 0;
 
@@ -79,22 +79,22 @@ var Comments = function (Likes) {
                 });
             }
             posts[index].commentCount = count;
-            Likes.getLikeCount(father, scope, posts, index, 'Posts', maxLength);
+            Likes.getLikeCount(father, scope, posts, index, "Posts", maxLength);
         });
 
     };
 
     this.deleteComment = function (scope, commentId, commentList, modals) {
         var oldLenght = scope.Comments.length;
-        document.getElementById(commentList).style.display = 'none';
-        firebase.database().ref('Commenti/' + commentId).remove()
+        document.getElementById(commentList).style.display = "none";
+        Firebase.database().ref("Commenti/" + commentId).remove()
             .then(function () {
-                modals.ResultTemplate('commento eliminato con successo');
+                modals.ResultTemplate("commento eliminato con successo");
                 scope.Comments.splice(oldLenght - 1, oldLenght * 2);
-                document.getElementById(commentList).style.display = 'block';
+                document.getElementById(commentList).style.display = "block";
                 scope.$apply();
             });
-    }
+    };
 };
 
 module.exports = Comments;
