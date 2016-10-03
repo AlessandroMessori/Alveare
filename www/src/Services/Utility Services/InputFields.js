@@ -1,15 +1,15 @@
-var InputFields = function () {
+class InputFields {
 
-    this.filledFields = function (fields) {
-        var check = true;
-        fields.map(function (item) {
+    static filledFields(fields) {
+        let check = true;
+        fields.map(item => {
             if (item == undefined || item == "") {
                 check = false;
             }
         });
         return check;
-    };
+    }
 
-};
+}
 
-module.exports = InputFields;
+export default InputFields;

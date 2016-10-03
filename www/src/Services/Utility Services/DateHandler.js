@@ -1,12 +1,11 @@
-var DateHandler = function () {
+class DateHandler {
 
-    var self = this;
 
-    this.GetCurrentDate = function () {
+    static GetCurrentDate() {
 
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
+        let today = new Date();
+        let dd = today.getDate();
+        let mm = today.getMonth() + 1; //January is 0!
 
         if (dd < 10) {
             dd = "0" + dd;
@@ -55,21 +54,21 @@ var DateHandler = function () {
         today = dd + " " + mm;
 
         return today;
-    };
+    }
 
-    this.GetFullDate = function () {
+    static  GetFullDate() {
 
-        var now = new Date();
-        var Hour = now.getHours();
-        var Minutes = now.getMinutes();
+        const now = new Date();
+        let Hour = now.getHours();
+        let Minutes = now.getMinutes();
 
         if (Minutes < 10) {
             Minutes = "0" + Minutes;
         }
 
-        return self.GetCurrentDate() + " alle " + Hour + ":" + Minutes;
+        return DateHandler.GetCurrentDate() + " alle " + Hour + ":" + Minutes;
 
-    };
-};
+    }
+}
 
-module.exports = DateHandler;
+export default DateHandler;

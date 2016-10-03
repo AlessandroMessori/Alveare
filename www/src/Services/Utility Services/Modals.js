@@ -1,13 +1,13 @@
-var Modals = function ($ionicLoading) {
-    this.ResultTemplate = function (text) {
-        $ionicLoading.hide();
-        $ionicLoading.show({
-            template: text
-        });
-        window.setTimeout(function () {
-            $ionicLoading.hide();
-        }, 1000);
-    };
-};
+class Modals {
 
-module.exports = Modals;
+    constructor($ionicLoading) {
+        this.ResultTemplate = (text) => {
+            $ionicLoading.hide();
+            $ionicLoading.show({template: text});
+            window.setTimeout(()=>$ionicLoading.hide(), 1000);
+        };
+    }
+
+}
+
+export default Modals;

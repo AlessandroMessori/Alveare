@@ -1,20 +1,17 @@
-var PlatformHandler = function () {
-
-    this.is = function (platform, callback1, callback2) {
+class PlatformHandler {
+    is(platform, callback1, callback2) {
 
         if (callback1 == undefined) {
-            callback1 = function () {
-                
+            callback1 = ()=> {
             };
         }
 
         if (callback2 == undefined) {
-            callback2 = function () {
-                
+            callback2 = ()=> {
             };
         }
 
-        document.addEventListener("deviceready", function () {
+        document.addEventListener("deviceready", () => {
             if (window.cordova) {
                 if (device.platform == platform) {
                     callback1();
@@ -24,8 +21,8 @@ var PlatformHandler = function () {
                 }
             }
         }, false);
-    };
+    }
 
-};
+}
 
-module.exports = PlatformHandler;
+export default PlatformHandler;
