@@ -46,80 +46,178 @@
 
 	"use strict";
 
-	var Firebase = __webpack_require__(1);
-	var addArticleCtrl = __webpack_require__(3);
-	var addNewsCtrl = __webpack_require__(4);
-	var adminCtrl = __webpack_require__(5);
-	var attualitaCtrl = __webpack_require__(6).attualitaCtrl;
-	var orientamentoCtrl = __webpack_require__(6).orientamentoCtrl;
-	var commentsCtrl = __webpack_require__(7);
-	var conventionsCtrl = __webpack_require__(8);
-	var freeZoneCtrl = __webpack_require__(9);
-	var libraryCtrl = __webpack_require__(10);
-	var likesCtrl = __webpack_require__(11);
-	var linkCtrl = __webpack_require__(12);
-	var loginCtrl = __webpack_require__(13);
-	var moderationCtrl = __webpack_require__(14);
-	var newsCtrl = __webpack_require__(15);
-	var settingsCtrl = __webpack_require__(16);
-	var signupCtrl = __webpack_require__(17);
-	var tabsCtrl = __webpack_require__(18);
-	var Messages = __webpack_require__(19);
-	var Articles = __webpack_require__(20);
-	var Comments = __webpack_require__(21);
-	var Likes = __webpack_require__(22);
-	var Auth = __webpack_require__(25);
-	var StaticData = __webpack_require__(26);
-	var DateHandler = __webpack_require__(27);
-	var InputFields = __webpack_require__(28);
-	var StringHandler = __webpack_require__(29);
-	var Modals = __webpack_require__(30);
-	var FileHandler = __webpack_require__(31);
-	var PlatformHandler = __webpack_require__(32);
-	var SocialHandler = __webpack_require__(33);
-	var ActionBar = __webpack_require__(34);
-	__webpack_require__(35);
-	var Configs = __webpack_require__(36);
-	var credentials = __webpack_require__(37);
+	var _firebase = __webpack_require__(1);
 
-	Firebase.initializeApp(credentials);
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	var _addArticle = __webpack_require__(3);
+
+	var _addArticle2 = _interopRequireDefault(_addArticle);
+
+	var _addNews = __webpack_require__(4);
+
+	var _addNews2 = _interopRequireDefault(_addNews);
+
+	var _admin = __webpack_require__(5);
+
+	var _admin2 = _interopRequireDefault(_admin);
+
+	var _articles = __webpack_require__(6);
+
+	var _comments = __webpack_require__(7);
+
+	var _comments2 = _interopRequireDefault(_comments);
+
+	var _conventions = __webpack_require__(8);
+
+	var _conventions2 = _interopRequireDefault(_conventions);
+
+	var _freeZone = __webpack_require__(9);
+
+	var _freeZone2 = _interopRequireDefault(_freeZone);
+
+	var _library = __webpack_require__(10);
+
+	var _library2 = _interopRequireDefault(_library);
+
+	var _likes = __webpack_require__(11);
+
+	var _likes2 = _interopRequireDefault(_likes);
+
+	var _link = __webpack_require__(12);
+
+	var _link2 = _interopRequireDefault(_link);
+
+	var _login = __webpack_require__(13);
+
+	var _login2 = _interopRequireDefault(_login);
+
+	var _moderation = __webpack_require__(14);
+
+	var _moderation2 = _interopRequireDefault(_moderation);
+
+	var _newsCtrl = __webpack_require__(15);
+
+	var _newsCtrl2 = _interopRequireDefault(_newsCtrl);
+
+	var _settings = __webpack_require__(16);
+
+	var _settings2 = _interopRequireDefault(_settings);
+
+	var _signup = __webpack_require__(17);
+
+	var _signup2 = _interopRequireDefault(_signup);
+
+	var _tabs = __webpack_require__(18);
+
+	var _tabs2 = _interopRequireDefault(_tabs);
+
+	var _Messages = __webpack_require__(19);
+
+	var _Messages2 = _interopRequireDefault(_Messages);
+
+	var _Articles = __webpack_require__(20);
+
+	var _Articles2 = _interopRequireDefault(_Articles);
+
+	var _Comments = __webpack_require__(21);
+
+	var _Comments2 = _interopRequireDefault(_Comments);
+
+	var _Likes = __webpack_require__(22);
+
+	var _Likes2 = _interopRequireDefault(_Likes);
+
+	var _Auth = __webpack_require__(25);
+
+	var _Auth2 = _interopRequireDefault(_Auth);
+
+	var _StaticData = __webpack_require__(26);
+
+	var _StaticData2 = _interopRequireDefault(_StaticData);
+
+	var _DateHandler = __webpack_require__(27);
+
+	var _DateHandler2 = _interopRequireDefault(_DateHandler);
+
+	var _InputFields = __webpack_require__(28);
+
+	var _InputFields2 = _interopRequireDefault(_InputFields);
+
+	var _StringHandler = __webpack_require__(29);
+
+	var _StringHandler2 = _interopRequireDefault(_StringHandler);
+
+	var _Modals = __webpack_require__(30);
+
+	var _Modals2 = _interopRequireDefault(_Modals);
+
+	var _FileHandler = __webpack_require__(31);
+
+	var _FileHandler2 = _interopRequireDefault(_FileHandler);
+
+	var _PlatformHandler = __webpack_require__(32);
+
+	var _PlatformHandler2 = _interopRequireDefault(_PlatformHandler);
+
+	var _SocialHandler = __webpack_require__(33);
+
+	var _SocialHandler2 = _interopRequireDefault(_SocialHandler);
+
+	var _actionBar = __webpack_require__(34);
+
+	var _actionBar2 = _interopRequireDefault(_actionBar);
+
+	__webpack_require__(35);
+
+	var _Configs = __webpack_require__(36);
+
+	var _Configs2 = _interopRequireDefault(_Configs);
+
+	var _credentials = __webpack_require__(37);
+
+	var _credentials2 = _interopRequireDefault(_credentials);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	_firebase2.default.initializeApp(_credentials2.default);
 
 	var appAS = angular.module("appAS", ["ionic", "ionic.contrib.drawer"]);
-	appAS.controller("addArticleCtrl", addArticleCtrl);
-	appAS.controller("addNewsCtrl", addNewsCtrl);
-	appAS.controller("adminCtrl", adminCtrl);
-	appAS.controller("attualitaCtrl", attualitaCtrl);
-	appAS.controller("orientamentoCtrl", orientamentoCtrl);
-	appAS.controller("commentsCtrl", commentsCtrl);
-	appAS.controller("conventionsCtrl", conventionsCtrl);
-	appAS.controller("freeZoneCtrl", freeZoneCtrl);
-	appAS.controller("libraryCtrl", libraryCtrl);
-	appAS.controller("likesCtrl", likesCtrl);
-	appAS.controller("linkCtrl", linkCtrl);
-	appAS.controller("loginCtrl", loginCtrl);
-	appAS.controller("moderationCtrl", moderationCtrl);
-	appAS.controller("newsCtrl", newsCtrl);
-	appAS.controller("settingsCtrl", settingsCtrl);
-	appAS.controller("signupCtrl", signupCtrl);
-	appAS.controller("tabsCtrl", tabsCtrl);
-	appAS.service("Messages", Messages);
-	appAS.service("Articles", Articles);
-	appAS.service("Comments", Comments);
-	appAS.service("Likes", Likes);
-	appAS.service("Auth", Auth);
-	appAS.service("DateHandler", DateHandler);
-	appAS.service("InputFields", InputFields);
-	appAS.service("StringHandler", StringHandler);
-	appAS.service("Modals", Modals);
-	appAS.service("StaticData", StaticData);
-	appAS.service("FileHandler", FileHandler);
-	appAS.service("PlatformHandler", PlatformHandler);
-	appAS.service("SocialHandler", SocialHandler);
-	appAS.directive("actionBar", ActionBar);
+	appAS.controller("addArticleCtrl", _addArticle2.default);
+	appAS.controller("addNewsCtrl", _addNews2.default);
+	appAS.controller("adminCtrl", _admin2.default);
+	appAS.controller("attualitaCtrl", _articles.attualitaCtrl);
+	appAS.controller("orientamentoCtrl", _articles.orientamentoCtrl);
+	appAS.controller("commentsCtrl", _comments2.default);
+	appAS.controller("conventionsCtrl", _conventions2.default);
+	appAS.controller("freeZoneCtrl", _freeZone2.default);
+	appAS.controller("libraryCtrl", _library2.default);
+	appAS.controller("likesCtrl", _likes2.default);
+	appAS.controller("linkCtrl", _link2.default);
+	appAS.controller("loginCtrl", _login2.default);
+	appAS.controller("moderationCtrl", _moderation2.default);
+	appAS.controller("newsCtrl", _newsCtrl2.default);
+	appAS.controller("settingsCtrl", _settings2.default);
+	appAS.controller("signupCtrl", _signup2.default);
+	appAS.controller("tabsCtrl", _tabs2.default);
+	appAS.service("Messages", _Messages2.default);
+	appAS.service("Articles", _Articles2.default);
+	appAS.service("Comments", _Comments2.default);
+	appAS.service("Likes", _Likes2.default);
+	appAS.service("Auth", _Auth2.default);
+	appAS.service("DateHandler", _DateHandler2.default);
+	appAS.service("InputFields", _InputFields2.default);
+	appAS.service("StringHandler", _StringHandler2.default);
+	appAS.service("Modals", _Modals2.default);
+	appAS.service("StaticData", _StaticData2.default);
+	appAS.service("FileHandler", _FileHandler2.default);
+	appAS.service("PlatformHandler", _PlatformHandler2.default);
+	appAS.service("SocialHandler", _SocialHandler2.default);
+	appAS.directive("actionBar", _actionBar2.default);
 
-	appAS.run(Configs.run);
+	appAS.run(_Configs2.default.run);
 
-	appAS.config(Configs.config);
+	appAS.config(_Configs2.default.config);
 
 /***/ },
 /* 1 */
@@ -725,12 +823,23 @@
 
 	"use strict";
 
-	var Firebase = __webpack_require__(1);
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _firebase = __webpack_require__(1);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var addArticleCtrl = function addArticleCtrl($scope, $rootScope, $ionicLoading, Articles, InputFields, DateHandler, Modals, FileHandler) {
+	    _classCallCheck(this, addArticleCtrl);
 
 	    $scope.$on("$ionicView.enter", function () {
-	        $scope.clearData();
+	        return $scope.clearData();
 	    });
 
 	    $scope.clearData = function () {
@@ -742,34 +851,30 @@
 	    };
 
 	    $scope.setFormScope = function (scope) {
-	        $scope.formScope = scope;
+	        return $scope.formScope = scope;
 	    };
 
 	    $scope.loadFile = function (ele) {
-	        FileHandler.loadFile(ele, $scope, false);
+	        return FileHandler.loadFile(ele, $scope, false);
 	    };
 
 	    $scope.removeFile = function (file) {
-	        FileHandler.removeFile(file, $scope.fileList);
+	        return FileHandler.removeFile(file, $scope.fileList);
 	    };
 
 	    //convert to Service
 	    $scope.GetPic = function () {
-	        navigator.camera.getPicture(onSuccess, onFail, {
+	        navigator.camera.getPicture(function (imageUrl) {
+	            $scope.imgData = imageUrl;
+	            document.getElementById("img-preview").style.display = "inline";
+	            document.getElementById("img_1").src = imageUrl;
+	        }, function (message) {
+	            Modals.ResultTemplate("Non sono riuscito a reperire la foto perchè " + message);
+	        }, {
 	            quality: 50,
 	            destinationType: Camera.DestinationType.FILE_URI,
 	            sourceType: Camera.PictureSourceType.PHOTOLIBRARY
 	        });
-
-	        function onSuccess(imageUrl) {
-	            $scope.imgData = imageUrl;
-	            document.getElementById("img-preview").style.display = "inline";
-	            document.getElementById("img_1").src = imageUrl;
-	        }
-
-	        function onFail(message) {
-	            Modals.ResultTemplate("Non sono riuscito a reperire la foto perchè " + message);
-	        }
 	    };
 
 	    $scope.UploadArticle = function (title, text, pdf) {
@@ -782,7 +887,7 @@
 	            var newData = {
 	                text: text,
 	                title: title,
-	                author: Firebase.auth().currentUser.displayName,
+	                author: _firebase2.default.auth().currentUser.displayName,
 	                date: DateHandler.GetCurrentDate(),
 	                pdf: pdf
 	            };
@@ -794,7 +899,7 @@
 	    };
 	};
 
-	module.exports = addArticleCtrl;
+	exports.default = addArticleCtrl;
 
 /***/ },
 /* 4 */
@@ -802,9 +907,20 @@
 
 	"use strict";
 
-	var Firebase = __webpack_require__(1);
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _firebase = __webpack_require__(1);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var addNewsCtrl = function addNewsCtrl($scope, $ionicLoading, Messages, DateHandler, Modals, FileHandler) {
+	    _classCallCheck(this, addNewsCtrl);
 
 	    $scope.fileList = [];
 	    $scope.binaryList = [];
@@ -820,7 +936,7 @@
 	    };
 
 	    $scope.setNewsScope = function (scope) {
-	        $scope.formScope = scope;
+	        return $scope.formScope = scope;
 	    };
 
 	    $scope.sendNews = function (news) {
@@ -833,7 +949,7 @@
 
 	            var newData = {
 	                text: news,
-	                author: Firebase.auth().currentUser.displayName,
+	                author: _firebase2.default.auth().currentUser.displayName,
 	                date: DateHandler.GetCurrentDate(),
 	                files: $scope.fileList
 	            };
@@ -846,15 +962,15 @@
 	    };
 
 	    $scope.loadFile = function (ele) {
-	        FileHandler.loadFile(ele, $scope, true);
+	        return FileHandler.loadFile(ele, $scope, true);
 	    };
 
 	    $scope.removeFile = function (file) {
-	        FileHandler.removeFile(file, $scope.fileList);
+	        return FileHandler.removeFile(file, $scope.fileList);
 	    };
 	};
 
-	module.exports = addNewsCtrl;
+	exports.default = addNewsCtrl;
 
 /***/ },
 /* 5 */
@@ -862,14 +978,20 @@
 
 	"use strict";
 
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 	var adminCtrl = function adminCtrl($scope, StaticData) {
+	    _classCallCheck(this, adminCtrl);
 
 	    $scope.title = "Sezione Amministratori ";
-
 	    $scope.Links = StaticData.adminLinks;
 	};
 
-	module.exports = adminCtrl;
+	exports.default = adminCtrl;
 
 /***/ },
 /* 6 */
@@ -877,28 +999,42 @@
 
 	"use strict";
 
-	var articlesCtrl = function articlesCtrl($scope, $rootScope, $state, Articles, type) {
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 
-	    Articles.getArticles($scope, $rootScope, $state, type, "articlesSpinner");
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	    $scope.doRefresh = function () {
-	        Articles.getArticles($scope, $rootScope, $state, type, "articlesSpinner");
-	        $scope.$broadcast("scroll.refreshComplete");
-	        $scope.$apply();
-	    };
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var articlesCtrl = function () {
+	    function articlesCtrl() {
+	        _classCallCheck(this, articlesCtrl);
+	    }
+
+	    _createClass(articlesCtrl, null, [{
+	        key: "create",
+	        value: function create($scope, $rootScope, $state, Articles, type) {
+
+	            Articles.getArticles($scope, $rootScope, $state, type, "articlesSpinner");
+
+	            $scope.doRefresh = function () {
+	                Articles.getArticles($scope, $rootScope, $state, type, "articlesSpinner");
+	                $scope.$broadcast("scroll.refreshComplete");
+	                $scope.$apply();
+	            };
+	        }
+	    }]);
+
+	    return articlesCtrl;
+	}();
+
+	var attualitaCtrl = exports.attualitaCtrl = function attualitaCtrl($scope, $rootScope, $state, Articles) {
+	    return articlesCtrl.create($scope, $rootScope, $state, Articles, "Giornalino");
 	};
 
-	var attualitaCtrl = function attualitaCtrl($scope, $rootScope, $state, Articles) {
-	    return articlesCtrl($scope, $rootScope, $state, Articles, "Giornalino");
-	};
-
-	var orientamentoCtrl = function orientamentoCtrl($scope, $rootScope, $state, Articles) {
-	    return articlesCtrl($scope, $rootScope, $state, Articles, "Orientamento");
-	};
-
-	module.exports = {
-	    attualitaCtrl: attualitaCtrl,
-	    orientamentoCtrl: orientamentoCtrl
+	var orientamentoCtrl = exports.orientamentoCtrl = function orientamentoCtrl($scope, $rootScope, $state, Articles) {
+	    return articlesCtrl.create($scope, $rootScope, $state, Articles, "Orientamento");
 	};
 
 /***/ },
@@ -907,8 +1043,20 @@
 
 	"use strict";
 
-	var Firebase = __webpack_require__(1);
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _firebase = __webpack_require__(1);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 	var commentsCtrl = function commentsCtrl($scope, $rootScope, $state, Comments, DateHandler, Modals) {
+	    _classCallCheck(this, commentsCtrl);
 
 	    Comments.getComments($scope, $rootScope, $state, "commentsSpinner");
 
@@ -921,7 +1069,7 @@
 	        if (comment != undefined) {
 	            var newData = {
 	                comment: comment,
-	                author: Firebase.auth().currentUser.displayName,
+	                author: _firebase2.default.auth().currentUser.displayName,
 	                father: $rootScope.currentPost,
 	                date: DateHandler.GetCurrentDate()
 	            };
@@ -934,7 +1082,7 @@
 	    };
 	};
 
-	module.exports = commentsCtrl;
+	exports.default = commentsCtrl;
 
 /***/ },
 /* 8 */
@@ -942,12 +1090,19 @@
 
 	"use strict";
 
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 	var conventionsCtrl = function conventionsCtrl($scope, StaticData) {
+	    _classCallCheck(this, conventionsCtrl);
 
 	    $scope.Conventions = StaticData.conventions;
 	};
 
-	module.exports = conventionsCtrl;
+	exports.default = conventionsCtrl;
 
 /***/ },
 /* 9 */
@@ -955,9 +1110,17 @@
 
 	"use strict";
 
-	var freeZoneCtrl = function freeZoneCtrl() {};
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 
-	module.exports = freeZoneCtrl;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var freeZoneCtrl = function freeZoneCtrl() {
+	    _classCallCheck(this, freeZoneCtrl);
+	};
+
+	exports.default = freeZoneCtrl;
 
 /***/ },
 /* 10 */
@@ -965,9 +1128,17 @@
 
 	"use strict";
 
-	var libraryCtrl = function libraryCtrl() {};
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 
-	module.exports = libraryCtrl;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var libraryCtrl = function libraryCtrl() {
+	    _classCallCheck(this, libraryCtrl);
+	};
+
+	exports.default = libraryCtrl;
 
 /***/ },
 /* 11 */
@@ -975,7 +1146,14 @@
 
 	"use strict";
 
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 	var likesCtrl = function likesCtrl($scope, $rootScope, Likes) {
+	    _classCallCheck(this, likesCtrl);
 
 	    Likes.getLikers($rootScope.currentPosts, $scope, "likesSpinner");
 
@@ -984,7 +1162,7 @@
 	    });
 	};
 
-	module.exports = likesCtrl;
+	exports.default = likesCtrl;
 
 /***/ },
 /* 12 */
@@ -992,16 +1170,23 @@
 
 	"use strict";
 
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 	var linkCtrl = function linkCtrl($scope, StaticData) {
+	    _classCallCheck(this, linkCtrl);
 
 	    $scope.Links = StaticData.links;
 
 	    $scope.OpenLink = function (url) {
-	        cordova.InAppBrowser.open(url, "_system", "location=yes");
+	        return cordova.InAppBrowser.open(url, "_system", "location=yes");
 	    };
 	};
 
-	module.exports = linkCtrl;
+	exports.default = linkCtrl;
 
 /***/ },
 /* 13 */
@@ -1009,10 +1194,22 @@
 
 	"use strict";
 
-	var Firebase = __webpack_require__(1);
-	var loginCtrl = function loginCtrl($scope, $ionicLoading, $window, $state, $ionicHistory, Auth, InputFields, Modals) {
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 
-	    Firebase.auth().signOut();
+	var _firebase = __webpack_require__(1);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var loginCtrl = function loginCtrl($scope, $ionicLoading, $window, $state, $ionicHistory, Auth, InputFields, Modals) {
+	    _classCallCheck(this, loginCtrl);
+
+	    _firebase2.default.auth().signOut();
 	    $scope.inputType = "password";
 
 	    $scope.UserLogin = function (mail, password, RememberMe) {
@@ -1041,7 +1238,7 @@
 	    };
 	};
 
-	module.exports = loginCtrl;
+	exports.default = loginCtrl;
 
 /***/ },
 /* 14 */
@@ -1049,7 +1246,14 @@
 
 	"use strict";
 
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 	var moderationCtrl = function moderationCtrl($scope, $rootScope, $state, $ionicPopup, Comments, Modals) {
+	    _classCallCheck(this, moderationCtrl);
 
 	    Comments.getComments($scope, $rootScope, $state, "commentsSpinner", false);
 
@@ -1071,7 +1275,7 @@
 	    };
 	};
 
-	module.exports = moderationCtrl;
+	exports.default = moderationCtrl;
 
 /***/ },
 /* 15 */
@@ -1079,7 +1283,14 @@
 
 	"use strict";
 
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 	var forumCtrl = function forumCtrl($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler) {
+	    _classCallCheck(this, forumCtrl);
 
 	    $rootScope.userName = window.localStorage.getItem("Username");
 	    Messages.getPosts($scope, $rootScope, $state, "newsSpinner");
@@ -1096,7 +1307,7 @@
 	    };
 	};
 
-	module.exports = forumCtrl;
+	exports.default = forumCtrl;
 
 /***/ },
 /* 16 */
@@ -1104,7 +1315,10 @@
 
 	"use strict";
 
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 	var settingsCtrl = function settingsCtrl($scope, $rootScope, $state, Auth, Modals, SocialHandler) {
+	    _classCallCheck(this, settingsCtrl);
 
 	    if (window.localStorage.getItem("RememberMe") == "true") {
 	        $scope.RememberMe = true;
@@ -1118,15 +1332,15 @@
 	    };
 
 	    $scope.shareApp = function () {
-	        SocialHandler.shareApp();
+	        return SocialHandler.shareApp();
 	    };
 
 	    $scope.rateUs = function () {
-	        SocialHandler.rareUs();
+	        return SocialHandler.rareUs();
 	    };
 
 	    $scope.Disconnect = function () {
-	        Auth.Logout($state, $rootScope, Modals);
+	        return Auth.Logout($state, $rootScope, Modals);
 	    };
 	};
 
@@ -1138,7 +1352,14 @@
 
 	"use strict";
 
-	var signupCtrl = function signupCtrl($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields, Modals) {
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var signupCtrl = function signupCtrl($scope, $ionicLoading, $state, $ionicHistory, Auth, InputFields, Modals) {
+	    _classCallCheck(this, signupCtrl);
 
 	    $scope.inputType = "password";
 
@@ -1154,7 +1375,7 @@
 	    };
 
 	    $scope.go = function () {
-	        $state.go("login");
+	        return $state.go("login");
 	    };
 
 	    $scope.hideShowPassword = function () {
@@ -1162,7 +1383,7 @@
 	    };
 	};
 
-	module.exports = signupCtrl;
+	exports.default = signupCtrl;
 
 /***/ },
 /* 18 */
@@ -1170,8 +1391,20 @@
 
 	"use strict";
 
-	var Firebase = __webpack_require__(1);
-	var tabsCtrl = function tabsCtrl($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth, Modals, PlatformHandler) {
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _firebase = __webpack_require__(1);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var tabsCtrl = function tabsCtrl($scope, $state, $rootScope, $ionicScrollDelegate, Auth, PlatformHandler) {
+	    _classCallCheck(this, tabsCtrl);
 
 	    $scope.View = "tab-link";
 
@@ -1183,8 +1416,8 @@
 
 	    $scope.$on("$ionicView.enter", function () {
 	        $scope.closeDrawer();
-	        $scope.User = Firebase.auth().currentUser.displayName;
-	        $scope.UserMail = Firebase.auth().currentUser.email;
+	        $scope.User = _firebase2.default.auth().currentUser.displayName;
+	        $scope.UserMail = _firebase2.default.auth().currentUser.email;
 	        Auth.checkAdmins($scope, "adminPanel");
 	    });
 
@@ -1219,7 +1452,7 @@
 	    };
 	};
 
-	module.exports = tabsCtrl;
+	exports.default = tabsCtrl;
 
 /***/ },
 /* 19 */
@@ -18867,6 +19100,9 @@
 
 	"use strict";
 
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	var actionBar = function actionBar() {
 	    return {
 	        scope: {
@@ -18877,7 +19113,7 @@
 	    };
 	};
 
-	module.exports = actionBar;
+	exports.default = actionBar;
 
 /***/ },
 /* 35 */

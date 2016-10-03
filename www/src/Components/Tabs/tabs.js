@@ -1,52 +1,55 @@
-var Firebase = require("firebase");
-var tabsCtrl = function ($scope, $ionicTabsDelegate, $ionicLoading, $window, $state, $rootScope, $ionicScrollDelegate, Auth, Modals, PlatformHandler) {
+import Firebase from "firebase";
+class tabsCtrl {
 
-    $scope.View = "tab-link";
+    constructor($scope, $state, $rootScope, $ionicScrollDelegate, Auth, PlatformHandler) {
 
-    Auth.checkAdmins($scope, "adminPanel");
+        $scope.View = "tab-link";
 
-    PlatformHandler.is("iOS",
-        function () {
+        Auth.checkAdmins($scope, "adminPanel");
+
+        PlatformHandler.is("iOS", ()=> {
             document.getElementById("tabBar").style.marginTop = "-5%";
         });
 
-    $scope.$on("$ionicView.enter", function () {
-        $scope.closeDrawer();
-        $scope.User = Firebase.auth().currentUser.displayName;
-        $scope.UserMail = Firebase.auth().currentUser.email;
-        Auth.checkAdmins($scope, "adminPanel");
-    });
+        $scope.$on("$ionicView.enter", () => {
+            $scope.closeDrawer();
+            $scope.User = Firebase.auth().currentUser.displayName;
+            $scope.UserMail = Firebase.auth().currentUser.email;
+            Auth.checkAdmins($scope, "adminPanel");
+        });
 
-    $rootScope.$on("$stateChangeSuccess", function (ev, to, toParams, from) {
-        $rootScope.previousState = from.name;
-        if ($rootScope.previousState == "comments") {
-            $rootScope.previousState = "tab.forum";
-        } else {
-            $ionicScrollDelegate.scrollTop();
-        }
-    });
+        $rootScope.$on("$stateChangeSuccess", (ev, to, toParams, from) => {
+            $rootScope.previousState = from.name;
+            if ($rootScope.previousState == "comments") {
+                $rootScope.previousState = "tab.forum";
+            } else {
+                $ionicScrollDelegate.scrollTop();
+            }
+        });
 
-    $scope.backBtnClick = function () {
-        $state.go($rootScope.previousState);
-    };
+        $scope.backBtnClick = () => {
+            $state.go($rootScope.previousState);
+        };
 
-    $scope.ShowLinks = function () {
-        if (document.getElementById("linkList").style.display == "block") {
-            document.getElementById("linkList").style.display = "none";
-        }
-        else {
-            document.getElementById("linkList").style.display = "block";
-        }
-    };
+        $scope.ShowLinks = () => {
+            if (document.getElementById("linkList").style.display == "block") {
+                document.getElementById("linkList").style.display = "none";
+            }
+            else {
+                document.getElementById("linkList").style.display = "block";
+            }
+        };
 
-    //convert to Service
-    $scope.navigate = function (destination, ind) {
-        $scope.View = "tab-" + destination;
-        for (var i = 1; i < 10; i++) {
-            document.getElementById("MainView" + i).style.display = "none";
-        }
-        document.getElementById("MainView" + ind).style.display = "block";
-    };
-};
+        //convert to Service
+        $scope.navigate = (destination, ind) => {
+            $scope.View = "tab-" + destination;
+            for (let i = 1; i < 10; i++) {
+                document.getElementById("MainView" + i).style.display = "none";
+            }
+            document.getElementById("MainView" + ind).style.display = "block";
+        };
+    }
+}
 
-module.exports = tabsCtrl;
+
+export default tabsCtrl;

@@ -1,30 +1,29 @@
-var signupCtrl = function ($scope, $ionicLoading, $location, $state, $ionicHistory, Auth, InputFields, Modals) {
+class signupCtrl {
+    constructor($scope, $ionicLoading, $state, $ionicHistory, Auth, InputFields, Modals) {
+        $scope.inputType = "password";
 
-    $scope.inputType = "password";
+        $scope.UserSignup = (username, password, mail) => {
+            if (InputFields.filledFields([username, password, mail])) {
+                $ionicLoading.show({
+                    template: "Registrazione in corso..."
+                });
+                Auth.Signup(username, password, mail, $state, $ionicHistory);
+            }
+            else {
+                Modals.ResultTemplate("compila tutti i campi");
+            }
+        };
 
-    $scope.UserSignup = function (username, password, mail) {
-        if (InputFields.filledFields([username, password, mail])) {
-            $ionicLoading.show({
-                template: "Registrazione in corso..."
-            });
-            Auth.Signup(username, password, mail, $state, $ionicHistory);
-        }
-        else {
-            Modals.ResultTemplate("compila tutti i campi");
-        }
-    };
+        $scope.go = ()=> $state.go("login");
 
-    $scope.go = function () {
-        $state.go("login");
-    };
 
-    $scope.hideShowPassword = function () {
-        if ($scope.inputType == "password")
-            $scope.inputType = "text";
-        else
-            $scope.inputType = "password";
-    };
+        $scope.hideShowPassword = () => {
+            if ($scope.inputType == "password")
+                $scope.inputType = "text";
+            else
+                $scope.inputType = "password";
+        };
+    }
+}
 
-};
-
-module.exports = signupCtrl;
+export default signupCtrl;

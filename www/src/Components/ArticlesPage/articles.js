@@ -1,23 +1,21 @@
-var articlesCtrl = function ($scope, $rootScope, $state, Articles, type) {
+class articlesCtrl {
+    static create($scope, $rootScope, $state, Articles, type) {
 
-    Articles.getArticles($scope, $rootScope, $state, type, "articlesSpinner");
-
-    $scope.doRefresh = function () {
         Articles.getArticles($scope, $rootScope, $state, type, "articlesSpinner");
-        $scope.$broadcast("scroll.refreshComplete");
-        $scope.$apply();
-    };
+
+        $scope.doRefresh = () => {
+            Articles.getArticles($scope, $rootScope, $state, type, "articlesSpinner");
+            $scope.$broadcast("scroll.refreshComplete");
+            $scope.$apply();
+        };
+    }
+}
+
+export const attualitaCtrl = ($scope, $rootScope, $state, Articles) => {
+    return articlesCtrl.create($scope, $rootScope, $state, Articles, "Giornalino");
 };
 
-var attualitaCtrl = function ($scope, $rootScope, $state, Articles) {
-    return articlesCtrl($scope, $rootScope, $state, Articles, "Giornalino");
+export const orientamentoCtrl = ($scope, $rootScope, $state, Articles) => {
+    return articlesCtrl.create($scope, $rootScope, $state, Articles, "Orientamento");
 };
 
-var orientamentoCtrl = function ($scope, $rootScope, $state, Articles) {
-    return articlesCtrl($scope, $rootScope, $state, Articles, "Orientamento");
-};
-
-module.exports = {
-    attualitaCtrl: attualitaCtrl,
-    orientamentoCtrl: orientamentoCtrl
-};

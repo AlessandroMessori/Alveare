@@ -1,11 +1,11 @@
-var linkCtrl = function ($scope, StaticData) {
+class linkCtrl {
+    constructor($scope, StaticData) {
 
-    $scope.Links = StaticData.links;
+        $scope.Links = StaticData.links;
 
-    $scope.OpenLink = function (url) {
-        cordova.InAppBrowser.open(url, "_system", "location=yes");
-    };
+        $scope.OpenLink = (url) => cordova.InAppBrowser.open(url, "_system", "location=yes");
 
-};
+    }
+}
 
-module.exports = linkCtrl;
+export default linkCtrl;

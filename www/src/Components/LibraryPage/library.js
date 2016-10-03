@@ -1,5 +1,6 @@
-var libraryCtrl = function () {
+class libraryCtrl {
+    constructor() {
 
-};
-
-module.exports = libraryCtrl;
+    }
+}
+export default libraryCtrl;

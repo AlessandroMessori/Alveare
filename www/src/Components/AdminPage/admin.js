@@ -1,9 +1,12 @@
-var adminCtrl = function ($scope,StaticData) {
+class adminCtrl {
 
-    $scope.title = "Sezione Amministratori ";
+    constructor($scope, StaticData) {
 
-    $scope.Links = StaticData.adminLinks;
+        $scope.title = "Sezione Amministratori ";
+        $scope.Links = StaticData.adminLinks;
 
-};
+    }
 
-module.exports = adminCtrl;
+}
+
+export default  adminCtrl;

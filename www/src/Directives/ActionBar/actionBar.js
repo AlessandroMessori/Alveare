@@ -1,4 +1,4 @@
-var actionBar = function () {
+const actionBar = function () {
     return {
         scope: {
             title: "=title"
@@ -8,4 +8,4 @@ var actionBar = function () {
     };
 };
 
-module.exports = actionBar;
+export default actionBar;

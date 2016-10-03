@@ -1,24 +1,25 @@
-var moderationCtrl = function ($scope, $rootScope, $state, $ionicPopup, Comments, Modals) {
+class moderationCtrl {
+    constructor($scope, $rootScope, $state, $ionicPopup, Comments, Modals) {
 
-    Comments.getComments($scope, $rootScope, $state, "commentsSpinner", false);
+        Comments.getComments($scope, $rootScope, $state, "commentsSpinner", false);
 
-    $scope.removeComment = function (commentId) {
-        Comments.deleteComment($scope, commentId, "commentList", Modals);
-    };
+        $scope.removeComment = commentId => {
+            Comments.deleteComment($scope, commentId, "commentList", Modals);
+        };
 
-    $scope.showConfirm = function (commentId) {
-        var confirmPopup = $ionicPopup.confirm({
-            title: "Conferma Eliminazione",
-            template: "Vuoi davvero eliminare questo commento?"
-        });
+        $scope.showConfirm = commentId => {
+            const confirmPopup = $ionicPopup.confirm({
+                title: "Conferma Eliminazione",
+                template: "Vuoi davvero eliminare questo commento?"
+            });
 
-        confirmPopup.then(function (res) {
-            if (res) {
-                $scope.removeComment(commentId);
-            }
-        });
-    };
-};
-
-module.exports = moderationCtrl;
+            confirmPopup.then(res => {
+                if (res) {
+                    $scope.removeComment(commentId);
+                }
+            });
+        };
+    }
+}
+export default moderationCtrl;
 

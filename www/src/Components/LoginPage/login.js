@@ -1,39 +1,42 @@
-var Firebase = require("firebase");
-var loginCtrl = function ($scope, $ionicLoading, $window, $state, $ionicHistory, Auth, InputFields, Modals) {
+import Firebase from "firebase";
 
-    Firebase.auth().signOut();
-    $scope.inputType = "password";
+class loginCtrl {
+    constructor($scope, $ionicLoading, $window, $state, $ionicHistory, Auth, InputFields, Modals) {
 
-    $scope.UserLogin = function (mail, password, RememberMe) {
-        if (InputFields.filledFields([mail, password])) {
-            $ionicLoading.show({
-                template: "Accesso in Corso..."
-            });
-            $ionicHistory.clearHistory();
-            $ionicHistory.clearCache();
-            Auth.Login(mail, password, $ionicLoading, $state, $ionicHistory, Modals);
-            $scope.SetRememberMe(RememberMe);
-        }
-        else {
-            Modals.ResultTemplate("alcuni campi sono vuoti o mail non è valida");
-        }
-    };
+        Firebase.auth().signOut();
+        $scope.inputType = "password";
 
-    $scope.SetRememberMe = function (RememberMe) {
+        $scope.UserLogin = (mail, password, RememberMe) => {
+            if (InputFields.filledFields([mail, password])) {
+                $ionicLoading.show({
+                    template: "Accesso in Corso..."
+                });
+                $ionicHistory.clearHistory();
+                $ionicHistory.clearCache();
+                Auth.Login(mail, password, $ionicLoading, $state, $ionicHistory, Modals);
+                $scope.SetRememberMe(RememberMe);
+            }
+            else {
+                Modals.ResultTemplate("alcuni campi sono vuoti o mail non è valida");
+            }
+        };
 
-        if (RememberMe) {
-            $window.localStorage.setItem("RememberMe", "true");
-        }
+        $scope.SetRememberMe = (RememberMe) => {
 
-    };
+            if (RememberMe) {
+                $window.localStorage.setItem("RememberMe", "true");
+            }
 
-    $scope.hideShowPassword = function () {
-        if ($scope.inputType == "password")
-            $scope.inputType = "text";
-        else
-            $scope.inputType = "password";
-    };
+        };
 
-};
+        $scope.hideShowPassword = () => {
+            if ($scope.inputType == "password")
+                $scope.inputType = "text";
+            else
+                $scope.inputType = "password";
+        };
+    }
+}
 
-module.exports = loginCtrl;
+
+export default loginCtrl;
