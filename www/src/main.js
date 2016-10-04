@@ -12,3 +12,4 @@ const appAS = angular.module("appAS", ["ionic", "appAS.components", "appAS.direc
 appAS.run(Configs.run);
 
 appAS.config(Configs.config);
+

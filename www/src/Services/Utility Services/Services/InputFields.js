@@ -1,6 +1,6 @@
 class InputFields {
 
-    static filledFields(fields) {
+    filledFields(fields) {
         let check = true;
         fields.map(item => {
             if (item == undefined || item == "") {
