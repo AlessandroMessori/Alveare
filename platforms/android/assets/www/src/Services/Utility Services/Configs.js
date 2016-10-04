@@ -1,7 +1,7 @@
-var Configs = {
+class Config {
 
-    run: function ($ionicPlatform, $ionicPopup) {
-        $ionicPlatform.ready(function () {
+    static run($ionicPlatform, $ionicPopup) {
+        $ionicPlatform.ready(() => {
 
             if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -13,7 +13,7 @@ var Configs = {
                         title: "Connessione a Internet assente",
                         content: "Non è stata trovata nessuna connessione a Internet,collegati ad una rete e riprova."
                     })
-                        .then(function (result) {
+                        .then(result => {
                             if (!result) {
                                 ionic.Platform.exitApp();
                             }
@@ -22,9 +22,10 @@ var Configs = {
             }
 
         });
-    },
+    }
 
-    config: function ($ionicConfigProvider, $stateProvider, $urlRouterProvider) {
+
+    static config($ionicConfigProvider, $stateProvider, $urlRouterProvider) {
 
         $ionicConfigProvider.scrolling.jsScrolling(false);
 
@@ -167,6 +168,12 @@ var Configs = {
                 url: "/moderation",
                 templateUrl: "src/Components/ModerationPage/moderation.html",
                 controller: "moderationCtrl"
+            })
+
+            .state("updateProfile", {
+                url: "/updateProfile",
+                templateUrl: "src/Components/UpdateProfilePage/updateProfile.html",
+                controller: "updateProfileCtrl"
             });
 
 
@@ -178,6 +185,6 @@ var Configs = {
 
 
     }
-};
+}
 
-module.exports = Configs;
+export default Config;

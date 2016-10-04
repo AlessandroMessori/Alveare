@@ -2,7 +2,7 @@ import Firebase from "firebase";
 
 class addArticleCtrl {
 
-    constructor($scope, $rootScope, $ionicLoading, Articles, InputFields, DateHandler, Modals, FileHandler) {
+    constructor($scope, $rootScope, $ionicLoading, Articles, InputFields, DateHandler, Modals, FileHandler, CameraHandler) {
 
         $scope.$on("$ionicView.enter", () => $scope.clearData());
 
@@ -20,24 +20,12 @@ class addArticleCtrl {
 
         $scope.removeFile = (file) => FileHandler.removeFile(file, $scope.fileList);
 
-
-        //convert to Service
-        $scope.GetPic = () => {
-            navigator.camera.getPicture(
-                imageUrl => {
-                    $scope.imgData = imageUrl;
-                    document.getElementById("img-preview").style.display = "inline";
-                    document.getElementById("img_1").src = imageUrl;
-                },
-                (message) => {
-                    Modals.ResultTemplate("Non sono riuscito a reperire la foto perchè " + message);
-                },
-                {
-                    quality: 50,
-                    destinationType: Camera.DestinationType.FILE_URI,
-                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY
-                });
-
+        $scope.GetPic = ()=> {
+            CameraHandler.getPic((imageUrl)=> {
+                $scope.imgData = imageUrl;
+                document.getElementById("img-preview").style.display = "inline";
+                document.getElementById("img_1").src = imageUrl;
+            });
         };
 
         $scope.UploadArticle = (title, text, pdf) => {

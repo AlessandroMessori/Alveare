@@ -1,14 +1,15 @@
-var StringHandler = function () {
-    this.shorten = function shorten(text, maxLength) {
-        var ret = text;
+class StringHandler {
+
+    shorten(text, maxLength) {
+        let ret = text;
         if (ret.length > maxLength) {
             ret = ret.substr(0, maxLength) + "…";
         }
         return ret;
-    };
+    }
 
-    this.getErrorMessage = function (error) {
-        var message = "errore nella creazione dell'account";
+    getErrorMessage(error) {
+        let message = "errore nella creazione dell'account";
         switch (error) {
             case "auth/invalid-email":
                 message = "la mail è formattata in modo scorretto";
@@ -21,7 +22,8 @@ var StringHandler = function () {
                 break;
         }
         return message;
-    };
-};
+    }
+}
 
-module.exports = StringHandler;
+
+export default StringHandler;
