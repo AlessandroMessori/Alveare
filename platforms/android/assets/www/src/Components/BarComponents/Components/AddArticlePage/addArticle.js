@@ -40,7 +40,8 @@ class addArticleCtrl {
                     title: title,
                     author: Firebase.auth().currentUser.displayName,
                     date: DateHandler.GetCurrentDate(),
-                    pdf: pdf
+                    pdf: pdf,
+                    avatar: Firebase.auth().currentUser.photoURL
                 };
 
                 Articles.sendArticle(newData, document.getElementById("img_1").src, $rootScope.contentType);

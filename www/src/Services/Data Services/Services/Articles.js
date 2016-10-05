@@ -12,11 +12,10 @@ class Articles {
             Firebase.database().ref().update(updates);
 
             FileHandler.getFileBlob(imgUrl, blob => {
-                const imagesRef = Firebase.storage().ref("img").child(newPostKey);
-                imagesRef.put(blob)
+                const storageRef = Firebase.storage().ref(ArticleType).child(newPostKey);
+                storageRef.child("img").put(blob)
                     .then(() => {
-                        const pdfRef = Firebase.storage().ref("pdf").child(newData.pdf.name);
-                        pdfRef.put(newData.pdf.binary)
+                        storageRef.child("pdf").put(newData.pdf.binary)
                             .then(()=>Modals.ResultTemplate("Articolo Pubblicato con Successo"))
                             .catch(()=>Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo"));
                     });
@@ -34,21 +33,21 @@ class Articles {
                 let articles = [];
 
                 if (results != null) {
-
-                    const imgs = Firebase.storage().ref("img");
-                    const pdfs = Firebase.storage().ref("pdf");
                     const keys = Object.keys(results);
 
                     keys.map((item, i)=> {
 
-                        imgs.child(item).getDownloadURL().then(imgUrl => {
 
-                            pdfs.child(results[item].pdf.name).getDownloadURL().then(pdfUrl=> {
+                        const strRef = Firebase.storage().ref(type).child(item);
+                        strRef.child("img").getDownloadURL().then(imgUrl => {
+
+                            strRef.child("pdf").getDownloadURL().then(pdfUrl=> {
 
                                 articles[i] = {
                                     title: results[item].title,
                                     author: results[item].author,
                                     text: results[item].text,
+                                    avatar: results[item].avatar,
                                     coverText: StringHandler.shorten(results[item].text, 100),
                                     img: imgUrl,
                                     date: results[item].date,

@@ -804,7 +804,8 @@
 	                title: title,
 	                author: _firebase2.default.auth().currentUser.displayName,
 	                date: DateHandler.GetCurrentDate(),
-	                pdf: pdf
+	                pdf: pdf,
+	                avatar: _firebase2.default.auth().currentUser.photoURL
 	            };
 
 	            Articles.sendArticle(newData, document.getElementById("img_1").src, $rootScope.contentType);
@@ -1636,10 +1637,9 @@
 	        _firebase2.default.database().ref().update(updates);
 
 	        FileHandler.getFileBlob(imgUrl, function (blob) {
-	            var imagesRef = _firebase2.default.storage().ref("img").child(newPostKey);
-	            imagesRef.put(blob).then(function () {
-	                var pdfRef = _firebase2.default.storage().ref("pdf").child(newData.pdf.name);
-	                pdfRef.put(newData.pdf.binary).then(function () {
+	            var storageRef = _firebase2.default.storage().ref(ArticleType).child(newPostKey);
+	            storageRef.child("img").put(blob).then(function () {
+	                storageRef.child("pdf").put(newData.pdf.binary).then(function () {
 	                    return Modals.ResultTemplate("Articolo Pubblicato con Successo");
 	                }).catch(function () {
 	                    return Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo");
@@ -1660,21 +1660,20 @@
 
 	            if (results != null) {
 	                (function () {
-
-	                    var imgs = _firebase2.default.storage().ref("img");
-	                    var pdfs = _firebase2.default.storage().ref("pdf");
 	                    var keys = Object.keys(results);
 
 	                    keys.map(function (item, i) {
 
-	                        imgs.child(item).getDownloadURL().then(function (imgUrl) {
+	                        var strRef = _firebase2.default.storage().ref(type).child(item);
+	                        strRef.child("img").getDownloadURL().then(function (imgUrl) {
 
-	                            pdfs.child(results[item].pdf.name).getDownloadURL().then(function (pdfUrl) {
+	                            strRef.child("pdf").getDownloadURL().then(function (pdfUrl) {
 
 	                                articles[i] = {
 	                                    title: results[item].title,
 	                                    author: results[item].author,
 	                                    text: results[item].text,
+	                                    avatar: results[item].avatar,
 	                                    coverText: StringHandler.shorten(results[item].text, 100),
 	                                    img: imgUrl,
 	                                    date: results[item].date,
