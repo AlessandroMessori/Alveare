@@ -6,16 +6,16 @@ class Messages {
 
         this.sendPost = (newData, binary) => {
 
-            if (binary.length > 0) {
+            const newPostKey = Firebase.database().ref().child("Comunicazioni").push().key;
 
-                const storageRef = Firebase.storage().ref();
+            if (binary.length > 0) {
+                const storageRef = Firebase.storage().ref("Comunicazioni/" + newPostKey);
                 binary.map(item => {
                     const childRef = storageRef.child(item.name);
                     childRef.put(item.binary);
                 });
             }
 
-            const newPostKey = Firebase.database().ref().child("Comunicazioni").push().key;
             let updates = {};
             updates["/Comunicazioni/" + newPostKey] = newData;
             Firebase.database().ref().update(updates)
@@ -44,7 +44,7 @@ class Messages {
                         if (results[item].files != undefined) {
 
                             results[item].files.map((file, j) => {
-                                const stRef = storage.ref();
+                                const stRef = storage.ref("Comunicazioni/" + item);
                                 stRef.child(file).getDownloadURL().then(url => {
                                     files.push({
                                         url,
@@ -73,6 +73,7 @@ class Messages {
                 author: results[item].author,
                 text: results[item].text,
                 date: results[item].date,
+                avatar: results[item].avatar,
                 files: files,
                 id: item,
                 likeCount: 0,

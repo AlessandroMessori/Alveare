@@ -8,13 +8,13 @@ class Profile {
             const User = Firebase.auth().currentUser;
             $ionicLoading.show({template: "aggiornamento in corso"});
             FileHandler.getFileBlob(imgData, blob => {
-                const imagesRef = Firebase.storage().ref("profiles").child(User.email);
+                const imagesRef = Firebase.storage().ref("Profili").child(User.email);
                 imagesRef.put(blob)
                     .then((snapshot) => {
                         User.updateProfile({photoURL: snapshot.downloadURL})
                             .then(
                                 ()=>Modals.ResultTemplate("Profilo Aggiornato"),
-                                ()=>Modals.ResultTemplate("Errore nell' aggiornamento"),
+                                ()=>Modals.ResultTemplate("Errore nell' aggiornamento")
                             );
                     });
             });

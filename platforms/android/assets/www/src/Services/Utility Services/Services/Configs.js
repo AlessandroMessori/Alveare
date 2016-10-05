@@ -33,20 +33,20 @@ class Config {
 
             .state("login", {
                 url: "/login",
-                templateUrl: "src/Components/LoginPage/login.html",
+                templateUrl: "src/Components/FreeComponents/Components/LoginPage/login.html",
                 controller: "loginCtrl"
             })
 
             .state("signup", {
                 url: "/signup",
-                templateUrl: "src/Components/SignupPage/signup.html",
+                templateUrl: "src/Components/FreeComponents/Components/SignupPage/signup.html",
                 controller: "signupCtrl"
             })
 
             .state("tab", {
                 url: "/tab",
                 abstract: true,
-                templateUrl: "src/Components/Tabs/tabs.html",
+                templateUrl: "src/Components/FreeComponents/Components/Tabs/tabs.html",
                 controller: "tabsCtrl"
             })
 
@@ -54,7 +54,7 @@ class Config {
                 url: "/admin",
                 views: {
                     "tab-admin": {
-                        templateUrl: "src/Components/AdminPage/tab-home.html",
+                        templateUrl: "src/Components/MenuComponents/Components/AdminPage/tab-home.html",
                         controller: "adminCtrl"
                     }
                 }
@@ -64,7 +64,7 @@ class Config {
                 url: "/giornalino",
                 views: {
                     "tab-giornalino": {
-                        templateUrl: "src/Components/ArticlesPage/tab-giornalino.html",
+                        templateUrl: "src/Components/MenuComponents/Components/ArticlesPage/tab-giornalino.html",
                         controller: "attualitaCtrl"
                     }
                 }
@@ -74,7 +74,7 @@ class Config {
                 url: "/orientamento",
                 views: {
                     "tab-orientamento": {
-                        templateUrl: "src/Components/ArticlesPage/tab-giornalino.html",
+                        templateUrl: "src/Components/MenuComponents/Components/ArticlesPage/tab-giornalino.html",
                         controller: "orientamentoCtrl"
                     }
                 }
@@ -84,7 +84,7 @@ class Config {
                 url: "/biblioteca",
                 views: {
                     "tab-biblioteca": {
-                        templateUrl: "src/Components/LibraryPage/tab-library.html",
+                        templateUrl: "src/Components/MenuComponents/Components/LibraryPage/tab-library.html",
                         controller: "libraryCtrl"
                     }
                 }
@@ -94,7 +94,7 @@ class Config {
                 url: "/forum",
                 views: {
                     "tab-forum": {
-                        templateUrl: "src/Components/NewsPage/tabs-forum.html",
+                        templateUrl: "src/Components/MenuComponents/Components/NewsPage/tabs-forum.html",
                         controller: "newsCtrl"
                     }
                 }
@@ -104,7 +104,7 @@ class Config {
                 url: "/libera",
                 views: {
                     "tab-libera": {
-                        templateUrl: "src/Components/FreeZonePage/tab-freeZone.html",
+                        templateUrl: "src/Components/MenuComponents/Components/FreeZonePage/tab-freeZone.html",
                         controller: "freeZoneCtrl"
                     }
                 }
@@ -114,7 +114,7 @@ class Config {
                 url: "/convenzioni",
                 views: {
                     "tab-convenzioni": {
-                        templateUrl: "src/Components/ConventionsPage/tab-conventions.html",
+                        templateUrl: "src/Components/MenuComponents/Components/ConventionsPage/tab-conventions.html",
                         controller: "conventionsCtrl"
                     }
                 }
@@ -124,7 +124,7 @@ class Config {
                 url: "/link",
                 views: {
                     "tab-link": {
-                        templateUrl: "src/Components/LinkPage/tab-link.html",
+                        templateUrl: "src/Components/MenuComponents/Components/LinkPage/tab-link.html",
                         controller: "linkCtrl"
                     }
                 }
@@ -134,7 +134,7 @@ class Config {
                 url: "/settings",
                 views: {
                     "tab-settings": {
-                        templateUrl: "src/Components/SettingsPage/tab-settings.html",
+                        templateUrl: "src/Components/MenuComponents/Components/SettingsPage/tab-settings.html",
                         controller: "settingsCtrl"
                     }
                 }
@@ -142,40 +142,39 @@ class Config {
 
             .state("addArticle", {
                 url: "/addArticle",
-                templateUrl: "src/Components/AddArticlePage/addArticle.html",
+                templateUrl: "src/Components/BarComponents/Components/AddArticlePage/addArticle.html",
                 controller: "addArticleCtrl"
             })
 
             .state("sendMessage", {
                 url: "/sendMessage",
-                templateUrl: "src/Components/AddNewsPage/sendMessage.html",
+                templateUrl: "src/Components/BarComponents/Components/AddNewsPage/sendMessage.html",
                 controller: "addNewsCtrl"
             })
 
             .state("comments", {
                 url: "/comments",
-                templateUrl: "src/Components/CommentsPage/comments.html",
+                templateUrl: "src/Components/BarComponents/Components/CommentsPage/comments.html",
                 controller: "commentsCtrl"
             })
 
             .state("likes", {
                 url: "/likes",
-                templateUrl: "src/Components/LikesPage/likes.html",
+                templateUrl: "src/Components/BarComponents/Components/LikesPage/likes.html",
                 controller: "likesCtrl"
             })
 
             .state("moderation", {
                 url: "/moderation",
-                templateUrl: "src/Components/ModerationPage/moderation.html",
+                templateUrl: "src/Components/BarComponents/Components/ModerationPage/moderation.html",
                 controller: "moderationCtrl"
             })
 
             .state("updateProfile", {
                 url: "/updateProfile",
-                templateUrl: "src/Components/UpdateProfilePage/updateProfile.html",
+                templateUrl: "src/Components/BarComponents/Components/UpdateProfilePage/updateProfile.html",
                 controller: "updateProfileCtrl"
             });
-
 
         if (window.localStorage.getItem("RememberMe") == "true") {
             $urlRouterProvider.otherwise("/tab/forum");

@@ -6,7 +6,7 @@
         <div class="list card" ng-repeat="Post in Posts | orderBy:'-' track by $index">
 
             <div class="item item-avatar">
-                <img src="dist/Images/user.png">
+                <img ng-src={{Post.avatar}}>
                 <h2>{{Post.author}}</h2>
                 <p>{{Post.date}}</p>
             </div>

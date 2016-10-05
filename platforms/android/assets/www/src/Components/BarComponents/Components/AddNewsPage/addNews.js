@@ -32,7 +32,8 @@ class addNewsCtrl {
                     text: news,
                     author: Firebase.auth().currentUser.displayName,
                     date: DateHandler.GetCurrentDate(),
-                    files: $scope.fileList
+                    files: $scope.fileList,
+                    avatar: Firebase.auth().currentUser.photoURL
                 };
 
                 Messages.sendPost(newData, $scope.binaryList);

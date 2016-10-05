@@ -804,7 +804,8 @@
 	                title: title,
 	                author: _firebase2.default.auth().currentUser.displayName,
 	                date: DateHandler.GetCurrentDate(),
-	                pdf: pdf
+	                pdf: pdf,
+	                avatar: _firebase2.default.auth().currentUser.photoURL
 	            };
 
 	            Articles.sendArticle(newData, document.getElementById("img_1").src, $rootScope.contentType);
@@ -866,7 +867,8 @@
 	                text: news,
 	                author: _firebase2.default.auth().currentUser.displayName,
 	                date: DateHandler.GetCurrentDate(),
-	                files: $scope.fileList
+	                files: $scope.fileList,
+	                avatar: _firebase2.default.auth().currentUser.photoURL
 	            };
 
 	            Messages.sendPost(newData, $scope.binaryList);
@@ -6086,10 +6088,11 @@
 
 	    this.sendPost = function (newData, binary) {
 
+	        var newPostKey = _firebase2.default.database().ref().child("Comunicazioni").push().key;
+
 	        if (binary.length > 0) {
 	            (function () {
-
-	                var storageRef = _firebase2.default.storage().ref();
+	                var storageRef = _firebase2.default.storage().ref("Comunicazioni/" + newPostKey);
 	                binary.map(function (item) {
 	                    var childRef = storageRef.child(item.name);
 	                    childRef.put(item.binary);
@@ -6097,7 +6100,6 @@
 	            })();
 	        }
 
-	        var newPostKey = _firebase2.default.database().ref().child("Comunicazioni").push().key;
 	        var updates = {};
 	        updates["/Comunicazioni/" + newPostKey] = newData;
 	        _firebase2.default.database().ref().update(updates).then(function () {
@@ -6128,7 +6130,7 @@
 	                    if (results[item].files != undefined) {
 
 	                        results[item].files.map(function (file, j) {
-	                            var stRef = storage.ref();
+	                            var stRef = storage.ref("Comunicazioni/" + item);
 	                            stRef.child(file).getDownloadURL().then(function (url) {
 	                                files.push({
 	                                    url: url,
@@ -6154,6 +6156,7 @@
 	            author: results[item].author,
 	            text: results[item].text,
 	            date: results[item].date,
+	            avatar: results[item].avatar,
 	            files: files,
 	            id: item,
 	            likeCount: 0,
@@ -6198,7 +6201,7 @@
 	        var User = _firebase2.default.auth().currentUser;
 	        $ionicLoading.show({ template: "aggiornamento in corso" });
 	        FileHandler.getFileBlob(imgData, function (blob) {
-	            var imagesRef = _firebase2.default.storage().ref("profiles").child(User.email);
+	            var imagesRef = _firebase2.default.storage().ref("Profili").child(User.email);
 	            imagesRef.put(blob).then(function (snapshot) {
 	                User.updateProfile({ photoURL: snapshot.downloadURL }).then(function () {
 	                    return Modals.ResultTemplate("Profilo Aggiornato");
@@ -6410,7 +6413,7 @@
 	        _classCallCheck(this, DateHandler);
 	    }
 
-	    _createClass(DateHandler, null, [{
+	    _createClass(DateHandler, [{
 	        key: "GetCurrentDate",
 	        value: function GetCurrentDate() {
 

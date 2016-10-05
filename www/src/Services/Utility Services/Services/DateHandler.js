@@ -1,7 +1,7 @@
 class DateHandler {
 
 
-    static GetCurrentDate() {
+    GetCurrentDate() {
 
         let today = new Date();
         let dd = today.getDate();
@@ -56,7 +56,7 @@ class DateHandler {
         return today;
     }
 
-    static  GetFullDate() {
+    GetFullDate() {
 
         const now = new Date();
         let Hour = now.getHours();
