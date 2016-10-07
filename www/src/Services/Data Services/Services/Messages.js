@@ -4,12 +4,12 @@ class Messages {
 
     constructor(Modals, Comments, Likes) {
 
-        this.sendPost = (newData, binary) => {
+        this.sendPost = (newData, binary, contentType) => {
 
-            const newPostKey = Firebase.database().ref().child("Comunicazioni").push().key;
+            const newPostKey = Firebase.database().ref().child(contentType).push().key;
 
             if (binary.length > 0) {
-                const storageRef = Firebase.storage().ref("Comunicazioni/" + newPostKey);
+                const storageRef = Firebase.storage().ref(contentType + "/" + newPostKey);
                 binary.map(item => {
                     const childRef = storageRef.child(item.name);
                     childRef.put(item.binary);
@@ -17,20 +17,20 @@ class Messages {
             }
 
             let updates = {};
-            updates["/Comunicazioni/" + newPostKey] = newData;
+            updates["/" + contentType + "/" + newPostKey] = newData;
             Firebase.database().ref().update(updates)
-                .then(() => Modals.ResultTemplate("Comunicazione Pubblicata con Successo"))
-                .catch(() => Modals.ResultTemplate("Errore nella Pubblicazione della Comunicazione"));
+                .then(() => Modals.ResultTemplate("Post Pubblicato con Successo"))
+                .catch(() => Modals.ResultTemplate("Errore nella Pubblicazione del Post"));
         };
 
-        this.getPosts = (scope, rootScope, state, spinner) => {
+        this.getPosts = (scope, rootScope, state, spinner, type) => {
 
             const storage = Firebase.storage();
             const self = this;
             document.getElementById(spinner).style.display = "block";
             scope.Posts = [];
 
-            const ModelRef = Firebase.database().ref("Comunicazioni");
+            const ModelRef = Firebase.database().ref(type);
             ModelRef.on("value", snapshot => {
                 const results = snapshot.val();
                 let posts = [];
@@ -44,7 +44,7 @@ class Messages {
                         if (results[item].files != undefined) {
 
                             results[item].files.map((file, j) => {
-                                const stRef = storage.ref("Comunicazioni/" + item);
+                                const stRef = storage.ref(type + "/" + item);
                                 stRef.child(file).getDownloadURL().then(url => {
                                     files.push({
                                         url,

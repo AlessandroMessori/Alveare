@@ -1,10 +1,9 @@
 import adminCtrl  from "./Components/AdminPage/admin";
 import {attualitaCtrl, orientamentoCtrl} from "./Components/ArticlesPage/articles";
 import conventionsCtrl  from "./Components/ConventionsPage/conventions";
-import freeZoneCtrl  from "./Components/FreeZonePage/freeZone";
 import libraryCtrl  from "./Components/LibraryPage/library";
 import linkCtrl  from "./Components/LinkPage/link";
-import newsCtrl  from "./Components/NewsPage/newsCtrl";
+import {newsCtrl, freeZoneCtrl}  from "./Components/NewsPage/newsCtrl";
 import settingsCtrl  from "./Components/SettingsPage/settings";
 
 const menuComponents = angular.module("appAS.components.menu", ["ionic"]);

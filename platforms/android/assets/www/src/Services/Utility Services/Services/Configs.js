@@ -104,7 +104,7 @@ class Config {
                 url: "/libera",
                 views: {
                     "tab-libera": {
-                        templateUrl: "src/Components/MenuComponents/Components/FreeZonePage/tab-freeZone.html",
+                        templateUrl: "src/Components/MenuComponents/Components/NewsPage/tabs-forum.html",
                         controller: "freeZoneCtrl"
                     }
                 }

@@ -8,6 +8,7 @@ class StaticData {
                 "url": "sendMessage",
                 "direct": function () {
                     $state.go(this.url);
+                    $rootScope.contentType = "Comunicazioni";
                 }
             },
             {

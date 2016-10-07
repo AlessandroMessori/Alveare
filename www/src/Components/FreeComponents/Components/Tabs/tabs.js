@@ -19,12 +19,23 @@ class tabsCtrl {
         });
 
         $rootScope.$on("$stateChangeSuccess", (ev, to, toParams, from) => {
+
             $rootScope.previousState = from.name;
+
             if ($rootScope.previousState == "comments") {
                 $rootScope.previousState = "tab.forum";
             } else {
                 $ionicScrollDelegate.scrollTop();
             }
+
+            if (to.name == "tab.libera") {
+                document.getElementById("addIcon").style.display = "block";
+            }
+            else {
+                document.getElementById("addIcon").style.display = "none";
+            }
+
+
         });
 
         $scope.backBtnClick = () => {
@@ -47,6 +58,11 @@ class tabsCtrl {
                 document.getElementById("MainView" + i).style.display = "none";
             }
             document.getElementById("MainView" + ind).style.display = "block";
+        };
+
+        $scope.goToPublisher = function () {
+            $state.go("sendMessage");
+            $rootScope.contentType = "Post";
         };
     }
 }

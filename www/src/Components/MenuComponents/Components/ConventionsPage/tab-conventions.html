@@ -3,7 +3,7 @@
         <div class="list">
 
             <a ng-repeat="Convention in Conventions" class="item item-thumbnail-left" href="#">
-                <img src={{Convention.img}}>
+                <img ng-src={{Convention.img}}>
                 <h2>{{Convention.name}}</h2>
                 <p>{{Convention.address}}</p>
                 <p>{{Convention.description}}</p>

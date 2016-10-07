@@ -835,7 +835,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var addNewsCtrl = function addNewsCtrl($scope, $ionicLoading, Messages, DateHandler, Modals, FileHandler) {
+	var addNewsCtrl = function addNewsCtrl($scope, $rootScope, $ionicLoading, Messages, DateHandler, Modals, FileHandler) {
 	    _classCallCheck(this, addNewsCtrl);
 
 	    $scope.fileList = [];
@@ -871,7 +871,7 @@
 	                userMail: _firebase2.default.auth().currentUser.email
 	            };
 
-	            Messages.sendPost(newData, $scope.binaryList);
+	            Messages.sendPost(newData, $scope.binaryList, $rootScope.contentType);
 	            $scope.clearData();
 	        } else {
 	            Modals.ResultTemplate("compila il testo del messaggio");
@@ -1000,19 +1000,13 @@
 
 /***/ },
 /* 10 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
-	var _firebase = __webpack_require__(1);
-
-	var _firebase2 = _interopRequireDefault(_firebase);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1021,7 +1015,6 @@
 
 	    var profileImage = JSON.parse(localStorage.getItem("firebase:authUser:AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8:[DEFAULT]")).photoURL;
 	    $scope.profileImage = profileImage;
-	    console.log(profileImage);
 
 	    $scope.getPic = function () {
 	        CameraHandler.getPic(function (imgUrl) {
@@ -1105,11 +1098,19 @@
 	    });
 
 	    $rootScope.$on("$stateChangeSuccess", function (ev, to, toParams, from) {
+
 	        $rootScope.previousState = from.name;
+
 	        if ($rootScope.previousState == "comments") {
 	            $rootScope.previousState = "tab.forum";
 	        } else {
 	            $ionicScrollDelegate.scrollTop();
+	        }
+
+	        if (to.name == "tab.libera") {
+	            document.getElementById("addIcon").style.display = "block";
+	        } else {
+	            document.getElementById("addIcon").style.display = "none";
 	        }
 	    });
 
@@ -1132,6 +1133,11 @@
 	            document.getElementById("MainView" + i).style.display = "none";
 	        }
 	        document.getElementById("MainView" + ind).style.display = "block";
+	    };
+
+	    $scope.goToPublisher = function () {
+	        $state.go("sendMessage");
+	        $rootScope.contentType = "Post";
 	    };
 	};
 
@@ -1248,10 +1254,6 @@
 
 	var _conventions2 = _interopRequireDefault(_conventions);
 
-	var _freeZone = __webpack_require__(19);
-
-	var _freeZone2 = _interopRequireDefault(_freeZone);
-
 	var _library = __webpack_require__(20);
 
 	var _library2 = _interopRequireDefault(_library);
@@ -1261,8 +1263,6 @@
 	var _link2 = _interopRequireDefault(_link);
 
 	var _newsCtrl = __webpack_require__(22);
-
-	var _newsCtrl2 = _interopRequireDefault(_newsCtrl);
 
 	var _settings = __webpack_require__(23);
 
@@ -1276,10 +1276,10 @@
 	menuComponents.controller("attualitaCtrl", _articles.attualitaCtrl);
 	menuComponents.controller("orientamentoCtrl", _articles.orientamentoCtrl);
 	menuComponents.controller("conventionsCtrl", _conventions2.default);
-	menuComponents.controller("freeZoneCtrl", _freeZone2.default);
+	menuComponents.controller("freeZoneCtrl", _newsCtrl.freeZoneCtrl);
 	menuComponents.controller("libraryCtrl", _library2.default);
 	menuComponents.controller("linkCtrl", _link2.default);
-	menuComponents.controller("newsCtrl", _newsCtrl2.default);
+	menuComponents.controller("newsCtrl", _newsCtrl.newsCtrl);
 	menuComponents.controller("settingsCtrl", _settings2.default);
 
 	exports.default = menuComponents;
@@ -1370,24 +1370,7 @@
 	exports.default = conventionsCtrl;
 
 /***/ },
-/* 19 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var freeZoneCtrl = function freeZoneCtrl() {
-	    _classCallCheck(this, freeZoneCtrl);
-	};
-
-	exports.default = freeZoneCtrl;
-
-/***/ },
+/* 19 */,
 /* 20 */
 /***/ function(module, exports) {
 
@@ -1438,6 +1421,9 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.freeZoneCtrl = exports.newsCtrl = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _firebase = __webpack_require__(1);
 
@@ -1447,27 +1433,49 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var forumCtrl = function forumCtrl($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler) {
-	    _classCallCheck(this, forumCtrl);
+	var forumCtrl = function () {
+	    function forumCtrl() {
+	        _classCallCheck(this, forumCtrl);
+	    }
 
-	    $rootScope.userName = window.localStorage.getItem("Username");
-	    Messages.getPosts($scope, $rootScope, $state, "newsSpinner");
+	    _createClass(forumCtrl, null, [{
+	        key: "create",
+	        value: function create($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler, type) {
 
-	    $scope.$on("$ionicView.enter", function () {
-	        $scope.UserImage = _firebase2.default.auth().currentUser.photoURL;
-	        $scope.$apply();
-	        if ($rootScope.userName != window.localStorage.getItem("Username")) {
-	            Messages.getPosts($scope, $rootScope, $state, "newsSpinner");
 	            $rootScope.userName = window.localStorage.getItem("Username");
-	        }
-	    });
+	            Messages.getPosts($scope, $rootScope, $state, "newsSpinner", type);
 
-	    $scope.openFile = function (file) {
-	        FileHandler.openFile(file, $ionicLoading);
-	    };
+	            $scope.doRefresh = function () {
+	                Messages.getPosts($scope, $rootScope, $state, "newsSpinner", type);
+	                $scope.$broadcast("scroll.refreshComplete");
+	                $scope.$apply();
+	            };
+
+	            $scope.$on("$ionicView.enter", function () {
+	                $scope.UserImage = _firebase2.default.auth().currentUser.photoURL;
+	                $scope.$apply();
+	                if ($rootScope.userName != window.localStorage.getItem("Username")) {
+	                    Messages.getPosts($scope, $rootScope, $state, "newsSpinner", type);
+	                    $rootScope.userName = window.localStorage.getItem("Username");
+	                }
+	            });
+
+	            $scope.openFile = function (file) {
+	                FileHandler.openFile(file, $ionicLoading);
+	            };
+	        }
+	    }]);
+
+	    return forumCtrl;
+	}();
+
+	var newsCtrl = exports.newsCtrl = function newsCtrl($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler) {
+	    return forumCtrl.create($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler, "Comunicazioni");
 	};
 
-	exports.default = forumCtrl;
+	var freeZoneCtrl = exports.freeZoneCtrl = function freeZoneCtrl($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler) {
+	    return forumCtrl.create($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler, "Post");
+	};
 
 /***/ },
 /* 23 */
@@ -6104,13 +6112,13 @@
 
 	    _classCallCheck(this, Messages);
 
-	    this.sendPost = function (newData, binary) {
+	    this.sendPost = function (newData, binary, contentType) {
 
-	        var newPostKey = _firebase2.default.database().ref().child("Comunicazioni").push().key;
+	        var newPostKey = _firebase2.default.database().ref().child(contentType).push().key;
 
 	        if (binary.length > 0) {
 	            (function () {
-	                var storageRef = _firebase2.default.storage().ref("Comunicazioni/" + newPostKey);
+	                var storageRef = _firebase2.default.storage().ref(contentType + "/" + newPostKey);
 	                binary.map(function (item) {
 	                    var childRef = storageRef.child(item.name);
 	                    childRef.put(item.binary);
@@ -6119,22 +6127,22 @@
 	        }
 
 	        var updates = {};
-	        updates["/Comunicazioni/" + newPostKey] = newData;
+	        updates["/" + contentType + "/" + newPostKey] = newData;
 	        _firebase2.default.database().ref().update(updates).then(function () {
-	            return Modals.ResultTemplate("Comunicazione Pubblicata con Successo");
+	            return Modals.ResultTemplate("Post Pubblicato con Successo");
 	        }).catch(function () {
-	            return Modals.ResultTemplate("Errore nella Pubblicazione della Comunicazione");
+	            return Modals.ResultTemplate("Errore nella Pubblicazione del Post");
 	        });
 	    };
 
-	    this.getPosts = function (scope, rootScope, state, spinner) {
+	    this.getPosts = function (scope, rootScope, state, spinner, type) {
 
 	        var storage = _firebase2.default.storage();
 	        var self = _this;
 	        document.getElementById(spinner).style.display = "block";
 	        scope.Posts = [];
 
-	        var ModelRef = _firebase2.default.database().ref("Comunicazioni");
+	        var ModelRef = _firebase2.default.database().ref(type);
 	        ModelRef.on("value", function (snapshot) {
 	            var results = snapshot.val();
 	            var posts = [];
@@ -6148,7 +6156,7 @@
 	                    if (results[item].files != undefined) {
 
 	                        results[item].files.map(function (file, j) {
-	                            var stRef = storage.ref("Comunicazioni/" + item);
+	                            var stRef = storage.ref(type + "/" + item);
 	                            stRef.child(file).getDownloadURL().then(function (url) {
 	                                files.push({
 	                                    url: url,
@@ -6256,6 +6264,7 @@
 	        "url": "sendMessage",
 	        "direct": function direct() {
 	            $state.go(this.url);
+	            $rootScope.contentType = "Comunicazioni";
 	        }
 	    }, {
 	        "name": "Scrivi Articolo del Giornalino",
@@ -7201,7 +7210,7 @@
 	                url: "/libera",
 	                views: {
 	                    "tab-libera": {
-	                        templateUrl: "src/Components/MenuComponents/Components/FreeZonePage/tab-freeZone.html",
+	                        templateUrl: "src/Components/MenuComponents/Components/NewsPage/tabs-forum.html",
 	                        controller: "freeZoneCtrl"
 	                    }
 	                }

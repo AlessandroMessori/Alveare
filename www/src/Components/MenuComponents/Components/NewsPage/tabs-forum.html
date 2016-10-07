@@ -3,6 +3,9 @@
 
         <ion-spinner class="spinner" id="newsSpinner"></ion-spinner>
 
+        <ion-refresher on-refresh="doRefresh()">
+        </ion-refresher>
+
         <div class="list card" ng-repeat="Post in Posts | orderBy:'-' track by $index">
 
             <div class="item item-avatar">

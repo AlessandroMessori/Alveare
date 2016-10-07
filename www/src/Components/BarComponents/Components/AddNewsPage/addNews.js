@@ -2,7 +2,7 @@ import Firebase from "firebase";
 
 class addNewsCtrl {
 
-    constructor($scope, $ionicLoading, Messages, DateHandler, Modals, FileHandler) {
+    constructor($scope, $rootScope, $ionicLoading, Messages, DateHandler, Modals, FileHandler) {
 
         $scope.fileList = [];
         $scope.binaryList = [];
@@ -35,7 +35,7 @@ class addNewsCtrl {
                     userMail: Firebase.auth().currentUser.email
                 };
 
-                Messages.sendPost(newData, $scope.binaryList);
+                Messages.sendPost(newData, $scope.binaryList, $rootScope.contentType);
                 $scope.clearData();
             }
             else {
