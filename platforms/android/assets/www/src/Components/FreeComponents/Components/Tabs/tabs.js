@@ -4,6 +4,7 @@ class tabsCtrl {
     constructor($scope, $state, $rootScope, $ionicScrollDelegate, Auth, PlatformHandler) {
 
         $scope.View = "tab-link";
+        $scope.showIcon = "ion-plus-round";
 
         Auth.checkAdmins($scope, "adminPanel");
 
@@ -45,9 +46,11 @@ class tabsCtrl {
         $scope.ShowLinks = () => {
             if (document.getElementById("linkList").style.display == "block") {
                 document.getElementById("linkList").style.display = "none";
+                $scope.showIcon = "ion-plus-round";
             }
             else {
                 document.getElementById("linkList").style.display = "block";
+                $scope.showIcon = "ion-minus-round";
             }
         };
 

@@ -1083,6 +1083,7 @@
 	    _classCallCheck(this, tabsCtrl);
 
 	    $scope.View = "tab-link";
+	    $scope.showIcon = "ion-plus-round";
 
 	    Auth.checkAdmins($scope, "adminPanel");
 
@@ -1121,8 +1122,10 @@
 	    $scope.ShowLinks = function () {
 	        if (document.getElementById("linkList").style.display == "block") {
 	            document.getElementById("linkList").style.display = "none";
+	            $scope.showIcon = "ion-plus-round";
 	        } else {
 	            document.getElementById("linkList").style.display = "block";
+	            $scope.showIcon = "ion-minus-round";
 	        }
 	    };
 

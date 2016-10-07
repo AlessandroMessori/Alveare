@@ -55,10 +55,19 @@ $mainColor: #001942;
   }
 }
 
-.iconBar{
+.iconBar {
   font-size: 16px;
 }
 
-#addIcon{
+#addIcon {
   display: none;
+}
+
+#showLinks {
+  float: right;
+}
+
+#linkItem {
+  background-color: $mainColor;
+  color: white;
 }

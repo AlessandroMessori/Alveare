@@ -9,7 +9,7 @@
                 </button>
             </ion-nav-buttons>
             <ion-nav-buttons side="right">
-                <button class="button" id="addIcon" ng-click="goToPublisher()">
+                <button class="button" id="addIcon" ng-click="goTo">
                     <p class="ion-android-add-circle iconBar"></p>
                 </button>
             </ion-nav-buttons>
@@ -54,13 +54,13 @@
                 <ion-item menu-close ui-sref="tab.convenzioni" ng-click="navigate('convenzioni',7)">
                     <span class="icon ion-android-restaurant"> Convenzioni</span>
                 </ion-item>
-                <ion-item ui-sref="tab" ng-click="ShowLinks()">
+                <ion-item id="linkItem">
                     <span class="icon ion-link"> Link Utili</span>
-                    <ul id="linkList">
-                        <li class="icon ion-ios-book-outline"> Registro Elettronico</li>
-                        <li class="icon ion-ios-book"> Quaderno Elettronico</li>
-                        <li class="icon ion-ios-world"> Sito Web Della Scuola</li>
-                        <li class="icon ion-ios-email"> Accesso Web Mail</li>
+                    <span ng-class="showIcon" id="showLinks" ng-click="ShowLinks()"></span>
+                    <ul id="linkList" ng-controller="linkCtrl">
+                        <li ng-class="Link.icon" ng-repeat="Link in Links" ng-click="OpenLink(Link.url)">
+                            {{Link.name}}
+                        </li>
                     </ul>
                 </ion-item>
                 <ion-item menu-close ui-sref="tab.settings" ng-click="navigate('settings',9)">
