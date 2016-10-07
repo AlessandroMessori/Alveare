@@ -805,7 +805,7 @@
 	                author: _firebase2.default.auth().currentUser.displayName,
 	                date: DateHandler.GetCurrentDate(),
 	                pdf: pdf,
-	                avatar: _firebase2.default.auth().currentUser.photoURL
+	                userMail: _firebase2.default.auth().currentUser.email
 	            };
 
 	            Articles.sendArticle(newData, document.getElementById("img_1").src, $rootScope.contentType);
@@ -868,7 +868,7 @@
 	                author: _firebase2.default.auth().currentUser.displayName,
 	                date: DateHandler.GetCurrentDate(),
 	                files: $scope.fileList,
-	                avatar: _firebase2.default.auth().currentUser.photoURL
+	                userMail: _firebase2.default.auth().currentUser.email
 	            };
 
 	            Messages.sendPost(newData, $scope.binaryList);
@@ -923,7 +923,8 @@
 	                comment: comment,
 	                author: _firebase2.default.auth().currentUser.displayName,
 	                father: $rootScope.currentPost,
-	                date: DateHandler.GetCurrentDate()
+	                date: DateHandler.GetCurrentDate(),
+	                userMail: _firebase2.default.auth().currentUser.email
 	            };
 	            Comments.sendComment($scope, newData, "commentList");
 	            $scope.comment = "";
@@ -999,7 +1000,7 @@
 
 /***/ },
 /* 10 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
@@ -1007,10 +1008,20 @@
 	    value: true
 	});
 
+	var _firebase = __webpack_require__(1);
+
+	var _firebase2 = _interopRequireDefault(_firebase);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var updateProfileCtrl = function updateProfileCtrl($scope, Profile, CameraHandler) {
 	    _classCallCheck(this, updateProfileCtrl);
+
+	    var profileImage = JSON.parse(localStorage.getItem("firebase:authUser:AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8:[DEFAULT]")).photoURL;
+	    $scope.profileImage = profileImage;
+	    console.log(profileImage);
 
 	    $scope.getPic = function () {
 	        CameraHandler.getPic(function (imgUrl) {
@@ -1669,30 +1680,33 @@
 
 	                            strRef.child("pdf").getDownloadURL().then(function (pdfUrl) {
 
-	                                articles[i] = {
-	                                    title: results[item].title,
-	                                    author: results[item].author,
-	                                    text: results[item].text,
-	                                    avatar: results[item].avatar,
-	                                    coverText: StringHandler.shorten(results[item].text, 100),
-	                                    img: imgUrl,
-	                                    date: results[item].date,
-	                                    id: item,
-	                                    pdf: pdfUrl,
-	                                    link: function link(destination) {
-	                                        rootScope.currentPost = item;
-	                                        state.go(destination);
-	                                    },
-	                                    openPdf: function openPdf() {
-	                                        FileHandler.openFile(pdfUrl, $ionicLoading);
-	                                    }
-	                                };
+	                                _firebase2.default.storage().ref("Profili").child(results[item].userMail).getDownloadURL().then(function (url) {
 
-	                                if (i == keys.length - 1) {
-	                                    scope.Articles = articles;
-	                                    scope.$apply();
-	                                    document.getElementById(spinner).style.display = "none";
-	                                }
+	                                    articles[i] = {
+	                                        title: results[item].title,
+	                                        author: results[item].author,
+	                                        text: results[item].text,
+	                                        avatar: url,
+	                                        coverText: StringHandler.shorten(results[item].text, 100),
+	                                        img: imgUrl,
+	                                        date: results[item].date,
+	                                        id: item,
+	                                        pdf: pdfUrl,
+	                                        link: function link(destination) {
+	                                            rootScope.currentPost = item;
+	                                            state.go(destination);
+	                                        },
+	                                        openPdf: function openPdf() {
+	                                            FileHandler.openFile(pdfUrl, $ionicLoading);
+	                                        }
+	                                    };
+
+	                                    if (i == keys.length - 1) {
+	                                        scope.Articles = articles;
+	                                        scope.$apply();
+	                                        document.getElementById(spinner).style.display = "none";
+	                                    }
+	                                });
 	                            });
 	                        });
 	                    });
@@ -2894,7 +2908,7 @@
 	            var results = snapshot.val();
 
 	            if (results != null) {
-	                Object.keys(results).map(function (item) {
+	                Object.keys(results).map(function (item, i) {
 	                    if (!filter) {
 	                        comments.push({
 	                            author: results[item].author,
@@ -2905,28 +2919,34 @@
 	                        });
 	                        Likes.getLikeCount(item, scope, comments, comments.length - 1, "Comments");
 	                    } else if (results[item].father == father) {
-	                        comments.push({
-	                            author: results[item].author,
-	                            text: results[item].comment,
-	                            father: results[item].father,
-	                            date: results[item].date,
-	                            id: item,
-	                            like: function like() {
-	                                Likes.checkLike(_firebase2.default.auth().currentUser.displayName, item);
-	                            },
-	                            link: function link() {
-	                                rootScope.currentPost = item;
-	                                state.go("likes");
-	                            }
-	                        });
+	                        _firebase2.default.storage().ref("Profili").child(results[item].userMail).getDownloadURL().then(function (url) {
+	                            comments.push({
+	                                author: results[item].author,
+	                                avatar: url,
+	                                text: results[item].comment,
+	                                father: results[item].father,
+	                                date: results[item].date,
+	                                id: item,
+	                                like: function like() {
+	                                    Likes.checkLike(_firebase2.default.auth().currentUser.displayName, item);
+	                                },
+	                                link: function link() {
+	                                    rootScope.currentPost = item;
+	                                    state.go("likes");
+	                                }
+	                            });
 
-	                        document.getElementById(spinner).style.display = "none";
-	                        Likes.getLikeCount(item, scope, comments, comments.length - 1, "Comments");
+	                            if (i == Object.keys(results).length - 1) {
+	                                window.setTimeout(function () {
+	                                    return document.getElementById(spinner).style.display = "none";
+	                                }, 1000);
+	                            }
+
+	                            Likes.getLikeCount(item, scope, comments, comments.length - 1, "Comments");
+	                        });
 	                    }
 	                });
 	            }
-
-	            document.getElementById(spinner).style.display = "none";
 	        });
 	    };
 
@@ -3033,7 +3053,7 @@
 	        ModelRef.on("value", function (snapshot) {
 	            var results = snapshot.val();
 	            var cnt = 0;
-	            var color = "black";
+	            var color = "#2F4F4F";
 	            var users = [];
 
 	            if (results != null) {
@@ -6150,25 +6170,27 @@
 
 	    this.setPostProperties = function (results, files, state, posts, scope, rootScope, item, i, maxLength) {
 
-	        posts[i] = {
-	            author: results[item].author,
-	            text: results[item].text,
-	            date: results[item].date,
-	            avatar: results[item].avatar,
-	            files: files,
-	            id: item,
-	            likeCount: 0,
-	            commentCount: 0,
-	            link: function link(dest) {
-	                rootScope.currentPost = item;
-	                state.go(dest);
-	            },
-	            like: function like() {
-	                Likes.checkLike(_firebase2.default.auth().currentUser.displayName, item);
-	            }
-	        };
+	        _firebase2.default.storage().ref("Profili").child(results[item].userMail).getDownloadURL().then(function (url) {
+	            posts[i] = {
+	                author: results[item].author,
+	                text: results[item].text,
+	                date: results[item].date,
+	                avatar: url,
+	                files: files,
+	                id: item,
+	                likeCount: 0,
+	                commentCount: 0,
+	                link: function link(dest) {
+	                    rootScope.currentPost = item;
+	                    state.go(dest);
+	                },
+	                like: function like() {
+	                    Likes.checkLike(_firebase2.default.auth().currentUser.displayName, item);
+	                }
+	            };
 
-	        Comments.getCommentCount(item, scope, posts, i, results, maxLength);
+	            Comments.getCommentCount(item, scope, posts, i, results, maxLength);
+	        });
 	    };
 	};
 

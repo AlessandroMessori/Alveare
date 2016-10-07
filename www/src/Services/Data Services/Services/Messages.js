@@ -69,25 +69,30 @@ class Messages {
 
         this.setPostProperties = (results, files, state, posts, scope, rootScope, item, i, maxLength) => {
 
-            posts[i] = {
-                author: results[item].author,
-                text: results[item].text,
-                date: results[item].date,
-                avatar: results[item].avatar,
-                files: files,
-                id: item,
-                likeCount: 0,
-                commentCount: 0,
-                link(dest) {
-                    rootScope.currentPost = item;
-                    state.go(dest);
-                },
-                like() {
-                    Likes.checkLike(Firebase.auth().currentUser.displayName, item);
-                }
-            };
+            Firebase.storage().ref("Profili").child(results[item].userMail).getDownloadURL().then(url=> {
+                posts[i] = {
+                    author: results[item].author,
+                    text: results[item].text,
+                    date: results[item].date,
+                    avatar: url,
+                    files: files,
+                    id: item,
+                    likeCount: 0,
+                    commentCount: 0,
+                    link(dest) {
+                        rootScope.currentPost = item;
+                        state.go(dest);
+                    },
+                    like() {
+                        Likes.checkLike(Firebase.auth().currentUser.displayName, item);
+                    }
+                };
 
-            Comments.getCommentCount(item, scope, posts, i, results, maxLength);
+
+                Comments.getCommentCount(item, scope, posts, i, results, maxLength);
+            });
+
+
         };
     }
 

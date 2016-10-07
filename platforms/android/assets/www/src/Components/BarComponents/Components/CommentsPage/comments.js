@@ -17,7 +17,8 @@ class commentsCtrl {
                     comment: comment,
                     author: Firebase.auth().currentUser.displayName,
                     father: $rootScope.currentPost,
-                    date: DateHandler.GetCurrentDate()
+                    date: DateHandler.GetCurrentDate(),
+                    userMail: Firebase.auth().currentUser.email
                 };
                 Comments.sendComment($scope, newData, "commentList");
                 $scope.comment = "";

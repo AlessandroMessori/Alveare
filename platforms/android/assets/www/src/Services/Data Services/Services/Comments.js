@@ -32,7 +32,7 @@ class Comments {
                 const results = snapshot.val();
 
                 if (results != null) {
-                    Object.keys(results).map(item => {
+                    Object.keys(results).map((item, i) => {
                         if (!filter) {
                             comments.push({
                                 author: results[item].author,
@@ -44,30 +44,35 @@ class Comments {
                             Likes.getLikeCount(item, scope, comments, comments.length - 1, "Comments");
                         }
                         else if (results[item].father == father) {
-                            comments.push({
-                                author: results[item].author,
-                                text: results[item].comment,
-                                father: results[item].father,
-                                date: results[item].date,
-                                id: item,
-                                like() {
-                                    Likes.checkLike(Firebase.auth().currentUser.displayName, item);
-                                },
-                                link() {
-                                    rootScope.currentPost = item;
-                                    state.go("likes");
+                            Firebase.storage().ref("Profili").child(results[item].userMail).getDownloadURL().then(url=> {
+                                comments.push({
+                                    author: results[item].author,
+                                    avatar: url,
+                                    text: results[item].comment,
+                                    father: results[item].father,
+                                    date: results[item].date,
+                                    id: item,
+                                    like() {
+                                        Likes.checkLike(Firebase.auth().currentUser.displayName, item);
+                                    },
+                                    link() {
+                                        rootScope.currentPost = item;
+                                        state.go("likes");
+                                    }
+                                });
+
+
+                                if (i == Object.keys(results).length - 1) {
+                                    window.setTimeout(()=>document.getElementById(spinner).style.display = "none", 1000);
                                 }
+
+                                Likes.getLikeCount(item, scope, comments, comments.length - 1, "Comments");
                             });
-
-                            document.getElementById(spinner).style.display = "none";
-                            Likes.getLikeCount(item, scope, comments, comments.length - 1, "Comments");
                         }
-
 
                     });
                 }
 
-                document.getElementById(spinner).style.display = "none";
             });
         };
 

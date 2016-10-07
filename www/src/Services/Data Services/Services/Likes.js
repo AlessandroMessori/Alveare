@@ -49,7 +49,7 @@ class Likes {
             ModelRef.on("value", snapshot => {
                 const results = snapshot.val();
                 let cnt = 0;
-                let color = "black";
+                let color = "#2F4F4F";
                 let users = [];
 
                 if (results != null) {

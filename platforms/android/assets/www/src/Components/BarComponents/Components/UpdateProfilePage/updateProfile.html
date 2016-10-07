@@ -2,14 +2,13 @@
     <action-bar title="'Aggiorna Profilo'"></action-bar>
     <ion-content class="loginSection">
 
-        <img src='dist/Images/user.png' class="responsive pad" id="profileImg">
+        <img ng-src={{profileImage}} class="responsive pad" id="profileImg">
 
         <p ng-click="getPic()">Cambia foto di profilo</p>
 
         <button id="signupbtn" class="button button-positive" ng-click="updateProfile()">
             Aggiorna Profilo
         </button>
-
 
     </ion-content>
 </ion-view>

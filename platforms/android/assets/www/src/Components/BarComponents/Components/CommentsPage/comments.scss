@@ -1,8 +1,26 @@
 .fixed-outside{
   position: absolute;
-  bottom: 0%;
+  bottom: 0;
   color:white;
   width: 100%;
   text-align:center;
+}
+
+#commentList{
+
+  margin: 0;
+
+  .title{
+    color:blue;
+  }
+
+  .text{
+    color:black;
+  }
+
+  span {
+    font-size: 13px;
+  }
+
 }
 

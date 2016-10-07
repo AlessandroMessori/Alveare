@@ -19,7 +19,6 @@ class addNewsCtrl {
 
         $scope.setNewsScope = (scope) => $scope.formScope = scope;
 
-
         $scope.sendNews = (news) => {
 
             if (news != "") {
@@ -33,7 +32,7 @@ class addNewsCtrl {
                     author: Firebase.auth().currentUser.displayName,
                     date: DateHandler.GetCurrentDate(),
                     files: $scope.fileList,
-                    avatar: Firebase.auth().currentUser.photoURL
+                    userMail: Firebase.auth().currentUser.email
                 };
 
                 Messages.sendPost(newData, $scope.binaryList);
