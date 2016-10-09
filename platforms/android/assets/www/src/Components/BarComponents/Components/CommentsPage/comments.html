@@ -7,13 +7,15 @@
 
             <div class="item item-avatar" href="#" ng-repeat="Comment in Comments | orderBy:'-' track by Comment.id">
                 <img ng-src={{Comment.avatar}}>
-                <p class="title">{{Comment.author}}</p>
+                <span class="title">{{Comment.author}}</span>
                 <p class="text">{{Comment.text}}</p>
-                <span class="subdued">{{Comment.date}} · </span>
-                <span class="subdued" style={{'color:'+Comment.color}} id={{Comment.id}} ng-click="Comment.like()"> Mi piace · </span>
-                <span class="subdued" ng-click="Comment.link()">{{Comment.likeCount}}
+                <div>
+                    <span class="subdued">{{Comment.date}} · </span>
+                    <span class="subdued" style={{'color:'+Comment.color}} id={{Comment.id}} ng-click="Comment.like()"> Mi piace · </span>
+                    <span class="subdued" ng-click="Comment.link()">{{Comment.likeCount}}
                     <span class="icon ion-thumbsup"></span>
                 </span>
+                </div>
             </div>
 
         </div>

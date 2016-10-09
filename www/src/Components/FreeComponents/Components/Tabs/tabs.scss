@@ -1,7 +1,7 @@
 $dark: #24292F;
 $lightDark: #24292F;
 $background: #E9EBEE;
-$mainColor: #001942;
+$mainColor: #164A80;
 
 .bar-positive .button {
   border-color: transparent;
@@ -40,6 +40,13 @@ $mainColor: #001942;
 
 .bar h1 {
   color: white !important;
+}
+
+#sideMenuHeader {
+  background-color: $mainColor;
+  * {
+    color: white !important;
+  }
 }
 
 #adminPanel {

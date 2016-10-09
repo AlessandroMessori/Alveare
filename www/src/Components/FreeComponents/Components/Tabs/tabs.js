@@ -1,10 +1,13 @@
 import Firebase from "firebase";
+
 class tabsCtrl {
 
-    constructor($scope, $state, $rootScope, $ionicScrollDelegate, Auth, PlatformHandler) {
+    constructor($scope, $state, $rootScope, $ionicScrollDelegate, $ionicSideMenuDelegate, Auth, PlatformHandler) {
 
         $scope.View = "tab-link";
         $scope.showIcon = "ion-plus-round";
+        $ionicSideMenuDelegate.toggleLeft();
+        $scope.UserImage = JSON.parse(localStorage.getItem("firebase:authUser:AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8:[DEFAULT]")).photoURL;
 
         Auth.checkAdmins($scope, "adminPanel");
 
@@ -13,9 +16,12 @@ class tabsCtrl {
         });
 
         $scope.$on("$ionicView.enter", () => {
-            //$scope.closeDrawer();
             $scope.User = Firebase.auth().currentUser.displayName;
             $scope.UserMail = Firebase.auth().currentUser.email;
+            $scope.UserImage = Firebase.auth().currentUser.photoURL;
+            if ($scope.UserImage == undefined) {
+                $scope.UserImage = "dist/Images/user.png";
+            }
             Auth.checkAdmins($scope, "adminPanel");
         });
 
@@ -68,6 +74,7 @@ class tabsCtrl {
             $rootScope.contentType = "Post";
         };
     }
+
 }
 
 

@@ -44,36 +44,40 @@ class Comments {
                             Likes.getLikeCount(item, scope, comments, comments.length - 1, "Comments");
                         }
                         else if (results[item].father == father) {
-                            Firebase.storage().ref("Profili").child(results[item].userMail).getDownloadURL().then(url=> {
-                                comments.push({
-                                    author: results[item].author,
-                                    avatar: url,
-                                    text: results[item].comment,
-                                    father: results[item].father,
-                                    date: results[item].date,
-                                    id: item,
-                                    like() {
-                                        Likes.checkLike(Firebase.auth().currentUser.displayName, item);
-                                    },
-                                    link() {
-                                        rootScope.currentPost = item;
-                                        state.go("likes");
-                                    }
-                                });
-
-
-                                if (i == Object.keys(results).length - 1) {
-                                    window.setTimeout(()=>document.getElementById(spinner).style.display = "none", 1000);
-                                }
-
-                                Likes.getLikeCount(item, scope, comments, comments.length - 1, "Comments");
-                            });
+                            Firebase.storage().ref("Profili").child(results[item].userMail).getDownloadURL()
+                                .then(url=> this.setCommentProperties(scope, rootScope, state, comments, results, url, i, item, spinner))
+                                .catch(()=> this.setCommentProperties(scope, rootScope, state, comments, results, "dist/Images/user.png", i, item, spinner));
                         }
 
                     });
                 }
 
             });
+        };
+
+        this.setCommentProperties = (scope, rootScope, state, comments, results, url, index, item, spinner)=> {
+            comments.push({
+                author: results[item].author,
+                avatar: url,
+                text: results[item].comment,
+                father: results[item].father,
+                date: results[item].date,
+                id: item,
+                like() {
+                    Likes.checkLike(Firebase.auth().currentUser.displayName, item);
+                },
+                link() {
+                    rootScope.currentPost = item;
+                    state.go("likes");
+                }
+            });
+
+
+            if (index == Object.keys(results).length - 1) {
+                window.setTimeout(()=>document.getElementById(spinner).style.display = "none", 1000);
+            }
+
+            Likes.getLikeCount(item, scope, comments, comments.length - 1, "Comments");
         };
 
         this.getCommentCount = (father, scope, posts, index, maxLength) => {

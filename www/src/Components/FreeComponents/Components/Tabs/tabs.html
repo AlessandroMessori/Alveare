@@ -9,7 +9,7 @@
                 </button>
             </ion-nav-buttons>
             <ion-nav-buttons side="right">
-                <button class="button" id="addIcon" ng-click="goTo">
+                <button class="button" id="addIcon" ng-click="goToPublisher()">
                     <p class="ion-android-add-circle iconBar"></p>
                 </button>
             </ion-nav-buttons>
@@ -28,10 +28,13 @@
 
 
     <ion-side-menu side="left" id="drawer">
-        <ion-header-bar class="bar">
-            <h1 class="title">{{User}}</h1>
-        </ion-header-bar>
+
         <ion-content>
+            <div class="item item-avatar" id="sideMenuHeader">
+                <img src={{UserImage}}>
+                <h2>{{User}}</h2>
+                <p>Studente</p>
+            </div>
             <ion-list class="navList">
                 <ion-item menu-close ui-sref="tab.admin" ng-click="navigate('admin',1)" id="adminPanel">
                     <span class="icon ion-locked"> Admin</span>

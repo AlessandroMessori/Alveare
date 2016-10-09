@@ -2,13 +2,34 @@
     <action-bar title="'Aggiorna Profilo'"></action-bar>
     <ion-content class="loginSection">
 
-        <img ng-src={{profileImage}} class="responsive pad" id="profileImg">
 
-        <p ng-click="getPic()">Cambia foto di profilo</p>
+        <div class="profileBg">
 
-        <button id="signupbtn" class="button button-positive" ng-click="updateProfile()">
-            Aggiorna Profilo
-        </button>
+            <img ng-src={{profileImage}} id="profileImg" ng-click="getPic()">
+
+
+            <h2>{{userName}}</h2>
+            <h4>Studente,5F</h4>
+
+        </div>
+
+
+        <h3>Dati Personali</h3>
+
+        <div class="infoList">
+            <label class="item item-input">
+                <i class="icon ion-email placeholder-icon"></i>
+                <input type="email" ng-model="userMail" placeholder="Email">
+            </label>
+            <label class="item item-input">
+                <i class="icon ion-person placeholder-icon"></i>
+                <input type="text" ng-model="userName" placeholder="Username">
+            </label>
+            <label class="item item-input">
+                <i class="icon ion-chatbox placeholder-icon"></i>
+                <textarea placeholder="Stato"></textarea>
+            </label>
+        </div>
 
     </ion-content>
 </ion-view>
