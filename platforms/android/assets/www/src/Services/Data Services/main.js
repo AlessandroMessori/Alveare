@@ -3,6 +3,7 @@ import Auth from "./Services/Auth";
 import Comments from "./Services/Comments";
 import Likes from "./Services/Likes";
 import Messages from "./Services/Messages";
+import Reports from "./Services/Reports";
 import Profile from "./Services/Profile";
 import StaticData from "./Services/StaticData";
 
@@ -12,6 +13,7 @@ dataServices.service("Messages", Messages);
 dataServices.service("Articles", Articles);
 dataServices.service("Comments", Comments);
 dataServices.service("Likes", Likes);
+dataServices.service("Reports", Reports);
 dataServices.service("Profile", Profile);
 dataServices.service("Auth", Auth);
 dataServices.service("StaticData", StaticData);

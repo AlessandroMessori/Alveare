@@ -62,7 +62,6 @@ class Articles {
 
         };
 
-
         this.setArticleProperties = (scope, rootScope, state, articles, results, item, index, imgUrl, pdfUrl, url, length, spinner)=> {
             articles[index] = {
                 title: results.title,

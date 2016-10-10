@@ -152,6 +152,12 @@ class Config {
                 controller: "addNewsCtrl"
             })
 
+            .state("readReports", {
+                url: "/readReports",
+                templateUrl: "src/Components/BarComponents/Components/readReportsPage/readReports.html",
+                controller: "readReportsCtrl"
+            })
+
             .state("comments", {
                 url: "/comments",
                 templateUrl: "src/Components/BarComponents/Components/CommentsPage/comments.html",
@@ -174,6 +180,12 @@ class Config {
                 url: "/updateProfile",
                 templateUrl: "src/Components/BarComponents/Components/UpdateProfilePage/updateProfile.html",
                 controller: "updateProfileCtrl"
+            })
+
+            .state("reportBug", {
+                url: "/reportBug",
+                templateUrl: "src/Components/BarComponents/Components/ReportBugPage/reportBug.html",
+                controller: "reportBugCtrl"
             });
 
         if (window.localStorage.getItem("RememberMe") == "true") {

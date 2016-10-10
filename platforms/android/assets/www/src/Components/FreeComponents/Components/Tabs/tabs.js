@@ -6,7 +6,6 @@ class tabsCtrl {
 
         $scope.View = "tab-link";
         $scope.showIcon = "ion-plus-round";
-        $ionicSideMenuDelegate.toggleLeft();
         $scope.UserImage = JSON.parse(localStorage.getItem("firebase:authUser:AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8:[DEFAULT]")).photoURL;
 
         Auth.checkAdmins($scope, "adminPanel");
@@ -22,6 +21,7 @@ class tabsCtrl {
             if ($scope.UserImage == undefined) {
                 $scope.UserImage = "dist/Images/user.png";
             }
+
             Auth.checkAdmins($scope, "adminPanel");
         });
 

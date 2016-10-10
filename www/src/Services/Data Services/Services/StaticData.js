@@ -36,6 +36,14 @@ class StaticData {
                 "direct": function () {
                     $state.go(this.url);
                 }
+            },
+            {
+                "name": "Leggi Segnalazioni",
+                "url": "readReports",
+                "icon": "ion-email-unread",
+                "direct": function () {
+                    $state.go(this.url);
+                }
             }
         ];
 

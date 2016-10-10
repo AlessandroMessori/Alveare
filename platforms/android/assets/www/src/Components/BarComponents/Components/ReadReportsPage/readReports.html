@@ -1,0 +1,28 @@
+<ion-view view-title="Leggi Segnalazioni">
+    <action-bar title="'Leggi Segnalazioni'"></action-bar>
+    <ion-content class="scrollView paddingTop">
+
+        <ion-spinner class="spinner" id="reportsSpinner"></ion-spinner>
+
+        <div class="list card offsetY" ng-repeat="Report in Reports | orderBy:'-' track by $index">
+
+            <div class="item">
+                <div class="row">
+                    <div class="col">
+                        <a class="subdued">{{Report.author}}</a>
+                    </div>
+                    <div class="col reportDate">
+                        <a class="subdued">{{Report.date}}</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="item item-body">
+                <p class="postContent">{{Report.text}}</p>
+            </div>
+
+        </div>
+
+    </ion-content>
+</ion-view>

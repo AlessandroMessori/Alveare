@@ -16,7 +16,7 @@ class settingsCtrl {
         $scope.shareApp = () => SocialHandler.shareApp();
 
 
-        $scope.rateUs = () => SocialHandler.rareUs();
+        $scope.rateUs = () => SocialHandler.rateUs();
 
 
         $scope.Disconnect = () => Auth.Logout($state, $rootScope, Modals);

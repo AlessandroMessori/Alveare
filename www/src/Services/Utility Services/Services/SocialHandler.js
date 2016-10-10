@@ -7,7 +7,8 @@ class SocialHandler {
             const options = {
                 message: "Scarica l'applicazione del liceo Ariosto Spallanzani!",
                 subject: "Applicazione liceo Ariosto Spallanzani",
-                files: []
+                files: [],
+                url: "https://www.google.it/"
             };
 
             window.plugins.socialsharing.shareWithOptions(options,
