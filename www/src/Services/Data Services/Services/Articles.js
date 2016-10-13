@@ -77,6 +77,15 @@ class Articles {
                     rootScope.currentPost = item;
                     state.go(destination);
                 },
+                linkToProfile() {
+                    rootScope.currentProfile = {
+                        name: results.author,
+                        avatar: url,
+                        mail: results.userMail
+                    };
+                    rootScope.profileUpdatable = false;
+                    state.go("updateProfile");
+                },
                 openPdf() {
                     FileHandler.openFile(pdfUrl, $ionicLoading);
                 }

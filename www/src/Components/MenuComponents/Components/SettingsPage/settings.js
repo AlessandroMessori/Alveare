@@ -1,3 +1,5 @@
+import Firebase from "firebase";
+
 class settingsCtrl {
     constructor($scope, $rootScope, $state, Auth, Modals, SocialHandler) {
 
@@ -18,6 +20,22 @@ class settingsCtrl {
 
         $scope.rateUs = () => SocialHandler.rateUs();
 
+        $scope.goToProfile = () => {
+
+            let avatar = Firebase.auth().currentUser.photoURL;
+
+            if (avatar == undefined) {
+                avatar = "dist/Images/user.png";
+            }
+
+            $rootScope.currentProfile = {
+                name: Firebase.auth().currentUser.displayName,
+                avatar,
+                mail: Firebase.auth().currentUser.email
+            };
+            $rootScope.profileUpdatable = true;
+            $state.go("updateProfile");
+        };
 
         $scope.Disconnect = () => Auth.Logout($state, $rootScope, Modals);
     }

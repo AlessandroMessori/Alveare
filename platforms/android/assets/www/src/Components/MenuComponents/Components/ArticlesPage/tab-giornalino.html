@@ -7,7 +7,7 @@
 
         <div class="list card" ng-repeat="Article in Articles | orderBy:'-' track by $index">
 
-            <div class="item item-avatar">
+            <div class="item item-avatar" ng-click="Article.linkToProfile()">
                 <img ng-src={{Article.avatar}}>
                 <h2>{{Article.author}}</h2>
                 <p>{{Article.date}}</p>

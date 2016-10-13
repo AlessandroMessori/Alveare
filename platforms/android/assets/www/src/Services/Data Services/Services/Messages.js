@@ -87,6 +87,15 @@ class Messages {
                     rootScope.currentPost = item;
                     state.go(dest);
                 },
+                linkToProfile() {
+                    rootScope.currentProfile = {
+                        name: results[item].author,
+                        avatar: url,
+                        mail: results[item].userMail
+                    };
+                    rootScope.profileUpdatable = false;
+                    state.go("updateProfile");
+                },
                 like() {
                     Likes.checkLike(Firebase.auth().currentUser.displayName, item);
                 }

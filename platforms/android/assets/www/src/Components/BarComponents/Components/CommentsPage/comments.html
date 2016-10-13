@@ -6,8 +6,8 @@
         <div class="card item-text-wrap" id="commentList" style="margin:0%">
 
             <div class="item item-avatar" href="#" ng-repeat="Comment in Comments | orderBy:'-' track by Comment.id">
-                <img ng-src={{Comment.avatar}}>
-                <span class="title">{{Comment.author}}</span>
+                <img ng-src={{Comment.avatar}} ng-click="Comment.linkToProfile()">
+                <span class="title" ng-click="Comment.linkToProfile()">{{Comment.author}}</span>
                 <p class="text">{{Comment.text}}</p>
                 <div>
                     <span class="subdued">{{Comment.date}} · </span>

@@ -41,7 +41,9 @@ class Comments {
                                 date: results[item].date,
                                 id: item
                             });
-                            Likes.getLikeCount(item, scope, comments, comments.length - 1, "Comments");
+                            if (comments.length == Object.keys(results).length) {
+                                scope.Comments = comments;
+                            }
                         }
                         else if (results[item].father == father) {
                             Firebase.storage().ref("Profili").child(results[item].userMail).getDownloadURL()
@@ -69,6 +71,15 @@ class Comments {
                 link() {
                     rootScope.currentPost = item;
                     state.go("likes");
+                },
+                linkToProfile(){
+                    rootScope.currentProfile = {
+                        name: results[item].author,
+                        avatar: url,
+                        mail: results[item].userMail
+                    };
+                    rootScope.profileUpdatable = false;
+                    state.go("updateProfile");
                 }
             });
 
@@ -101,12 +112,11 @@ class Comments {
         };
 
         this.deleteComment = (scope, commentId, commentList, modals) => {
-            const oldLenght = scope.Comments.length;
             document.getElementById(commentList).style.display = "none";
             Firebase.database().ref("Commenti/" + commentId).remove()
                 .then(() => {
                     modals.ResultTemplate("commento eliminato con successo");
-                    scope.Comments.splice(oldLenght - 1, oldLenght * 2);
+                    scope.doRefresh();
                     document.getElementById(commentList).style.display = "block";
                     scope.$apply();
                 });

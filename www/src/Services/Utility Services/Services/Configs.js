@@ -154,7 +154,7 @@ class Config {
 
             .state("readReports", {
                 url: "/readReports",
-                templateUrl: "src/Components/BarComponents/Components/readReportsPage/readReports.html",
+                templateUrl: "src/Components/BarComponents/Components/ReadReportsPage/readReports.html",
                 controller: "readReportsCtrl"
             })
 

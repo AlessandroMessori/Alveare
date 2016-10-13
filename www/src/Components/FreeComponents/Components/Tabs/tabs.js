@@ -2,7 +2,7 @@ import Firebase from "firebase";
 
 class tabsCtrl {
 
-    constructor($scope, $state, $rootScope, $ionicScrollDelegate, $ionicSideMenuDelegate, Auth, PlatformHandler) {
+    constructor($scope, $state, $rootScope, $ionicPlatform, $ionicScrollDelegate, $ionicHistory, Auth, PlatformHandler) {
 
         $scope.View = "tab-link";
         $scope.showIcon = "ion-plus-round";
@@ -42,7 +42,6 @@ class tabsCtrl {
                 document.getElementById("addIcon").style.display = "none";
             }
 
-
         });
 
         $scope.backBtnClick = () => {
@@ -70,11 +69,18 @@ class tabsCtrl {
         };
 
         $scope.goToPublisher = function () {
-            $state.go("sendMessage");
-            $rootScope.contentType = "Post";
+            if ($ionicHistory.currentView().stateName == "tab.libera") {
+                $state.go("sendMessage");
+                $rootScope.contentType = "Post";
+            }
         };
-    }
 
+        $ionicPlatform.registerBackButtonAction(e=> {
+            e.preventDefault();
+            //console.log($ionicHistory.backView());
+            return false;
+        }, 101);
+    }
 }
 
 
