@@ -106,6 +106,17 @@ class Messages {
 
 
         };
+
+        this.deletePost = (scope, postId, postList, modals) => {
+            document.getElementById(postList).style.display = "none";
+            Firebase.database().ref("Post/" + postId).remove()
+                .then(() => {
+                    modals.ResultTemplate("post eliminato con successo");
+                    scope.doRefresh();
+                    document.getElementById(postList).style.display = "block";
+                    scope.$apply();
+                });
+        };
     }
 
 }

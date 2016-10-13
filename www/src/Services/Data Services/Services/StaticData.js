@@ -38,6 +38,14 @@ class StaticData {
                 }
             },
             {
+                "name": "Modera Post",
+                "url": "deletePosts",
+                "icon": "ion-close-circled",
+                "direct": function () {
+                    $state.go(this.url);
+                }
+            },
+            {
                 "name": "Leggi Segnalazioni",
                 "url": "readReports",
                 "icon": "ion-email-unread",

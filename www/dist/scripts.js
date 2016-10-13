@@ -714,6 +714,10 @@
 
 	var _comments2 = _interopRequireDefault(_comments);
 
+	var _deletePosts = __webpack_require__(176);
+
+	var _deletePosts2 = _interopRequireDefault(_deletePosts);
+
 	var _likes = __webpack_require__(8);
 
 	var _likes2 = _interopRequireDefault(_likes);
@@ -741,6 +745,7 @@
 	barComponents.controller("addArticleCtrl", _addArticle2.default);
 	barComponents.controller("addNewsCtrl", _addNews2.default);
 	barComponents.controller("commentsCtrl", _comments2.default);
+	barComponents.controller("deletePostsCtrl", _deletePosts2.default);
 	barComponents.controller("likesCtrl", _likes2.default);
 	barComponents.controller("moderationCtrl", _moderation2.default);
 	barComponents.controller("readReportsCtrl", _readReports2.default);
@@ -1243,7 +1248,7 @@
 
 	    $ionicPlatform.registerBackButtonAction(function (e) {
 	        e.preventDefault();
-	        //console.log($ionicHistory.backView());
+	        //$state.go($rootScope.previousState.split(".")[1]);
 	        return false;
 	    }, 101);
 	};
@@ -6384,6 +6389,16 @@
 
 	        Comments.getCommentCount(item, scope, posts, i, results, maxLength);
 	    };
+
+	    this.deletePost = function (scope, postId, postList, modals) {
+	        document.getElementById(postList).style.display = "none";
+	        _firebase2.default.database().ref("Post/" + postId).remove().then(function () {
+	            modals.ResultTemplate("post eliminato con successo");
+	            scope.doRefresh();
+	            document.getElementById(postList).style.display = "block";
+	            scope.$apply();
+	        });
+	    };
 	};
 
 	exports.default = Messages;
@@ -6535,6 +6550,13 @@
 	        "name": "Modera Commenti",
 	        "url": "moderation",
 	        "icon": "icon ion-ios-trash",
+	        "direct": function direct() {
+	            $state.go(this.url);
+	        }
+	    }, {
+	        "name": "Modera Post",
+	        "url": "deletePosts",
+	        "icon": "ion-close-circled",
 	        "direct": function direct() {
 	            $state.go(this.url);
 	        }
@@ -7519,6 +7541,10 @@
 	                url: "/moderation",
 	                templateUrl: "src/Components/BarComponents/Components/ModerationPage/moderation.html",
 	                controller: "moderationCtrl"
+	            }).state("deletePosts", {
+	                url: "/deletePosts",
+	                templateUrl: "src/Components/BarComponents/Components/DeletePostsPage/deletePosts.html",
+	                controller: "deletePostsCtrl"
 	            }).state("updateProfile", {
 	                url: "/updateProfile",
 	                templateUrl: "src/Components/BarComponents/Components/UpdateProfilePage/updateProfile.html",
@@ -7556,6 +7582,49 @@
 	};
 
 	module.exports = config;
+
+/***/ },
+/* 176 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var deletePostsCtrl = function deletePostsCtrl($scope, $rootScope, $state, $ionicPopup, Messages, Modals) {
+	    _classCallCheck(this, deletePostsCtrl);
+
+	    Messages.getPosts($scope, $rootScope, $state, "newsSpinner", "Post");
+
+	    $scope.doRefresh = function () {
+	        Messages.getPosts($scope, $rootScope, $state, "newsSpinner", "Posts");
+	        $scope.$broadcast("scroll.refreshComplete");
+	        $scope.$apply();
+	    };
+
+	    $scope.removePost = function (postId) {
+	        Messages.deletePost($scope, postId, "postList", Modals);
+	    };
+
+	    $scope.showConfirm = function (postId) {
+	        var confirmPopup = $ionicPopup.confirm({
+	            title: "Conferma Eliminazione",
+	            template: "Vuoi davvero eliminare questo post?"
+	        });
+
+	        confirmPopup.then(function (res) {
+	            if (res) {
+	                $scope.removePost(postId);
+	            }
+	        });
+	    };
+	};
+
+	exports.default = deletePostsCtrl;
 
 /***/ }
 /******/ ]);

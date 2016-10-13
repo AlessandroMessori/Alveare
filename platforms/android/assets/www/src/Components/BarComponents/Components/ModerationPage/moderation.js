@@ -3,6 +3,12 @@ class moderationCtrl {
 
         Comments.getComments($scope, $rootScope, $state, "commentsSpinner", false);
 
+        $scope.doRefresh = () => {
+            Comments.getComments($scope, $rootScope, $state, "commentsSpinner", false);
+            $scope.$broadcast("scroll.refreshComplete");
+            $scope.$apply();
+        };
+
         $scope.removeComment = commentId => {
             Comments.deleteComment($scope, commentId, "commentList", Modals);
         };

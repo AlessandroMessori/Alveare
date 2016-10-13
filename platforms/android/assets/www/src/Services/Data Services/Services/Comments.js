@@ -116,6 +116,7 @@ class Comments {
             Firebase.database().ref("Commenti/" + commentId).remove()
                 .then(() => {
                     modals.ResultTemplate("commento eliminato con successo");
+                    scope.doRefresh();
                     document.getElementById(commentList).style.display = "block";
                     scope.$apply();
                 });

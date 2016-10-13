@@ -77,7 +77,7 @@ class tabsCtrl {
 
         $ionicPlatform.registerBackButtonAction(e=> {
             e.preventDefault();
-            //console.log($ionicHistory.backView());
+            //$state.go($rootScope.previousState.split(".")[1]);
             return false;
         }, 101);
     }

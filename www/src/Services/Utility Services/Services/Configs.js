@@ -176,6 +176,12 @@ class Config {
                 controller: "moderationCtrl"
             })
 
+            .state("deletePosts", {
+                url: "/deletePosts",
+                templateUrl: "src/Components/BarComponents/Components/DeletePostsPage/deletePosts.html",
+                controller: "deletePostsCtrl"
+            })
+
             .state("updateProfile", {
                 url: "/updateProfile",
                 templateUrl: "src/Components/BarComponents/Components/UpdateProfilePage/updateProfile.html",
