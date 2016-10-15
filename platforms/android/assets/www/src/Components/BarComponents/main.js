@@ -7,6 +7,7 @@ import moderationCtrl  from "./Components/ModerationPage/moderation";
 import readReportsCtrl from "./Components/ReadReportsPage/readReports";
 import reportBugCtrl from "./Components/ReportBugPage/reportBug";
 import updateProfileCtrl from "./Components/UpdateProfilePage/updateProfile";
+import updateStatusCtrl from "./Components/UpdateStatusPage/updateStatus";
 
 const barComponents = angular.module("appAS.components.bar", ["ionic"]);
 
@@ -19,5 +20,6 @@ barComponents.controller("moderationCtrl", moderationCtrl);
 barComponents.controller("readReportsCtrl", readReportsCtrl);
 barComponents.controller("reportBugCtrl", reportBugCtrl);
 barComponents.controller("updateProfileCtrl", updateProfileCtrl);
+barComponents.controller("updateStatusCtrl", updateStatusCtrl);
 
 export default barComponents;

@@ -18,16 +18,13 @@
 
         <div class="infoList">
             <label class="item item-input">
-                <i class="icon ion-email placeholder-icon"></i>
-                <input type="email" ng-disabled="inputDisabled" ng-model="userMail" placeholder="Email">
+                <input type="email" readonly ng-model="userMail" placeholder="Email">
             </label>
             <label class="item item-input">
-                <i class="icon ion-person placeholder-icon"></i>
-                <input type="text" ng-disabled="inputDisabled" ng-model="userName" placeholder="Username">
+                <input type="text" readonly ng-model="userName" placeholder="Username">
             </label>
-            <label class="item item-input">
-                <i class="icon ion-chatbox placeholder-icon"></i>
-                <textarea ng-disabled="inputDisabled" placeholder="Stato"></textarea>
+            <label class="item item-input" ng-click="goToUpdateStatus()">
+                <textarea readonly ng-model="userStatus" placeholder="Stato"></textarea>
             </label>
         </div>
 

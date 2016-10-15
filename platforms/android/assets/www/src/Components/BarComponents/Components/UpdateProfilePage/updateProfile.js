@@ -1,12 +1,12 @@
 class updateProfileCtrl {
 
-    constructor($scope, $rootScope, Profile, CameraHandler) {
+    constructor($scope, $rootScope, $state, Profile, CameraHandler) {
 
         $scope.$on("$ionicView.enter", () => {
             $scope.profileImage = $rootScope.currentProfile.avatar;
             $scope.userName = $rootScope.currentProfile.name;
             $scope.userMail = $rootScope.currentProfile.mail;
-            $scope.inputDisabled = true;
+            Profile.getStatus($scope.userName, $scope);
         });
 
         $scope.getPic = ()=> {
@@ -15,6 +15,12 @@ class updateProfileCtrl {
                     document.getElementById("profileImg").src = imgUrl;
                     Profile.updateProfile(imgUrl);
                 });
+            }
+        };
+
+        $scope.goToUpdateStatus = ()=> {
+            if ($rootScope.profileUpdatable) {
+                $state.go("updateStatus");
             }
         };
 

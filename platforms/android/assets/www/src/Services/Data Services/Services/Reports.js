@@ -39,13 +39,13 @@ class Reports {
                 }
 
                 scope.Reports = reports;
+                scope.$apply();
                 document.getElementById(spinner).style.display = "none";
             });
 
         };
 
     }
-
 
 }
 

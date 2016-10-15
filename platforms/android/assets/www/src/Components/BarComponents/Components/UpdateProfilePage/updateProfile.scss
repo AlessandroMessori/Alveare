@@ -33,5 +33,10 @@
 }
 
 .infoList {
-  padding: 0% 3%;
+  padding: 0 3%;
+
+  input[readonly], textarea[readonly] {
+    background-color: white;
+  }
+
 }

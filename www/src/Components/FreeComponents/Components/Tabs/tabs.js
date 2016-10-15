@@ -75,6 +75,23 @@ class tabsCtrl {
             }
         };
 
+        $scope.goToProfile = () => {
+
+            let avatar = Firebase.auth().currentUser.photoURL;
+
+            if (avatar == undefined) {
+                avatar = "dist/Images/user.png";
+            }
+
+            $rootScope.currentProfile = {
+                name: Firebase.auth().currentUser.displayName,
+                avatar,
+                mail: Firebase.auth().currentUser.email
+            };
+            $rootScope.profileUpdatable = true;
+            $state.go("updateProfile");
+        };
+
         $ionicPlatform.registerBackButtonAction(e=> {
             e.preventDefault();
             //$state.go($rootScope.previousState.split(".")[1]);

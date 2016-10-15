@@ -1,0 +1,17 @@
+<ion-view>
+    <action-bar title="'Aggiorna Stato'"></action-bar>
+    <ion-content class="padding has-header">
+
+        <label class="item item-input">
+            <textarea placeholder="Aggiorna Stato"
+                      ng-model="status"></textarea>
+        </label>
+
+        <div class="row" id="btnrow">
+            <div class="col col-33 col-offset-33">
+                <button id="sendbtn" class="button  button-positive" ng-click="sendStatus(status)">Aggiorna</button>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

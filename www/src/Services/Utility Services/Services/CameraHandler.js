@@ -1,6 +1,6 @@
 class CameraHandler {
 
-    getPic(callback) {
+    getPic(callback, Modals) {
         navigator.camera.getPicture(
             imageUrl => {
                 callback(imageUrl);

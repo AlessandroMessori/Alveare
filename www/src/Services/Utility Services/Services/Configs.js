@@ -188,6 +188,12 @@ class Config {
                 controller: "updateProfileCtrl"
             })
 
+            .state("updateStatus", {
+                url: "/updateStatus",
+                templateUrl: "src/Components/BarComponents/Components/UpdateStatusPage/updateStatus.html",
+                controller: "updateStatusCtrl"
+            })
+
             .state("reportBug", {
                 url: "/reportBug",
                 templateUrl: "src/Components/BarComponents/Components/ReportBugPage/reportBug.html",
