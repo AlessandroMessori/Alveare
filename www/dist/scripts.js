@@ -1282,7 +1282,7 @@
 
 	        $rootScope.previousState = from.name;
 
-	        if ($rootScope.previousState == "comments") {
+	        if ($rootScope.previousState == "comments" || $rootScope.previousState == "updateProfile") {
 	            $rootScope.previousState = "tab.forum";
 	        } else {
 	            $ionicScrollDelegate.scrollTop();

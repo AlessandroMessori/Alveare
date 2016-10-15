@@ -1282,7 +1282,7 @@
 
 	        $rootScope.previousState = from.name;
 
-	        if ($rootScope.previousState == "comments") {
+	        if ($rootScope.previousState == "comments" || $rootScope.previousState == "updateProfile") {
 	            $rootScope.previousState = "tab.forum";
 	        } else {
 	            $ionicScrollDelegate.scrollTop();
@@ -6616,7 +6616,8 @@
 	        //scope.userStatus = "Nessuno Stato";
 	        var ModelRef = _firebase2.default.database().ref("Stati/" + userName);
 	        ModelRef.on("value", function (snapshot) {
-	            return scope.userStatus = snapshot.val();
+	            scope.userStatus = snapshot.val();
+	            scope.$apply();
 	        });
 	    };
 	};

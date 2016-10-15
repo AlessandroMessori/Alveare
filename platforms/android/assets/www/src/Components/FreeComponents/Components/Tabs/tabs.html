@@ -58,8 +58,10 @@
                     <span class="icon ion-android-restaurant"> Convenzioni</span>
                 </ion-item>
                 <ion-item id="linkItem">
-                    <span class="icon ion-link"> Link Utili</span>
-                    <span ng-class="showIcon" id="showLinks" ng-click="ShowLinks()"></span>
+                    <div class="linkItem" ng-click="ShowLinks()">
+                        <span class="icon ion-link"> Link Utili</span>
+                        <span ng-class="showIcon" id="showLinks"></span>
+                    </div>
                     <ul id="linkList" ng-controller="linkCtrl">
                         <li ng-class="Link.icon" ng-repeat="Link in Links" ng-click="OpenLink(Link.url)">
                             {{Link.name}}

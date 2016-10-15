@@ -33,7 +33,7 @@ class Profile {
             //scope.userStatus = "Nessuno Stato";
             const ModelRef = Firebase.database().ref("Stati/" + userName);
             ModelRef.on("value", snapshot => {
-                scope.userStatus = snapshot.val()
+                scope.userStatus = snapshot.val();
                 scope.$apply();
             });
         };
