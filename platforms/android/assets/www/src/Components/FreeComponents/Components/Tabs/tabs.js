@@ -60,13 +60,13 @@ class tabsCtrl {
             }
         };
 
-        //convert to Service
-        $scope.navigate = (destination, ind) => {
+        $scope.navigate = (destination) => {
             $scope.View = "tab-" + destination;
-            for (let i = 1; i < 10; i++) {
-                document.getElementById("MainView" + i).style.display = "none";
+            const views = document.querySelectorAll(".nav-view");
+            for (let i = 0; i < views.length; i++) {
+                views[i].style.display = "none";
             }
-            document.getElementById("MainView" + ind).style.display = "block";
+            document.getElementById(destination + "-view").style.display = "block";
         };
 
         $scope.goToPublisher = function () {
@@ -95,7 +95,7 @@ class tabsCtrl {
 
         $ionicPlatform.registerBackButtonAction(e=> {
             e.preventDefault();
-            //$state.go($rootScope.previousState.split(".")[1]);
+            $scope.navigate($rootScope.previousState.split(".")[1]);
             return false;
         }, 101);
     }

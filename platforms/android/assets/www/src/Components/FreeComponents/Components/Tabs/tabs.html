@@ -1,4 +1,4 @@
-<ion-side-menus enable-menu-with-back-views="false">
+<ion-side-menus enable-menu-with-back-views="true">
 
     <ion-side-menu-content>
 
@@ -14,15 +14,15 @@
                 </button>
             </ion-nav-buttons>
         </ion-nav-bar>
-        <ion-nav-view class="nav-view" id="MainView1" name="tab-admin"></ion-nav-view>
-        <ion-nav-view class="nav-view" id="MainView2" name="tab-giornalino"></ion-nav-view>
-        <ion-nav-view class="nav-view" id="MainView3" name="tab-orientamento"></ion-nav-view>
-        <ion-nav-view class="nav-view" id="MainView4" name="tab-biblioteca"></ion-nav-view>
-        <ion-nav-view class="nav-view" id="MainView5" name="tab-forum"></ion-nav-view>
-        <ion-nav-view class="nav-view" id="MainView6" name="tab-libera"></ion-nav-view>
-        <ion-nav-view class="nav-view" id="MainView7" name="tab-convenzioni"></ion-nav-view>
-        <ion-nav-view class="nav-view" id="MainView8" name="tab-link"></ion-nav-view>
-        <ion-nav-view class="nav-view" id="MainView9" name="tab-settings"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="admin-view" name="tab-admin"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="giornalino-view" name="tab-giornalino"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="orientamento-view" name="tab-orientamento"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="biblioteca-view" name="tab-biblioteca"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="forum-view" name="tab-forum"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="libera-view" name="tab-libera"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="convenzioni-view" name="tab-convenzioni"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="link-view" name="tab-link"></ion-nav-view>
+        <ion-nav-view class="nav-view" id="settings-view" name="tab-settings"></ion-nav-view>
 
     </ion-side-menu-content>
 
@@ -36,25 +36,25 @@
                 <p>Studente</p>
             </div>
             <ion-list class="navList">
-                <ion-item menu-close ui-sref="tab.admin" ng-click="navigate('admin',1)" id="adminPanel">
+                <ion-item menu-close ui-sref="tab.admin" ng-click="navigate('admin')" id="adminPanel">
                     <span class="icon ion-locked"> Admin</span>
                 </ion-item>
-                <ion-item menu-close ui-sref="tab.giornalino" ng-click="navigate('giornalino',2)">
+                <ion-item menu-close ui-sref="tab.giornalino" ng-click="navigate('giornalino')">
                     <span class="icon ion-ios-paper"> Giornalino</span>
                 </ion-item>
-                <ion-item menu-close ui-sref="tab.orientamento" ng-click="navigate('orientamento',3)">
+                <ion-item menu-close ui-sref="tab.orientamento" ng-click="navigate('orientamento')">
                     <span class="icon ion-ios-navigate"> Orientamento</span>
                 </ion-item>
-                <ion-item menu-close ui-sref="tab.biblioteca" ng-click="navigate('biblioteca',4)">
+                <ion-item menu-close ui-sref="tab.biblioteca" ng-click="navigate('biblioteca')">
                     <span class="icon ion-ios-bookmarks"> Biblioteca</span>
                 </ion-item>
-                <ion-item menu-close ui-sref="tab.forum" ng-click="navigate('forum',5)">
+                <ion-item menu-close ui-sref="tab.forum" ng-click="navigate('forum')">
                     <span class="ion-clipboard"> Circolari e Avvisi</span>
                 </ion-item>
-                <ion-item menu-close ui-sref="tab.libera" ng-click="navigate('libera',6)">
+                <ion-item menu-close ui-sref="tab.libera" ng-click="navigate('libera')">
                     <span class="icon ion-android-chat"> Area Libera</span>
                 </ion-item>
-                <ion-item menu-close ui-sref="tab.convenzioni" ng-click="navigate('convenzioni',7)">
+                <ion-item menu-close ui-sref="tab.convenzioni" ng-click="navigate('convenzioni')">
                     <span class="icon ion-android-restaurant"> Convenzioni</span>
                 </ion-item>
                 <ion-item id="linkItem">

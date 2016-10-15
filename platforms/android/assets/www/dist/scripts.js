@@ -1309,13 +1309,13 @@
 	        }
 	    };
 
-	    //convert to Service
-	    $scope.navigate = function (destination, ind) {
+	    $scope.navigate = function (destination) {
 	        $scope.View = "tab-" + destination;
-	        for (var i = 1; i < 10; i++) {
-	            document.getElementById("MainView" + i).style.display = "none";
+	        var views = document.querySelectorAll(".nav-view");
+	        for (var i = 0; i < views.length; i++) {
+	            views[i].style.display = "none";
 	        }
-	        document.getElementById("MainView" + ind).style.display = "block";
+	        document.getElementById(destination + "-view").style.display = "block";
 	    };
 
 	    $scope.goToPublisher = function () {
@@ -1344,7 +1344,7 @@
 
 	    $ionicPlatform.registerBackButtonAction(function (e) {
 	        e.preventDefault();
-	        //$state.go($rootScope.previousState.split(".")[1]);
+	        $scope.navigate($rootScope.previousState.split(".")[1]);
 	        return false;
 	    }, 101);
 	};
