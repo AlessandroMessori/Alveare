@@ -7,12 +7,9 @@ class tabsCtrl {
         $scope.View = "tab-link";
         $scope.showIcon = "ion-plus-round";
         $scope.UserImage = JSON.parse(localStorage.getItem("firebase:authUser:AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8:[DEFAULT]")).photoURL;
-
         Auth.checkAdmins($scope, "adminPanel");
 
-        PlatformHandler.is("iOS", ()=> {
-            document.getElementById("tabBar").style.marginTop = "-5%";
-        });
+        PlatformHandler.is("iOS", ()=> document.getElementById("tabBar").style.marginTop = "-5%");
 
         $scope.$on("$ionicView.enter", () => {
             const user = Firebase.auth().currentUser;
@@ -30,13 +27,7 @@ class tabsCtrl {
         $rootScope.$on("$stateChangeSuccess", (ev, to, toParams, from) => {
 
             $rootScope.previousState = from.name;
-
-            if ($rootScope.previousState == "comments" || $rootScope.previousState == "updateProfile") {
-                $rootScope.previousState = "tab.forum";
-            }
-            else {
-                $ionicScrollDelegate.scrollTop();
-            }
+            $ionicScrollDelegate.scrollTop();
 
             if (to.name == "tab.libera") {
                 document.getElementById("addIcon").style.display = "block";
@@ -47,7 +38,7 @@ class tabsCtrl {
 
         });
 
-        $scope.backBtnClick = () => $state.go($ionicHistory.goBack());
+        $scope.backBtnClick = () => $ionicHistory.goBack();
 
         $scope.ShowLinks = () => {
             if (document.getElementById("linkList").style.display == "block") {
@@ -69,7 +60,7 @@ class tabsCtrl {
             document.getElementById(destination + "-view").style.display = "block";
         };
 
-        $scope.goToPublisher = function () {
+        $scope.goToPublisher = () => {
             if ($ionicHistory.currentView().stateName == "tab.libera") {
                 $state.go("sendMessage");
                 $rootScope.contentType = "Post";
@@ -80,7 +71,7 @@ class tabsCtrl {
 
             let avatar = Firebase.auth().currentUser.photoURL;
 
-            if (avatar == undefined) {
+            if (!avatar) {
                 avatar = "dist/Images/user.png";
             }
 
@@ -95,7 +86,7 @@ class tabsCtrl {
 
         $ionicPlatform.registerBackButtonAction(e=> {
             e.preventDefault();
-            $state.go($ionicHistory.goBack());
+            $ionicHistory.goBack();
             return false;
         }, 101);
     }

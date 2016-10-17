@@ -7,7 +7,9 @@ const config = {
         publicPath: "./www/dist/",
     },
     devServer: {
-        inline: true
+        contentBase: './www',
+        inline: true,
+        hot: true
     },
     module: {
         preLoaders: [

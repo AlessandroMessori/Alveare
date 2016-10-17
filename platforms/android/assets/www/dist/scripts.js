@@ -1265,7 +1265,7 @@
 	    Auth.checkAdmins($scope, "adminPanel");
 
 	    PlatformHandler.is("iOS", function () {
-	        document.getElementById("tabBar").style.marginTop = "-5%";
+	        return document.getElementById("tabBar").style.marginTop = "-5%";
 	    });
 
 	    $scope.$on("$ionicView.enter", function () {
@@ -1284,12 +1284,7 @@
 	    $rootScope.$on("$stateChangeSuccess", function (ev, to, toParams, from) {
 
 	        $rootScope.previousState = from.name;
-
-	        if ($rootScope.previousState == "comments" || $rootScope.previousState == "updateProfile") {
-	            $rootScope.previousState = "tab.forum";
-	        } else {
-	            $ionicScrollDelegate.scrollTop();
-	        }
+	        $ionicScrollDelegate.scrollTop();
 
 	        if (to.name == "tab.libera") {
 	            document.getElementById("addIcon").style.display = "block";
@@ -1299,7 +1294,7 @@
 	    });
 
 	    $scope.backBtnClick = function () {
-	        return $state.go($ionicHistory.goBack());
+	        return $ionicHistory.goBack();
 	    };
 
 	    $scope.ShowLinks = function () {
@@ -1345,11 +1340,11 @@
 	        $state.go("updateProfile");
 	    };
 
-	    $ionicPlatform.registerBackButtonAction(function (e) {
-	        e.preventDefault();
-	        $state.go($ionicHistory.goBack());
-	        return false;
-	    }, 101);
+	    /*$ionicPlatform.registerBackButtonAction(e=> {
+	     e.preventDefault();
+	     $ionicHistory.goBack();
+	     return false;
+	     }, 101);*/
 	};
 
 	exports.default = tabsCtrl;
