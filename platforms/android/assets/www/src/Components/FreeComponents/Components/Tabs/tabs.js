@@ -15,14 +15,16 @@ class tabsCtrl {
         });
 
         $scope.$on("$ionicView.enter", () => {
-            $scope.User = Firebase.auth().currentUser.displayName;
-            $scope.UserMail = Firebase.auth().currentUser.email;
-            $scope.UserImage = Firebase.auth().currentUser.photoURL;
-            if ($scope.UserImage == undefined) {
-                $scope.UserImage = "dist/Images/user.png";
+            const user = Firebase.auth().currentUser;
+            if (user) {
+                $scope.User = user.displayName;
+                $scope.UserMail = user.email;
+                $scope.UserImage = user.photoURL;
+                if (!$scope.UserImage) {
+                    $scope.UserImage = "dist/Images/user.png";
+                }
+                Auth.checkAdmins($scope, "adminPanel");
             }
-
-            Auth.checkAdmins($scope, "adminPanel");
         });
 
         $rootScope.$on("$stateChangeSuccess", (ev, to, toParams, from) => {
@@ -45,9 +47,7 @@ class tabsCtrl {
 
         });
 
-        $scope.backBtnClick = () => {
-            $state.go($rootScope.previousState);
-        };
+        $scope.backBtnClick = () => $state.go($ionicHistory.goBack());
 
         $scope.ShowLinks = () => {
             if (document.getElementById("linkList").style.display == "block") {
@@ -95,10 +95,11 @@ class tabsCtrl {
 
         $ionicPlatform.registerBackButtonAction(e=> {
             e.preventDefault();
-            $scope.navigate($rootScope.previousState.split(".")[1]);
+            $state.go($ionicHistory.goBack());
             return false;
         }, 101);
     }
+
 }
 
 

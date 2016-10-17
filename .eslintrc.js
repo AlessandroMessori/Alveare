@@ -8,6 +8,15 @@ module.exports = {
     "parserOptions": {
         "sourceType": "module"
     },
+    "globals": {
+        "angular": false,
+        "cordova": false,
+        "ionic": false,
+        "device": false,
+        "Camera": false,
+        "Connection": false,
+        "FileTransfer": false
+    },
     "rules": {
         "indent": [
             "error",
