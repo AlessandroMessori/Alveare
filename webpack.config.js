@@ -1,4 +1,6 @@
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+
 const config = {
     entry: "./www/src/main.js",
     output: {
@@ -43,6 +45,11 @@ const config = {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(['dist'], {
+            root: '/Users/alessandromessori/Desktop/Repositories/Mobile Apps/Alveare/www',
+            verbose: true,
+            dry: false
+        }),
         new ExtractTextPlugin("styles.css")
     ]
 };
