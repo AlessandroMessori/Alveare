@@ -63,7 +63,7 @@ class StaticData {
             },
             {
                 "name": "Quaderno Elettronico",
-                "url": "http://2.229.79.199/quaderno/index.php",
+                "url": "https://ariostospallanzani-re.registroelettronico.com/quaderno/",
                 "icon": "icon ion-ios-book"
             },
             {
@@ -80,66 +80,66 @@ class StaticData {
 
         this.conventions = [
             {
-                name: "Re Di Pane",
+                name: "Tosi Dischi",
                 address: "via a caso 1",
                 description: "Sconto del 5% su tutti i prodotti",
                 img: require("../../../../Images/Conventions/con1.jpeg")
             },
             {
-                name: "Hamburgheria",
+                name: "Armandos",
                 address: "via cicciona 10",
                 description: "Sconto del 10% su tutti i prodotti",
                 img: require("../../../../Images/Conventions/con2.jpeg")
 
             },
             {
-                name: "Pizzeria",
+                name: "A Riccione",
                 address: "via adjflkdfslkfd",
                 description: "Sconto del 5% sulle pizze",
                 img: require("../../../../Images/Conventions/con3.jpeg")
             },
             {
-                name: "Bar Mazzini",
+                name: "Re Vegano",
                 address: "via  di fronte allo spalla",
                 description: "La seconda Pasta è gratis",
                 img: require("../../../../Images/Conventions/con4.jpeg")
 
             },
             {
-                name: "Ligabue",
+                name: "Mister Pizza",
                 address: "via rossi 5",
                 description: "Sconto del 5% sulle torte",
                 img: require("../../../../Images/Conventions/con5.jpeg")
             },
             {
-                name: "Da Malindo",
+                name: "Fior di Latte",
                 address: "via einstein 10",
                 description: "Sconto del 5%",
-                img: require("../../../../Images/Conventions/con6.jpeg")
+                img: require("../../../../Images/Conventions/con6.png")
             },
             {
                 name: "Forno Panciroli",
                 address: "via a caso 197",
                 description: "Sconto del 5% sul Gnocco",
-                img: require("../../../../Images/Conventions/con7.jpeg")
+                img: require("../../../../Images/Conventions/con7.png")
             },
             {
-                name: "Gelateria",
+                name: "Fritti Mistici",
                 address: "via per Modena 6",
                 description: "Granite Gratis per tutti",
-                img: require("../../../../Images/Conventions/con8.jpeg")
+                img: require("../../../../Images/Conventions/con8.png")
             },
             {
-                name: "Negozio a Caso",
+                name: "Baguetteria Pullo",
                 address: "via senza nome",
                 description: "Sconto a caso",
-                img: require("../../../../Images/Conventions/con9.jpeg")
+                img: require("../../../../Images/Conventions/con9.png")
             },
             {
-                name: "Armandoss",
+                name: "Cartoleria Rossi",
                 address: "via a caso 154",
                 description: "Sconto del 20% su tutto",
-                img: require("../../../../Images/Conventions/con10.jpeg")
+                img: require("../../../../Images/Conventions/con10.png")
             }
         ];
     }

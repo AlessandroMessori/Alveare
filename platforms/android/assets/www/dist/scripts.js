@@ -6812,7 +6812,7 @@
 	        "icon": "icon ion-ios-book-outline"
 	    }, {
 	        "name": "Quaderno Elettronico",
-	        "url": "http://2.229.79.199/quaderno/index.php",
+	        "url": "https://ariostospallanzani-re.registroelettronico.com/quaderno/",
 	        "icon": "icon ion-ios-book"
 	    }, {
 	        "name": "Sito Web Della Scuola",
@@ -6825,57 +6825,57 @@
 	    }];
 
 	    this.conventions = [{
-	        name: "Re Di Pane",
+	        name: "Tosi Dischi",
 	        address: "via a caso 1",
 	        description: "Sconto del 5% su tutti i prodotti",
 	        img: __webpack_require__(165)
 	    }, {
-	        name: "Hamburgheria",
+	        name: "Armandos",
 	        address: "via cicciona 10",
 	        description: "Sconto del 10% su tutti i prodotti",
 	        img: __webpack_require__(166)
 
 	    }, {
-	        name: "Pizzeria",
+	        name: "A Riccione",
 	        address: "via adjflkdfslkfd",
 	        description: "Sconto del 5% sulle pizze",
 	        img: __webpack_require__(167)
 	    }, {
-	        name: "Bar Mazzini",
+	        name: "Re Vegano",
 	        address: "via  di fronte allo spalla",
 	        description: "La seconda Pasta è gratis",
 	        img: __webpack_require__(168)
 
 	    }, {
-	        name: "Ligabue",
+	        name: "Mister Pizza",
 	        address: "via rossi 5",
 	        description: "Sconto del 5% sulle torte",
 	        img: __webpack_require__(169)
 	    }, {
-	        name: "Da Malindo",
+	        name: "Fior di Latte",
 	        address: "via einstein 10",
 	        description: "Sconto del 5%",
-	        img: __webpack_require__(170)
+	        img: __webpack_require__(219)
 	    }, {
 	        name: "Forno Panciroli",
 	        address: "via a caso 197",
 	        description: "Sconto del 5% sul Gnocco",
-	        img: __webpack_require__(171)
+	        img: __webpack_require__(215)
 	    }, {
-	        name: "Gelateria",
+	        name: "Fritti Mistici",
 	        address: "via per Modena 6",
 	        description: "Granite Gratis per tutti",
-	        img: __webpack_require__(172)
+	        img: __webpack_require__(216)
 	    }, {
-	        name: "Negozio a Caso",
+	        name: "Baguetteria Pullo",
 	        address: "via senza nome",
 	        description: "Sconto a caso",
-	        img: __webpack_require__(173)
+	        img: __webpack_require__(217)
 	    }, {
-	        name: "Armandoss",
+	        name: "Cartoleria Rossi",
 	        address: "via a caso 154",
 	        description: "Sconto del 20% su tutto",
-	        img: __webpack_require__(174)
+	        img: __webpack_require__(218)
 	    }];
 	};
 
@@ -6912,36 +6912,11 @@
 	module.exports = __webpack_require__.p + "images/con5.jpeg";
 
 /***/ },
-/* 170 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "images/con6.jpeg";
-
-/***/ },
-/* 171 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "images/con7.jpeg";
-
-/***/ },
-/* 172 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "images/con8.jpeg";
-
-/***/ },
-/* 173 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "images/con9.jpeg";
-
-/***/ },
-/* 174 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "images/con10.jpeg";
-
-/***/ },
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
 /* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -8010,6 +7985,36 @@
 	};
 
 	module.exports = config;
+
+/***/ },
+/* 215 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "images/con7.png";
+
+/***/ },
+/* 216 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "images/con8.png";
+
+/***/ },
+/* 217 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "images/con9.png";
+
+/***/ },
+/* 218 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "images/con10.png";
+
+/***/ },
+/* 219 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "images/con6.png";
 
 /***/ }
 /******/ ]);
