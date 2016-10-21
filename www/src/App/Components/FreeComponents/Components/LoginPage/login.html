@@ -1,0 +1,42 @@
+<ion-view view-title="Login">
+    <ion-content class="loginSection" id="loginPage">
+
+        <img ng-src={{logoImg}} class="responsive"></img>
+
+        <div class="row" id="inputrow">
+            <div class="col-50 col-offset-25">
+
+                <label class="item item-input">
+                    <input type="email" ng-model="mail" placeholder="Email">
+                </label>
+                <label class="item item-input">
+                    <input type="{{inputType}}" id="passtxt" ng-model="password" placeholder="Password">
+                </label>
+
+            </div>
+        </div>
+
+        <div class="row" id="checkboxrow">
+            <div class="col-50 col-offset-25">
+                <input type="checkbox" ng-model="ShowPass" ng-click="hideShowPassword()"> Mostra password</input>
+            </div>
+        </div>
+
+        <div class="row" id="checkboxrow">
+            <div class="col-50 col-offset-25">
+                <input type="checkbox" ng-model="RememberMe"> Ricordami</input>
+            </div>
+        </div>
+
+        <div class="row" id="btnrow">
+            <div class="col">
+                <button ng-click="UserLogin(mail,password,RememberMe)" class="button button-positive">Login</button>
+            </div>
+        </div>
+
+        <a ui-sref="signup">Crea Account</a>
+
+    </ion-content>
+</ion-view>
+
+

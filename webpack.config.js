@@ -4,10 +4,10 @@ const config = {
     output: {
         path: "./www/dist/",
         filename: "scripts.js",
-        publicPath: "./www/dist/",
+        publicPath: "./dist/",
     },
     devServer: {
-        contentBase: './www',
+        contentBase: './www/',
         inline: true,
         hot: true
     },
@@ -16,11 +16,11 @@ const config = {
             {
                 test: /\.js?$/,
                 loaders: ["eslint"],
-                exclude: /node_modules/,
+                exclude: /Ionic/,
             }
         ],
         loaders: [
-            {
+            {//SCRIPTS
                 test: /.js?$/,
                 loader: "babel-loader",
                 exclude: /node_modules[\/\\](?!admin-config)/,
@@ -28,17 +28,23 @@ const config = {
                     presets: ["es2015"]
                 }
             },
-            {
+            {//STYLES
                 test: /\.scss$/,
-                loaders: ["style", "css", "sass"]
+                loader: ExtractTextPlugin.extract('css!sass')
+            },
+            {//VIEWS
+                test: /\.html/,
+                loader: 'html-loader'
+            },
+            {//IMAGES
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                loader: 'file?name=images/[name].[ext]'
             }
-        ],
-        plugins: [
-            new ExtractTextPlugin("./www/dist/styles.css", {
-                allChunks: true
-            })
         ]
-    }
+    },
+    plugins: [
+        new ExtractTextPlugin("styles.css")
+    ]
 };
 
 module.exports = config;
