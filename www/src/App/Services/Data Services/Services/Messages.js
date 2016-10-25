@@ -81,6 +81,7 @@ class Messages {
                 date: results[item].date,
                 avatar: url,
                 files: files,
+                links: results[item].links,
                 id: item,
                 likeCount: 0,
                 commentCount: 0,

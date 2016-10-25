@@ -21,9 +21,9 @@ class forumCtrl {
             }
         });
 
-        $scope.openFile = (file) => {
-            FileHandler.openFile(file, $ionicLoading);
-        };
+        $scope.openFile = file => FileHandler.openFile(file, $ionicLoading);
+
+        $scope.openLink = link => cordova.InAppBrowser.open(link, "_system", "location=yes");
     }
 }
 

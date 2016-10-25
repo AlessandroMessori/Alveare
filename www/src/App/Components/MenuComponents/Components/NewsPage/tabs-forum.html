@@ -17,6 +17,7 @@
 
             <div class="item item-body">
                 <p class="postContent">{{Post.text}}</p>
+
                 <ul class="fileList">
                     <li ng-click="openFile(file.url)" class="card" ng-repeat="file in Post.files">
                         <div class="item item-divider">
@@ -25,6 +26,16 @@
                         </div>
                     </li>
                 </ul>
+
+                <ul class="fileList">
+                    <li ng-click="openLink(link.link)" class="card" ng-repeat="link in Post.links">
+                        <div class="item item-divider">
+                            <span class="icon ion-link"></span>
+                            <p>{{link.title}}</p>
+                        </div>
+                    </li>
+                </ul>
+
                 <a class="subdued dataTag" ng-click="Post.link('likes')">{{Post.likeCount}} Mi piace</a>
                 <a class="subdued dataTag" ng-click="Post.link('comments')">{{Post.commentCount}} Commenti</a>
             </div>

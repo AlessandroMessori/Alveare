@@ -32,11 +32,15 @@
   }
 }
 
-#pdfList {
+.addonsList {
   list-style-type: circle;
   margin: 2% 10%;
   li {
-    font-size: 14px;
+
+    span {
+      font-size: 14px;
+    }
+
     span.icon {
       color: red;
     }

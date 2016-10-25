@@ -1,6 +1,21 @@
-<div id="linkModal">
-    <h2>Aggiungi Link</h2>
-    <input placeholder="Titolo" type="text">
-    <input placeholder="Indirizzo" type="url">
-    <button class="button">Aggiungi</button>
-</div>
+<ion-modal-view id="linkModal" ng-controller="linkModalCtrl">
+
+    <ion-header-bar>
+        <button class="button icon ion-android-arrow-back" ng-click="closeModal()"></button>
+        <h1 class="title">Aggiungi Link</h1>
+    </ion-header-bar>
+
+    <ion-content>
+        <div class="list">
+            <label class="item item-input">
+                <input placeholder="Titolo" ng-model="title" type="text">
+            </label>
+            <label class="item item-input">
+                <input placeholder="Indirizzo" ng-model="link" type="url">
+            </label>
+            <br>
+            <button class="button addLinkBtn" ng-click="addLink(title,link)">Aggiungi</button>
+        </div>
+    </ion-content>
+
+</ion-modal-view>

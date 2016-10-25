@@ -2,10 +2,15 @@ import Firebase from "firebase";
 
 class addNewsCtrl {
 
-    constructor($scope, $rootScope, $ionicLoading, Messages, DateHandler, Modals, FileHandler) {
+    constructor($scope, $rootScope, $ionicLoading, $ionicModal, Messages, DateHandler, Modals, FileHandler) {
 
         $scope.fileList = [];
         $scope.binaryList = [];
+        $scope.linkList = [];
+        $scope.modal = $ionicModal.fromTemplate("<link-modal></link-modal>", {
+            scope: $scope,
+            animation: "slide-in-up"
+        });
 
         $scope.$on("$ionicView.enter", () => {
             $scope.clearData();
@@ -32,10 +37,12 @@ class addNewsCtrl {
                     author: Firebase.auth().currentUser.displayName,
                     date: DateHandler.GetCurrentDate(),
                     files: $scope.fileList,
+                    links: $scope.linkList,
                     userMail: Firebase.auth().currentUser.email
                 };
 
                 Messages.sendPost(newData, $scope.binaryList, $rootScope.contentType);
+                $scope.linkList = null;
                 $scope.clearData();
             }
             else {
@@ -47,12 +54,20 @@ class addNewsCtrl {
 
         $scope.removeFile = (file) => FileHandler.removeFile(file, $scope.fileList);
 
+        $scope.removeLink = (index) => $scope.linkList.splice(index, 1);
+
+
+        $scope.$on("$destroy", ()=> $scope.modal.remove());
+
         $scope.openLinkModal = () => {
-            $ionicLoading.show({
-                template: "<link-modal></link-modal>"
+            $scope.modal = $ionicModal.fromTemplate("<link-modal></link-modal>", {
+                scope: $scope,
+                animation: "slide-in-up"
             });
+            $scope.modal.show();
         };
     }
+
 
 }
 

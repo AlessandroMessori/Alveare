@@ -15,7 +15,7 @@
                    onchange="angular.element(this).scope().loadFile(this)">/>
         </div>
 
-        <ul id="pdfList">
+        <ul class="addonsList">
             <li ng-repeat="file in fileList">
                 <span>{{file}}</span>
                 <span class="icon ion-android-cancel" ng-click="removeFile(file)"></span>
@@ -26,6 +26,13 @@
             <span class="icon ion-link"></span>
             <a>Allega Link</a>
         </button>
+
+        <ul class="addonsList">
+            <li ng-repeat="link in linkList track by $index">
+                <span>{{link.title}}</span>
+                <span ng-click="removeLink($index)" class="icon ion-android-cancel"></span>
+            </li>
+        </ul>
 
         <br>
         <button id="sendbtn" class="button  button-positive" ng-click="sendNews(news)">Invia</button>
