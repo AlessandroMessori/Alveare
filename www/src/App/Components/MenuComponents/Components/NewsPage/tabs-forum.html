@@ -18,9 +18,11 @@
             <div class="item item-body">
                 <p class="postContent">{{Post.text}}</p>
                 <ul class="fileList">
-                    <li ng-click="openFile(file.url)" ng-repeat="file in Post.files">
-                        <span class="icon ion-paperclip"></span>
-                        <a>{{file.name}}</a>
+                    <li ng-click="openFile(file.url)" class="card" ng-repeat="file in Post.files">
+                        <div class="item item-divider">
+                            <span class="icon ion-paperclip"></span>
+                            <p>{{file.name}}</p>
+                        </div>
                     </li>
                 </ul>
                 <a class="subdued dataTag" ng-click="Post.link('likes')">{{Post.likeCount}} Mi piace</a>

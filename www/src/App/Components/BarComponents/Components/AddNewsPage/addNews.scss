@@ -1,7 +1,7 @@
 #upload-pdf {
   display: block;
   width: 100px;
-  height: 20px;
+  height: 25px;
   overflow: hidden;
   margin-top: 10px;
 
@@ -14,6 +14,10 @@
 
     span {
       font-size: 20px;
+    }
+
+    a {
+      text-decoration: none;
     }
   }
 
@@ -37,4 +41,10 @@
       color: red;
     }
   }
+}
+
+#sendbtn {
+  width: 33%;
+  margin-left: 33%;
+
 }

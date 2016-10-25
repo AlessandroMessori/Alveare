@@ -15,19 +15,24 @@
 
 .fileList {
   margin-bottom: 3%;
-  margin-left: 3%;
-  li span {
-    font-size:18px;
-    display: inline;
+
+  li {
+    margin: 0 0 3% 0;
+
+    span {
+      font-size: 18px;
+      display: inline;
+    }
+    p {
+      font-size: 13px;
+      color: #387EF5;
+      display: inline;
+    }
+    a {
+      font-size: 13px;
+    }
   }
-  li p {
-    font-size: 13px;
-    color: #387EF5;
-    display: inline;
-  }
-  li a{
-    font-size: 13px;
-  }
+
 }
 
 .dataTag {

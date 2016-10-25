@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "Applicazione Mobile del liceo Ariosto Spallanzani di Reggio Emilia",
   "scripts": {
-    "permissions": "sudo chown -R alessandromessori /Users/alessandromessori",
+    "permissions": "chown -R alessandromessori /Users/alessandromessori",
     "build": "webpack --watch",
     "serve": "webpack-dev-server",
-    "dev": "concurrently --kill-others \"npm run serve\" \"npm run build\""
+    "dev": "concurrently --kill-others \"npm run serve\" \"npm run build\"",
+    "create": "ionic state reset"
   },
   "dependencies": {
     "firebase": "^3.3.0",
@@ -44,7 +45,8 @@
     "cordova-plugin-crosswalk-webview@1.2.0",
     "org.apache.cordova.file-transfer",
     "cordova-plugin-file-opener2",
-    "cordova-plugin-x-socialsharing"
+    "cordova-plugin-x-socialsharing",
+    "cordova-plugin-inappbrowser"
   ],
   "cordovaPlatforms": [
     "ios",

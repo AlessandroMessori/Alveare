@@ -1,10 +1,10 @@
-const actionBar = function () {
+const actionBar = ()=> {
     return {
         scope: {
             title: "=title"
         },
         restrict: "E",
-        templateUrl: "src/App/Directives/ActionBar/actionBar.html",
+        template: require("./actionBar.html"),
     };
 };
 

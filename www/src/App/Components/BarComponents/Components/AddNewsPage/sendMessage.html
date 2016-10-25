@@ -9,7 +9,7 @@
         <div id="upload-pdf">
             <button>
                 <span class="icon ion-paperclip"></span>
-                <a href="javascript: void(0)">Carica PDF</a>
+                <a href="javascript: void(0)">Allega PDF</a>
             </button>
             <input type="file" id="upload_input" name="upload" multiple
                    onchange="angular.element(this).scope().loadFile(this)">/>
@@ -22,11 +22,13 @@
             </li>
         </ul>
 
-        <div class="row" id="btnrow">
-            <div class="col col-33 col-offset-33">
-                <button id="sendbtn" class="button  button-positive" ng-click="sendNews(news)">Invia</button>
-            </div>
-        </div>
+        <button ng-click="openLinkModal()">
+            <span class="icon ion-link"></span>
+            <a>Allega Link</a>
+        </button>
+
+        <br>
+        <button id="sendbtn" class="button  button-positive" ng-click="sendNews(news)">Invia</button>
 
     </ion-content>
 </ion-view>

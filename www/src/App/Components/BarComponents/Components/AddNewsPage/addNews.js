@@ -47,6 +47,11 @@ class addNewsCtrl {
 
         $scope.removeFile = (file) => FileHandler.removeFile(file, $scope.fileList);
 
+        $scope.openLinkModal = () => {
+            $ionicLoading.show({
+                template: "<link-modal></link-modal>"
+            });
+        };
     }
 
 }
