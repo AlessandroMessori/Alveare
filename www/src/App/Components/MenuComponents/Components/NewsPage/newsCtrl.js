@@ -3,6 +3,7 @@ import Firebase from "firebase";
 class forumCtrl {
     static create($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler, type) {
 
+        $scope.title = type;
         $rootScope.userName = window.localStorage.getItem("Username");
         Messages.getPosts($scope, $rootScope, $state, "newsSpinner", type);
 
@@ -33,6 +34,10 @@ export const newsCtrl = ($scope, $rootScope, $state, $ionicLoading, Messages, Fi
 
 export const freeZoneCtrl = ($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler) => {
     return forumCtrl.create($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler, "Post");
+};
+
+export const orientamentoCtrl = ($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler) => {
+    return forumCtrl.create($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler, "Orientamento");
 };
 
 

@@ -60,25 +60,6 @@ class Config {
                 }
             })
 
-            .state("tab.giornalino", {
-                url: "/giornalino",
-                views: {
-                    "tab-giornalino": {
-                        template: require("./Components/MenuComponents/Components/ArticlesPage/tab-giornalino.html"),
-                        controller: "attualitaCtrl"
-                    }
-                }
-            })
-
-            .state("tab.orientamento", {
-                url: "/orientamento",
-                views: {
-                    "tab-orientamento": {
-                        template: require("./Components/MenuComponents/Components/ArticlesPage/tab-giornalino.html"),
-                        controller: "orientamentoCtrl"
-                    }
-                }
-            })
 
             .state("tab.biblioteca", {
                 url: "/biblioteca",
@@ -86,6 +67,28 @@ class Config {
                     "tab-biblioteca": {
                         template: require("./Components/MenuComponents/Components/LibraryPage/tab-library.html"),
                         controller: "libraryCtrl"
+                    }
+                }
+            })
+
+
+            .state("tab.giornalino", {
+                url: "/giornalino",
+                views: {
+                    "tab-giornalino": {
+                        template: require("./Components/MenuComponents/Components/ArticlesPage/tab-giornalino.html"),
+                        controller: "giornalinoCtrl"
+                    }
+                }
+            })
+
+
+            .state("tab.orientamento", {
+                url: "/orientamento",
+                views: {
+                    "tab-orientamento": {
+                        template: require("./Components/MenuComponents/Components/NewsPage/tabs-forum.html"),
+                        controller: "orientamentoCtrl"
                     }
                 }
             })

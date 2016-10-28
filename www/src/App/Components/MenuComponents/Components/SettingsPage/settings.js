@@ -41,4 +41,4 @@ class settingsCtrl {
     }
 }
 
-module.exports = settingsCtrl;
+export default settingsCtrl;

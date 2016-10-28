@@ -2,15 +2,7 @@ class StaticData {
     constructor($state, $rootScope) {
 
         this.adminLinks = [
-            {
-                "name": "Scrivi Avviso",
-                "icon": "icon ion-ios-bell",
-                "url": "sendMessage",
-                "direct": function () {
-                    $state.go(this.url);
-                    $rootScope.contentType = "Comunicazioni";
-                }
-            },
+
             {
                 "name": "Scrivi Articolo del Giornalino",
                 "url": "addArticle",
@@ -21,12 +13,21 @@ class StaticData {
                 }
             },
             {
-                "name": "Scrivi Articolo d'orientamento",
-                "url": "addArticle",
+                "name": "Scrivi Post d'orientamento",
+                "url": "sendMessage",
                 "icon": "icon ion-ios-navigate",
                 "direct": function () {
                     $state.go(this.url);
                     $rootScope.contentType = "Orientamento";
+                }
+            },
+            {
+                "name": "Scrivi Avviso",
+                "icon": "icon ion-ios-bell",
+                "url": "sendMessage",
+                "direct": function () {
+                    $state.go(this.url);
+                    $rootScope.contentType = "Comunicazioni";
                 }
             },
             {
