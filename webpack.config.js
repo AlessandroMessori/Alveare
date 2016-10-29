@@ -18,7 +18,7 @@ const config = {
             {
                 test: /\.js?$/,
                 loaders: ["eslint"],
-                exclude: /Ionic/,
+                exclude: /(Ionic|TimePicker)/,
             }
         ],
         loaders: [

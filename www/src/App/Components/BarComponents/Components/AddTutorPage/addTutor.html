@@ -1,0 +1,17 @@
+<ion-view>
+    <action-bar title="'Gruppo di Studio'"></action-bar>
+    <ion-content id="addTutorSection" class="has-header">
+        <h2 class="title">Crea Gruppo Di Studio</h2>
+        <div class="list">
+            <label class="item item-input">
+                <span class="icon ion-ios-book"></span>
+                <textarea placeholder=" Descrizione"></textarea>
+            </label>
+            <label class="item item-input">
+                <span class="icon ion-calendar"></span>
+                <input type="text" ng-model="time" placeholder=" Orario di Fine" ng-click="openPicker()">
+            </label>
+        </div>
+        <button class="button">Invia</button>
+    </ion-content>
+</ion-view>

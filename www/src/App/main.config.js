@@ -155,6 +155,12 @@ class Config {
                 controller: "addNewsCtrl"
             })
 
+            .state("addTutor", {
+                url: "/addTutor",
+                template: require("./Components/BarComponents/Components/AddTutorPage/addTutor.html"),
+                controller: "addTutorCtrl"
+            })
+
             .state("readReports", {
                 url: "/readReports",
                 template: require("./Components/BarComponents/Components/ReadReportsPage/readReports.html"),

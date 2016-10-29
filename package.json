@@ -2,6 +2,7 @@
   "name": "app_ariosto_spallanzani",
   "version": "1.0.0",
   "description": "Applicazione Mobile del liceo Ariosto Spallanzani di Reggio Emilia",
+  "license": "MIT",
   "scripts": {
     "permissions": "chown -R alessandromessori /Users/alessandromessori",
     "build": "webpack --watch",

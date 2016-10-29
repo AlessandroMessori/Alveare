@@ -1,5 +1,6 @@
 import addArticleCtrl  from"./Components/AddArticlePage/addArticle";
 import addNewsCtrl  from "./Components/AddNewsPage/addNews";
+import addTutorCtrl from "./Components/AddTutorPage/addTutor";
 import commentsCtrl from "./Components/CommentsPage/comments";
 import deletePostsCtrl from "./Components/DeletePostsPage/deletePosts";
 import likesCtrl  from "./Components/LikesPage/likes";
@@ -13,6 +14,7 @@ const barComponents = angular.module("appAS.components.bar", ["ionic"]);
 
 barComponents.controller("addArticleCtrl", addArticleCtrl);
 barComponents.controller("addNewsCtrl", addNewsCtrl);
+barComponents.controller("addTutorCtrl", addTutorCtrl);
 barComponents.controller("commentsCtrl", commentsCtrl);
 barComponents.controller("deletePostsCtrl", deletePostsCtrl);
 barComponents.controller("likesCtrl", likesCtrl);

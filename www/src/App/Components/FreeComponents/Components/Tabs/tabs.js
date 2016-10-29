@@ -29,7 +29,7 @@ class tabsCtrl {
             $rootScope.previousState = from.name;
             $ionicScrollDelegate.scrollTop();
 
-            if (to.name == "tab.libera") {
+            if (to.name == "tab.libera" || to.name == "tab.biblioteca") {
                 document.getElementById("addIcon").style.display = "block";
             }
             else {
@@ -64,6 +64,9 @@ class tabsCtrl {
             if ($ionicHistory.currentView().stateName == "tab.libera") {
                 $state.go("sendMessage");
                 $rootScope.contentType = "Post";
+            }
+            else if ($ionicHistory.currentView().stateName == "tab.biblioteca") {
+                $state.go("addTutor");
             }
         };
 
