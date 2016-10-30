@@ -5,13 +5,13 @@
         <div class="list">
             <label class="item item-input">
                 <span class="icon ion-ios-book"></span>
-                <textarea placeholder=" Descrizione"></textarea>
+                <textarea ng-model="description" placeholder="Descrizione"></textarea>
             </label>
             <label class="item item-input">
                 <span class="icon ion-calendar"></span>
-                <input type="text" ng-model="time" placeholder=" Orario di Fine" ng-click="openPicker()">
+                <input type="text" ng-model="time" readonly placeholder="Orario di Fine" ng-click="openPicker()">
             </label>
         </div>
-        <button class="button">Invia</button>
+        <button class="button" ng-click="sendTutor(description,time)">Invia</button>
     </ion-content>
 </ion-view>

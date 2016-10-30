@@ -1,5 +1,6 @@
+import Firebase from "firebase";
 class addTutorCtrl {
-    constructor($scope, ionicTimePicker) {
+    constructor($scope, $ionicLoading, ionicTimePicker, Tutors, Modals) {
 
         $scope.openPicker = () => {
 
@@ -16,6 +17,7 @@ class addTutorCtrl {
                         if (selectedTime.minutes < 10) selectedTime.minutes = "0" + selectedTime.minutes;
 
                         $scope.time = selectedTime.hour + ":" + selectedTime.minutes;
+                        $scope.fullDate = new Date(val * 1000);
                     }
                 },
                 setLabel: "Imposta",
@@ -24,6 +26,30 @@ class addTutorCtrl {
             };
 
             ionicTimePicker.openTimePicker(ipObj1);
+        };
+
+        $scope.sendTutor = (description, deadLine) => {
+
+            if (description != "" && deadLine) {
+
+                $ionicLoading.show({
+                    template: "Pubblicazione in Corso..."
+                });
+
+                const newTutor = {
+                    authorMail: Firebase.auth().currentUser.email,
+                    authorName: Firebase.auth().currentUser.displayName,
+                    description,
+                    deadLine,
+                    date: $scope.fullDate
+                };
+
+                Tutors.sendTutor(newTutor);
+            }
+            else {
+                Modals.ResultTemplate("Compila tutti i campi");
+            }
+
         };
 
     }

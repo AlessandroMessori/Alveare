@@ -1,6 +1,5 @@
 class DateHandler {
 
-
     GetCurrentDate() {
 
         let today = new Date();
