@@ -6,12 +6,14 @@ class tabsCtrl {
 
         $scope.View = "tab-link";
         $scope.showIcon = "ion-plus-round";
+        $scope.addIcon = false;
         $scope.UserImage = JSON.parse(localStorage.getItem("firebase:authUser:AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8:[DEFAULT]")).photoURL;
         Auth.checkAdmins($scope, "adminPanel");
 
         PlatformHandler.is("iOS", ()=> document.getElementById("tabBar").style.marginTop = "-5%");
 
         $scope.$on("$ionicView.enter", () => {
+
             const user = Firebase.auth().currentUser;
             if (user) {
                 $scope.User = user.displayName;
@@ -22,18 +24,22 @@ class tabsCtrl {
                 }
                 Auth.checkAdmins($scope, "adminPanel");
             }
+
         });
 
         $rootScope.$on("$stateChangeSuccess", (ev, to, toParams, from) => {
 
             $rootScope.previousState = from.name;
+            $rootScope.currentState = to.name;
             $ionicScrollDelegate.scrollTop();
 
-            if (to.name == "tab.libera" || to.name == "tab.biblioteca") {
-                document.getElementById("addIcon").style.display = "block";
+            const view = to.name;
+
+            if (view == "tab.libera" || view == "tab.biblioteca") {
+                $scope.addIcon = true;
             }
             else {
-                document.getElementById("addIcon").style.display = "none";
+                $scope.addIcon = false;
             }
 
         });
