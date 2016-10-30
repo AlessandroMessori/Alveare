@@ -1,5 +1,22 @@
 <ion-view view-title="Biblioteca">
     <ion-content id="librarySection">
+
         <h3>Biblioteca Panizzi</h3>
+        <ion-spinner class="spinner" id="tutorsSpinner"></ion-spinner>
+
+        <ion-refresher on-refresh="doRefresh()">
+        </ion-refresher>
+
+        <div class="list">
+
+            <div class="item item-thumbnail-left tutor" href="#" ng-repeat="Tutor in Tutors | orderBy:'-' track by $index">
+                <img ng-src={{Tutor.avatar}} ng-click="Tutor.linkToProfile()">
+                <h2>Referente:{{Tutor.authorName}}</h2>
+                <p>{{Tutor.description}}</p>
+                <p>Finisce Alle {{Tutor.deadLine}}</p>
+            </div>
+
+        </div>
+
     </ion-content>
 </ion-view>

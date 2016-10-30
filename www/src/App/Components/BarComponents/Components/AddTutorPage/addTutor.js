@@ -8,16 +8,21 @@ class addTutorCtrl {
                 callback(val) {
                     if (typeof (val) !== "undefined") {
 
+                        const deadLine = new Date(val * 1000);
+                        const now = new Date();
                         const selectedTime = {
-                            hour: new Date(val * 1000).getUTCHours(),
-                            minutes: new Date(val * 1000).getUTCMinutes()
+                            hour: deadLine.getUTCHours(),
+                            minutes: deadLine.getUTCMinutes()
                         };
 
                         if (selectedTime.hour < 10) selectedTime.hour = "0" + selectedTime.hour;
                         if (selectedTime.minutes < 10) selectedTime.minutes = "0" + selectedTime.minutes;
 
                         $scope.time = selectedTime.hour + ":" + selectedTime.minutes;
-                        $scope.fullDate = new Date(val * 1000);
+
+                        now.setUTCHours(deadLine.getUTCHours() - 1);
+                        now.setMinutes(deadLine.getMinutes());
+                        $scope.fullDate = now.toString();
                     }
                 },
                 setLabel: "Imposta",
