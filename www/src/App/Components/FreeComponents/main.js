@@ -1,6 +1,6 @@
-import tabsCtrl  from "./Components/Tabs/tabs";
-import loginCtrl  from "./Components/LoginPage/login";
-import signupCtrl  from "./Components/SignupPage/signup";
+import tabsCtrl  from "./Tabs/tabs";
+import loginCtrl  from "./LoginPage/login";
+import signupCtrl  from "./SignupPage/signup";
 
 const freeComponents = angular.module("appAS.components.free", ["ionic"]);
 

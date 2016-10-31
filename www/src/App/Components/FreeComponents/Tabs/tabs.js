@@ -20,7 +20,7 @@ class tabsCtrl {
                 $scope.UserMail = user.email;
                 $scope.UserImage = user.photoURL;
                 if (!$scope.UserImage) {
-                    $scope.UserImage = require("../../../../../Images/user.jpg");
+                    $scope.UserImage = require("../../../../Images/user.jpg");
                 }
                 Auth.checkAdmins($scope, "adminPanel");
             }
@@ -81,7 +81,7 @@ class tabsCtrl {
             let avatar = Firebase.auth().currentUser.photoURL;
 
             if (!avatar) {
-                avatar = require("../../../../../Images/user.jpg");
+                avatar = require("../../../../Images/user.jpg");
             }
 
             $rootScope.currentProfile = {

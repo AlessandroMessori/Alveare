@@ -1,10 +1,10 @@
-import adminCtrl  from "./Components/AdminPage/admin";
-import giornalinoCtrl from "./Components/ArticlesPage/articles";
-import conventionsCtrl  from "./Components/ConventionsPage/conventions";
-import libraryCtrl  from "./Components/LibraryPage/library";
-import linkCtrl  from "./Components/LinkPage/link";
-import {newsCtrl, freeZoneCtrl, orientamentoCtrl}  from "./Components/NewsPage/newsCtrl";
-import settingsCtrl  from "./Components/SettingsPage/settings";
+import adminCtrl  from "./AdminPage/admin";
+import giornalinoCtrl from "./ArticlesPage/articles";
+import conventionsCtrl  from "./ConventionsPage/conventions";
+import libraryCtrl  from "./LibraryPage/library";
+import linkCtrl  from "./LinkPage/link";
+import {newsCtrl, freeZoneCtrl, orientamentoCtrl}  from "./NewsPage/newsCtrl";
+import settingsCtrl  from "./SettingsPage/settings";
 
 const menuComponents = angular.module("appAS.components.menu", ["ionic"]);
 

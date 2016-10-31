@@ -1,25 +1,13 @@
-import addArticleCtrl  from"./Components/AddArticlePage/addArticle";
-import addNewsCtrl  from "./Components/AddNewsPage/addNews";
-import addTutorCtrl from "./Components/AddTutorPage/addTutor";
-import commentsCtrl from "./Components/CommentsPage/comments";
-import deletePostsCtrl from "./Components/DeletePostsPage/deletePosts";
-import likesCtrl  from "./Components/LikesPage/likes";
-import moderationCtrl  from "./Components/ModerationPage/moderation";
-import readReportsCtrl from "./Components/ReadReportsPage/readReports";
-import reportBugCtrl from "./Components/ReportBugPage/reportBug";
-import updateProfileCtrl from "./Components/UpdateProfilePage/updateProfile";
-import updateStatusCtrl from "./Components/UpdateStatusPage/updateStatus";
+import commentsCtrl from "./CommentsPage/comments";
+import likesCtrl  from "./LikesPage/likes";
+import reportBugCtrl from "./ReportBugPage/reportBug";
+import updateProfileCtrl from "./UpdateProfilePage/updateProfile";
+import updateStatusCtrl from "./UpdateStatusPage/updateStatus";
 
 const barComponents = angular.module("appAS.components.bar", ["ionic"]);
 
-barComponents.controller("addArticleCtrl", addArticleCtrl);
-barComponents.controller("addNewsCtrl", addNewsCtrl);
-barComponents.controller("addTutorCtrl", addTutorCtrl);
 barComponents.controller("commentsCtrl", commentsCtrl);
-barComponents.controller("deletePostsCtrl", deletePostsCtrl);
 barComponents.controller("likesCtrl", likesCtrl);
-barComponents.controller("moderationCtrl", moderationCtrl);
-barComponents.controller("readReportsCtrl", readReportsCtrl);
 barComponents.controller("reportBugCtrl", reportBugCtrl);
 barComponents.controller("updateProfileCtrl", updateProfileCtrl);
 barComponents.controller("updateStatusCtrl", updateStatusCtrl);

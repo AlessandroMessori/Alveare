@@ -33,20 +33,20 @@ class Config {
 
             .state("login", {
                 url: "/login",
-                template: require("./Components/FreeComponents/Components/LoginPage/login.html"),
+                template: require("./Components/FreeComponents/LoginPage/login.html"),
                 controller: "loginCtrl"
             })
 
             .state("signup", {
                 url: "/signup",
-                template: require("./Components/FreeComponents/Components/SignupPage/signup.html"),
+                template: require("./Components/FreeComponents/SignupPage/signup.html"),
                 controller: "signupCtrl"
             })
 
             .state("tab", {
                 url: "/tab",
                 abstract: true,
-                template: require("./Components/FreeComponents/Components/Tabs/tabs.html"),
+                template: require("./Components/FreeComponents/Tabs/tabs.html"),
                 controller: "tabsCtrl"
             })
 
@@ -54,7 +54,7 @@ class Config {
                 url: "/admin",
                 views: {
                     "tab-admin": {
-                        template: require("./Components/MenuComponents/Components/AdminPage/tab-home.html"),
+                        template: require("./Components/MenuComponents/AdminPage/tab-home.html"),
                         controller: "adminCtrl"
                     }
                 }
@@ -65,7 +65,7 @@ class Config {
                 url: "/biblioteca",
                 views: {
                     "tab-biblioteca": {
-                        template: require("./Components/MenuComponents/Components/LibraryPage/tab-library.html"),
+                        template: require("./Components/MenuComponents/LibraryPage/tab-library.html"),
                         controller: "libraryCtrl"
                     }
                 }
@@ -76,7 +76,7 @@ class Config {
                 url: "/giornalino",
                 views: {
                     "tab-giornalino": {
-                        template: require("./Components/MenuComponents/Components/ArticlesPage/tab-giornalino.html"),
+                        template: require("./Components/MenuComponents/ArticlesPage/tab-giornalino.html"),
                         controller: "giornalinoCtrl"
                     }
                 }
@@ -87,7 +87,7 @@ class Config {
                 url: "/orientamento",
                 views: {
                     "tab-orientamento": {
-                        template: require("./Components/MenuComponents/Components/NewsPage/tabs-forum.html"),
+                        template: require("./Components/MenuComponents/NewsPage/tabs-forum.html"),
                         controller: "orientamentoCtrl"
                     }
                 }
@@ -97,7 +97,7 @@ class Config {
                 url: "/forum",
                 views: {
                     "tab-forum": {
-                        template: require("./Components/MenuComponents/Components/NewsPage/tabs-forum.html"),
+                        template: require("./Components/MenuComponents/NewsPage/tabs-forum.html"),
                         controller: "newsCtrl"
                     }
                 }
@@ -107,7 +107,7 @@ class Config {
                 url: "/libera",
                 views: {
                     "tab-libera": {
-                        template: require("./Components/MenuComponents/Components/NewsPage/tabs-forum.html"),
+                        template: require("./Components/MenuComponents/NewsPage/tabs-forum.html"),
                         controller: "freeZoneCtrl"
                     }
                 }
@@ -117,7 +117,7 @@ class Config {
                 url: "/convenzioni",
                 views: {
                     "tab-convenzioni": {
-                        template: require("./Components/MenuComponents/Components/ConventionsPage/tab-conventions.html"),
+                        template: require("./Components/MenuComponents/ConventionsPage/tab-conventions.html"),
                         controller: "conventionsCtrl"
                     }
                 }
@@ -127,7 +127,7 @@ class Config {
                 url: "/link",
                 views: {
                     "tab-link": {
-                        template: require("./Components/MenuComponents/Components/LinkPage/tab-link.html"),
+                        template: require("./Components/MenuComponents/LinkPage/tab-link.html"),
                         controller: "linkCtrl"
                     }
                 }
@@ -137,7 +137,7 @@ class Config {
                 url: "/settings",
                 views: {
                     "tab-settings": {
-                        template: require("./Components/MenuComponents/Components/SettingsPage/tab-settings.html"),
+                        template: require("./Components/MenuComponents/SettingsPage/tab-settings.html"),
                         controller: "settingsCtrl"
                     }
                 }
@@ -145,67 +145,67 @@ class Config {
 
             .state("addArticle", {
                 url: "/addArticle",
-                template: require("./Components/BarComponents/Components/AddArticlePage/addArticle.html"),
+                template: require("./Components/AdminComponents/AddArticlePage/addArticle.html"),
                 controller: "addArticleCtrl"
             })
 
             .state("sendMessage", {
                 url: "/sendMessage",
-                template: require("./Components/BarComponents/Components/AddNewsPage/sendMessage.html"),
+                template: require("./Components/AdminComponents/AddNewsPage/sendMessage.html"),
                 controller: "addNewsCtrl"
             })
 
             .state("addTutor", {
                 url: "/addTutor",
-                template: require("./Components/BarComponents/Components/AddTutorPage/addTutor.html"),
+                template: require("./Components/AdminComponents/AddTutorPage/addTutor.html"),
                 controller: "addTutorCtrl"
             })
 
             .state("readReports", {
                 url: "/readReports",
-                template: require("./Components/BarComponents/Components/ReadReportsPage/readReports.html"),
+                template: require("./Components/AdminComponents/ReadReportsPage/readReports.html"),
                 controller: "readReportsCtrl"
             })
 
             .state("comments", {
                 url: "/comments",
-                template: require("./Components/BarComponents/Components/CommentsPage/comments.html"),
+                template: require("./Components/BarComponents/CommentsPage/comments.html"),
                 controller: "commentsCtrl"
             })
 
             .state("likes", {
                 url: "/likes",
-                template: require("./Components/BarComponents/Components/LikesPage/likes.html"),
+                template: require("./Components/BarComponents/LikesPage/likes.html"),
                 controller: "likesCtrl"
             })
 
             .state("moderation", {
                 url: "/moderation",
-                template: require("./Components/BarComponents/Components/ModerationPage/moderation.html"),
+                template: require("./Components/AdminComponents/ModerationPage/moderation.html"),
                 controller: "moderationCtrl"
             })
 
             .state("deletePosts", {
                 url: "/deletePosts",
-                template: require("./Components/BarComponents/Components/DeletePostsPage/deletePosts.html"),
+                template: require("./Components/AdminComponents/DeletePostsPage/deletePosts.html"),
                 controller: "deletePostsCtrl"
             })
 
             .state("updateProfile", {
                 url: "/updateProfile",
-                template: require("./Components/BarComponents/Components/UpdateProfilePage/updateProfile.html"),
+                template: require("./Components/BarComponents/UpdateProfilePage/updateProfile.html"),
                 controller: "updateProfileCtrl"
             })
 
             .state("updateStatus", {
                 url: "/updateStatus",
-                template: require("./Components/BarComponents/Components/UpdateStatusPage/updateStatus.html"),
+                template: require("./Components/BarComponents/UpdateStatusPage/updateStatus.html"),
                 controller: "updateStatusCtrl"
             })
 
             .state("reportBug", {
                 url: "/reportBug",
-                template: require("./Components/BarComponents/Components/ReportBugPage/reportBug.html"),
+                template: require("./Components/BarComponents/ReportBugPage/reportBug.html"),
                 controller: "reportBugCtrl"
             });
 

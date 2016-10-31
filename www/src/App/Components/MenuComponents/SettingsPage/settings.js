@@ -25,7 +25,7 @@ class settingsCtrl {
             let avatar = Firebase.auth().currentUser.photoURL;
 
             if (avatar == undefined) {
-                avatar = require("../../../../../Images/user.jpg");
+                avatar = require("../../../../Images/user.jpg");
             }
 
             $rootScope.currentProfile = {

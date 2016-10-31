@@ -1,7 +1,7 @@
 class signupCtrl {
     constructor($scope, $ionicLoading, $state, $ionicHistory, Auth, InputFields, Modals) {
         $scope.inputType = "password";
-        $scope.logoImg = require("../../../../../Images/logo.jpg");
+        $scope.logoImg = require("../../../../Images/logo.jpg");
 
         $scope.UserSignup = (username, password, mail) => {
             if (InputFields.filledFields([username, password, mail])) {
