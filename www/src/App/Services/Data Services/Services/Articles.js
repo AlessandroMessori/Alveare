@@ -42,7 +42,6 @@ class Articles {
 
                             strRef.child("pdf").getDownloadURL().then(pdfUrl=> {
 
-
                                 Firebase.storage().ref("Profili").child(results[item].userMail).getDownloadURL()
                                     .then(url=> {
                                         this.setArticleProperties(scope, rootScope, state, articles, results[item], item, i, imgUrl, pdfUrl, url, keys.length, spinner);
@@ -91,11 +90,10 @@ class Articles {
                 }
             };
 
-            if (index == length - 1) {
-                scope.Articles = articles;
-                scope.$apply();
-                document.getElementById(spinner).style.display = "none";
-            }
+            scope.Articles = articles;
+            scope.$apply();
+            document.getElementById(spinner).style.display = "none";
+
         };
 
     }

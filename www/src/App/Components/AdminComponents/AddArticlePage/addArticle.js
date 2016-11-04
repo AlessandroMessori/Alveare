@@ -36,11 +36,11 @@ class addArticleCtrl {
                 });
 
                 const newData = {
-                    text: text,
-                    title: title,
+                    text,
+                    title,
                     author: Firebase.auth().currentUser.displayName,
                     date: DateHandler.GetCurrentDate(),
-                    pdf: pdf,
+                    pdf,
                     userMail: Firebase.auth().currentUser.email
                 };
 
@@ -53,9 +53,6 @@ class addArticleCtrl {
 
     }
 }
-
-
-
 
 
 export default addArticleCtrl;

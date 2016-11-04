@@ -9,9 +9,7 @@ class moderationCtrl {
             $scope.$apply();
         };
 
-        $scope.removeComment = commentId => {
-            Comments.deleteComment($scope, commentId, "commentList", Modals);
-        };
+        $scope.removeComment = commentId => Comments.deleteComment($scope, commentId, "commentList", Modals);
 
         $scope.showConfirm = commentId => {
             const confirmPopup = $ionicPopup.confirm({
