@@ -26,10 +26,10 @@ class Tutors {
                 if (results != null) {
                     Object.keys(results).map((item, i) => {
                         Firebase.storage().ref("Profili").child(results[item].authorMail).getDownloadURL()
-                            .then(url => this.setTutorProperties(scope,rootScope,state, results, item, i, tutors, spinner, url))
+                            .then(url => this.setTutorProperties(scope, rootScope, state, results, item, i, tutors, spinner, url))
                             .catch(()=> {
                                 const defaultImage = require("../../../../Images/user.jpg");
-                                this.setTutorProperties(scope,rootScope,state, results, item, i, tutors, spinner, defaultImage);
+                                this.setTutorProperties(scope, rootScope, state, results, item, i, tutors, spinner, defaultImage);
                             });
                     });
                 }
@@ -59,11 +59,9 @@ class Tutors {
 
             }
 
-            if (i == Object.keys(results).length - 1) {
-                scope.Tutors = tutors;
-                document.getElementById(spinner).style.display = "none";
-                scope.$apply();
-            }
+            scope.Tutors = tutors;
+            document.getElementById(spinner).style.display = "none";
+            scope.$apply();
         };
     }
 

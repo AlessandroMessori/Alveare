@@ -1,6 +1,60 @@
 class StaticData {
     constructor($state, $rootScope) {
 
+        this.subjects = [
+            {
+                name: "Italiano",
+                value: false
+            }, {
+                name: "Francese",
+                value: false
+            },
+            {
+                name: "Inglese",
+                value: false
+            },
+            {
+                name: "Tedesco",
+                value: false
+            },
+            {
+                name: "Latino",
+                value: false
+            },
+            {
+                name: "Matematica",
+                value: false
+            },
+            {
+                name: "Fisica",
+                value: false
+            },
+            {
+                name: "Scienze",
+                value: false
+            },
+            {
+                name: "Informatica",
+                value: false
+            },
+            {
+                name: "Storia",
+                value: false
+            },
+            {
+                name: "Filosofia",
+                value: false
+            },
+            {
+                name: "Arte",
+                value: false
+            },
+            {
+                name: "Diritto",
+                value: false
+            }
+        ];
+
         this.adminLinks = [
 
             {

@@ -3,10 +3,15 @@
     <ion-content id="addTutorSection" class="has-header">
         <h2 class="title">Crea Gruppo Di Studio</h2>
         <div class="list">
-            <label class="item item-input">
-                <span class="icon ion-ios-book"></span>
-                <textarea ng-model="description" placeholder="Materie"></textarea>
+            <label class="item item-input" ng-click="showList()">
+                <span class="icon ion-android-arrow-dropdown"></span>
+                <input type="text" ng-model="description" readonly placeholder="Materie">
             </label>
+            <ion-list ng-show="checkBoxList" id="checkBoxList">
+                <ion-checkbox ng-model="Subject.value" ng-change="onSubjectCheck()"
+                              ng-repeat="Subject in Subjects | orderBy:'name'">{{Subject.name}}
+                </ion-checkbox>
+            </ion-list>
             <label class="item item-input">
                 <span class="icon ion-calendar"></span>
                 <input type="text" ng-model="time" readonly placeholder="Orario di Fine" ng-click="openPicker()">

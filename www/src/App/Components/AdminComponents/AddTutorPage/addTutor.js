@@ -1,6 +1,22 @@
 import Firebase from "firebase";
 class addTutorCtrl {
-    constructor($scope, $ionicLoading, ionicTimePicker, Tutors, Modals) {
+    constructor($scope, $ionicLoading, ionicTimePicker, Tutors, Modals, StaticData) {
+
+        $scope.checkBoxList = false;
+        $scope.Subjects = StaticData.subjects;
+
+        $scope.showList = () => {
+
+            $scope.checkBoxList = !$scope.checkBoxList;
+
+            if ($scope.checkBoxList) document.getElementById("checkBoxList").style.display = "block";
+            else document.getElementById("checkBoxList").style.display = "none";
+
+        };
+
+        $scope.onSubjectCheck = () => {
+            $scope.description = $scope.getSubjects();
+        };
 
         $scope.openPicker = () => {
 
@@ -57,6 +73,13 @@ class addTutorCtrl {
 
         };
 
+        $scope.getSubjects = ()=> {
+            let subjects = "";
+            $scope.Subjects.map(item => {
+                if (item.value) subjects += item.name + ",";
+            });
+            return subjects.slice(0, -1);
+        };
     }
 }
 export default addTutorCtrl;
