@@ -36,7 +36,13 @@ class Auth {
 
                 if (user != null && history.currentStateName() == "login") {
                     loadingTemplate.hide();
-                    state.go("tab.forum");
+
+                    if (user.displayName) {
+                        state.go("tab.forum");
+                    }
+                    else {
+                        state.go("updateCredentials");
+                    }
                 }
 
             });

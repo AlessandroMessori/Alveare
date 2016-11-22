@@ -7,6 +7,8 @@ class loginCtrl {
         $scope.inputType = "password";
         $scope.logoImg = require("../../../../Images/logo.jpg");
 
+        $scope.$on("$ionicView.enter", () => Firebase.auth().signOut());
+
         $scope.UserLogin = (mail, password, RememberMe) => {
             if (InputFields.filledFields([mail, password])) {
                 $ionicLoading.show({template: "Accesso in Corso..."});

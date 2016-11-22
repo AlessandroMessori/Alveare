@@ -207,6 +207,12 @@ class Config {
                 url: "/reportBug",
                 template: require("./Components/BarComponents/ReportBugPage/reportBug.html"),
                 controller: "reportBugCtrl"
+            })
+
+            .state("updateCredentials", {
+                url: "/updateCredentials",
+                template: require("./Components/BarComponents/UpdateCredentialsPage/updateCredentials.html"),
+                controller: "updateCredentialsCtrl"
             });
 
         if (window.localStorage.getItem("RememberMe") == "true") {
