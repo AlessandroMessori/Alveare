@@ -2,10 +2,10 @@ import Firebase from "firebase";
 
 class updateCredentialsCtrl {
 
-    constructor($scope, $ionicLoading, InputFields, Modals, UpdateCred) {
+    constructor($scope, $state, $ionicLoading, InputFields, Modals, UpdateCred) {
 
         $scope.logoImg = require("../../../../Images/logo.jpg");
-        $scope.userName = "Username";
+        $scope.userName = "";
         $scope.currentUser = Firebase.auth().currentUser;
 
         UpdateCred.GetUserData($scope.currentUser, (user)=> {
@@ -22,7 +22,10 @@ class updateCredentialsCtrl {
                     $ionicLoading.show({
                         template: "Aggiornamento in corso..."
                     });
-                    //UpdateCred.Update($scope.currentUser,mail,password);
+                    UpdateCred.Update($scope.currentUser, mail, $scope.userName, password, ()=> {
+                        $ionicLoading.hide();
+                        Modals.ResultTemplate("credenziali aggiornate con successo", ()=>$state.go("tab.forum"));
+                    });
                 }
                 else {
                     Modals.ResultTemplate("le password non corrispondono");

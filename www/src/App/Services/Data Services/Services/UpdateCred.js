@@ -21,14 +21,12 @@ class UpdateCred {
 
         };
 
-        this.Update = (user, email, password) => {
+        this.Update = (user, email, displayName, password, callback) => {
 
-            const baseRef = Firebase.database().ref("Utenti");
-            user.updateProfile({email, password})
-                .then(()=> {
-                });
-        }
+            user.updateProfile({email, displayName, password})
+                .then(callback());
 
+        };
     }
 
 }

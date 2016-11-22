@@ -1,10 +1,19 @@
 class Modals {
 
     constructor($ionicLoading) {
-        this.ResultTemplate = (text) => {
+        this.ResultTemplate = (text, cb) => {
+
+            if (cb == undefined) {
+                cb = () => {
+                };
+            }
+
             $ionicLoading.hide();
             $ionicLoading.show({template: text});
-            window.setTimeout(()=>$ionicLoading.hide(), 1000);
+            window.setTimeout(()=> {
+                $ionicLoading.hide();
+                cb();
+            }, 1000);
         };
     }
 
