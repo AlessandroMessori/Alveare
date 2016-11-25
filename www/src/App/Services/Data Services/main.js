@@ -7,7 +7,7 @@ import Reports from "./Services/Reports";
 import Profile from "./Services/Profile";
 import StaticData from "./Services/StaticData";
 import Tutors from "./Services/Tutors";
-import UpdateCred from "./Services/UpdateCred";
+import Users from "./Services/Users";
 
 const dataServices = angular.module("appAS.services.data", ["ionic"]);
 
@@ -20,6 +20,6 @@ dataServices.service("Profile", Profile);
 dataServices.service("Auth", Auth);
 dataServices.service("StaticData", StaticData);
 dataServices.service("Tutors", Tutors);
-dataServices.service("UpdateCred", UpdateCred);
+dataServices.service("Users", Users);
 
 export default dataServices;
