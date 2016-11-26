@@ -7,7 +7,7 @@ class updateCredentialsCtrl {
         $scope.logoImg = require("../../../../Images/logo.jpg");
         $scope.userName = "";
         $scope.currentUser = Firebase.auth().currentUser;
-
+        
         Users.GetUserData($scope.currentUser, (user)=> {
             $scope.mail = user.mail;
             $scope.userName = user.name + " " + user.surname;

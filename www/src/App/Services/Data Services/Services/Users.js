@@ -44,14 +44,19 @@ class Users {
             const oldMail = user.email;
 
             user.updateEmail(email).then(
-                ()=> Async.parallel([
-                        () => user.updateProfile({displayName}),
-                        () => user.updatePassword(password),
-                        () => this.setUserData(oldMail, email, user.uid)
+                ()=> Async.parallel(
+                    [
+                        cb => user.updateProfile({displayName}).then(()=> cb()),
+                        cb => user.updatePassword(password).then(()=> cb()),
+                        cb => {
+                            this.setUserData(oldMail, email, user.uid);
+                            cb();
+                        }
+
                     ],
-                    (err, results) => {
-                        console.log(err);
-                        callback(results);
+                    err => {
+                        if (err) return console.log(err);
+                        callback();
                     }),
                 error => Modals.ResultTemplate(error)
             );
