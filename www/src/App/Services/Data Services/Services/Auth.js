@@ -36,7 +36,6 @@ class Auth {
 
                 if (user != null && history.currentStateName() == "login") {
                     loadingTemplate.hide();
-
                     if (user.displayName) {
                         state.go("tab.forum");
                     }

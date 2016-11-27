@@ -12,7 +12,7 @@ class Users {
                 const results = snapshot.val();
 
                 if (results != null) {
-                    Object.keys(results).map(item=> {
+                    Object.keys(results).map(item => {
                         if (results[item].mail.toLowerCase() == user.email) {
                             callback(results[item]);
                         }
@@ -28,7 +28,7 @@ class Users {
                 const results = snapshot.val();
 
                 if (results != null) {
-                    Object.keys(results).map(item=> {
+                    Object.keys(results).map(item => {
                         if (results[item].mail.toLowerCase() == oldMail) {
                             let updates = results[item];
                             updates.mail = email;
@@ -43,23 +43,22 @@ class Users {
         this.Update = (user, email, displayName, password, callback) => {
             const oldMail = user.email;
 
-            user.updateEmail(email).then(
-                ()=> Async.parallel(
+            user.updateProfile({displayName}).then(() => user.updateEmail(email).then(
+                () => Async.parallel(
                     [
-                        cb => user.updateProfile({displayName}).then(()=> cb()),
-                        cb => user.updatePassword(password).then(()=> cb()),
+                        cb => user.updatePassword(password).then(() => cb()),
                         cb => {
                             this.setUserData(oldMail, email, user.uid);
                             cb();
                         }
-
                     ],
                     err => {
-                        if (err) return console.log(err);
+                        if (err) return err;
                         callback();
                     }),
                 error => Modals.ResultTemplate(error)
-            );
+            ));
+
 
         };
 
