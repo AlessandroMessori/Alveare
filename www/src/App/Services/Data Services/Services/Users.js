@@ -26,13 +26,14 @@ class Users {
             const ModelRef = Firebase.database().ref("Utenti");
             ModelRef.once("value", snapshot => {
                 const results = snapshot.val();
+                let removed = true;
 
                 if (results != null) {
                     Object.keys(results).map(item => {
-                        if (results[item].mail.toLowerCase() == oldMail) {
+                        if (results[item].mail.toLowerCase() === oldMail && removed) {
                             let updates = results[item];
                             updates.mail = email;
-                            ModelRef.child(item).remove();
+                            removed = false;
                             ModelRef.child(uid).update(updates);
                         }
                     });
