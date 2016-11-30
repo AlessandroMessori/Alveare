@@ -197,12 +197,6 @@ class Config {
                 controller: "updateProfileCtrl"
             })
 
-            .state("updateStatus", {
-                url: "/updateStatus",
-                template: require("./Components/BarComponents/UpdateStatusPage/updateStatus.html"),
-                controller: "updateStatusCtrl"
-            })
-
             .state("reportBug", {
                 url: "/reportBug",
                 template: require("./Components/BarComponents/ReportBugPage/reportBug.html"),

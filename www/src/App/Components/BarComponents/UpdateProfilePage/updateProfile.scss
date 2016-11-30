@@ -1,3 +1,7 @@
+.noScroll {
+  overflow-y: hidden;
+}
+
 .profileBg {
   background-color: #4286f4;
   margin-top: 43px;
@@ -39,4 +43,20 @@
     background-color: white;
   }
 
+  .classRow {
+    padding: 0;
+    $margin: 2%;
+
+    label:first-child {
+      width: 50%;
+      margin-right: $margin;
+    }
+
+    label:last-child {
+      width: 50%;
+      margin-left: $margin;
+    }
+
+  }
 }
+

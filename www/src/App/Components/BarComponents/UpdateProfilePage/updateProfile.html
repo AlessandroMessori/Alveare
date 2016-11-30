@@ -1,18 +1,15 @@
 <ion-view>
     <action-bar title="'Aggiorna Profilo'"></action-bar>
-    <ion-content class="loginSection">
-
+    <ion-content class="loginSection noScroll">
 
         <div class="profileBg">
 
             <img ng-src={{profileImage}} id="profileImg" ng-click="getPic()">
 
-
             <h2>{{userName}}</h2>
             <h4>Studente,5F</h4>
 
         </div>
-
 
         <h3>Dati Personali</h3>
 
@@ -23,9 +20,14 @@
             <label class="item item-input">
                 <input type="text" readonly ng-model="userName" placeholder="Username">
             </label>
-            <label class="item item-input" ng-click="goToUpdateStatus()">
-                <textarea readonly ng-model="userStatus" placeholder="Stato"></textarea>
-            </label>
+            <section class="classRow row">
+                <label class="item item-input">
+                    <input type="text" readonly ng-model="userClass" placeholder="Classe">
+                </label>
+                <label class="item item-input">
+                    <input type="text" readonly ng-model="userID" placeholder="N° Registro">
+                </label>
+            </section>
         </div>
 
     </ion-content>
