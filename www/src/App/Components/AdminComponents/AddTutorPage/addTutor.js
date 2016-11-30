@@ -1,6 +1,6 @@
 import Firebase from "firebase";
 class addTutorCtrl {
-    constructor($scope, $ionicLoading, ionicTimePicker, Tutors, Modals, StaticData) {
+    constructor($scope, $ionicLoading, ionicTimePicker, Tutors, Users, Modals, StaticData) {
 
         $scope.checkBoxList = false;
         $scope.Subjects = StaticData.subjects;
@@ -57,15 +57,19 @@ class addTutorCtrl {
                     template: "Pubblicazione in Corso..."
                 });
 
-                const newTutor = {
-                    authorMail: Firebase.auth().currentUser.email,
-                    authorName: Firebase.auth().currentUser.displayName,
-                    description,
-                    deadLine,
-                    date: $scope.fullDate
-                };
+                Users.GetUserData(Firebase.auth().currentUser, user => {
+                    const newTutor = {
+                        authorMail: Firebase.auth().currentUser.email,
+                        authorName: Firebase.auth().currentUser.displayName,
+                        cls: user.cls,
+                        sect: user.sect,
+                        description,
+                        deadLine,
+                        date: $scope.fullDate
+                    };
 
-                Tutors.sendTutor(newTutor);
+                    Tutors.sendTutor(newTutor);
+                });
             }
             else {
                 Modals.ResultTemplate("Compila tutti i campi");
@@ -73,7 +77,7 @@ class addTutorCtrl {
 
         };
 
-        $scope.getSubjects = ()=> {
+        $scope.getSubjects = () => {
             let subjects = "";
             $scope.Subjects.map(item => {
                 if (item.value) subjects += item.name + ",";

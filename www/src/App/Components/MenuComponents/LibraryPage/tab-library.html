@@ -9,9 +9,11 @@
 
         <div class="list">
 
-            <div class="item item-thumbnail-left tutor" href="#" ng-repeat="Tutor in Tutors | orderBy:'-' track by $index">
+            <div class="item item-thumbnail-left tutor" href="#"
+                 ng-repeat="Tutor in Tutors | orderBy:'-' track by $index">
                 <img ng-src={{Tutor.avatar}} ng-click="Tutor.linkToProfile()">
-                <h2>Referente:{{Tutor.authorName}}</h2>
+                <h2>{{Tutor.authorName}}</h2>
+                <p>{{Tutor.cls}} {{Tutor.sect}}</p>
                 <p>{{Tutor.description}}</p>
                 <p>Finisce Alle {{Tutor.deadLine}}</p>
             </div>

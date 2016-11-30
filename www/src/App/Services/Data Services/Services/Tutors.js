@@ -9,8 +9,8 @@ class Tutors {
             let updates = {};
             updates["/Tutors/" + newPostKey] = newData;
             Firebase.database().ref().update(updates)
-                .then(()=>Modals.ResultTemplate("Gruppo di Studio creato con Successo"))
-                .catch(()=>Modals.ResultTemplate("Errore nella creazione del Gruppo di Studio"));
+                .then(() => Modals.ResultTemplate("Gruppo di Studio creato con Successo"))
+                .catch(() => Modals.ResultTemplate("Errore nella creazione del Gruppo di Studio"));
         };
 
         this.getTutors = (scope, rootScope, state, spinner) => {
@@ -27,7 +27,7 @@ class Tutors {
                     Object.keys(results).map((item, i) => {
                         Firebase.storage().ref("Profili").child(results[item].authorMail).getDownloadURL()
                             .then(url => this.setTutorProperties(scope, rootScope, state, results, item, i, tutors, spinner, url))
-                            .catch(()=> {
+                            .catch(() => {
                                 const defaultImage = require("../../../../Images/user.jpg");
                                 this.setTutorProperties(scope, rootScope, state, results, item, i, tutors, spinner, defaultImage);
                             });
@@ -36,7 +36,7 @@ class Tutors {
             });
         };
 
-        this.setTutorProperties = (scope, rootScope, state, results, item, i, tutors, spinner, url)=> {
+        this.setTutorProperties = (scope, rootScope, state, results, item, i, tutors, spinner, url) => {
 
             if ((new Date()) < new Date(results[item].date)) {
 
@@ -44,6 +44,8 @@ class Tutors {
                     authorName: results[item].authorName,
                     avatar: url,
                     description: results[item].description,
+                    cls: results[item].cls,
+                    sect: results[item].sect,
                     deadLine: results[item].deadLine,
                     date: results[item].date,
                     linkToProfile() {

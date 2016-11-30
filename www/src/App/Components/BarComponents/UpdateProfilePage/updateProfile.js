@@ -8,13 +8,19 @@ class updateProfileCtrl {
             $scope.profileImage = $rootScope.currentProfile.avatar;
             $scope.userName = $rootScope.currentProfile.name;
             $scope.userMail = $rootScope.currentProfile.mail;
+            let profileUser = "";
 
             if ($rootScope.profileUpdatable) {
-                Users.GetUserData(Firebase.auth().currentUser, user => {
-                    $scope.userClass = user.cls;
-                    $scope.userID = user.number;
-                });
+                profileUser = Firebase.auth().currentUser;
             }
+            else {
+                profileUser = {email: $scope.userMail};
+            }
+
+            Users.GetUserData(profileUser, user => {
+                $scope.userClass = user.cls;
+                $scope.userID = user.number;
+            });
         });
 
         $scope.getPic = () => {
