@@ -82,3 +82,9 @@ $mainColor: #164A80;
 .linkItem {
   width: 100%;
 }
+
+.item-avatar {
+  img {
+    border-radius: 0px !important;
+  }
+}
