@@ -20,7 +20,7 @@ class Tutors {
 
             const ModelRef = Firebase.database().ref("Tutors");
 
-            ModelRef.on("value", snapshot => {
+            ModelRef.once("value", snapshot => {
                 const results = snapshot.val();
 
                 if (results != null) {
@@ -62,7 +62,7 @@ class Tutors {
             }
 
             scope.Tutors = tutors;
-            document.getElementById(spinner).style.display = "none";
+            window.setTimeout(() => document.getElementById(spinner).style.display = "none", 500);
             scope.$apply();
         };
     }

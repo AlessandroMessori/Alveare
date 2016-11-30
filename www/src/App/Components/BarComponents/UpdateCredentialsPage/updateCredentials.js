@@ -7,8 +7,8 @@ class updateCredentialsCtrl {
         $scope.logoImg = require("../../../../Images/logo.jpg");
         $scope.userName = "";
         $scope.currentUser = Firebase.auth().currentUser;
-        
-        Users.GetUserData($scope.currentUser, (user)=> {
+
+        Users.GetUserData($scope.currentUser, (user) => {
             $scope.mail = user.mail;
             $scope.userName = user.name + " " + user.surname;
             $scope.$apply();
@@ -18,25 +18,30 @@ class updateCredentialsCtrl {
 
             if (InputFields.filledFields([mail, password, repeatPassword])) {
 
-                if (password == repeatPassword) {
+                if (mail.toLowerCase() != Firebase.auth().currentUser.email.toLowerCase()) {
 
-                    if (password.length > 7) {
+                    if (password == repeatPassword) {
 
-                        $ionicLoading.show({template: "Aggiornamento in corso..."});
+                        if (password.length > 7) {
 
-                        Users.Update($scope.currentUser, mail, $scope.userName, password, ()=> {
-                            $ionicLoading.hide();
-                            Modals.ResultTemplate("credenziali aggiornate con successo", ()=>$state.go("tab.forum"));
-                        });
+                            $ionicLoading.show({template: "Aggiornamento in corso..."});
+
+                            Users.Update($scope.currentUser, mail, $scope.userName, password, () => {
+                                $ionicLoading.hide();
+                                Modals.ResultTemplate("credenziali aggiornate con successo", () => $state.go("tab.forum"));
+                            });
+                        }
+                        else {
+                            Modals.ResultTemplate("La password deve avere almeno 7 caratteri");
+                        }
                     }
                     else {
-                        Modals.ResultTemplate("La password deve avere almeno 7 caratteri");
+                        Modals.ResultTemplate("le password non corrispondono");
                     }
                 }
                 else {
-                    Modals.ResultTemplate("le password non corrispondono");
+                    Modals.ResultTemplate("La mail deve essere diversa da quella precedente");
                 }
-
             }
             else {
                 Modals.ResultTemplate("compila tutti i campi");
