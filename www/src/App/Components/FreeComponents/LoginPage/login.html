@@ -3,30 +3,32 @@
 
         <img ng-src={{logoImg}} class="responsive"></img>
 
-        <div class="row" id="inputrow">
-            <div class="col-50 col-offset-25" ng-init="setFormScope(this)">
 
-                <label class="item item-input">
-                    <input type="email" ng-model="mail" placeholder="Email">
-                </label>
-                <label class="item item-input">
-                    <input type="{{inputType}}" id="passtxt" ng-model="password" placeholder="Password">
-                </label>
+        <section ng-init="setFormScope(this)">
+            <div class="row" id="inputrow">
+                <div class="col-50 col-offset-25">
+                    <label class="item item-input">
+                        <input type="email" ng-model="mail" placeholder="Email">
+                    </label>
+                    <label class="item item-input">
+                        <input type="{{inputType}}" id="passtxt" ng-model="password" placeholder="Password">
+                    </label>
 
+                </div>
             </div>
-        </div>
 
-        <div class="row" id="checkboxrow">
-            <div class="col-50 col-offset-25">
-                <input type="checkbox" ng-model="ShowPass" ng-click="hideShowPassword()"> Mostra password</input>
+            <div class="row" id="checkboxrow">
+                <div class="col-50 col-offset-25">
+                    <input type="checkbox" ng-model="ShowPass" ng-click="hideShowPassword()"> Mostra password</input>
+                </div>
             </div>
-        </div>
 
-        <div class="row" id="checkboxrow">
-            <div class="col-50 col-offset-25">
-                <input type="checkbox" ng-model="RememberMe"> Ricordami</input>
+            <div class="row" id="checkboxrow">
+                <div class="col-50 col-offset-25">
+                    <input type="checkbox" ng-model="RememberMe"> Ricordami</input>
+                </div>
             </div>
-        </div>
+        </section>
 
         <div class="row" id="btnrow">
             <div class="col">

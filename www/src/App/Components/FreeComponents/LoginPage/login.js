@@ -11,6 +11,8 @@ class loginCtrl {
             Firebase.auth().signOut();
             $scope.formScope.mail = "";
             $scope.formScope.password = "";
+            $scope.formScope.ShowPass = false;
+            $scope.formScope.RememberMe = false;
         });
 
         $scope.setFormScope = (scope) => $scope.formScope = scope;
