@@ -62,7 +62,6 @@ class Tutors {
             }
 
             scope.Tutors = tutors;
-            window.setTimeout(() => document.getElementById(spinner).style.display = "none", 500);
             scope.$apply();
         };
     }

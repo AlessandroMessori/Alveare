@@ -34,9 +34,8 @@ class Users {
                             let updates = results[item];
                             updates.mail = email;
                             removed = false;
-                            console.log(item);
-                            //ModelRef.child(item).remove();
-                            ModelRef.child(uid).update(updates);
+                            ModelRef.child(item).remove();
+                            ModelRef.child(uid).set(updates);
                         }
                     });
                 }

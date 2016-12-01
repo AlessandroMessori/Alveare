@@ -4,7 +4,7 @@
         <img ng-src={{logoImg}} class="responsive"></img>
 
         <div class="row" id="inputrow">
-            <div class="col-50 col-offset-25">
+            <div class="col-50 col-offset-25" ng-init="setFormScope(this)">
 
                 <label class="item item-input">
                     <input type="email" ng-model="mail" placeholder="Email">

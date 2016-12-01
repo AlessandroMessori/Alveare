@@ -1,9 +1,19 @@
 import Firebase from "firebase";
+
 class addTutorCtrl {
     constructor($scope, $ionicLoading, ionicTimePicker, Tutors, Users, Modals, StaticData) {
 
         $scope.checkBoxList = false;
         $scope.Subjects = StaticData.subjects;
+
+        $scope.$on("$ionicView.enter", () => {
+            $scope.description = "";
+            if ($scope.Subjects.length > 0) {
+                $scope.Subjects.map(sub => sub.value = false);
+            }
+            $scope.time = "";
+            $scope.$apply();
+        });
 
         $scope.showList = () => {
 
@@ -86,4 +96,5 @@ class addTutorCtrl {
         };
     }
 }
+
 export default addTutorCtrl;

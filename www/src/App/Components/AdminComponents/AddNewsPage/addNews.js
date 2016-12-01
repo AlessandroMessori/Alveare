@@ -12,9 +12,7 @@ class addNewsCtrl {
             animation: "slide-in-up"
         });
 
-        $scope.$on("$ionicView.enter", () => {
-            $scope.clearData();
-        });
+        $scope.$on("$ionicView.enter", () => $scope.clearData());
 
         $scope.clearData = () => {
             $scope.formScope.news = "";
@@ -28,9 +26,7 @@ class addNewsCtrl {
 
             if (news != "") {
 
-                $ionicLoading.show({
-                    template: "Pubblicazione in Corso..."
-                });
+                $ionicLoading.show({template: "Pubblicazione in Corso..."});
 
                 const newData = {
                     text: news,
@@ -57,7 +53,7 @@ class addNewsCtrl {
         $scope.removeLink = (index) => $scope.linkList.splice(index, 1);
 
 
-        $scope.$on("$destroy", ()=> $scope.modal.remove());
+        $scope.$on("$destroy", () => $scope.modal.remove());
 
         $scope.openLinkModal = () => {
             $scope.modal = $ionicModal.fromTemplate("<link-modal></link-modal>", {
