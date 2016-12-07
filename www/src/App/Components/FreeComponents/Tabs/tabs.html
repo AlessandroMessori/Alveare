@@ -57,7 +57,7 @@
                 <ion-item menu-close ui-sref="tab.convenzioni" ng-click="navigate('convenzioni')">
                     <span class="icon ion-android-restaurant"> Convenzioni</span>
                 </ion-item>
-                <ion-item id="linkItem">
+                <!--<ion-item id="linkItem">
                     <div class="linkItem" ng-click="ShowLinks()">
                         <span class="icon ion-link"> Link Utili</span>
                         <span ng-class="showIcon" id="showLinks"></span>
@@ -67,9 +67,12 @@
                             {{Link.name}}
                         </li>
                     </ul>
-                </ion-item>
+                </ion-item>-->
                 <ion-item menu-close ui-sref="tab.settings" ng-click="navigate('settings',9)">
                     <span class="icon ion-ios-gear"> Impostazioni</span>
+                </ion-item>
+                <ion-item id="logoutItem" ng-click="Disconnect()">
+                    <span class="icon ion-log-out"> Esci</span>
                 </ion-item>
             </ion-list>
         </ion-content>

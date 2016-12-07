@@ -1,7 +1,7 @@
 import Firebase from "firebase";
 
 class settingsCtrl {
-    constructor($scope, $rootScope, $state, Auth, Modals, SocialHandler) {
+    constructor($scope, $rootScope, $state, SocialHandler, StaticData) {
 
         if (window.localStorage.getItem("RememberMe") == "true") {
             $scope.RememberMe = true;
@@ -10,13 +10,16 @@ class settingsCtrl {
             $scope.RememberMe = false;
         }
 
+        $scope.Links = StaticData.links;
+
         $scope.updateRememberMe = (RememberMe) => {
             window.localStorage.setItem("RememberMe", RememberMe.toString());
             $scope.RememberMe = RememberMe;
         };
 
-        $scope.shareApp = () => SocialHandler.shareApp();
+        $scope.OpenLink = (url) => cordova.InAppBrowser.open(url, "_system", "location=yes");
 
+        $scope.shareApp = () => SocialHandler.shareApp();
 
         $scope.rateUs = () => SocialHandler.rateUs();
 
@@ -37,7 +40,6 @@ class settingsCtrl {
             $state.go("updateProfile");
         };
 
-        $scope.Disconnect = () => Auth.Logout($state, $rootScope, Modals);
     }
 }
 

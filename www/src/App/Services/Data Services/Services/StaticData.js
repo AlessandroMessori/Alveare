@@ -125,11 +125,6 @@ class StaticData {
                 "name": "Sito Web Della Scuola",
                 "url": "http://www.liceoariostospallanzani-re.gov.it/",
                 "icon": "icon ion-ios-world"
-            },
-            {
-                "name": "Accesso Web Mail",
-                "url": "https://mail.google.com",
-                "icon": "icon ion-ios-email"
             }
         ];
 

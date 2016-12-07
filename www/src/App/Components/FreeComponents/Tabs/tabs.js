@@ -2,7 +2,7 @@ import Firebase from "firebase";
 
 class tabsCtrl {
 
-    constructor($scope, $state, $rootScope, $ionicPlatform, $ionicScrollDelegate, $ionicHistory, Auth, PlatformHandler) {
+    constructor($scope, $state, $rootScope, $ionicPlatform, $ionicScrollDelegate, $ionicHistory, Auth, PlatformHandler, Modals) {
 
         $scope.View = "tab-link";
         $scope.showIcon = "ion-plus-round";
@@ -10,7 +10,7 @@ class tabsCtrl {
         $scope.UserImage = JSON.parse(localStorage.getItem("firebase:authUser:AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8:[DEFAULT]")).photoURL;
         Auth.checkAdmins($scope, "adminPanel");
 
-        PlatformHandler.is("iOS", ()=> document.getElementById("tabBar").style.marginTop = "-5%");
+        PlatformHandler.is("iOS", () => document.getElementById("tabBar").style.marginTop = "-5%");
 
         $scope.$on("$ionicView.enter", () => {
 
@@ -93,7 +93,9 @@ class tabsCtrl {
             $state.go("updateProfile");
         };
 
-        $ionicPlatform.registerBackButtonAction(e=> {
+        $scope.Disconnect = () => Auth.Logout($state, $rootScope, Modals);
+
+        $ionicPlatform.registerBackButtonAction(e => {
             e.preventDefault();
             $ionicHistory.goBack();
             return false;

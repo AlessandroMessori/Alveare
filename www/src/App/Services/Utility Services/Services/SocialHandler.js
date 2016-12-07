@@ -2,13 +2,19 @@ class SocialHandler {
 
     constructor($ionicPlatform) {
 
+        this.getStoreLink = () => {
+            const androidLink = "market://details?id=<package_name>";
+            const iosLink = "itms-apps://itunes.apple.com/us/app/domainsicle-domain-name-search/id511364723?ls=1&mt=8";
+            return ($ionicPlatform.is("ios")) ? androidLink : iosLink;
+        };
+
         this.shareApp = () => {
 
             const options = {
                 message: "Scarica l'applicazione del liceo Ariosto Spallanzani!",
                 subject: "Applicazione liceo Ariosto Spallanzani",
                 files: [],
-                url: "https://www.google.it/"
+                url: this.getStoreLink()
             };
 
             window.plugins.socialsharing.shareWithOptions(options,
@@ -19,11 +25,7 @@ class SocialHandler {
         };
 
         this.rateUs = () => {
-            if ($ionicPlatform.is("ios")) {
-                window.open("itms-apps://itunes.apple.com/us/app/domainsicle-domain-name-search/id511364723?ls=1&mt=8"); // or itms://
-            } else if ($ionicPlatform.is("android")) {
-                window.open("market://details?id=<package_name>");
-            }
+            window.open(this.getStoreLink());
         };
 
     }

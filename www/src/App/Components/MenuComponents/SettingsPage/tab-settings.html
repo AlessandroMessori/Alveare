@@ -18,12 +18,12 @@
             <li class="item" ng-click="rateUs()">Valutaci sull'app Store</li>
             <li class="item" ui-sref="reportBug">Segnala Problema</li>
 
-            <li class="item item-divider">Informazioni</li>
-            <li class="item">Riconoscimenti</li>
-            <li class="item">Termini e Condizioni</li>
+            <li class="item item-divider">Link Utili</li>
+            <div class="item item-icon-left" ng-repeat="Link in Links" ng-click="OpenLink(Link.url)">
+                <i ng-class="Link.icon "></i>
+                {{Link.name}}
+            </div>
 
-            <li class="item item-divider">Altro</li>
-            <li class="item" ng-click="Disconnect()">Disconnetti</li>
         </ul>
     </ion-content>
 </ion-view>
