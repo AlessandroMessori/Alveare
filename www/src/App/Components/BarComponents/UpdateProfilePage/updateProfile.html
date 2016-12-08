@@ -1,19 +1,15 @@
 <ion-view>
     <action-bar title="'Aggiorna Profilo'"></action-bar>
-    <ion-content class="loginSection noScroll">
+    <ion-content class="noScroll">
 
         <div class="profileBg">
-
             <img ng-src={{profileImage}} id="profileImg" ng-click="getPic()">
-
             <h2>{{userName}}</h2>
             <h4>Studente,{{userSection}}</h4>
-
         </div>
 
-        <h3>Dati Personali</h3>
-
         <div class="infoList">
+            <h3>Dati Personali</h3>
             <label class="item item-input">
                 <input type="email" readonly ng-model="userMail" placeholder="Email">
             </label>

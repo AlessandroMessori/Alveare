@@ -1,40 +1,31 @@
 <ion-view view-title="Login">
     <ion-content class="loginSection" id="loginPage">
 
+        <h1>Ariosto Spallanzani</h1>
+
         <img ng-src={{logoImg}} class="responsive"></img>
 
-
         <section ng-init="setFormScope(this)">
-            <div class="row" id="inputrow">
-                <div class="col-50 col-offset-25">
-                    <label class="item item-input">
-                        <input type="email" ng-model="mail" placeholder="Email">
-                    </label>
-                    <label class="item item-input">
-                        <input type="{{inputType}}" id="passtxt" ng-model="password" placeholder="Password">
-                    </label>
-
-                </div>
+            <div id="inputRow">
+                <label class="item item-input">
+                    <input type="email" ng-model="mail" placeholder="Email">
+                </label>
+                <label class="item item-input">
+                    <input type="{{inputType}}" id="passtxt" ng-model="password" placeholder="Password">
+                </label>
             </div>
 
-            <div class="row" id="checkboxrow">
-                <div class="col-50 col-offset-25">
-                    <input type="checkbox" ng-model="ShowPass" ng-click="hideShowPassword()"> Mostra password</input>
-                </div>
+            <button ng-click="UserLogin(mail,password,RememberMe)" class="button button-balanced">Login</button>
+
+            <div class="checkRow">
+                <input type="checkbox" ng-model="ShowPass" ng-click="hideShowPassword()"> Mostra password</input>
             </div>
 
-            <div class="row" id="checkboxrow">
-                <div class="col-50 col-offset-25">
-                    <input type="checkbox" ng-model="RememberMe"> Ricordami</input>
-                </div>
+            <div class="checkRow">
+                <input type="checkbox" ng-model="RememberMe"> Mantieni L'accesso</input>
             </div>
         </section>
 
-        <div class="row" id="btnrow">
-            <div class="col">
-                <button ng-click="UserLogin(mail,password,RememberMe)" class="button button-positive">Login</button>
-            </div>
-        </div>
 
     </ion-content>
 </ion-view>

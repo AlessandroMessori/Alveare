@@ -1,32 +1,34 @@
+@import "../Tabs/tabs";
+
 .loginSection {
   text-align: center;
+  background-color: $mainColor;
+  color: white;
 
-  .item {
-    margin-top: 5%;
-  }
-
-  .row {
-    text-align: center;
-  }
-
-  #inputrow {
-    margin-top: 2%;
-  }
-
-  #btnrow {
-    margin-top: 5%;
-  }
-
-  #checkboxrow {
-    margin-top: 2%;
-    text-align: left;
+  h1 {
+    font-size: 35px;
+    margin: 5%;
+    color: white;
   }
 
   .responsive {
     width: 40%;
     height: auto;
-    text-align: center;
-    margin-top: 12%;
+  }
+
+  #inputRow {
+    padding: 5% 5% 2% 5%;
+  }
+
+  button {
+    width: 90%;
+    background-color: #4cd964 !important;
+  }
+
+  .checkRow {
+    margin-top: 2%;
+    margin-left: 5%;
+    text-align: left;
   }
 
 }

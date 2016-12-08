@@ -5,7 +5,7 @@ class loginCtrl {
 
         Firebase.auth().signOut();
         $scope.inputType = "password";
-        $scope.logoImg = require("../../../../Images/logo.jpg");
+        $scope.logoImg = require("../../../../Images/logo.png");
 
         $scope.$on("$ionicView.enter", () => {
             Firebase.auth().signOut();

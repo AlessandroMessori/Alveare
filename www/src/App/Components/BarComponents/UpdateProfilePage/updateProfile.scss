@@ -36,10 +36,14 @@
 }
 
 .infoList {
-  padding: 0 3%;
+  padding: 3%;
 
   input[readonly], textarea[readonly] {
     background-color: white;
+  }
+
+  label {
+    margin-top: 3%;
   }
 
   .classRow {
