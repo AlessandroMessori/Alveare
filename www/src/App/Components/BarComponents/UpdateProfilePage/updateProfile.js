@@ -20,6 +20,7 @@ class updateProfileCtrl {
             Users.GetUserData(profileUser, user => {
                 $scope.userClass = user.cls;
                 $scope.userID = user.number;
+                $scope.userSection = user.sect;
                 $scope.$apply();
             });
         });
