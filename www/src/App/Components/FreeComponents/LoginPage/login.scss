@@ -6,7 +6,8 @@
   color: white;
 
   h1 {
-    font-size: 35px;
+    font-family: serif;
+    font-size: 33px;
     margin: 5%;
     color: white;
   }
@@ -22,12 +23,16 @@
 
   button {
     width: 90%;
+    border-radius: 0;
     background-color: #4cd964 !important;
   }
 
   .checkRow {
-    margin-top: 2%;
+    margin-top: 3%;
     margin-left: 5%;
+    font-size:15px;
+    background-color: $mainColor;
+    color:white;
     text-align: left;
   }
 

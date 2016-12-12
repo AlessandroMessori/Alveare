@@ -14,6 +14,14 @@ class forumCtrl {
         };
 
         $scope.$on("$ionicView.enter", () => {
+
+            Firebase.auth().onAuthStateChanged((user) => {
+                if (!user) {
+                    window.localStorage.setItem("RememberMe", "false");
+                    $state.go("login");
+                }
+            });
+
             $scope.UserImage = Firebase.auth().currentUser.photoURL;
             $scope.$apply();
             if ($rootScope.userName != window.localStorage.getItem("Username")) {

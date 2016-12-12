@@ -13,6 +13,8 @@ class loginCtrl {
             $scope.formScope.password = "";
             $scope.formScope.ShowPass = false;
             $scope.formScope.RememberMe = false;
+            $scope.inputType = "password";
+            $scope.$apply();
         });
 
         $scope.setFormScope = (scope) => $scope.formScope = scope;

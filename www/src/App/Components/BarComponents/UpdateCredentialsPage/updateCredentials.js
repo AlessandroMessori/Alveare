@@ -4,7 +4,7 @@ class updateCredentialsCtrl {
 
     constructor($scope, $state, $ionicLoading, InputFields, Modals, Users) {
 
-        $scope.logoImg = require("../../../../Images/logo.jpg");
+        $scope.logoImg = require("../../../../Images/logo.png");
         $scope.userName = "";
         $scope.currentUser = Firebase.auth().currentUser;
 
