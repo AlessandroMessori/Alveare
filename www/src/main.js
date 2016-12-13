@@ -8,4 +8,3 @@ Firebase.initializeApp(credentials);
 
 
 
-
