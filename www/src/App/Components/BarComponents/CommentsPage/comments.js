@@ -20,7 +20,13 @@ class commentsCtrl {
                     date: DateHandler.GetCurrentDate(),
                     userMail: Firebase.auth().currentUser.email
                 };
-                Comments.sendComment($scope, newData, "commentList");
+
+                Comments.sendComment($scope, newData, "commentList", ()=> {
+                    document.getElementById("commentList").style.display = "block";
+                    Comments.getComments($scope, $rootScope, $state, "commentsSpinner");
+                    scope.$apply();
+                });
+
                 $scope.comment = "";
                 $scope.$apply();
             }

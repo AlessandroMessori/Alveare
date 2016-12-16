@@ -4,16 +4,13 @@ class Comments {
 
     constructor(Likes) {
 
-        this.sendComment = (scope, newData, commentList) => {
+        this.sendComment = (scope, newData, commentList, callback) => {
             const newPostKey = Firebase.database().ref().child("Commenti").push().key;
             let updates = {};
             document.getElementById(commentList).style.display = "none";
             updates["/Commenti/" + newPostKey] = newData;
             Firebase.database().ref().update(updates)
-                .then(()=> {
-                    document.getElementById(commentList).style.display = "block";
-                    scope.$apply();
-                });
+                .then(()=> callback());
         };
 
         this.getComments = (scope, rootScope, state, spinner, filter) => {
@@ -28,7 +25,7 @@ class Comments {
             const father = rootScope.currentPost;
             const ModelRef = Firebase.database().ref("Commenti");
 
-            ModelRef.on("value", snapshot => {
+            ModelRef.once("value", snapshot => {
                 const results = snapshot.val();
 
                 if (results != null) {
