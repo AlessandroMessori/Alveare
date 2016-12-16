@@ -27,6 +27,13 @@
     background-color: #30AD29 !important;
   }
 
+  @mixin checkSize($size) {
+    -ms-transform: scale($size); /* IE */
+    -moz-transform: scale($size); /* FF */
+    -webkit-transform: scale($size); /* Safari and Chrome */
+    -o-transform: scale($size); /* Opera */
+  }
+
   .checkRow {
     margin-top: 3%;
     margin-left: 5%;
@@ -34,6 +41,11 @@
     background-color: $mainColor;
     color: white;
     text-align: left;
+
+    input {
+      @include checkSize(1.2);
+    }
+
   }
 
 }
