@@ -84,10 +84,7 @@ class Comments {
                 }
             });
 
-
-            if (index == Object.keys(results).length - 1) {
-                window.setTimeout(()=>document.getElementById(spinner).style.display = "none", 1000);
-            }
+            window.setTimeout(()=>document.getElementById(spinner).style.display = "none", 1000);
 
             Likes.getLikeCount(item, scope, comments, comments.length - 1, "Comments");
         };
