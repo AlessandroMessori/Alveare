@@ -6,6 +6,7 @@ import FileHandler  from "./Services/FileHandler";
 import PlatformHandler  from "./Services/PlatformHandler";
 import SocialHandler  from "./Services/SocialHandler";
 import CameraHandler from "./Services/CameraHandler";
+import ServiceWorker from "./Services/ServiceWorker";
 
 const utilsServices = angular.module("appAS.services.utils", ["ionic"]);
 
@@ -17,5 +18,6 @@ utilsServices.service("FileHandler", FileHandler);
 utilsServices.service("PlatformHandler", PlatformHandler);
 utilsServices.service("SocialHandler", SocialHandler);
 utilsServices.service("CameraHandler", CameraHandler);
+utilsServices.service("ServiceWorker", ServiceWorker);
 
 export default utilsServices;

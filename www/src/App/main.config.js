@@ -1,6 +1,9 @@
+import Firebase from "firebase";
+import credentials from "../../credentials";
+
 class Config {
 
-    static run($ionicPlatform, $ionicPopup) {
+    static run($ionicPlatform, $ionicPopup, Notifications, ServiceWorker) {
         $ionicPlatform.ready(() => {
 
             if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -20,6 +23,15 @@ class Config {
                         });
                 }
             }
+
+
+            ServiceWorker.register("/firebase-messaging-sw.js", Notifications.getToken((token) => {
+
+                Firebase.messaging().onMessage(payload => console.log("Message received. ", payload));
+
+                Notifications.send(token, credentials.apiKey, "Notifica Di Prova", "Prova");
+
+            }));
 
         });
     }

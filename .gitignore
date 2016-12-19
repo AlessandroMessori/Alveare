@@ -34,3 +34,4 @@ platforms/
 plugins/
 www/dist/
 credentials.js
+firebase-messaging-sw.js

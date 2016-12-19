@@ -3,6 +3,7 @@ import Auth from "./Services/Auth";
 import Comments from "./Services/Comments";
 import Likes from "./Services/Likes";
 import Messages from "./Services/Messages";
+import Notifications from "./Services/Notifications";
 import Reports from "./Services/Reports";
 import Profile from "./Services/Profile";
 import StaticData from "./Services/StaticData";
@@ -21,5 +22,6 @@ dataServices.service("Auth", Auth);
 dataServices.service("StaticData", StaticData);
 dataServices.service("Tutors", Tutors);
 dataServices.service("Users", Users);
+dataServices.service("Notifications", Notifications);
 
 export default dataServices;
