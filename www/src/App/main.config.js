@@ -24,10 +24,13 @@ class Config {
                 }
             }
 
+            if (Config.getChromeVersion() < 50) {
+                alert("aggiorna il tuo browser per ricevere le notifiche di questa app");
+            }
 
             ServiceWorker.register("/firebase-messaging-sw.js", Notifications.getToken((token) => {
 
-                Firebase.messaging().onMessage(payload => console.log("Message received. ", payload));
+                //Firebase.messaging().onMessage(payload => console.log("Message received. ", payload));
 
                 Notifications.send(token, credentials.apiKey, "Notifica Di Prova", "Prova");
 
@@ -35,7 +38,6 @@ class Config {
 
         });
     }
-
 
     static config($ionicConfigProvider, $stateProvider, $urlRouterProvider) {
 
@@ -229,6 +231,13 @@ class Config {
 
 
     }
+
+    static getChromeVersion() {
+        let raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
+
+        return raw ? parseInt(raw[2], 10) : false;
+    }
+
 }
 
 export default Config;
