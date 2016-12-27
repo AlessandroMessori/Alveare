@@ -8,18 +8,14 @@ class tabsCtrl {
         $scope.View = "tab-link";
         $scope.showIcon = "ion-plus-round";
         $scope.addIcon = false;
-        $scope.UserImage = Firebase.auth().currentUser.photoURL;
         Auth.checkAdmins($scope, "adminPanel");
 
-        if (FCMPlugin != undefined) {
-            Notifications.onMessage();
-
+        window.onload = () => {
             ServiceWorker.register("/firebase-messaging-sw.js", Notifications.getToken((token) => {
-                console.log(token);
-                Notifications.send(token, credentials.newApiKey, "Notifica Di Prova", "Prova");
+                Notifications.saveToken(token);
+                //Notifications.send(token, credentials.newApiKey, "Notifica Di Prova", "Prova");
             }));
         }
-
         PlatformHandler.is("iOS", () => document.getElementById("tabBar").style.marginTop = "-5%");
 
         $scope.$on("$ionicView.enter", () => {
@@ -89,7 +85,7 @@ class tabsCtrl {
 
         $scope.goToProfile = () => {
 
-            let avatar = Firebase.auth().currentUser.photoURL;
+            let avatar = $scope.UserImage;
 
             if (!avatar) {
                 avatar = require("../../../../Images/user.jpg");

@@ -1,3 +1,4 @@
+import Firebase from "firebase";
 class Config {
 
     static run($ionicPlatform, $ionicPopup) {
@@ -20,12 +21,6 @@ class Config {
                         });
                 }
             }
-
-            /*if (Config.getChromeVersion() < 50) {
-             alert("aggiorna il tuo browser per ricevere notifiche da questa app");
-             }*/
-
-
         });
     }
 

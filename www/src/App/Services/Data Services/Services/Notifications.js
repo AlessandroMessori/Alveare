@@ -1,4 +1,5 @@
 "use strict";
+import Firebase from "firebase";
 class Notifications {
 
     get api_url() {
@@ -18,21 +19,18 @@ class Notifications {
     }
 
     saveToken(token) {
-        console.log(token);
+        const dbRef = Firebase.database().ref();
+        const user = Firebase.auth().currentUser;
+        let updates = {};
+        let tokens = [token];
+
+        updates["Utenti/" + user.uid + "/tokens"] = tokens;
+
+        dbRef.update(updates);
     }
 
-    onMessage() {
-        this.messaging.onNotification(
-            data => {
-                if (data.wasTapped) {
-                    alert(JSON.stringify(data));
-                } else {
-                    alert(JSON.stringify(data));
-                }
-            },
-            msg => console.log("onNotification callback successfully registered: " + msg),
-            err => console.log("Error registering onNotification callback: " + err)
-        );
+    onMessage(cb) {
+        return this.messaging.onNotification(data => cb(data));
     }
 
     send(token, key, title, body) {
@@ -55,11 +53,7 @@ class Notifications {
                 "to": token
             }
 
-        }).then(function successCallback() {
-            console.log("success");
-        }, function errorCallback() {
-            console.log("failure");
-        });
+        })
     }
 
 }
