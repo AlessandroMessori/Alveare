@@ -1,14 +1,24 @@
 import Firebase from "firebase";
+import credentials from "../../../../../credentials";
 
 class tabsCtrl {
 
-    constructor($scope, $state, $rootScope, $ionicPlatform, $ionicScrollDelegate, $ionicHistory, Auth, PlatformHandler, Modals) {
+    constructor($scope, $state, $rootScope, $ionicPlatform, $ionicScrollDelegate, $ionicHistory, Auth, PlatformHandler, Modals, ServiceWorker, Notifications) {
 
         $scope.View = "tab-link";
         $scope.showIcon = "ion-plus-round";
         $scope.addIcon = false;
-        $scope.UserImage = JSON.parse(localStorage.getItem("firebase:authUser:AIzaSyBQcIrRUzpahFxeh3s3pzGNlP8QqyFsvn8:[DEFAULT]")).photoURL;
+        $scope.UserImage = Firebase.auth().currentUser.photoURL;
         Auth.checkAdmins($scope, "adminPanel");
+
+        if (FCMPlugin != undefined) {
+            Notifications.onMessage();
+
+            ServiceWorker.register("/firebase-messaging-sw.js", Notifications.getToken((token) => {
+                console.log(token);
+                Notifications.send(token, credentials.newApiKey, "Notifica Di Prova", "Prova");
+            }));
+        }
 
         PlatformHandler.is("iOS", () => document.getElementById("tabBar").style.marginTop = "-5%");
 
@@ -26,6 +36,7 @@ class tabsCtrl {
             }
 
         });
+
 
         $rootScope.$on("$stateChangeSuccess", (ev, to, toParams, from) => {
 

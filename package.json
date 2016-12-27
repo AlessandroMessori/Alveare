@@ -6,7 +6,7 @@
   "scripts": {
     "permissions": "chown -R alessandromessori /Users/alessandromessori",
     "build": "webpack --watch",
-    "serve": "webpack-dev-server",
+    "serve": "webpack-dev-server --port 8800",
     "dev": "concurrently --kill-others \"npm run serve\" \"npm run build\"",
     "create": "ionic state reset"
   },

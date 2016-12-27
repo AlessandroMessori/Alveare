@@ -1,8 +1,6 @@
-import credentials from "../../credentials";
-
 class Config {
 
-    static run($ionicPlatform, $ionicPopup, Notifications, ServiceWorker) {
+    static run($ionicPlatform, $ionicPopup) {
         $ionicPlatform.ready(() => {
 
             if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -23,16 +21,10 @@ class Config {
                 }
             }
 
-            if (Config.getChromeVersion() < 50) {
-                alert("aggiorna il tuo browser per ricevere notifiche da questa app");
-            }
+            /*if (Config.getChromeVersion() < 50) {
+             alert("aggiorna il tuo browser per ricevere notifiche da questa app");
+             }*/
 
-            Notifications.onMessage();
-
-            ServiceWorker.register("/firebase-messaging-sw.js", Notifications.getToken((token) => {
-                console.log(token);
-                Notifications.send(token, credentials.apiKey, "Notifica Di Prova", "Prova");
-            }));
 
         });
     }

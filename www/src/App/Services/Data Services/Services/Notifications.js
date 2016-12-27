@@ -36,15 +36,15 @@ class Notifications {
     }
 
     send(token, key, title, body) {
+
+        this.$http.defaults.headers.common.Authorization = "key=" + key;
+
         this.$http({
             url: this.api_url,
             dataType: "json",
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": {
-                    "key": key
-                }
             },
             data: {
                 "notification": {
