@@ -1,4 +1,3 @@
-import Firebase from "firebase";
 import credentials from "../../credentials";
 
 class Config {
@@ -25,15 +24,14 @@ class Config {
             }
 
             if (Config.getChromeVersion() < 50) {
-                alert("aggiorna il tuo browser per ricevere le notifiche di questa app");
+                alert("aggiorna il tuo browser per ricevere notifiche da questa app");
             }
 
+            Notifications.onMessage();
+
             ServiceWorker.register("/firebase-messaging-sw.js", Notifications.getToken((token) => {
-
-                //Firebase.messaging().onMessage(payload => console.log("Message received. ", payload));
-
+                console.log(token);
                 Notifications.send(token, credentials.apiKey, "Notifica Di Prova", "Prova");
-
             }));
 
         });

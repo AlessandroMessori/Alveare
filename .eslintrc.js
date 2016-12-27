@@ -15,7 +15,8 @@ module.exports = {
         "device": false,
         "Camera": false,
         "Connection": false,
-        "FileTransfer": false
+        "FileTransfer": false,
+        "FCMPlugin": false
     },
     "rules": {
         "indent": [

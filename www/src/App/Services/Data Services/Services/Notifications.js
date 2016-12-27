@@ -1,6 +1,4 @@
 "use strict";
-import Firebase from "firebase";
-
 class Notifications {
 
     get api_url() {
@@ -8,7 +6,7 @@ class Notifications {
     }
 
     get messaging() {
-        return Firebase.messaging();
+        return FCMPlugin;
     }
 
     constructor($http) {
@@ -16,24 +14,32 @@ class Notifications {
     }
 
     getToken(cb) {
-        this.messaging.requestPermission()
-            .then(() => {
-                this.messaging.getToken()
-                    .then(currentToken => cb(currentToken))
-                    .catch(err => alert(err));
-            })
-            .catch(err => alert("Unable to get permission to notify. " + err));
+        this.messaging.getToken(currentToken => cb(currentToken), err => alert(err));
     }
 
     saveToken(token) {
         console.log(token);
     }
 
+    onMessage() {
+        this.messaging.onNotification(
+            data => {
+                if (data.wasTapped) {
+                    alert(JSON.stringify(data));
+                } else {
+                    alert(JSON.stringify(data));
+                }
+            },
+            msg => console.log("onNotification callback successfully registered: " + msg),
+            err => console.log("Error registering onNotification callback: " + err)
+        );
+    }
+
     send(token, key, title, body) {
         this.$http({
             url: this.api_url,
             dataType: "json",
-            method: "GET",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": {
