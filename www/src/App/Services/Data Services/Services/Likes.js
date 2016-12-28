@@ -38,7 +38,9 @@ class Likes {
             updates["/Likes/" + newPostKey] = newData;
             Firebase.database().ref().update(updates)
                 .then(() => Notifications.getTokensByID(newData.userID, tokens => {
-                    Notifications.send(tokens[0], "App Ariosto Spallanzani", `a ${newData.user} piace un tuo post`);
+                    tokens.map(token => {
+                        Notifications.send(token, "App Ariosto Spallanzani", `a ${newData.user} piace un tuo post`);
+                    });
                 }));
         };
 

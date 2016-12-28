@@ -2,7 +2,7 @@ import Firebase from "firebase";
 
 class Comments {
 
-    constructor(Likes) {
+    constructor(Likes, Notifications) {
 
         this.sendComment = (scope, newData, commentList, callback) => {
             const newPostKey = Firebase.database().ref().child("Commenti").push().key;
@@ -10,7 +10,14 @@ class Comments {
             document.getElementById(commentList).style.display = "none";
             updates["/Commenti/" + newPostKey] = newData;
             Firebase.database().ref().update(updates)
-                .then(() => callback());
+                .then(() => {
+                    callback();
+                    Notifications.getTokensByID(newData.authorID, tokens => {
+                        tokens.map(token => {
+                            Notifications.send(token, "App Ariosto Spallanzani", `${newData.author} ha commentato un tuo post`);
+                        });
+                    });
+                });
         };
 
         this.getComments = (scope, rootScope, state, spinner, filter) => {
