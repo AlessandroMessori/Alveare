@@ -78,6 +78,7 @@ class Articles {
                 pdf: pdfUrl,
                 link(destination) {
                     rootScope.currentPost = item;
+                    rootScope.currentPostAuthor = results.authorID;
                     state.go(destination);
                 },
                 linkToProfile() {

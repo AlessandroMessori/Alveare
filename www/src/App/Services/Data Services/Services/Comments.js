@@ -12,7 +12,7 @@ class Comments {
             Firebase.database().ref().update(updates)
                 .then(() => {
                     callback();
-                    Notifications.getTokensByID(newData.authorID, tokens => {
+                    Notifications.getTokensByID(newData.fatherID, tokens => {
                         tokens.map(token => {
                             Notifications.send(token, "App Ariosto Spallanzani", `${newData.author} ha commentato un tuo post`);
                         });

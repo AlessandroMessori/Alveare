@@ -91,6 +91,7 @@ class Messages {
                 commentCount: 0,
                 link(dest) {
                     rootScope.currentPost = item;
+                    rootScope.currentPostAuthor = results[item].authorID;
                     state.go(dest);
                 },
                 linkToProfile() {

@@ -18,6 +18,7 @@ class commentsCtrl {
                     author: Firebase.auth().currentUser.displayName,
                     authorID: Firebase.auth().currentUser.uid,
                     father: $rootScope.currentPost,
+                    fatherID: $rootScope.currentPostAuthor,
                     date: DateHandler.GetCurrentDate(),
                     userMail: Firebase.auth().currentUser.email
                 };
@@ -25,7 +26,6 @@ class commentsCtrl {
                 Comments.sendComment($scope, newData, "commentList", () => {
                     document.getElementById("commentList").style.display = "block";
                     Comments.getComments($scope, $rootScope, $state, "commentsSpinner");
-                    scope.$apply();
                 });
 
                 $scope.comment = "";
