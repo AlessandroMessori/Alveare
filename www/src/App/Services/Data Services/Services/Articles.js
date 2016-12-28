@@ -2,7 +2,7 @@ import Firebase from "firebase";
 
 class Articles {
 
-    constructor($ionicLoading, StringHandler, Modals, FileHandler) {
+    constructor($ionicLoading, Notifications, StringHandler, Modals, FileHandler) {
 
         this.sendArticle = (newData, imgUrl, ArticleType) => {
             const newPostKey = Firebase.database().ref().child(ArticleType).push().key;
@@ -16,8 +16,12 @@ class Articles {
                 storageRef.child("img").put(blob)
                     .then(() => {
                         storageRef.child("pdf").put(newData.pdf.binary)
-                            .then(()=>Modals.ResultTemplate("Articolo Pubblicato con Successo"))
-                            .catch(()=>Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo"));
+                            .then(() => {
+                                Modals.ResultTemplate("Articolo Pubblicato con Successo");
+                                const text = `${newData.author} ha pubblicato un articolo del giornalino`;
+                                Notifications.send("/topics/All", "App Ariosto Spalllanzani", text);
+                            })
+                            .catch(() => Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo"));
                     });
             });
         };
@@ -35,18 +39,18 @@ class Articles {
                 if (results != null) {
                     const keys = Object.keys(results);
 
-                    keys.map((item, i)=> {
+                    keys.map((item, i) => {
 
                         const strRef = Firebase.storage().ref(type).child(item);
                         strRef.child("img").getDownloadURL().then(imgUrl => {
 
-                            strRef.child("pdf").getDownloadURL().then(pdfUrl=> {
+                            strRef.child("pdf").getDownloadURL().then(pdfUrl => {
 
                                 Firebase.storage().ref("Profili").child(results[item].userMail).getDownloadURL()
-                                    .then(url=> {
+                                    .then(url => {
                                         this.setArticleProperties(scope, rootScope, state, articles, results[item], item, i, imgUrl, pdfUrl, url, keys.length, spinner);
                                     })
-                                    .catch(()=> {
+                                    .catch(() => {
                                         const defaultImage = require("../../../../Images/user.jpg");
                                         this.setArticleProperties(scope, rootScope, state, articles, results[item], item, i, imgUrl, pdfUrl, defaultImage, keys.length, spinner);
                                     });
@@ -61,7 +65,7 @@ class Articles {
 
         };
 
-        this.setArticleProperties = (scope, rootScope, state, articles, results, item, index, imgUrl, pdfUrl, url, length, spinner)=> {
+        this.setArticleProperties = (scope, rootScope, state, articles, results, item, index, imgUrl, pdfUrl, url, length, spinner) => {
             articles[index] = {
                 title: results.title,
                 author: results.author,

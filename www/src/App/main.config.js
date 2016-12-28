@@ -1,4 +1,4 @@
-import Firebase from "firebase";
+"use strict";
 class Config {
 
     static run($ionicPlatform, $ionicPopup) {
@@ -7,6 +7,8 @@ class Config {
             if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
             }
+
+            FCMPlugin.subscribeToTopic("All");
 
             if (window.Connection) {
                 if (navigator.connection.type == Connection.NONE) {

@@ -1,6 +1,7 @@
 "use strict";
 import Firebase from "firebase";
 import includes from "lodash/includes";
+import credentials from "../../../../../credentials";
 
 class Notifications {
 
@@ -26,10 +27,9 @@ class Notifications {
         const path = "Utenti/" + user.uid + "/tokens";
         let updates = {};
         let tokens = [];
-        console.log(token);
+
         dbRef.child(path).once("value", snapshot => {
             const results = snapshot.val();
-            console.log(results);
 
             if (results != null && includes(results, token)) {
                 return "errore";
@@ -47,9 +47,9 @@ class Notifications {
         return this.messaging.onNotification(data => cb(data));
     }
 
-    send(token, key, title, body) {
+    send(to, title, body) {
 
-        this.$http.defaults.headers.common.Authorization = "key=" + key;
+        this.$http.defaults.headers.common.Authorization = "key=" + credentials.newApiKey;
 
         this.$http({
             url: this.api_url,
@@ -64,10 +64,10 @@ class Notifications {
                     "body": body,
                     "click_action": "https://dummypage.com"
                 },
-                "to": token
+                "to": to
             }
 
-        });
+        }).then(() => console.log("successo"), () => console.log("errore"));
     }
 
 }

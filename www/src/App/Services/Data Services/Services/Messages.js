@@ -2,7 +2,7 @@ import Firebase from "firebase";
 
 class Messages {
 
-    constructor(Modals, Comments, Likes) {
+    constructor(Modals, Comments, Likes, Notifications) {
 
         this.sendPost = (newData, binary, contentType) => {
 
@@ -19,7 +19,11 @@ class Messages {
             let updates = {};
             updates["/" + contentType + "/" + newPostKey] = newData;
             Firebase.database().ref().update(updates)
-                .then(() => Modals.ResultTemplate("Post Pubblicato con Successo"))
+                .then(() => {
+                    Modals.ResultTemplate("Post Pubblicato con Successo");
+                    const text = `${newData.author} ha pubblicato qualcosa in ${contentType}`;
+                    Notifications.send("/topics/All", "App Ariosto Spalllanzani", text);
+                })
                 .catch(() => Modals.ResultTemplate("Errore nella Pubblicazione del Post"));
         };
 
