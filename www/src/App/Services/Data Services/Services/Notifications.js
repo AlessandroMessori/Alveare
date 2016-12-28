@@ -1,5 +1,7 @@
 "use strict";
 import Firebase from "firebase";
+import includes from "lodash/includes";
+
 class Notifications {
 
     get api_url() {
@@ -21,12 +23,24 @@ class Notifications {
     saveToken(token) {
         const dbRef = Firebase.database().ref();
         const user = Firebase.auth().currentUser;
+        const path = "Utenti/" + user.uid + "/tokens";
         let updates = {};
-        let tokens = [token];
+        let tokens = [];
+        console.log(token);
+        dbRef.child(path).once("value", snapshot => {
+            const results = snapshot.val();
+            console.log(results);
 
-        updates["Utenti/" + user.uid + "/tokens"] = tokens;
+            if (results != null && includes(results, token)) {
+                return "errore";
+            }
 
-        dbRef.update(updates);
+            tokens = (results == null) ? [] : results;
+            tokens.push(token);
+            updates[path] = tokens;
+            dbRef.update(updates);
+
+        });
     }
 
     onMessage(cb) {
@@ -53,7 +67,7 @@ class Notifications {
                 "to": token
             }
 
-        })
+        });
     }
 
 }

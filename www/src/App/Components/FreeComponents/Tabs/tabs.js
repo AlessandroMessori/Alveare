@@ -1,5 +1,4 @@
 import Firebase from "firebase";
-import credentials from "../../../../../credentials";
 
 class tabsCtrl {
 
@@ -13,9 +12,8 @@ class tabsCtrl {
         window.onload = () => {
             ServiceWorker.register("/firebase-messaging-sw.js", Notifications.getToken((token) => {
                 Notifications.saveToken(token);
-                //Notifications.send(token, credentials.newApiKey, "Notifica Di Prova", "Prova");
             }));
-        }
+        };
         PlatformHandler.is("iOS", () => document.getElementById("tabBar").style.marginTop = "-5%");
 
         $scope.$on("$ionicView.enter", () => {
