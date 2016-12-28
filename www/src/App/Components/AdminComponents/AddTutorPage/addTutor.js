@@ -71,6 +71,7 @@ class addTutorCtrl {
                     const newTutor = {
                         authorMail: Firebase.auth().currentUser.email,
                         authorName: Firebase.auth().currentUser.displayName,
+                        authorID: Firebase.auth().currentUser.uid,
                         cls: user.cls,
                         sect: user.sect,
                         description,

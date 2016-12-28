@@ -10,7 +10,7 @@ class Comments {
             document.getElementById(commentList).style.display = "none";
             updates["/Commenti/" + newPostKey] = newData;
             Firebase.database().ref().update(updates)
-                .then(()=> callback());
+                .then(() => callback());
         };
 
         this.getComments = (scope, rootScope, state, spinner, filter) => {
@@ -45,8 +45,8 @@ class Comments {
                         else if (results[item].father == father) {
                             const defaultImage = require("../../../../Images/user.jpg");
                             Firebase.storage().ref("Profili").child(results[item].userMail).getDownloadURL()
-                                .then(url=> this.setCommentProperties(scope, rootScope, state, comments, results, url, i, item, spinner))
-                                .catch(()=> this.setCommentProperties(scope, rootScope, state, comments, results, defaultImage, i, item, spinner));
+                                .then(url => this.setCommentProperties(scope, rootScope, state, comments, results, url, i, item, spinner))
+                                .catch(() => this.setCommentProperties(scope, rootScope, state, comments, results, defaultImage, i, item, spinner));
                         }
 
                     });
@@ -55,7 +55,7 @@ class Comments {
             });
         };
 
-        this.setCommentProperties = (scope, rootScope, state, comments, results, url, index, item, spinner)=> {
+        this.setCommentProperties = (scope, rootScope, state, comments, results, url, index, item, spinner) => {
             comments.push({
                 author: results[item].author,
                 avatar: url,
@@ -64,7 +64,7 @@ class Comments {
                 date: results[item].date,
                 id: item,
                 like() {
-                    Likes.checkLike(Firebase.auth().currentUser.displayName, item);
+                    Likes.checkLike(Firebase.auth().currentUser.displayName, Firebase.auth().currentUser.uid, item);
                 },
                 link() {
                     rootScope.currentPost = item;
@@ -81,7 +81,7 @@ class Comments {
                 }
             });
 
-            window.setTimeout(()=>document.getElementById(spinner).style.display = "none", 1000);
+            window.setTimeout(() => document.getElementById(spinner).style.display = "none", 1000);
 
             Likes.getLikeCount(item, scope, comments, comments.length - 1, "Comments");
         };

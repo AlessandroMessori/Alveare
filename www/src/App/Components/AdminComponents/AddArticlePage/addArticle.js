@@ -20,8 +20,8 @@ class addArticleCtrl {
 
         $scope.removeFile = (file) => FileHandler.removeFile(file, $scope.fileList);
 
-        $scope.GetPic = ()=> {
-            CameraHandler.getPic((imageUrl)=> {
+        $scope.GetPic = () => {
+            CameraHandler.getPic((imageUrl) => {
                 $scope.imgData = imageUrl;
                 document.getElementById("img-preview").style.display = "inline";
                 document.getElementById("img_1").src = imageUrl;
@@ -39,6 +39,7 @@ class addArticleCtrl {
                     text,
                     title,
                     author: Firebase.auth().currentUser.displayName,
+                    authorID: Firebase.auth().currentUser.uid,
                     date: DateHandler.GetCurrentDate(),
                     pdf,
                     userMail: Firebase.auth().currentUser.email

@@ -31,6 +31,7 @@ class addNewsCtrl {
                 const newData = {
                     text: news,
                     author: Firebase.auth().currentUser.displayName,
+                    authorID: Firebase.auth().currentUser.uid,
                     date: DateHandler.GetCurrentDate(),
                     files: $scope.fileList,
                     links: $scope.linkList,

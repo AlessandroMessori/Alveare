@@ -4,7 +4,7 @@ import uniqBy from "lodash/uniqBy";
 class Likes {
 
     constructor() {
-        this.checkLike = (user, post) => {
+        this.checkLike = (user, userID, post) => {
             const self = this;
             const ModelRef = Firebase.database().ref("Likes");
             ModelRef.once("value", snapshot => {
@@ -22,7 +22,7 @@ class Likes {
                 }
 
                 if (check) {
-                    self.sendLike({user, post}, post);
+                    self.sendLike({user, userID, post}, post);
                 } else {
                     self.removeLike(likeId, post);
                 }

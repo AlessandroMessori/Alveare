@@ -103,7 +103,7 @@ class Messages {
                     state.go("updateProfile");
                 },
                 like() {
-                    Likes.checkLike(Firebase.auth().currentUser.displayName, item);
+                    Likes.checkLike(Firebase.auth().currentUser.displayName, Firebase.auth().currentUser.uid, item);
                 }
             };
 
