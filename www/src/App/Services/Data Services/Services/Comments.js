@@ -12,10 +12,8 @@ class Comments {
             Firebase.database().ref().update(updates)
                 .then(() => {
                     callback();
-                    Notifications.getTokensByID(newData.fatherID, tokens => {
-                        tokens.map(token => {
-                            Notifications.send(token, "App Ariosto Spallanzani", `${newData.author} ha commentato un tuo post`);
-                        });
+                    Notifications.getTokensByID(newData.fatherID, token => {
+                        Notifications.send(token, "App Ariosto Spallanzani", `${newData.author} ha commentato un tuo post`);
                     });
                 });
         };
@@ -71,7 +69,7 @@ class Comments {
                 date: results[item].date,
                 id: item,
                 like() {
-                    Likes.checkLike(Firebase.auth().currentUser.displayName, Firebase.auth().currentUser.uid, item);
+                    Likes.checkLike(Firebase.auth().currentUser.displayName, results[item].authorID, item);
                 },
                 link() {
                     rootScope.currentPost = item;

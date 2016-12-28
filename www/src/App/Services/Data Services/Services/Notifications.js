@@ -1,6 +1,5 @@
 "use strict";
 import Firebase from "firebase";
-import includes from "lodash/includes";
 import credentials from "../../../../../credentials";
 
 class Notifications {
@@ -23,7 +22,7 @@ class Notifications {
 
     getTokensByID(id, cb) {
         const dbRef = Firebase.database().ref();
-        const path = "Utenti/" + id + "/tokens";
+        const path = "Utenti/" + id + "/token";
 
         dbRef.child(path).once("value", snapshot => {
             const results = snapshot.val();
@@ -34,23 +33,10 @@ class Notifications {
     saveToken(token) {
         const dbRef = Firebase.database().ref();
         const user = Firebase.auth().currentUser;
-        const path = "Utenti/" + user.uid + "/tokens";
+        const path = "Utenti/" + user.uid + "/token";
         let updates = {};
-        let tokens = [];
-
-        dbRef.child(path).once("value", snapshot => {
-            const results = snapshot.val();
-
-            if (results != null && includes(results, token)) {
-                return "errore";
-            }
-
-            tokens = (results == null) ? [] : results;
-            tokens.push(token);
-            updates[path] = tokens;
-            dbRef.update(updates);
-
-        });
+        updates[path] = token;
+        dbRef.update(updates);
     }
 
     onMessage(cb) {
@@ -73,6 +59,7 @@ class Notifications {
                 "notification": {
                     "title": title,
                     "body": body,
+                    "sound": "default",
                     "click_action": "https://dummypage.com"
                 },
                 "to": to

@@ -37,10 +37,8 @@ class Likes {
             document.getElementById(likebtn).style.color = "blue";
             updates["/Likes/" + newPostKey] = newData;
             Firebase.database().ref().update(updates)
-                .then(() => Notifications.getTokensByID(newData.userID, tokens => {
-                    tokens.map(token => {
-                        Notifications.send(token, "App Ariosto Spallanzani", `a ${newData.user} piace un tuo post`);
-                    });
+                .then(() => Notifications.getTokensByID(newData.userID, token => {
+                    Notifications.send(token, "App Ariosto Spallanzani", `a ${newData.user} piace un tuo post`);
                 }));
         };
 
