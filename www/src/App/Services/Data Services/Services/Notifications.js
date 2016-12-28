@@ -21,6 +21,16 @@ class Notifications {
         this.messaging.getToken(currentToken => cb(currentToken), err => alert(err));
     }
 
+    getTokensByID(id, cb) {
+        const dbRef = Firebase.database().ref();
+        const path = "Utenti/" + id + "/tokens";
+
+        dbRef.child(path).once("value", snapshot => {
+            const results = snapshot.val();
+            cb(results);
+        });
+    }
+
     saveToken(token) {
         const dbRef = Firebase.database().ref();
         const user = Firebase.auth().currentUser;
@@ -46,6 +56,7 @@ class Notifications {
     onMessage(cb) {
         return this.messaging.onNotification(data => cb(data));
     }
+
 
     send(to, title, body) {
 
