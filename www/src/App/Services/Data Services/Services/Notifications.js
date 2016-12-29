@@ -30,6 +30,19 @@ class Notifications {
         });
     }
 
+    deleteToken(id) {
+        const dbRef = Firebase.database().ref();
+        const path = "Utenti/" + id + "/token";
+
+        const prom = new Promise((resolve, reject) => {
+            dbRef.child(path).remove()
+                .then(() => resolve())
+                .catch(() => reject());
+        });
+
+        return prom;
+    }
+
     saveToken(token) {
         const dbRef = Firebase.database().ref();
         const user = Firebase.auth().currentUser;

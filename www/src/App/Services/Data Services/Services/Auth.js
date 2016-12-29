@@ -3,7 +3,7 @@ import includes from "lodash/includes";
 
 class Auth {
 
-    constructor($ionicLoading, Modals, StringHandler) {
+    constructor($ionicLoading, Notifications, Modals, StringHandler) {
 
         this.Signup = (name, pass, mail, state, history) => {
 
@@ -48,14 +48,22 @@ class Auth {
         };
 
         this.Logout = (state, rootScope, modals) => {
-            Firebase.auth().signOut().then(() => {
-                state.go("login");
-                window.localStorage.setItem("RememberMe", "false");
-                window.localStorage.setItem("IsAdmin", "false");
-                window.localStorage.removeItem("Username");
-            }, () => {
-                modals.ResultTemplate("Impossibile disconnetersi dal profilo");
-            });
+            const id = Firebase.auth().currentUser.uid;
+            Notifications.deleteToken(id)
+                .then(() => {
+                    Firebase.auth().signOut()
+                        .then(() => {
+                            state.go("login");
+                            window.localStorage.setItem("RememberMe", "false");
+                            window.localStorage.setItem("IsAdmin", "false");
+                            window.localStorage.removeItem("Username");
+                        }, () => {
+                            modals.ResultTemplate("Impossibile disconnetersi dal profilo");
+                        });
+                })
+                .catch(() => {
+                    modals.ResultTemplate("Impossibile disconnetersi dal profilo");
+                })
         };
 
         this.checkAdmins = (scope, id) => {
