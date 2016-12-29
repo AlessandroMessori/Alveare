@@ -40,11 +40,15 @@ class Notifications {
     }
 
     onMessage(cb) {
-        return this.messaging.onNotification(data => cb(data));
+        return this.messaging.onNotification(data => {
+            if (data.wasTapped) {
+                cb(data)
+            }
+        });
     }
 
 
-    send(to, title, body) {
+    send(to, title, body, params) {
 
         this.$http.defaults.headers.common.Authorization = "key=" + credentials.newApiKey;
 
@@ -62,9 +66,9 @@ class Notifications {
                     "sound": "default",
                     "click_action": "https://dummypage.com"
                 },
+                "data": params,
                 "to": to
             }
-
         }).then(() => console.log("successo"), () => console.log("errore"));
     }
 

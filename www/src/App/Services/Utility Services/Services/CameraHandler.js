@@ -10,6 +10,7 @@ class CameraHandler {
             },
             {
                 quality: 50,
+                allowEdit: true,
                 destinationType: Camera.DestinationType.FILE_URI,
                 sourceType: Camera.PictureSourceType.PHOTOLIBRARY
             });
