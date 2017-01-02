@@ -22,7 +22,7 @@ class Messages {
                 .then(() => {
                     Modals.ResultTemplate("Post Pubblicato con Successo");
                     const text = `${newData.author} ha pubblicato qualcosa in ${contentType}`;
-                    Notifications.send("/topics/All", "App Ariosto Spalllanzani", text);
+                    Notifications.send("/topics/All", "App Ariosto Spalllanzani", text, {contentType});
                 })
                 .catch(() => Modals.ResultTemplate("Errore nella Pubblicazione del Post"));
         };

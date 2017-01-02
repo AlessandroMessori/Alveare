@@ -60,7 +60,6 @@ class Notifications {
         });
     }
 
-
     send(to, title, body, params) {
 
         this.$http.defaults.headers.common.Authorization = "key=" + credentials.newApiKey;
@@ -77,7 +76,7 @@ class Notifications {
                     "title": title,
                     "body": body,
                     "sound": "default",
-                    "click_action": "https://dummypage.com"
+                    "click_action": "FCM_PLUGIN_ACTIVITY",
                 },
                 "data": params,
                 "to": to

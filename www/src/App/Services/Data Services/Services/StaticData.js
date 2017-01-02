@@ -132,63 +132,61 @@ class StaticData {
             {
                 name: "Tosi Dischi",
                 address: "via a caso 1",
-                description: "Sconto del 5% su tutti i prodotti",
+                description: ["10% di sconto su CD nuovi"],
                 img: require("../../../../Images/Conventions/con1.jpeg")
             },
             {
                 name: "Armandos",
                 address: "via cicciona 10",
-                description: "Sconto del 10% su tutti i prodotti",
+                description: ["Doppia timbro su ogni nuova tessera"],
                 img: require("../../../../Images/Conventions/con2.jpeg")
 
             },
             {
                 name: "A Riccione",
                 address: "via adjflkdfslkfd",
-                description: "Sconto del 5% sulle pizze",
+                description: [
+                    "Piada con salume a scelta + mozzarella o fontina = 5€",
+                    "Piada con 2 ingredienti + lattina da 1€ = 6€"
+                ],
                 img: require("../../../../Images/Conventions/con3.jpeg")
             },
             {
                 name: "Re Vegano",
                 address: "via  di fronte allo spalla",
-                description: "La seconda Pasta è gratis",
+                description: [
+                    "Panino/Piadina + acqua = 5.50€",
+                    "Panino/Piadina + bibita/estratto di frutta = 7€",
+                    "Trancio di pizza + erbazzone + acqua = 3.5€",
+                    "Panino + pizza + estratto di frutta = 9€",
+                ],
                 img: require("../../../../Images/Conventions/con4.jpeg")
-
             },
             {
                 name: "Mister Pizza",
                 address: "via rossi 5",
-                description: "Sconto del 5% sulle torte",
+                description: [
+                    "Sconto del 10% su tutti i prodotti",
+                    "Tessera Raccolta Punti",
+                    "Sconti su prodotti selezionati"
+                ],
                 img: require("../../../../Images/Conventions/con5.jpeg")
-            },
-            {
-                name: "Fior di Latte",
-                address: "via einstein 10",
-                description: "Sconto del 5%",
-                img: require("../../../../Images/Conventions/con6.png")
-            },
-            {
-                name: "Forno Panciroli",
-                address: "via a caso 197",
-                description: "Sconto del 5% sul Gnocco",
-                img: require("../../../../Images/Conventions/con7.png")
             },
             {
                 name: "Fritti Mistici",
                 address: "via per Modena 6",
-                description: "Granite Gratis per tutti",
+                description: [
+                    "Menu Pizza(panzerotto + montanara + bibita) = 5€",
+                    "Menu Pollo(pollo 2pz/bocconcici 3pz + bibita) = 5€",
+                    "Menu Mix(pollo 2pz/bocconcini 3pz +panzerotto/montanara + arancino + bibita) = 8€",
+                    "Sconto del 10% su una spesa di 10€(a persona)"
+                ],
                 img: require("../../../../Images/Conventions/con8.png")
-            },
-            {
-                name: "Baguetteria Pullo",
-                address: "via senza nome",
-                description: "Sconto a caso",
-                img: require("../../../../Images/Conventions/con9.png")
             },
             {
                 name: "Cartoleria Rossi",
                 address: "via a caso 154",
-                description: "Sconto del 20% su tutto",
+                description: ["Sconto del 15% su tutti i prodotti di cancelleria"],
                 img: require("../../../../Images/Conventions/con10.png")
             }
         ];

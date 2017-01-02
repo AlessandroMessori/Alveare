@@ -9,11 +9,18 @@ class tabsCtrl {
         $scope.addIcon = false;
         Auth.checkAdmins($scope, "adminPanel");
 
+
         window.onload = () => {
+
+            Notifications.onMessage(data => {
+                alert(data);
+            });
+
             ServiceWorker.register("/firebase-messaging-sw.js", Notifications.getToken((token) => {
                 Notifications.saveToken(token);
             }));
         };
+
         PlatformHandler.is("iOS", () => document.getElementById("tabBar").style.marginTop = "-5%");
 
         $scope.$on("$ionicView.enter", () => {
