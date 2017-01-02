@@ -1,5 +1,5 @@
 class conventionsCtrl {
-    constructor($scope, StaticData) {
+    constructor($scope, $ionicPopup, StaticData) {
 
         for (let i = 0; i < StaticData.conventions.length; i++) {
             const len = StaticData.conventions[i].description.length;
@@ -9,6 +9,20 @@ class conventionsCtrl {
 
         $scope.Conventions = StaticData.conventions;
 
+        $scope.showConventions = (title, list) => {
+            $ionicPopup.alert({
+                title: title,
+                template: this.getListTemplate(list)
+            });
+        };
+
+        this.getListTemplate = list => {
+            let tem = "";
+            for (let i = 0; i < list.length; i++) {
+                tem += `<li> ${list[i]} </li>`;
+            }
+            return `<ul> ${tem} </ul>`;
+        };
 
     }
 }

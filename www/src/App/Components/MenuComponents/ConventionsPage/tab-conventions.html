@@ -1,14 +1,17 @@
 <ion-view view-title="Convenzioni">
     <ion-content>
-        <div class="list">
 
-            <a ng-repeat="Convention in Conventions" class="item item-thumbnail-left">
+        <div class="list conSection">
+
+            <div ng-repeat="Convention in Conventions"
+                 ng-click="showConventions(Convention.name,Convention.description)"
+                 class="item item-thumbnail-left">
                 <img ng-src={{Convention.img}}>
                 <h2>{{Convention.name}}</h2>
                 <p>{{Convention.text}}</p>
-                <p>Leggi Dettagli</p>
-            </a>
+            </div>
 
         </div>
+
     </ion-content>
 </ion-view>
