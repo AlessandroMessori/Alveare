@@ -9,11 +9,11 @@ class tabsCtrl {
         $scope.addIcon = false;
         Auth.checkAdmins($scope, "adminPanel");
 
-
         window.onload = () => {
-
             Notifications.onMessage(data => {
-                alert(data);
+                if (data.destination) {
+                    $state.go(data.destination);
+                }
             });
 
             ServiceWorker.register("/firebase-messaging-sw.js", Notifications.getToken((token) => {
@@ -37,7 +37,6 @@ class tabsCtrl {
             }
 
         });
-
 
         $rootScope.$on("$stateChangeSuccess", (ev, to, toParams, from) => {
 

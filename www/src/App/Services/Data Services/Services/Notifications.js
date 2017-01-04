@@ -55,7 +55,7 @@ class Notifications {
     onMessage(cb) {
         return this.messaging.onNotification(data => {
             if (data.wasTapped) {
-                cb(data)
+                cb(data);
             }
         });
     }

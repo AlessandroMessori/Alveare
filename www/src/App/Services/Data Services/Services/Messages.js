@@ -22,7 +22,9 @@ class Messages {
                 .then(() => {
                     Modals.ResultTemplate("Post Pubblicato con Successo");
                     const text = `${newData.author} ha pubblicato qualcosa in ${contentType}`;
-                    Notifications.send("/topics/All", "App Ariosto Spalllanzani", text, {contentType});
+                    Notifications.send("/topics/All", "App Ariosto Spalllanzani", text, {
+                        destination: this.getState(contentType)
+                    });
                 })
                 .catch(() => Modals.ResultTemplate("Errore nella Pubblicazione del Post"));
         };
@@ -124,6 +126,27 @@ class Messages {
                     scope.$apply();
                 });
         };
+
+        this.getState = contentType => {
+
+            let state;
+
+            switch (contentType) {
+                case "Comunicazioni":
+                    state = "tab.forum";
+                    break;
+                case "Post":
+                    state = "tab.libera";
+                    break;
+                case "Orientamento":
+                    state = "tab.orientamento";
+                    break;
+            }
+
+            return state;
+
+        };
+
     }
 
 }

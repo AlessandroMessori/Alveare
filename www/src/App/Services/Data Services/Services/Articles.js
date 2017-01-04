@@ -19,7 +19,9 @@ class Articles {
                             .then(() => {
                                 Modals.ResultTemplate("Articolo Pubblicato con Successo");
                                 const text = `${newData.author} ha pubblicato un articolo del giornalino`;
-                                Notifications.send("/topics/All", "App Ariosto Spalllanzani", text);
+                                Notifications.send("/topics/All", "App Ariosto Spalllanzani", text, {
+                                    destination: "tab.giornalino"
+                                });
                             })
                             .catch(() => Modals.ResultTemplate("Errore nella Pubblicazione dell' Articolo"));
                     });
@@ -102,7 +104,6 @@ class Articles {
         };
 
     }
-
 
 }
 
