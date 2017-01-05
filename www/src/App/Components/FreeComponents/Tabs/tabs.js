@@ -11,11 +11,11 @@ class tabsCtrl {
 
         window.onload = () => {
             Notifications.onMessage(data => {
-                console.log(data);
                 if (data.destination) {
                     $state.go(data.destination);
                 } else if (data.post) {
-                    $rootScope.singlePost = data.post;
+                    $rootScope.singlePostID = data.post;
+                    $rootScope.singlePostType = data.type;
                     $state.go("singlePost");
                 }
             });
