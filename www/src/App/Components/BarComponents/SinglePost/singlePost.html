@@ -1,8 +1,10 @@
 <ion-view>
     <action-bar title="'Post'"></action-bar>
-    <ion-content class="has-header">
+    <ion-content class="has-header noScroll">
 
-        <div class="list card">
+        <ion-spinner class="spinner" id="singlePost"></ion-spinner>
+
+        <div class="list card" ng-repeat="Post in Posts | filter: {'id': currentPost}">
 
             <div class="item item-avatar" ng-click="Post.linkToProfile()">
                 <img ng-src={{Post.avatar}}>

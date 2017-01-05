@@ -30,20 +30,11 @@ class Messages {
                 .catch(() => Modals.ResultTemplate("Errore nella Pubblicazione del Post"));
         };
 
-        this.getPost = (type, id) => {
-            return new Promise(resolve => {
-                const ModelRef = Firebase.database().ref(`${type}/${id}`);
-                ModelRef.on("value", snapshot => {
-                    resolve(snapshot.val());
-                });
-            });
-        };
-
         this.getPosts = (scope, rootScope, state, spinner, type) => {
 
             const storage = Firebase.storage();
             const self = this;
-            document.getElementById(spinner).style.display = "block";
+            if (spinner) document.getElementById(spinner).style.display = "block";
             scope.Posts = [];
 
             const ModelRef = Firebase.database().ref(type);

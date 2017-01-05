@@ -2,13 +2,10 @@ class singlePostCtrl {
 
     constructor($scope, $rootScope, $state, $ionicLoading, Messages, FileHandler) {
 
+
         $scope.$on("$ionicView.enter", () => {
-            Messages.getPost($rootScope.singlePostType, $rootScope.singlePostID)
-                .then(data => {
-                    console.log(data);
-                    $scope.Post = data;
-                    $scope.$apply();
-                });
+            $scope.currentPost = $rootScope.singlePostID;
+            Messages.getPosts($scope, $rootScope, $state, "singlePost", $rootScope.singlePostType)
         });
 
         $scope.openFile = file => FileHandler.openFile(file, $ionicLoading);
