@@ -13,7 +13,10 @@ class Comments {
                 .then(() => {
                     callback();
                     Notifications.getTokensByID(newData.fatherID, token => {
-                        Notifications.send(token, "App Ariosto Spallanzani", `${newData.author} ha commentato un tuo post`);
+                        const params = {
+                            post: newData.father
+                        };
+                        Notifications.send(token, "App Ariosto Spallanzani", `${newData.author} ha commentato un tuo post`, params);
                     });
                 });
         };
