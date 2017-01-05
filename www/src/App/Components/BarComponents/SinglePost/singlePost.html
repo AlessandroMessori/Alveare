@@ -1,0 +1,48 @@
+<ion-view>
+    <action-bar title="'Post'"></action-bar>
+    <ion-content class="has-header">
+
+        <div class="list card">
+
+            <div class="item item-avatar" ng-click="Post.linkToProfile()">
+                <img ng-src={{Post.avatar}}>
+                <h2>{{Post.author}}</h2>
+                <p>{{Post.date}}</p>
+            </div>
+
+
+            <div class="item item-body">
+                <p class="postContent">{{Post.text}}</p>
+
+                <ul class="fileList">
+                    <li ng-click="openFile(file.url)" class="card" ng-repeat="file in Post.files">
+                        <div class="item item-divider">
+                            <span class="icon ion-paperclip"></span>
+                            <p>{{file.name}}</p>
+                        </div>
+                    </li>
+                </ul>
+
+                <ul class="fileList">
+                    <li ng-click="openLink(link.link)" class="card" ng-repeat="link in Post.links">
+                        <div class="item item-divider">
+                            <span class="icon ion-link"></span>
+                            <p>{{link.title}}</p>
+                        </div>
+                    </li>
+                </ul>
+
+                <a class="subdued dataTag" ng-click="Post.link('likes')">{{Post.likeCount}} Mi piace</a>
+                <a class="subdued dataTag" ng-click="Post.link('comments')">{{Post.commentCount}} Commenti</a>
+            </div>
+
+            <div class="row">
+                <p class="icon ion-thumbsup actionIcon col-50" style={{'color:'+Post.color}} id={{Post.id}}
+                   ng-click="Post.like()"> Mi Piace</p>
+                <p class="icon ion-chatbox actionIcon col-50" ng-click="Post.link('comments')"> Commenta</p>
+            </div>
+
+        </div>
+
+    </ion-content>
+</ion-view>

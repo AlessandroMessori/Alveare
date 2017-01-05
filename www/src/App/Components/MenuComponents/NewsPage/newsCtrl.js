@@ -22,6 +22,7 @@ class forumCtrl {
                 }
             });
 
+            $rootScope.contentType = type;
             $scope.UserImage = Firebase.auth().currentUser.photoURL;
             $scope.$apply();
             if ($rootScope.userName != window.localStorage.getItem("Username")) {

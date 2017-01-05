@@ -14,6 +14,9 @@ class tabsCtrl {
                 console.log(data);
                 if (data.destination) {
                     $state.go(data.destination);
+                } else if (data.post) {
+                    $rootScope.singlePost = data.post;
+                    $state.go("singlePost");
                 }
             });
         };

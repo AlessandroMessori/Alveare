@@ -14,7 +14,8 @@ class Comments {
                     callback();
                     Notifications.getTokensByID(newData.fatherID, token => {
                         const params = {
-                            post: newData.father
+                            post: newData.father,
+                            type: newData.contentType
                         };
                         Notifications.send(token, "App Ariosto Spallanzani", `${newData.author} ha commentato un tuo post`, params);
                     });
@@ -72,7 +73,7 @@ class Comments {
                 date: results[item].date,
                 id: item,
                 like() {
-                    Likes.checkLike(Firebase.auth().currentUser.displayName, results[item].authorID, item);
+                    Likes.checkLike(Firebase.auth().currentUser.displayName, results[item].authorID, item, rootScope.contentType);
                 },
                 link() {
                     rootScope.currentPost = item;

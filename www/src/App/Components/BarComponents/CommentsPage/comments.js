@@ -18,6 +18,7 @@ class commentsCtrl {
                     author: Firebase.auth().currentUser.displayName,
                     authorID: Firebase.auth().currentUser.uid,
                     father: $rootScope.currentPost,
+                    contentType: $rootScope.contentType,
                     fatherID: $rootScope.currentPostAuthor,
                     date: DateHandler.GetCurrentDate(),
                     userMail: Firebase.auth().currentUser.email

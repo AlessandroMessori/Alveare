@@ -208,6 +208,12 @@ class Config {
                 url: "/updateCredentials",
                 template: require("./Components/BarComponents/UpdateCredentialsPage/updateCredentials.html"),
                 controller: "updateCredentialsCtrl"
+            })
+
+            .state("singlePost", {
+                url: "singlePost",
+                template: require("./Components/BarComponents/SinglePost/singlePost.html"),
+                controller: "singlePostCtrl"
             });
 
         if (window.localStorage.getItem("RememberMe") == "true") {

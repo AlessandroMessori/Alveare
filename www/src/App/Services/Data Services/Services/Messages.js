@@ -23,10 +23,20 @@ class Messages {
                     Modals.ResultTemplate("Post Pubblicato con Successo");
                     const text = `${newData.author} ha pubblicato qualcosa in ${contentType}`;
                     Notifications.send("/topics/All", "App Ariosto Spalllanzani", text, {
-                        post: newPostKey
+                        post: newPostKey,
+                        type: contentType
                     });
                 })
                 .catch(() => Modals.ResultTemplate("Errore nella Pubblicazione del Post"));
+        };
+
+        this.getPost = (type, id) => {
+            return new Promise(resolve => {
+                const ModelRef = Firebase.database().ref(`${type}/${id}`);
+                ModelRef.on("value", snapshot => {
+                    resolve(snapshot.val());
+                });
+            });
         };
 
         this.getPosts = (scope, rootScope, state, spinner, type) => {
@@ -106,7 +116,7 @@ class Messages {
                     state.go("updateProfile");
                 },
                 like() {
-                    Likes.checkLike(Firebase.auth().currentUser.displayName, results[item].authorID, item);
+                    Likes.checkLike(Firebase.auth().currentUser.displayName, results[item].authorID, item, rootScope.contentType);
                 }
             };
 
