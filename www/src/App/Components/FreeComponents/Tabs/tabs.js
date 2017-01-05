@@ -11,14 +11,11 @@ class tabsCtrl {
 
         window.onload = () => {
             Notifications.onMessage(data => {
+                console.log(data);
                 if (data.destination) {
                     $state.go(data.destination);
                 }
             });
-
-            ServiceWorker.register("/firebase-messaging-sw.js", Notifications.getToken((token) => {
-                Notifications.saveToken(token);
-            }));
         };
 
         PlatformHandler.is("iOS", () => document.getElementById("tabBar").style.marginTop = "-5%");

@@ -3,7 +3,7 @@ import includes from "lodash/includes";
 
 class Auth {
 
-    constructor($ionicLoading, Notifications, Modals, StringHandler) {
+    constructor($ionicLoading, Notifications, ServiceWorker, Modals, StringHandler) {
 
         this.Signup = (name, pass, mail, state, history) => {
 
@@ -38,6 +38,10 @@ class Auth {
                     loadingTemplate.hide();
                     if (user.displayName) {
                         state.go("tab.forum");
+
+                        ServiceWorker.register("/firebase-messaging-sw.js", Notifications.getToken((token) => {
+                            Notifications.saveToken(token);
+                        }));
                     }
                     else {
                         state.go("updateCredentials");
@@ -63,7 +67,7 @@ class Auth {
                 })
                 .catch(() => {
                     modals.ResultTemplate("Impossibile disconnetersi dal profilo");
-                })
+                });
         };
 
         this.checkAdmins = (scope, id) => {

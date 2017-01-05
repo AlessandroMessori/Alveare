@@ -31,14 +31,17 @@ class Likes {
 
         };
 
-        this.sendLike = (newData, likebtn) => {
+        this.sendLike = (newData, likeBtn) => {
             const newPostKey = Firebase.database().ref().child("Likes").push().key;
             let updates = {};
-            document.getElementById(likebtn).style.color = "blue";
+            document.getElementById(likeBtn).style.color = "blue";
             updates["/Likes/" + newPostKey] = newData;
             Firebase.database().ref().update(updates)
                 .then(() => Notifications.getTokensByID(newData.userID, token => {
-                    Notifications.send(token, "App Ariosto Spallanzani", `a ${newData.user} piace un tuo post`);
+                    const params = {
+                        post: newData.post
+                    };
+                    Notifications.send(token, "App Ariosto Spallanzani", `a ${newData.user} piace un tuo post`, params);
                 }));
         };
 
