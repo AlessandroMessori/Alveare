@@ -4,7 +4,11 @@ import uniqBy from "lodash/uniqBy";
 class Likes {
 
     constructor(Notifications) {
-        this.checkLike = (user, userID, post, contentType) => {
+
+        this.checkLike = (user, userID, post, contentType, fatherPost) => {
+            if (!fatherPost) {
+                fatherPost = post;
+            }
             const self = this;
             const ModelRef = Firebase.database().ref("Likes");
             ModelRef.once("value", snapshot => {
@@ -22,7 +26,7 @@ class Likes {
                 }
 
                 if (check) {
-                    self.sendLike({user, userID, post, contentType}, post);
+                    self.sendLike({user, userID, post, contentType, fatherPost}, post);
                 } else {
                     self.removeLike(likeId, post);
                 }
@@ -39,7 +43,7 @@ class Likes {
             Firebase.database().ref().update(updates)
                 .then(() => Notifications.getTokensByID(newData.userID, token => {
                     const params = {
-                        post: newData.post,
+                        post: newData.fatherPost,
                         type: newData.contentType
                     };
                     Notifications.send(token, "App Ariosto Spallanzani", `a ${newData.user} piace un tuo post`, params);

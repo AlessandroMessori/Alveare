@@ -73,7 +73,7 @@ class Comments {
                 date: results[item].date,
                 id: item,
                 like() {
-                    Likes.checkLike(Firebase.auth().currentUser.displayName, results[item].authorID, item, rootScope.contentType);
+                    Likes.checkLike(Firebase.auth().currentUser.displayName, results[item].authorID, item, rootScope.contentType, results[item].father);
                 },
                 link() {
                     rootScope.currentPost = item;
