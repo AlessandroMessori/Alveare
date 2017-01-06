@@ -21,11 +21,6 @@ class tabsCtrl {
             });
         };
 
-        PlatformHandler.is("iOS", () => {
-            document.getElementById("tabBar").style.marginTop = "-5%";
-            document.getElementById("sideMenuHeader").style.marginTop = "3%";
-            document.getElementById("sideMenuHeader").style.borderTopColor = "transparent";
-        });
 
         $scope.$on("$ionicView.enter", () => {
 
@@ -39,6 +34,16 @@ class tabsCtrl {
                 }
                 Auth.checkAdmins($scope, "adminPanel");
             }
+
+            PlatformHandler.is("iOS", () => {
+                if (document.getElementById("tabBar"))
+                    document.getElementById("tabBar").style.marginTop = "-5%";
+
+                if (document.getElementById("sideMenuHeader")) {
+                    document.getElementById("sideMenuHeader").style.marginTop = "3%";
+                    document.getElementById("sideMenuHeader").style.borderTopColor = "transparent";
+                }
+            });
 
         });
 
