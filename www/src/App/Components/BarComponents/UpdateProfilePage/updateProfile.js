@@ -2,9 +2,12 @@ import Firebase from  "firebase";
 
 class updateProfileCtrl {
 
-    constructor($scope, $rootScope, Profile, Users, CameraHandler) {
+    constructor($scope, $rootScope, Profile, Users, CameraHandler, PlatformHandler) {
 
         $scope.$on("$ionicView.enter", () => {
+
+            PlatformHandler.is("iOS", () => document.getElementById("updateProfileSection").style.marginTop = "5%");
+
             $scope.profileImage = $rootScope.currentProfile.avatar;
             $scope.userName = $rootScope.currentProfile.name;
             $scope.userMail = $rootScope.currentProfile.mail;

@@ -21,7 +21,11 @@ class tabsCtrl {
             });
         };
 
-        PlatformHandler.is("iOS", () => document.getElementById("tabBar").style.marginTop = "-5%");
+        PlatformHandler.is("iOS", () => {
+            document.getElementById("tabBar").style.marginTop = "-5%";
+            document.getElementById("sideMenuHeader").style.marginTop = "3%";
+            document.getElementById("sideMenuHeader").style.borderTopColor = "transparent";
+        });
 
         $scope.$on("$ionicView.enter", () => {
 
