@@ -27,7 +27,7 @@ const config = {
                 loader: "babel-loader",
                 exclude: /node_modules[\/\\](?!admin-config)/,
                 query: {
-                    presets: ["es2015"]
+                    presets: ["es2015", "stage-0"]
                 }
             },
             {//STYLES

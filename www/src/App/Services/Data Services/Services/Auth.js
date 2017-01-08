@@ -38,10 +38,6 @@ class Auth {
                     loadingTemplate.hide();
                     if (user.displayName) {
                         state.go("tab.forum");
-
-                        ServiceWorker.register("/firebase-messaging-sw.js", Notifications.getToken((token) => {
-                            Notifications.saveToken(token);
-                        }));
                     }
                     else {
                         state.go("updateCredentials");

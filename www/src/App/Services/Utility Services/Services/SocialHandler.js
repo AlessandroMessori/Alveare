@@ -1,32 +1,32 @@
 class SocialHandler {
 
-    constructor($ionicPlatform) {
+    constructor($ionicPlatform, Links) {
 
-        this.getStoreLink = () => {
-            const androidLink = "market://details?id=<package_name>";
-            const iosLink = "itms-apps://itunes.apple.com/us/app/domainsicle-domain-name-search/id511364723?ls=1&mt=8";
-            return ($ionicPlatform.is("ios")) ? androidLink : iosLink;
+        this.getStore = () => {
+            return ($ionicPlatform.is("ios")) ? "app-store" : "play-store";
         };
 
         this.shareApp = () => {
 
-            const options = {
-                message: "Scarica l'applicazione del liceo Ariosto Spallanzani!",
-                subject: "Applicazione liceo Ariosto Spallanzani",
-                files: [],
-                url: this.getStoreLink()
-            };
+            Links.getStoreLink(this.getStore(), url => {
 
-            window.plugins.socialsharing.shareWithOptions(options,
-                () => {
-                },
-                () => {
-                });
+                const options = {
+                    message: "Scarica l'applicazione del liceo Ariosto Spallanzani!",
+                    subject: "Applicazione liceo Ariosto Spallanzani",
+                    files: [],
+                    url
+                };
+
+                window.plugins.socialsharing.shareWithOptions(
+                    options,
+                    () => "",
+                    () => "");
+            });
         };
 
-        this.rateUs = () => {
-            window.open(this.getStoreLink());
-        };
+        this.rateUs = () => Links.getStoreLink(this.getStore(), url => {
+            cordova.InAppBrowser.open(url, "_system", "location=yes");
+        });
 
     }
 

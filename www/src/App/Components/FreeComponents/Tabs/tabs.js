@@ -19,6 +19,8 @@ class tabsCtrl {
                     $state.go("singlePost");
                 }
             });
+
+            ServiceWorker.register("/firebase-messaging-sw.js", Notifications.getToken(token => Notifications.saveToken(token)));
         };
 
 
